@@ -33,3 +33,7 @@ In questa maniera anche la configurazione è terminata.
 
 ## Daily Use
 Ora, ogni volta che avremo bisogno di sviluppare in RESP, non ci resta che avviare o spegnere la macchina virtuale Homestead, dalla cartella omonima, tramite il comando &quot;vagrant up&quot; per farla partire (al primo avvio ci metterà del tempo) e &quot;vagrant halt&quot; per arrestare la macchina. Per vedere il sito, una volta che la macchina virtuale è up, basterà digitare nel browser http://resp.local
+
+## Consigli contro vari ed eventuali
+- Eseguire ogni applicazione chiamata in causa come amministratore;
+- Se vagrant.msi genera errori del tipo 2503 o/e 2502 seguire questa guida http://techubber.blogspot.com/2016/03/how-to-fix-error-2502-and-2503-uninstall-msi.html
