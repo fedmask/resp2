@@ -1,0 +1,155 @@
+/*!
+ * Start Bootstrap - Scrolling Nav HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+body {
+    width: 100%;
+    height: 100%;
+	background-color: white;
+    font-weight: 300;
+    font-size: 16px;
+    color: #555;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+.centered {
+    text-align: center;
+}
+
+/* Titles */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Raleway";
+    font-weight: 300;
+    color: #333;
+}
+
+/* Paragraph & Typographic */
+p {
+	font-family: "Lato";
+    line-height: 28px;
+    margin-bottom: 25px;
+}
+
+/* Links */
+a {
+    color: #3bc492;
+    word-wrap: break-word;
+
+    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
+    transition: color 0.1s ease-in, background 0.1s ease-in;
+}
+
+a:hover,
+a:focus {
+    color: #c0392b;
+    text-decoration: none;
+    outline: 0;
+}
+
+a:before,
+a:after {
+    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
+    transition: color 0.1s ease-in, background 0.1s ease-in;
+}
+
+
+@media(min-width:767px) {
+    .navbar {
+        padding: 20px 0;
+        -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
+        -moz-transition: background .5s ease-in-out,padding .5s ease-in-out;
+        transition: background .5s ease-in-out,padding .5s ease-in-out;
+    }
+
+    .top-nav-collapse {
+        padding: 0;
+    }
+}
+
+/* Demo Sections - You can use these as guides or delete them - the scroller will work with any sort of height, fixed, undefined, or percentage based.
+The padding is very important to make sure the scrollspy picks up the right area when scrolled to. Adjust the margin and padding of sections and children 
+of those sections to manage the look and feel of the site. */
+
+.intro-section {
+    height: auto;
+    padding-top: 100px;
+    text-align: center;
+    background: #fff;
+}
+
+.progetto-section {
+    height: auto;
+    padding-top: 100px;
+	padding-bottom:50px;
+    text-align: center;
+    background: #fff;
+}
+
+.chisiamo-section {
+	font-family: "Lato";
+    height: auto;
+    padding-top: 100px;
+    text-align: left;
+    background: #fff;
+}
+
+.register-section {
+    padding-top: 100px;
+    text-align: left;
+    background: #fff;
+	padding-bottom: 50px;
+}
+
+#contact {
+	background-color: #36a9e1;
+	color: white;
+	padding-top: 50px;
+	padding-bottom: 50px;
+	text-align: left;
+}
+
+#contact h3 {
+	font-size: 28px;
+	color: white;
+}
+
+#contact p {
+	color: white;
+	font-size: 18px;
+}
+
+#contact .help-block{
+	color: #FFD218;
+	font-weight:bold;
+}
+/* Copyright Wrap */
+
+#c {
+	background: #1d71b8;
+	padding-top: 15px;
+	text-align: left;
+}
+
+#c p {
+	color: white
+}#c .footer-right{	float:left;	width:80%;}#c .footer-left{	float:left;	width:20%;}#c .footer-nav{	float:left;	font-size:15px;	width:31%;	padding:10px 0 10px 0;	margin-right: 5px;	overflow : auto;}#c .footer-nav li{	padding:0 0 0 0;	border-bottom:dotted #fff 1px;	list-style-type: none;}#c a{	font-size:15px;	color:#fff;	display:inline-block;	height:40px;	line-height:37px;	padding:0 15px;	}#c a.active, #navbar a:hover{	background:#333;}
+
+.helpblock-inline {
+	display:inline-block;
+}
+
+section#head {
+	float :right;
+}
