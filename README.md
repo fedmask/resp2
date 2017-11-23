@@ -1,7 +1,8 @@
-﻿# GUIDA PER L&#39;INSTALLAZIONE E LA CONFIGURAZIONE DI LARAVEL
+﻿# GUIDA PER L&#39;INSTALLAZIONE E LA CONFIGURAZIONE DI LARAVEL-RESP
 
 (USANDO LARAVEL HOMESTEAD)
 
+Nota: La seguente guida d'installazione per lo sviluppo di RESP in locale è da intendersi per utenti Windows. Per lo sviluppo in MacOS o Linux i passi da seguire sono analoghi ma potrebbero subire qualche variazione. Gli utenti MacOS, potrebbero inoltre valutare l'utilizzo di Valet al posto della Vagrant Box Homestead.
 
 
 ## Software richiesti:
