@@ -4,7 +4,7 @@
 @include('includes.template_head')
 </head>
 <body>
-<!-- @ include('includes.template_header') Attualmente genera problemi con il login--> 
+@include('includes.template_header')
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">

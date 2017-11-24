@@ -18,3 +18,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/*
+/ Reindirizza gli utenti non loggati alla homepage
+*/
+Route::get('/home', function() {
+	if (Auth::guest())
+		return redirect('/');
+	else
+		return view('home');
+});

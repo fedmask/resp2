@@ -11,7 +11,6 @@
 	</audio>
 	<!-- MAIN WRAPPER -->
 	<div id="wrap">
-
 		<!--MESSAGES MODAL -->
 		<div class="col-lg-12">
 			<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -146,13 +145,12 @@
                     <i class="icon-align-justify"></i>
                 </a>
 			
+
 				<!-- LOGO SECTION -->
 				<header class="navbar-header">
 					@if( App\User::find(Auth::id())['role'] === 'paziente')
-					<a href="/index.php?pag=taccuino"><img src="/img/logo.png" alt="" /></a>
-					@else
-					<a href="/carePanel.php?pag=patients"><img src="/img/logo.png" alt="" /></a>
-					@endif
+					<a href="/index.php?pag=taccuino"><img src="/img/logo.png" alt="" /></a> @else
+					<a href="/carePanel.php?pag=patients"><img src="/img/logo.png" alt="" /></a> @endif
 				</header>
 				<!-- END LOGO SECTION -->
 				<ul class="nav navbar-top-links navbar-right">
@@ -224,18 +222,25 @@
 						<a href=" '. $this->get_var('link_impostazionisicurezza'). ' "><i class="icon-lock"></i>Impostazioni di sicurezza</a>
 					</li>
 					@else
-					<li><a href="http://fsem.di.uniba.it/modello%20PBAC/createPDF.php"><i class="icon-book"></i> Report</a></li>
+					<li><a href="http://fsem.di.uniba.it/modello%20PBAC/createPDF.php"><i class="icon-book"></i> Report</a>
+					</li>
 					@endif
-					
+
 					<!-- se l'utente e' un paziente visualizzo il pulsante per l'esportazione del profilo -->
-				    @if( App\User::find(Auth::id())['role'] === 'paziente')
-				    <li><a href="/formscripts/exportPatient.php?patientid=' . $pz_id . '"><i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a></li>
-				    @elseif( App\User::find(Auth::id())['role'] === 'care_provider')
-				    <li>{{Auth::user()->name}}</li>
-				    @endif
+					@if( App\User::find(Auth::id())['role'] === 'paziente')
+					<li><a href="/formscripts/exportPatient.php?patientid=' . $pz_id . '"><i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
+					</li>
+					@endif
 					<!--Logout  -->
 					<li>
-						<a href="{{Auth::logout()}}"><i class="icon-signout"></i> Logout </a>
+						<a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><i class="icon-signout"></i>
+                                            Logout
+                                        </a>
+
+						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+							{{ csrf_field() }}
+						</form>
 					</li>
 					<!--END ADMIN SETTINGS -->
 				</ul>
