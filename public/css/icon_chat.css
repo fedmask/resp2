@@ -1,0 +1,28 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('../plugins/font_icon_chat/icomoon.eot?4kreo0');
+	src:url('../plugins/font_icon_chat/icomoon.eot?#iefix4kreo0') format('embedded-opentype'),
+		url('../plugins/font_icon_chat/icomoon.ttf?4kreo0') format('truetype'),
+		url('../plugins/font_icon_chat/icomoon.woff?4kreo0') format('woff'),
+		url('../plugins/font_icon_chat/icomoon.svg?4kreo0#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon_custom-"], [class*=" icon_custom-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon_custom-chat:before {
+	content: "\e600";
+}
