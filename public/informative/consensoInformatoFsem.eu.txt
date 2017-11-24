@@ -1,0 +1,38 @@
+INFORMATIVA EX ART. 13 D. Lgs. 196/2003
+Codice in materia di protezione dei dati personali
+
+Completando la registrazione al Fascicolo Sanitario Elettronico Multimediale (FSEM) lei avrà la possibilità di archiviare in forma digitale, su un un server accessibile via Internet,  le informazioni relative alla sua salute  .
+
+Le informazioni inserite nel Fascicolo Sanitario Elettronico Multimediale saranno archiviate utilizzando i più avanzati sistemi di crittografia attualmente conosciuti ( Advanced Encryption Standard AES)
+
+Abbiamo progettato il FSEM in modo che sarà soltanto Lei a decidere chi potrà accedere al suo fascicolo sanitario e quali informazioni potrà conoscere.
+
+Riferndoci allo standard internazionale HL7 abbiamo definito sei livelli di riservatezza delle informazioni, tra parentesi per ciascun livello vengono riportati degli esempi:
+1) nessuna restrizione ( dati anagrafici)
+2) basso ( recapiti )
+3) normale (farmaci)
+4) moderato ( indagini diagnostiche)
+5) riservato ( diagnosi )
+6) strettamente riservato ( abituni sessuali , tossicodipendenze)
+
+Ai diversi tipi di dato viene assegnato automaticamente un livello di riservatezza, ma Lei accedendo al suo fascicolo potrà modificare il livello di riservatezza per ciascuno dei suoi dati.
+
+Abbiamo indicato come careprovider tutti coloro coinvolti nell'assistenza del paziente. 
+Sono quindi careprovider i medici di medicina generale, gli studi radiologici, i laboratori, gli specialisti, i fisioterapisti, gli infermieri, i farmacisti etc.   
+Troverà, dopo che si sarà registrato, all'interno del fascicolo l'elenco dei careprovider che si sono abilitati ad utilizzare il FSEM.
+Ad accedere al Suo fascicolo potranno essere soltanto i careprovider che Lei avrà espressamente autorizzato. 
+Nel momento in cui concederà l'autorizzazione sarà proposto per quel careprovider un livello di riservatezza che lei potrà accettare o modificare.
+I careprovider non potranno accedere alle informazioni con un livello di riservatezza maggiore di quello  loro assegnato. Quindi se ad un care provider sarà stato assegnato il livello di riservatezza "moderato" (4) non potrà accedere a tutte le informazioni cui Lei avrà assegnato livello di riservatezza "riservato" (5) o "strettamente riservato" (6).
+Come ultreiore misura di sicurezza le sarà possibile consultare l'elenco di coloro che hanno navigato nel fascicolo, conoscendo l'orario in cui si sono collegati e quali pagine hanno visitato.
+
+Desideriamo informarla  che il D. Lgs. n°196  del 30/06/2003 ("Codice in materia di trattamento dei dati personali") prevede che tale trattamento sia improntato ai principi di correttezza, liceità etrasparenza e di tutela della riservatezza e dei diritti della persona.
+Ai sensi dell'articolo 13 del  D. Lgs. n°196 /2003, pertanto, Le forniamo le seguenti informazioni:
+1 ) Il trattamento dei dati potrà avverrà esclusivamente per fini di ricerca scientifica e statistica con sistema informatizzato, e in modo anonimo.
+2 ) I suoi dati potranno essere collegati al suo nominativo solo da coloro ai quali Lei avrà autorizzato l'accesso o dall'Autorità Giudiziaria
+3) Potrà in qualsiasi momento, salvo problemi legati alla connessione Internet o al server modificare le autorizzazioni ad accedere ai suoi dati.
+4 ) Accedendo al suo fascicolo potrà sempre verificare chi ha visionato il Suo Fascicolo  e quali pagine ha visitato.
+5) Il Titolare ed il Responsabile del trattamento dei dati è il dott. Francesco Girardi che potrà essere contattato al seguente indirizzo privacy@fsem.eu per problematiche relative alla sicurezza o se si desidera la cancellazione del proprio.    
+6 ) In ogni momento potrà esercitare i suoi diritti nei confronti del titolare del trattameno , ai sensi dell'art. 7 del D.Lgs 196/2003
+
+
+E' sua responsabilità mantenere la segretezza dell'username e della password per accedere al Fascicolo Sanitario Elettronico Multimediale

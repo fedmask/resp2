@@ -1,0 +1,17 @@
+###########################################################
+# E' possibile modificare il contenuto di questo riquadro #
+# modificando il file 'informative/donazioneorgani.txt'   #
+###########################################################
+
+INFORMATIVA DONAZIONE ORGANI
+
+Il principio del silenzio assenso (capo II, Legge 1 aprile 1999, n. 91) non è ancora applicato, in quanto non è stata ancora costituita un’anagrafe informatizzata dei cittadini assistiti dal Servizio Sanitario Nazionale che permetta la notifica ad ogni cittadino, da parte di un Pubblico Ufficiale, di un modulo per la dichiarazione di volontà in cui si informa lo stesso che, in mancanza di una esplicita dichiarazione, si presume il consenso alla donazione. In questo periodo transitorio la legge stabilisce il principio del consenso o dissenso esplicito, per cui a chiunque è data la possibilità di dichiarare validamente la propria volontà scegliendo una delle modalità di seguito indicate:
+
+* il tesserino blu inviato dal Ministero della Sanità nel maggio 2000 da portare sempre con sé;
+* la registrazione della volontà effettuata presso gli appositi sportelli delle Aziende Sanitarie Locali e dei Comuni;
+* una dichiarazione di volontà alla donazione di organi e tessuti scritta su un comune foglio bianco che riporti nome, cognome, data e luogo di nascita, data e firma;
+* la tessera o l’atto olografo dell’A.I.D.O.
+
+In mancanza di una esplicita dichiarazione espressa in vita, i familiari (coniuge non separato o convivente more uxorio o figli maggiorenni o genitori) possono presentare opposizione scritta al prelievo durante il periodo di accertamento di morte. L’opposizione non è consentita se dai documenti personali di cui sopra o dalle dichiarazioni depositate presso le ASL di appartenenza, risulta che il soggetto abbia espresso volontà favorevole al prelievo di organi e tessuti. Il prelievo non ha luogo se viene presentata una dichiarazione del potenziale donatore, contraria alla donazione, successiva alla precedente dichiarazione favorevole.
+
+[fonte www.aido.it]
