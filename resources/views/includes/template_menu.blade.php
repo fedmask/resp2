@@ -9,10 +9,10 @@
 			<br/>
 			<div class="media-body">
 				<h5 class="media-heading">
-					PAZIENTE-COGNOME
+					{{App\Pazienti::find(Auth::user()->id)->paziente_nome}}
 				</h5>
 				<h5 class="media-heading">
-					PAZIENTE-NOME
+					{{App\Pazienti::find(Auth::user()->id)->paziente_cognome}}
 				</h5>
 			</div>
 			<br/>
@@ -22,22 +22,23 @@
 			<ul class="list-small">
 				<li><strong>C.F.</strong>:
 					<span>
-						PAZIENTE C.F
+						{{App\Pazienti::find(Auth::user()->id)->paziente_codfiscale}}
 					</span>
 				</li>
 				<li><strong>Data di nascita</strong>:
 					<span>
-						PAZ gg/mm/yyyy
+					<?php echo date('d/m/y', strtotime(App\Pazienti::find(Auth::user()->id)->paziente_nascita)); ?>
+					
 					</span> <strong>Età</strong>:
 					<span>
-						PAZ 99
+						{{App\Pazienti::find(Auth::user()->id)->age(App\Pazienti::find(Auth::user()->id)->paziente_nascita)}}
 					</span>
 				</li>
 				<li><strong>Telefono</strong>:
-					PAZ 0801234567
+					{{App\Pazienti::find(Auth::user()->id)->contacts->paziente_telefono}}
 				</li>
 				@if($role === 'care_provider')
-				<li><a  href="#" data-toggle="modal" data-target="#formModal"><i class="icon-envelope-alt"></i>EMAIL-PAZIENTE</a></li>
+				<li><a  href="#" data-toggle="modal" data-target="#formModal"><i class="icon-envelope-alt"></i>{{App\User::find(Auth::user()->id)->email}}</a></li>
 				@endif
 			</ul>
 		</div>

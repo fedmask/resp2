@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Pazienti extends Model
 {
@@ -10,7 +11,7 @@ class Pazienti extends Model
     protected $primaryKey   = "id_paziente";
     
     public function contacts(){
-        return $this->belongsTo("App\Http\Controllers\Contatti", "id_paziente");
+        return $this->belongsTo("App\Contatti", "id_paziente");
     }
     
     public function list(){
@@ -19,4 +20,13 @@ class Pazienti extends Model
         echo $patient->paziente_nome . "<- dalla tabella tbl_pazienti";
         echo $patient->contacts->paziente_telefono . "<- dalla tabella tbl_pazienti_contatti";
     }
+	
+	/**
+	* Restituisce l'età del paziente calcolandola dall'anno attuale e dalla data di nascita
+	*/
+	public function age($date) {
+		$age=Carbon::parse($date);
+    	return $age->diffInYears(Carbon::now());
+	}
+	
 }

@@ -160,10 +160,10 @@
 				<ul class="nav navbar-top-links navbar-right">
 					<!-- HOME SECTION -->
 					@if( $role === 'paziente')
-					<li><a href="/index.php?pag=taccuino">Home <em class="icon-home"></em> </a>
+					<li><a href="/home">Home <em class="icon-home"></em> </a>
 					</li>
 					@else
-					<li><a href="/carePanel.php?pag=patients">Home <em class="icon-home"></em> </a>
+					<li><a href="/home">Home <em class="icon-home"></em> </a>
 					</li>
 					@endif
 					<!-- END HOME SECTION -->
