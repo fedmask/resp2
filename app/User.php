@@ -9,13 +9,16 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $table        = "tbl_utenti";
+    protected $primaryKey   = "id_utente";
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role',
+        'utente_nome', 'utente_email', 'utente_password', 'utente_tipologia',
     ];
 
     /**
@@ -24,6 +27,32 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'utente_password',
     ];
+    
+    /**
+     * 
+     * Recupera i dati di paziente dell'utente
+     */
+    public function data_patient(){
+        return $this->hasOne("App\Pazienti", "id_paziente");
+    }
+    
+    /**
+     * Al momento ho voluto disattivare la funzionalità per ricordare l'accesso via token.
+     * Attualmente si memorizza il token in una colonna, soluzione che rischia di avere
+     * tanti valori NULL su molti utenti che NON desiderano memorizzare il proprio login.
+     * E' necessario informarsi meglio per capire se via DB è l'unico modo "(sicuro)" di
+     * consentire questa funzionalità.
+     * Rimuovere questa funzione per riattivare il RememberMe. Ci sarà un errore di DB
+     * in fase di logout.
+     */
+    public function setAttribute($key, $value)
+    {
+        $isRememberTokenAttribute = $key == $this->getRememberTokenName();
+        if (!$isRememberTokenAttribute)
+        {
+            parent::setAttribute($key, $value);
+        }
+    }
 }

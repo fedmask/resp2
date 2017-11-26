@@ -62,7 +62,7 @@ class CreatePazientiTables extends Migration
             $table->tinyInteger('paziente_donatore_organi');
             $table->string('paziente_stato_matrimoniale', 30);
             
-            $table->foreign('id_utente')->references('id')->on('users');
+            $table->foreign('id_utente')->references('id_utente')->on('tbl_utenti');
             $table->foreign('id_paziente_contatti')->references('id_paziente')->on('tbl_pazienti_contatti');
         });
         

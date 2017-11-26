@@ -11,7 +11,12 @@ class Pazienti extends Model
     protected $primaryKey   = "id_paziente";
     
     public function contacts(){
-        return $this->belongsTo("App\Contatti", "id_paziente");
+        return $this->hasOne("App\Contatti", "id_paziente");
+    }
+    
+    public function getTelefono(){
+        //L'eccezione potrebbe essere una proposta per gestire "errori" di questo tipo
+        return isset($this->contacts->paziente_telefono) ? $this->contacts->paziente_telefono : 'Non pervenuto';
     }
     
     public function list(){

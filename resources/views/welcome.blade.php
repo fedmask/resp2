@@ -77,7 +77,7 @@
 				<!-- LOGIN -->
 				@auth
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="/home">Ciao, {{ Auth::user()->name }}</a></li>
+						<li><a href="/home">Ciao, {{ Auth::user()->utente_nome }}</a></li>
 					</ul>
 				@else
 				<ul class="nav navbar-nav navbar-right">
@@ -94,10 +94,10 @@
 									<form id="form_login">
 										{{ Html::ul($errors->all(), array('class'=>'alert alert-danger errors')) }}
 										<div class="form-group">
-											{{ Form::text('email', Input::old('email'), array('placeholder' => 'Username', 'class'=>'form-control')) }}
+											{{ Form::text('utente_nome', Input::old('email'), array('placeholder' => 'Username', 'class'=>'form-control')) }}
 										</div>
 										<div class="form-group">
-											{{ Form::password('password', array('placeholder' => 'Password', 'class'=>'form-control')) }}
+											{{ Form::password('utente_password', array('placeholder' => 'Password', 'class'=>'form-control')) }}
 										</div>
 										<div class="form-group">
 											<label><input id="remember" nome="remember" type="checkbox">&nbsp;Ricordami</label>
@@ -200,12 +200,12 @@
 
 				<br>
 				<br>
-				<h1>Per una sanità centrata sul paziente</h1>
+				<h1>Per una sanitÃ  centrata sul paziente</h1>
 				<br>
 				<div class="row centered">
 					<div class="col-lg-6" style="text-align:left">
 
-						<p>Ci siamo proposti con alcuni colleghi medici ed informatici un obiettivo ambizioso: creare uno strumento che possa costituire la base per rendere sempre disponibili per ciascuno le proprie informazioni cliniche in modo tale che in qualsiasi momento ed ovunque dovesse averne bisogno siano prontamente utilizzabili e, fatto secondo noi altrettanto importante, divenga possibile assumere personalmente e liberamente le decisioni relative alla propria salute. Infatti alla base di ogni scelta libera deve esserci una informazione corretta e completa, ed uno dei piu' grandi paradossi attuali e' che proprio le scelte riguardanti la propria salute sono prese o affidandosi alle decisioni del medico cui ci si e' rivolti, ed in questo caso raramente si ottengono informazioni complete, o cercando autonomamente notizie da conoscenti e sempre piu' spesso sul WEB , caso in cui molto difficilmente saranno corrette. Oltre a supportare le scelte di ciascun cittadino , il registro permettera' a tutti gli operatori sanitari di avere immediatamente disponibili non solo i referti degli esami , ma gli esami stessi come l'immagine di una <a href="http://fsem.di.uniba.it/files/uploads/rx-torace.jpg">radiografia</a> precedente; un cardiologo potra' visionare direttamente i precedenti elettrocardiogrammi, gli ecocardiogrammi e le coronarografie del paziente che sta visitando, ricavando sicuramente informazioni più complete di quelle ottenute dal referto di colleghi, a volte con minore esperienza. La documentazione fotografica di <a href="http://fsem.di.uniba.it/files/uploads/2013-08-21 11.28.23.jpg">alterazioni patologiche </a>potrà costituire uno strumento obiettivo per la valutazione dell'efficacia o meno delle terapie attuate, infine la registrazione dei <a href="http://fsem.di.uniba.it/files/uploads/cuore_f.wav">suoni cardiaci</a> e polmonari, ottenuta tramite un fonendoscopio elettronico, permettera' anche al medico che non ha precedentemente visitato il paziente di confrontare l'obiettivita' riscontrata con quella iniziale. Diverrà possibile richiedere un secondo parere senza necessita' di spostamenti del paziente, ma semplicemente inviando il file di report. Vogliamo contribuire a fare in modo che i diversi interessi coinvolti in organizzazioni complesse come i Sistemi Sanitari siano subordinati all'interesse del paziente, evitando quanto sempre piu' spesso accade: che sia il paziente ad essere lo strumento degli interessi dei diversi operatori.</p>
+						<p>Ci siamo proposti con alcuni colleghi medici ed informatici un obiettivo ambizioso: creare uno strumento che possa costituire la base per rendere sempre disponibili per ciascuno le proprie informazioni cliniche in modo tale che in qualsiasi momento ed ovunque dovesse averne bisogno siano prontamente utilizzabili e, fatto secondo noi altrettanto importante, divenga possibile assumere personalmente e liberamente le decisioni relative alla propria salute. Infatti alla base di ogni scelta libera deve esserci una informazione corretta e completa, ed uno dei piu' grandi paradossi attuali e' che proprio le scelte riguardanti la propria salute sono prese o affidandosi alle decisioni del medico cui ci si e' rivolti, ed in questo caso raramente si ottengono informazioni complete, o cercando autonomamente notizie da conoscenti e sempre piu' spesso sul WEB , caso in cui molto difficilmente saranno corrette. Oltre a supportare le scelte di ciascun cittadino , il registro permettera' a tutti gli operatori sanitari di avere immediatamente disponibili non solo i referti degli esami , ma gli esami stessi come l'immagine di una <a href="http://fsem.di.uniba.it/files/uploads/rx-torace.jpg">radiografia</a> precedente; un cardiologo potra' visionare direttamente i precedenti elettrocardiogrammi, gli ecocardiogrammi e le coronarografie del paziente che sta visitando, ricavando sicuramente informazioni piÃ¹ complete di quelle ottenute dal referto di colleghi, a volte con minore esperienza. La documentazione fotografica di <a href="http://fsem.di.uniba.it/files/uploads/2013-08-21 11.28.23.jpg">alterazioni patologiche </a>potrÃ  costituire uno strumento obiettivo per la valutazione dell'efficacia o meno delle terapie attuate, infine la registrazione dei <a href="http://fsem.di.uniba.it/files/uploads/cuore_f.wav">suoni cardiaci</a> e polmonari, ottenuta tramite un fonendoscopio elettronico, permettera' anche al medico che non ha precedentemente visitato il paziente di confrontare l'obiettivita' riscontrata con quella iniziale. DiverrÃ  possibile richiedere un secondo parere senza necessita' di spostamenti del paziente, ma semplicemente inviando il file di report. Vogliamo contribuire a fare in modo che i diversi interessi coinvolti in organizzazioni complesse come i Sistemi Sanitari siano subordinati all'interesse del paziente, evitando quanto sempre piu' spesso accade: che sia il paziente ad essere lo strumento degli interessi dei diversi operatori.</p>
 					</div>
 					<div class="col-lg-6">
 						<img src="/img/archiviazione.png" alt="">
@@ -220,7 +220,7 @@
 					<div class="col-lg-6">
 						<img src="/img/monitor.png" alt="">
 						<h3>Supporto multimediale</h3>
-						<p>Il registro può raccogliere numerosi formati multimediali per una archiviazione innovativa e completa</p>
+						<p>Il registro puÃ² raccogliere numerosi formati multimediali per una archiviazione innovativa e completa</p>
 					</div>
 				</div>
 			</div>
@@ -275,7 +275,7 @@
 					<br>
 					<br>
 
-					<p style="text-align:left">La tecnologia con la diffusione dei personal computer prima, di Internet dopo, ha innovato numerosissimi aspetti della vita quotidiana. Quasi nessuno oggi utilizza cartine stradali o consulta enciclopedie. E'cambiato il modo di programmare viaggi, prenotare aerei ed alberghi, gestire il proprio conto corrente. Si diffonde sempre di più l'acquisto di beni tramite Internet. Dall'ascolto della musica alla fotografia si potrebbe continuare con un lunghissimo elenco di ambiti in cui negli ultimi cinquant'anni il modo di operare si è totalmente modificato. Non è possibile dire altrettanto del modo in cui vengono gestite le informazioni mediche. Attualmente ciascun paziente custodisce personalmente i risultati degli esami effettuati, riportati in forma cartacea e recentemente in alcuni casi su cd, delle indagini diagnostiche svolte ambulatorialmente, mentre nessuna traccia resta dell'anamnesi e dell'obiettività rilevata in occasione delle visite mediche, salvo i casi in cui un professionista particolarmente scrupoloso non rediga oltre ad una prescrizione terapeutica anche una sintesi dell'anamnesi raccolta e dell'obiettività riscontrata. In caso di ricovero tutte le informazioni acquisite vengono riportate nella cartella clinica di cui il paziente può eventualmente chiedere una copia. Le attuali cartelle non hanno un indice che possa immediatamente far conoscere a chi le consulta quali esami clinici sono in esse contenuti e in che parte della cartelle è possibile ritrovarli. Sono difficilmente quantificabili i costi in termini economici e di salute che derivano da tale frammentazione delle informazioni cliniche, ma appaiono evidenti i vantaggi che si otterebbero se tali informazioni fossero sempre disponibili e rapidamente reperibili. Il registro sanitario elettronico personale che stiamo completando consentirà ai suoi utenti di poter accedere, ovunque sia presente una connessione ad Internet alle proprie informazioni sanitarie.</p>
+					<p style="text-align:left">La tecnologia con la diffusione dei personal computer prima, di Internet dopo, ha innovato numerosissimi aspetti della vita quotidiana. Quasi nessuno oggi utilizza cartine stradali o consulta enciclopedie. E'cambiato il modo di programmare viaggi, prenotare aerei ed alberghi, gestire il proprio conto corrente. Si diffonde sempre di piÃ¹ l'acquisto di beni tramite Internet. Dall'ascolto della musica alla fotografia si potrebbe continuare con un lunghissimo elenco di ambiti in cui negli ultimi cinquant'anni il modo di operare si Ã¨ totalmente modificato. Non Ã¨ possibile dire altrettanto del modo in cui vengono gestite le informazioni mediche. Attualmente ciascun paziente custodisce personalmente i risultati degli esami effettuati, riportati in forma cartacea e recentemente in alcuni casi su cd, delle indagini diagnostiche svolte ambulatorialmente, mentre nessuna traccia resta dell'anamnesi e dell'obiettivitÃ  rilevata in occasione delle visite mediche, salvo i casi in cui un professionista particolarmente scrupoloso non rediga oltre ad una prescrizione terapeutica anche una sintesi dell'anamnesi raccolta e dell'obiettivitÃ  riscontrata. In caso di ricovero tutte le informazioni acquisite vengono riportate nella cartella clinica di cui il paziente puÃ² eventualmente chiedere una copia. Le attuali cartelle non hanno un indice che possa immediatamente far conoscere a chi le consulta quali esami clinici sono in esse contenuti e in che parte della cartelle Ã¨ possibile ritrovarli. Sono difficilmente quantificabili i costi in termini economici e di salute che derivano da tale frammentazione delle informazioni cliniche, ma appaiono evidenti i vantaggi che si otterebbero se tali informazioni fossero sempre disponibili e rapidamente reperibili. Il registro sanitario elettronico personale che stiamo completando consentirÃ  ai suoi utenti di poter accedere, ovunque sia presente una connessione ad Internet alle proprie informazioni sanitarie.</p>
 					<p style="text-align:left"><a href="http://www.puntotvonline.it/2016/03/VIDEO-Addio-alla-cartella-clinica-arriva-il-fascicolo-elettronico-consultabile-con-un-click.html">Intervista al dott. Girardi</a>
 					</p>
 					<p style="text-align:left"><a href="http://www.puntotvonline.it/2016/03/VIDEO-Addio-alla-cartella-clinica-arriva-il-fascicolo-elettronico-consultabile-con-un-click.html"><img src="img/IntervistaPuntoTv.png"/></a>
@@ -309,10 +309,10 @@
 								<!-- /accordion-heading -->
 								<div id="collapseOne" class="accordion-body collapse">
 									<div class="accordion-inner">
-										<p>Il dott. Girardi ha ottenuto con il massimo dei voti la maturità scientifica presso il Liceo "Enrico Fermi" di Bari. All'età di 24 anni ha ottenuto con il beneficio della lode la Laurea in Medicina e Chirurgia presso l'Università' degli Studi di Bari, ove tre anni dopo si è specializzato con lode in Ematologia Generale.<br> Ha iniziato la propria attività di medico effettuando sostituzioni di medici di medicina generale e di guardia medica.<br> Nelle Estati del 1989 e 1990 ha lavorato presso il Pronto Soccorso estivo di Villanova ( BR) e Castellaneta Marina (TA)<br> Nel 1991 è stato assunto presso le Case di Cura Riunite di Bari ove ha lavorato sino al 1996 nei reparti di Oncologia Medica, Nefrologia e dialisi e Medicina Interna.<br> Nel 1994 ha ottenuto il Diploma con lode al corso di perfezionamento in “Oncologia dell'Apparato digerente: I tumori del grosso intestino”<br> Dal 1996 al 1999 ha lavorato presso la clinica Villa Bianca di Martina Franca (TA) ove si è occupato di riabilitazione oncologica, ortopedica e pneumologica. <br> Il 1 Giugno 1999, avendo vinto il concorso per dirigente medico presso l'Ematologia di Brindisi ha iniziato ad occuparsi di Emato-oncologia e di Talassemia. <br> Durante gli anni di lavoro presso l'Ematologia ha partecipato alla progettazione di una delle prime cartelle cliniche elettroniche in rete : <a href="http://www.talassemia.it">webthal</a> utilizzata per il monitoraggio dei pazienti talassemici.<br> Ha inoltre svolto attività di ricerca partecipando allo studio di fase III per l'<a href="http://www.ema.europa.eu/">EMA</a> e la
-											<a=h ref="www.fda.gov">FDA</a> per la registrazione dell'Exjade®.<br> Nel 2001 ha conseguito l'European Computer Driving Licence N° IT 037761.<br> Dal 2004 si è trasferito presso la ASL BARI ove ha lavorato nei reparti di Medicina e di Geriatria dell'Ospedale Fallacara di Triggiano ed è attualmente impiegato come medico dirigente dell' Ufficio Valutazione Appropriatezza Ricoveri e Prestazioni (UVARP).<br> Nel 2013 ha conseguito la laurea triennale in Informatica, relatore il prof. Giovanni Dimauro, discutendo la tesi : "Il paziente al centro dell'assistenza: un approccio digitale" ottenendo la lode. Il lavoro di tesi, consistito nello sviluppo del prototipo di un fascicolo sanitario elettronico multimediale è stato ampliato con le tesi di altri laureandi.</p>
+										<p>Il dott. Girardi ha ottenuto con il massimo dei voti la maturitÃ  scientifica presso il Liceo "Enrico Fermi" di Bari. All'etÃ  di 24 anni ha ottenuto con il beneficio della lode la Laurea in Medicina e Chirurgia presso l'UniversitÃ ' degli Studi di Bari, ove tre anni dopo si Ã¨ specializzato con lode in Ematologia Generale.<br> Ha iniziato la propria attivitÃ  di medico effettuando sostituzioni di medici di medicina generale e di guardia medica.<br> Nelle Estati del 1989 e 1990 ha lavorato presso il Pronto Soccorso estivo di Villanova ( BR) e Castellaneta Marina (TA)<br> Nel 1991 Ã¨ stato assunto presso le Case di Cura Riunite di Bari ove ha lavorato sino al 1996 nei reparti di Oncologia Medica, Nefrologia e dialisi e Medicina Interna.<br> Nel 1994 ha ottenuto il Diploma con lode al corso di perfezionamento in â€œOncologia dell'Apparato digerente: I tumori del grosso intestinoâ€�<br> Dal 1996 al 1999 ha lavorato presso la clinica Villa Bianca di Martina Franca (TA) ove si Ã¨ occupato di riabilitazione oncologica, ortopedica e pneumologica. <br> Il 1 Giugno 1999, avendo vinto il concorso per dirigente medico presso l'Ematologia di Brindisi ha iniziato ad occuparsi di Emato-oncologia e di Talassemia. <br> Durante gli anni di lavoro presso l'Ematologia ha partecipato alla progettazione di una delle prime cartelle cliniche elettroniche in rete : <a href="http://www.talassemia.it">webthal</a> utilizzata per il monitoraggio dei pazienti talassemici.<br> Ha inoltre svolto attivitÃ  di ricerca partecipando allo studio di fase III per l'<a href="http://www.ema.europa.eu/">EMA</a> e la
+											<a=h ref="www.fda.gov">FDA</a> per la registrazione dell'ExjadeÂ®.<br> Nel 2001 ha conseguito l'European Computer Driving Licence NÂ° IT 037761.<br> Dal 2004 si Ã¨ trasferito presso la ASL BARI ove ha lavorato nei reparti di Medicina e di Geriatria dell'Ospedale Fallacara di Triggiano ed Ã¨ attualmente impiegato come medico dirigente dell' Ufficio Valutazione Appropriatezza Ricoveri e Prestazioni (UVARP).<br> Nel 2013 ha conseguito la laurea triennale in Informatica, relatore il prof. Giovanni Dimauro, discutendo la tesi : "Il paziente al centro dell'assistenza: un approccio digitale" ottenendo la lode. Il lavoro di tesi, consistito nello sviluppo del prototipo di un fascicolo sanitario elettronico multimediale Ã¨ stato ampliato con le tesi di altri laureandi.</p>
 
-										<p>Ha presentato al "2014 IEEE Workshop on Biometric Measurements and Systems for Security and Medical Applications" <a href="http://bioms2014.di.unimi.it/">BIOMS</a> tenutosi a Roma il 17 Ottobre 2014 il lavoro<a href="https://www.deepdyve.com/lp/institute-of-electrical-and-electronics-engineers/the-patient-centered-electronic-multimedia-health-fascicle-emhf-EghfPPsAHb"> "The Patient Centered Electronic Multimedia Health Fascicle - EMHF" </a> di cui è coautore insieme ai professori Giovanni Dimauro e Marco Matteo Ciccone.</p>
+										<p>Ha presentato al "2014 IEEE Workshop on Biometric Measurements and Systems for Security and Medical Applications" <a href="http://bioms2014.di.unimi.it/">BIOMS</a> tenutosi a Roma il 17 Ottobre 2014 il lavoro<a href="https://www.deepdyve.com/lp/institute-of-electrical-and-electronics-engineers/the-patient-centered-electronic-multimedia-health-fascicle-emhf-EghfPPsAHb"> "The Patient Centered Electronic Multimedia Health Fascicle - EMHF" </a> di cui Ã¨ coautore insieme ai professori Giovanni Dimauro e Marco Matteo Ciccone.</p>
 									</div>
 									<!-- /accordion-inner -->
 								</div>
@@ -332,11 +332,11 @@
 								</div>
 								<div id="collapseTwo" class="accordion-body collapse">
 									<div class="accordion-inner">
-										<p>Il prof.Dimauro, fin dall'entrata in servizio presso l'Universita’ di Bari (settembre 1990) ha sempre svolto la sua attività in forma di tempo pieno.<br> E' Coordinatore del Corso di Laurea in Informatica e Tecnologie per la Produzione del Software da novembre 2010.<br> Ha fatto parte del Collegio dei Docenti del Dottorato di Informatica fin dal XV ciclo e tuttora ne fa parte;<br> E' componente della Commissione Paritetica del Consiglio Interclasse dei Corsi di Laurea in Informatica (CICSI) dell'Università di Bari dal 2010.<br> E' stato eletto Componente del Comitato di Area per la Valutazione della Ricerca (CAR) 2001/03 dell'Universita’ di Bari.<br> E’ stato nominato Tutor degli studenti per il triennio 2006-2009<br> Nel 2010 è stato nominato dal Dipartimento di Informatica Coordinatore del Sistema Integrato dei Laboratori Didattici (SILAD) del Dipartimento e svolge tuttora tale coordinamento.</p>
+										<p>Il prof.Dimauro, fin dall'entrata in servizio presso l'Universitaâ€™ di Bari (settembre 1990) ha sempre svolto la sua attivitÃ  in forma di tempo pieno.<br> E' Coordinatore del Corso di Laurea in Informatica e Tecnologie per la Produzione del Software da novembre 2010.<br> Ha fatto parte del Collegio dei Docenti del Dottorato di Informatica fin dal XV ciclo e tuttora ne fa parte;<br> E' componente della Commissione Paritetica del Consiglio Interclasse dei Corsi di Laurea in Informatica (CICSI) dell'UniversitÃ  di Bari dal 2010.<br> E' stato eletto Componente del Comitato di Area per la Valutazione della Ricerca (CAR) 2001/03 dell'Universitaâ€™ di Bari.<br> Eâ€™ stato nominato Tutor degli studenti per il triennio 2006-2009<br> Nel 2010 Ã¨ stato nominato dal Dipartimento di Informatica Coordinatore del Sistema Integrato dei Laboratori Didattici (SILAD) del Dipartimento e svolge tuttora tale coordinamento.</p>
 
-										<p>Il Prof. Dimauro ha partecipato a numerose Conferenze, Workshop e Scuole internazionali e cio’ ha contribuito sia alla sua maturazione scientifica che anche all’acquisizione di esperienza tecnico-organizzativa che gli ha consentito di collaborare attivamente all'organizzazione scientifica sia in Italia che all’estero di alcune manifestazioni di levatura nazionale ed internazionale.</p>
+										<p>Il Prof. Dimauro ha partecipato a numerose Conferenze, Workshop e Scuole internazionali e cioâ€™ ha contribuito sia alla sua maturazione scientifica che anche allâ€™acquisizione di esperienza tecnico-organizzativa che gli ha consentito di collaborare attivamente all'organizzazione scientifica sia in Italia che allâ€™estero di alcune manifestazioni di levatura nazionale ed internazionale.</p>
 
-										<p> Di seguito si riporta un elenco di tali attività organizzative:</p>
+										<p> Di seguito si riporta un elenco di tali attivitÃ  organizzative:</p>
 
 										<ul>
 
@@ -391,7 +391,7 @@
 													</li>
 													<li><a href='https://www.ieo.it/'>Istituto Europeo di Oncologia</a>
 													</li>
-													<li><a href='http://www.ospedalebambinogesu.it/'>Ospedale Bambin Gesù</a>
+													<li><a href='http://www.ospedalebambinogesu.it/'>Ospedale Bambin GesÃ¹</a>
 													</li>
 												</ul>
 											</nav>
@@ -400,7 +400,7 @@
 										<div class="col-lg-4">
 											<nav class="footer-nav">
 												<center>
-													<h4>Linee Guida e Società Mediche</h4>
+													<h4>Linee Guida e SocietÃ  Mediche</h4>
 												</center>
 												<ul>
 													<li><a href="http://www.snlg-iss.it/lgn#">Linee Guida Nazionali</a>
@@ -409,7 +409,7 @@
 													</li>
 													<li><a href="http://www.g-i-n.net/library/international-guidelines-library">Biblioteca Internazionale delle Linee Guida</a>
 													</li>
-													<li><a href="http://www.escardio.org/Guidelines-&-Education/Clinical-Practice-Guidelines/ESC-Clinical-Practice-Guidelines-list/listing">Società Europea di Cardiologia</a>
+													<li><a href="http://www.escardio.org/Guidelines-&-Education/Clinical-Practice-Guidelines/ESC-Clinical-Practice-Guidelines-list/listing">SocietÃ  Europea di Cardiologia</a>
 													</li>
 												</ul>
 											</nav>
@@ -465,7 +465,7 @@
 		<div class="container">
 			<div class="col-lg-5">
 				<h3>Chiediamo il tuo aiuto</h3>
-				<p>Non spetta a noi giudicare i risultati del nostro lavoro. Sappiamo di aver fatto del nostro meglio potendo contare solo sulle nostre forze. Per poterne valutare l'effettiva validità abbiamo bisogno di poterlo sperimentare in modo da poter correggere eventuali errori ed appportare possibili miglioramenti. Se sei interessato sia come paziente che come operatore sanitario, ti chiediamo di registrarti, la registrazione e l'utilizzo saranno gratuiti per tutta la fase sperimentale, per poter contribuire con i tuoi suggerimenti a realizzare uno strumento che potrà essere utile per meglio tutelare la tua salute o quella dei tuoi pazienti.
+				<p>Non spetta a noi giudicare i risultati del nostro lavoro. Sappiamo di aver fatto del nostro meglio potendo contare solo sulle nostre forze. Per poterne valutare l'effettiva validitÃ  abbiamo bisogno di poterlo sperimentare in modo da poter correggere eventuali errori ed appportare possibili miglioramenti. Se sei interessato sia come paziente che come operatore sanitario, ti chiediamo di registrarti, la registrazione e l'utilizzo saranno gratuiti per tutta la fase sperimentale, per poter contribuire con i tuoi suggerimenti a realizzare uno strumento che potrÃ  essere utile per meglio tutelare la tua salute o quella dei tuoi pazienti.
 				</p>
 			</div>
 
@@ -499,7 +499,7 @@
 
 			<div class="footer-right">
 
-				<p>copyright © FSEM 2017</p>
+				<p>copyright Â© FSEM 2017</p>
 				</hr>
 
 
@@ -523,7 +523,7 @@
 								<li><a href ='http://www.sanita.puglia.it/portal/page/portal/SAUSSC/Aziende%20Sanitarie/AZIENDE%20OSPEDALIERE/Azienda%20Ospedaliero%20Universitaria%20Consorziale%20Policlinico'>Policlinico di Bari</a></li>
 								<li><a href ='http://www.sanita.puglia.it/portal/page/portal/SAUSSC/Aziende%20Sanitarie/AZIENDE%20OSPEDALIERE/I.R.C.C.S%20Ospedale%20Oncologico%20Giovanni%20Paolo%20II%20Bari'>IRCCS Giovanni Paolo II</a></li>
 								<li><a href ='https://www.ieo.it/'>Istituto Europeo di Oncologia</a></li>
-								<li><a href ='http://www.ospedalebambinogesu.it/'>Ospedale Bambin Gesù</a></li>
+								<li><a href ='http://www.ospedalebambinogesu.it/'>Ospedale Bambin GesÃ¹</a></li>
 							</ul>
 					</nav>
 					<nav class="footer-nav">
@@ -531,7 +531,7 @@
 								<li><a href = "http://www.snlg-iss.it/lgn#">Linee Guida Nazionali</a></li>
 								<li><a href = "http://www.salute.gov.it/imgs/C_17_pubblicazioni_1164_allegato.pdf">Linee guida alla diagnostica per immagini</a></li>
 								<li><a href ="http://www.g-i-n.net/library/international-guidelines-library">Biblioteca Internazionale delle Linee Guida</a></li>
-								<li><a href ="http://www.escardio.org/Guidelines-&-Education/Clinical-Practice-Guidelines/ESC-Clinical-Practice-Guidelines-list/listing">Società Europea di Cardiologia</a></li>
+								<li><a href ="http://www.escardio.org/Guidelines-&-Education/Clinical-Practice-Guidelines/ESC-Clinical-Practice-Guidelines-list/listing">SocietÃ  Europea di Cardiologia</a></li>
 							</ul>
 					</nav>
 			</div>
