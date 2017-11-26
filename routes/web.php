@@ -32,6 +32,7 @@ Route::get('/register/careprovider', function(){
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/test_list', 'Pazienti@list');
 
 /*
 / Reindirizza gli utenti non loggati alla homepage
@@ -42,3 +43,5 @@ Route::get('/home', function() {
 	else
 		return view('home');
 });
+
+    

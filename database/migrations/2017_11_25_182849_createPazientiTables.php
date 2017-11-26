@@ -57,8 +57,8 @@ class CreatePazientiTables extends Migration
             $table->date('paziente_nascita');
             $table->char('paziente_codfiscale', 16);
             $table->char('paziente_sesso', 1);
-            $table->tinyInteger('paziente_gruppo');
-            $table->tinyInteger('paziente_rh');
+            $table->string('paziente_gruppo', 3);
+            $table->char('paziente_rh', 3);
             $table->tinyInteger('paziente_donatore_organi');
             $table->string('paziente_stato_matrimoniale', 30);
             
