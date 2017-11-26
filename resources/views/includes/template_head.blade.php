@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="/plugins/switch/static/stylesheets/bootstrap-switch.css"/>
 <!-- FINE STILI FORM AVANZATO-->
 <!--STILI TABELLE DINAMICHE-->
-<link href="../layouts/a/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
+<link href="/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
 <!--FINE STILI TABELLE DINAMICHE-->
 <!-- STILI FILE UPLOAD -->
 <link rel="stylesheet" href="/css/bootstrap-fileupload.min.css"/>

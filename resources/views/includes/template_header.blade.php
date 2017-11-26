@@ -4,7 +4,7 @@
 <link href="/css/typeahead.css" rel="stylesheet">
 
 <!-- BEGIN BODY-->
-
+@php( $role = App\ User::find( Auth::id() )[ 'role' ] )
 <body class="padTop53 ">
 	<audio id="notification_audio">
 		<source src="/audio/incoming_mex.mp3" type="audio/mpeg"></source>
@@ -148,14 +148,18 @@
 
 				<!-- LOGO SECTION -->
 				<header class="navbar-header">
-					@if( App\User::find(Auth::id())['role'] === 'paziente')
-					<a href="/index.php?pag=taccuino"><img src="/img/logo.png" alt="" /></a> @else
-					<a href="/carePanel.php?pag=patients"><img src="/img/logo.png" alt="" /></a> @endif
+				<a href="/home" class="navbar-brand" style="color:#1d71b8; font-size:22px"><img src="/img/logo_icona.png" alt="">&nbsp;
+                           R<span style="color:#36a9e1">egistro</span>
+                           E<span style="color:#36a9e1">lettronico</span>
+						   S<span style="color:#36a9e1">anitario</span>
+                           P<span style="color:#36a9e1">ersonale</span>
+						   M<span style="color:#36a9e1">ultimediale</span>
+						</a>
 				</header>
 				<!-- END LOGO SECTION -->
 				<ul class="nav navbar-top-links navbar-right">
 					<!-- HOME SECTION -->
-					@if( App\User::find(Auth::id())['role'] === 'paziente')
+					@if( $role === 'paziente')
 					<li><a href="/index.php?pag=taccuino">Home <em class="icon-home"></em> </a>
 					</li>
 					@else
@@ -217,7 +221,7 @@
 					<!--rispetto alla versione originale si è tolta la classe dropdown  e si sono lasciate la modifica				
 					delle impostazioni di sicurezza ed il logout nella lista della navbar-->
 					<!--Modifica impostazioni sicurezza  -->
-					@if( App\User::find(Auth::id())['role'] === 'paziente')
+					@if( $role === 'paziente')
 					<li>
 						<a href=" '. $this->get_var('link_impostazionisicurezza'). ' "><i class="icon-lock"></i>Impostazioni di sicurezza</a>
 					</li>
@@ -227,7 +231,7 @@
 					@endif
 
 					<!-- se l'utente e' un paziente visualizzo il pulsante per l'esportazione del profilo -->
-					@if( App\User::find(Auth::id())['role'] === 'paziente')
+					@if( $role === 'paziente')
 					<li><a href="/formscripts/exportPatient.php?patientid=' . $pz_id . '"><i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
 					</li>
 					@endif
