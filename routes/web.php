@@ -32,6 +32,8 @@ Route::get('/', function () {
  */
 Auth::routes();
 
+//Route::post('patientRegister', 'Auth\PatientRegisterController@create')->name('patientRegister');    
+Route::post('/register/patient', 'Auth\PatientRegisterController@store');
 Route::get('/register/patient', function(){
 	if(Auth::guest())
 		return view('auth.register-patient');
