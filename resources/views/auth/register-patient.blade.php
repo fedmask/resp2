@@ -107,7 +107,7 @@
 	<!--REGISTER SECTION-->
 
 	<section id="register" class="register-section">
-
+	
 		<div class="container">
 
 			<div class="row">
@@ -132,23 +132,25 @@
 					<br>
 
 					<br>
+					<!--
+					<form action="/register/patient" method="POST">
+					{{ csrf_field() }}
+						<input id="email" name="email"></input>
+						<input id="password" name="password"></input>
+						<input id="name" name="name"></input>
+						<input id="role" name="role"></input>
+						<button type="submit">Regs</button>
+					</form> -->
 
-
-
-					<form id="example-advanced-form" action="formscripts/submitNewUser.php" method="POST" class="form-horizontal">
-
-
-
+					<form id="" action="/register/patient" method="POST" class="form-horizontal">
+					{{ csrf_field() }}
 						<h3>Account</h3>
-
 						<fieldset>
-
 							<div class="form-group">
-
-								<label for="userName" class="control-label col-lg-3">User name *</label>
-
-								<div class="col-lg-3"><input id="userName" name="userName" type="text" class="form-control">
+								<label for="userName" class="control-label col-lg-3">Username *</label>
+								<div class="col-lg-3"><input id="userName" name="username" type="text" class="form-control">
 								</div>
+								<input id="role" name="role"></input>
 							</div>
 
 
@@ -263,7 +265,7 @@
 								<div class="col-lg-3">
 
 									<input id="telephone" name="telephone" type="tel" class="form-control">
-
+						
 								</div>
 
 
@@ -370,6 +372,7 @@
 								</div>
 							</div>
 							<p class="pull-right">(*) Campi obbligatori</p>
+							<button type="submit">Registrazione</button>
 						</fieldset>
 
 
