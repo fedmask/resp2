@@ -1,0 +1,21 @@
+!function() {
+    var ts = document.getElementsByTagName("script")
+    var dir = ts[ ts.length - 1 ].src.replace(/\/[^\/]+$/, '')
+
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-transition.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-alert.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-button.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-carousel.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-collapse.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-dropdown.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-modal.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-tooltip.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-popover.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-scrollspy.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-tab.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-typeahead.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-inputmask.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-rowlink.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-fileupload.js" type="text/javascript"></script>')
+    document.write('<script src="../../../../jasny/js/'+dir+'/bootstrap-affix.js" type="text/javascript"></script>')
+}();

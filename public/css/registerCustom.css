@@ -1,0 +1,13 @@
+#CF{
+	text-transform:uppercase
+}
+
+#dropupMenu
+{
+    list-style-type: none !important;
+}
+
+#dropupMenu li:hover
+{
+  cursor: pointer;
+}

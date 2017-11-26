@@ -152,7 +152,7 @@
 									<center>
 										<p>Privati cittadini</p>
 									</center>
-									<a href="register.html" class="btn btn-success btn-block">Clicca qui per registrarti</a>
+									<a href="/register/patient" class="btn btn-success btn-block">Clicca qui per registrarti</a>
 								</div>
 							</div>
 							<div class="col-lg-6">
@@ -165,7 +165,7 @@
 									<center>
 										<p>Strutture e personale sanitario</p>
 									</center>
-									<a href="registerCP.html" class="btn btn-info btn-block">Clicca qui per registrarti</a>
+									<a href="/register/careprovider" class="btn btn-info btn-block">Clicca qui per registrarti</a>
 								</div>
 							</div>
 						</div>

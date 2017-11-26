@@ -8,6 +8,7 @@
   
   @include('includes.template_menu')
    
+   @yield('content')
     
     @include('includes.template_footer')
     <!-- Scripts -->

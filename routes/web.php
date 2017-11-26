@@ -17,6 +17,20 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/register/patient', function(){
+	if(Auth::guest())
+		return view('auth.register-patient');
+	else
+		return redirect('/');
+});
+
+Route::get('/register/careprovider', function(){
+	if(Auth::guest())
+		return view('auth.register-careprovider');
+	else
+		return redirect('/');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 /*
