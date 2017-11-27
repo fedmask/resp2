@@ -13,6 +13,8 @@ Nota: La seguente guida d'installazione per lo sviluppo di RESP in locale è da 
 - Oracle VirtualBox ( [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads))
 - Vagrant ( [https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
 
+Inoltre è essenziale che sia abilitato l'hardware virtualization (VT-x). In molti computer è abilitato di default, in altri bisogna attivarlo dal BIOS.
+
 ## Installazione
 Una volta scaricati tutti i software richiesti procedere con i seguenti passi:
 
