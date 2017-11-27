@@ -40,7 +40,7 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('utente_tipologia');
             $table->string('utente_nome', 50);
             $table->string('utente_password', 130);
-            $table->tinyInteger('utente_stato');
+            $table->tinyInteger('utente_stato')->default(0);
             $table->date('utente_scadenza');
             $table->string('utente_email', 100);
             

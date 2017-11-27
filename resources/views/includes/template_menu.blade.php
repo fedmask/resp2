@@ -9,10 +9,10 @@
 			<br/>
 			<div class="media-body">
 				<h5 class="media-heading">
-					{{App\Pazienti::find(Auth::user()->id_utente)->paziente_nome}}
+					{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_nome}}
 				</h5>
 				<h5 class="media-heading">
-					{{App\Pazienti::find(Auth::user()->id_utente)->paziente_cognome}}
+					{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_cognome}}
 				</h5>
 			</div>
 			<br/>
@@ -22,20 +22,20 @@
 			<ul class="list-small">
 				<li><strong>C.F.</strong>:
 					<span>
-						{{App\Pazienti::find(Auth::user()->id_utente)->paziente_codfiscale}}
+						{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_codfiscale}}
 					</span>
 				</li>
 				<li><strong>Data di nascita</strong>:
 					<span>
-					<?php echo date('d/m/y', strtotime(App\Pazienti::find(Auth::user()->id_utente)->paziente_nascita)); ?>
+					<?php echo date('d/m/y', strtotime(App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_nascita)); ?>
 					
 					</span> <strong>Età</strong>:
 					<span>
-						{{App\Pazienti::find(Auth::user()->id_utente)->age(App\Pazienti::find(Auth::user()->id_utente)->paziente_nascita)}}
+						{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->age(App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_nascita)}}
 					</span>
 				</li>
 				<li><strong>Telefono</strong>:
-					{{App\Pazienti::find(Auth::user()->id_utente)->getTelefono()}}
+					{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->getTelefono()}}
 				</li>
 				@if($role === 'care_provider')
 				<li><a  href="#" data-toggle="modal" data-target="#formModal"><i class="icon-envelope-alt"></i>{{App\User::find(Auth::user()->id_utente)->email}}</a></li>

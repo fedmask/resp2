@@ -42,20 +42,6 @@ class PatientRegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-    }
 
     /**
      * Create a new user instance after a valid registration.
@@ -65,6 +51,10 @@ class PatientRegisterController extends Controller
      */
     protected function create(array $data)
     {
+        
+        
+        die("create");
+        /*
 		$user = User::create([
             'name' => $data['username'],
             'email' => $data['email'],
@@ -92,6 +82,16 @@ class PatientRegisterController extends Controller
 	
 	public function store(Request $request)
     {
+       
+        $this->validate(request(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:tbl_utenti,utente_email',
+            'password' => 'required|string|min:6|confirmed'
+        ]);
+        
+        die("stop");
+
+        die("store stop");
 		/* Working in test
         $this->validate(request(), [
             'name' => 'required',
@@ -102,6 +102,7 @@ class PatientRegisterController extends Controller
         
         $user = User::create(request(['name', 'email', 'password', 'role'])); */
 		
+        /*
 		$user = User::create([
             'name' => $request->input('username'),
             'email' => $request->input('email'),
@@ -138,10 +139,10 @@ class PatientRegisterController extends Controller
 			'paziente_stato_matrimoniale' => $request->input('maritalStatus'),
 		]);
 		
-		$paziente->save(); */
+		$paziente->save();
         
         auth()->login($user);
         
-        return redirect()->to('/home');
+        return redirect()->to('/home'); */
     }
 }

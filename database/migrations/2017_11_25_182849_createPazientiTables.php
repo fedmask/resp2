@@ -41,7 +41,7 @@ class CreatePazientiTables extends Migration
             $table->integer('id_comune_nascita');
             $table->string('paziente_telefono', 40);
             $table->string('paziente_indirizzo', 40)->nullable();
-            
+
             $table->primary('id_paziente');
             $table->foreign('id_comune_residenza')->references('id_comune')->on('tbl_comuni');
             $table->foreign('id_comune_nascita')->references('id_comune')->on('tbl_comuni');
@@ -59,7 +59,7 @@ class CreatePazientiTables extends Migration
             $table->char('paziente_sesso', 1);
             $table->string('paziente_gruppo', 3);
             $table->char('paziente_rh', 3);
-            $table->tinyInteger('paziente_donatore_organi');
+            $table->tinyInteger('paziente_donatore_organi')->default(0);
             $table->string('paziente_stato_matrimoniale', 30);
             
             $table->foreign('id_utente')->references('id_utente')->on('tbl_utenti');
