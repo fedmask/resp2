@@ -33,6 +33,15 @@ Con questi passi l&#39;installazione di Homestead è terminata. Adesso si tratta
 
 In questa maniera anche la configurazione è terminata.
 
+## Caricamento Dati Di Prova
+Resp viene fornito con un set di dati di prova che è possibile installare seguendo questi passi:
+- Aprire il terminale e spostarsi nella cartella "laravel-resp".
+- Lanciare il comando "composer require "laravelcollective/html" "
+- Lanciare il comando "php artisan migrate:fresh"
+- Lanciare il comando "php artisan db:seed"
+
+Ciò permette di potersi loggare come paziente utilizzando lo username "Bob Kelso" e la password "test1234".
+
 ## Daily Use
 Ora, ogni volta che avremo bisogno di sviluppare in RESP, non ci resta che avviare o spegnere la macchina virtuale Homestead, dalla cartella omonima, tramite il comando &quot;vagrant up&quot; per farla partire (al primo avvio ci metterà del tempo) e &quot;vagrant halt&quot; per arrestare la macchina. Per vedere il sito, una volta che la macchina virtuale è up, basterà digitare nel browser http://resp.local
 
