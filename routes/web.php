@@ -74,4 +74,12 @@ Route::get('/links', function()
     	return view('pages.links');
 })->name('links');
 
+Route::get('/calcolatrice-medica', function()
+{
+	if (Auth::guest())
+		return redirect('/');
+	else
+    	return view('pages.calcolatrice-medica');
+})->name('calcolatrice-medica');
+
     
