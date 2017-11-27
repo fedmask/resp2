@@ -2,7 +2,7 @@
 @php( $role = App\ User::find( Auth::id() )[ 'role' ] )
 	<div id="left">
 		<div class="media user-media well-small">
-			<a class="user-link" href="#">
+			<a class="user-link" href="/home">
 			<!-- TODO: Aggiungere controllo se l'immagine del profilo è stata impostata -->
 			<img class="media-object img-thumbnail user-img" alt="Immagine Utente" src="/img/user.gif"/>
 			</a>
@@ -137,7 +137,7 @@
 			</li>
 			<li class="panel"> <a href="LINK-CALCOLATRICE-MEDICA"> <em class="icon-keyboard"></em> Calcolatrice Medica </a>
 			</li>
-			<li class="panel"> <a href="LINK-UTILITY"> <em class="icon-tag"></em> Links </a>
+			<li class="panel {{Request::path() === 'links' ? 'active' : ''}}"> <a href="/links"> <em class="icon-tag"></em> Links </a>
 			</li>
 			<!--N.B nel testo si è sostituito 'Utility' con 'Links?-->
 		</ul>

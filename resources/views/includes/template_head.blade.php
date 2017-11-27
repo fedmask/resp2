@@ -1,7 +1,7 @@
 <meta charset="utf-8"/>
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>RESP - TODO: definire meglio titolo</title>
+<title>RESP - @yield('pageTitle', 'Home')</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 

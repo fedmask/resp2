@@ -54,7 +54,7 @@ Route::get('/register/careprovider', function(){
 Route::get('/home', 'HomeController@index')->name('home');
 
 /*
-/ Reindirizza gli utenti non loggati alla homepage
+* Reindirizza gli utenti non loggati alla homepage
 */
 Route::get('/home', function() {
 	if (Auth::guest())
@@ -62,5 +62,16 @@ Route::get('/home', function() {
 	else
 		return view('home');
 });
+
+/*
+* Routes base per le varie pagine
+*/
+Route::get('/links', function()
+{
+	if (Auth::guest())
+		return redirect('/');
+	else
+    	return view('pages.links');
+})->name('links');
 
     
