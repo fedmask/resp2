@@ -51,6 +51,10 @@ Route::get('/register/careprovider', function(){
 		return redirect('/');
 });
 
+Route::get('/register', function() {
+	return view('auth.register');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 /*
@@ -81,5 +85,13 @@ Route::get('/calcolatrice-medica', function()
 	else
     	return view('pages.calcolatrice-medica');
 })->name('calcolatrice-medica');
+
+Route::get('/patient-summary', function()
+{
+	if (Auth::guest())
+		return redirect('/');
+	else
+    	return view('pages.patient-summary');
+})->name('patient-summary');
 
     

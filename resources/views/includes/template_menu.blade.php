@@ -100,7 +100,7 @@
 		
 		<ul id="menu" class="collapse">
 		<!-- TODO: AGGIUNGERE CONTROLLI DI VERIFICA PER VEDERE SE IL PANEL È ATTIVO O NO -->
-			<li class="panel"> <a href="PATIENT-SUMMARY"> <em class="icon-table"></em> Patient Summary esteso </a></li>
+			<li class="panel"> <a href="/patient-summary"> <em class="icon-table"></em> Patient Summary esteso </a></li>
 
 			<!-- ANAMNESI -->
 

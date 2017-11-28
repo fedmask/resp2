@@ -11,13 +11,14 @@ class TypesUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        
+		
+		DB::table('tbl_utenti_tipologie')->insert([
+            'tipologia_descrizione' => 'Paziente'
+        ]);
+		
         DB::table('tbl_utenti_tipologie')->insert([
             'tipologia_descrizione' => 'Care provider'
         ]);
         
-        DB::table('tbl_utenti_tipologie')->insert([
-            'tipologia_descrizione' => 'Paziente'
-        ]);
     }
 }

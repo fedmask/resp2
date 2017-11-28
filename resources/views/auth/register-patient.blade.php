@@ -132,16 +132,6 @@
 					<br>
 
 					<br>
-					<!--
-					<form action="/register/patient" method="POST">
-					{{ csrf_field() }}
-						<input id="email" name="email"></input>
-						<input id="password" name="password"></input>
-						<input id="name" name="name"></input>
-						<input id="role" name="role"></input>
-						<button type="submit">Regs</button>
-					</form> -->
-
 					<form id="" action="/register/patient" method="POST" class="form-horizontal">
 					{{ csrf_field() }}
 						<h3>Account</h3>

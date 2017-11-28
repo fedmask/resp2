@@ -17,8 +17,7 @@ class Pazienti extends Model
      * @var array
      */
     protected $fillable = [
-        'id_utente', 'paziente_nome', 'paziente_cognome', 'paziente_nascita', 'paziente_codfiscale', 'paziente_sesso', 'paziente_gruppo',
-		'paziente_rh', 'paziente_donatore_organi', 'paziente_stato_matrimoniale', 'id_paziente_contatti'
+        'id_utente', 'paziente_nome', 'paziente_cognome', 'paziente_nascita', 'paziente_codfiscale', 'paziente_sesso', 'paziente_gruppo', 'paziente_rh', 'paziente_donatore_organi', 'paziente_stato_matrimoniale', 'id_paziente_contatti'
     ];
 
     
