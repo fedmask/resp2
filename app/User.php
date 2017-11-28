@@ -39,6 +39,10 @@ class User extends Authenticatable
         return $this->hasOne("App\Pazienti", "id_paziente");
     }
     
+    public function getRole(){
+        return $this->hasOne("App\Tipologie", "utente_tipologia");
+    }
+
     /**
      * Al momento ho voluto disattivare la funzionalità per ricordare l'accesso via token.
      * Attualmente si memorizza il token in una colonna, soluzione che rischia di avere
@@ -56,4 +60,10 @@ class User extends Authenticatable
             parent::setAttribute($key, $value);
         }
     }
+    
+    
+    public function getEmailForPasswordReset(){
+        return "utente_email";
+    }
+    
 }

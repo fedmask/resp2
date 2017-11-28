@@ -73,6 +73,8 @@ class DatabaseTokenRepository implements TokenRepositoryInterface
      */
     public function create(CanResetPasswordContract $user)
     {
+        
+
         $email = $user->getEmailForPasswordReset();
 
         $this->deleteExisting($user);

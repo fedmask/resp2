@@ -112,6 +112,9 @@ class EloquentUserProvider implements UserProvider
 
         foreach ($credentials as $key => $value) {
             if (! Str::contains($key, 'password')) {
+                if(Str::contains($key, 'email')){   //Non mi piace, cercare un metodo più generico
+                    $key = "utente_email";
+                }
                 $query->where($key, $value);
             }
         }
