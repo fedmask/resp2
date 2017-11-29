@@ -56,6 +56,7 @@ Route::get('/register', function() {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/user/updatepassword', 'UserController@updatePassword');
 
 /*
 * Reindirizza gli utenti non loggati alla homepage

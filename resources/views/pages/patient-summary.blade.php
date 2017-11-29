@@ -164,24 +164,25 @@
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="chiudimodpatpsw">&times;</button>
 									<h4 class="modal-title" id="H2">Modifica password</h4>
 								</div>
-								<form class="form-horizontal" id="modpatpsw">
+								<form class="form-horizontal" action="/user/updatepassword" method="post">
+								{{ csrf_field() }}
 									<div class="modal-body">
 										<div class="form-group">
 											<label for="modcurrentpsw" class="control-label col-lg-4">Password attuale:</label>
 											<div class="col-lg-8">
-												<input type="password" name="modcurrentpsw" id="modcurrentpsw" class="form-control col-lg-6" value=""/>
+												<input type="password" name="current_password" id="current_password" class="form-control col-lg-6" value=""/>
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="modnewpsw" class="control-label col-lg-4">Nuova password:</label>
 											<div class="col-lg-8">
-												<input type="password" name="modnewpsw" id="modnewpsw" class="form-control col-lg-6" value=""/>
+												<input type="password" name="password" id="password" class="form-control col-lg-6" value=""/>
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="modconfirmpsw" class="control-label col-lg-4">Conferma password:</label>
 											<div class="col-lg-8">
-												<input type="password" name="modconfirmpsw" id="modconfirmpsw" class="form-control col-lg-6" value=""/>
+												<input type="password" name="password_confirmation" id="password_confirmation" class="form-control col-lg-6" value=""/>
 											</div>
 										</div>
 									</div>
