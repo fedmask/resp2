@@ -28,74 +28,38 @@
 						<ul class="list-unstyled">
 							<li><strong>Cognome</strong>:
 								<span>
-									{{App\User::find(Auth::id())->data_patient->paziente_cognome}}
+									{{App\User::find(Auth::id())->getSurname()}}
 								</span>
-							
-
-
-
-
-
 							</li>
 							<li><strong>Nome</strong>:
 								<span>
-									{{App\User::find(Auth::id())->data_patient->paziente_nome}}
+									{{App\User::find(Auth::id())->getName()}}
 								</span>
-							
-
-
-
-
-
 							</li>
 							<li><strong>Codice Fiscale</strong>:
 								<span>
-									{{App\User::find(Auth::id())->data_patient->paziente_codfiscale}}
+									{{App\User::find(Auth::id())->getFiscalCode()}}
 								</span>
-							
-
-
-
-
-
 							</li>
 							<li><strong>Data di nascita</strong>:
 								<span>
-									<?php echo date('d/m/y', strtotime(App\User::find(Auth::id())->data_patient->paziente_nascita)); ?>
+									<?php echo date('d/m/y', strtotime(App\User::find(Auth::id())->getBirthdayDate())); ?>
 								</span>
 							</li>
 							<li><strong>Età</strong>:
 								<span>
-									{{App\User::find(Auth::id())->data_patient->age(App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_nascita)}}
+									{{App\User::find(Auth::id())->getAge(App\User::find(Auth::id())->getBirthdayDate())}}
 								</span>
-							
-
-
-
-
-
 							</li>
 							<li><strong>Sesso</strong>:
 								<span>
-									{{App\User::find(Auth::id())->data_patient->paziente_sesso}}
+									{{App\User::find(Auth::id())->getGender()}}
 								</span>
-							
-
-
-
-
-
 							</li>
 							<li><strong>Città di nascita</strong>:
 								<span>
 									TODO: Placeholder
 								</span>
-							
-
-
-
-
-
 							</li>
 							<li><strong>Residenza</strong>:
 								<span>
@@ -105,39 +69,23 @@
 								<span>
 									TODO: Placeholder
 								</span>
-							
-
-
-
-
-
 							</li>
 							</li>
-
-							<li><strong>Telefono</strong>: {{App\User::find(Auth::id())->data_patient->getTelefono()}}
+							<li><strong>Telefono</strong>: {{App\User::find(Auth::id())->getTelephone()}}
 							</li>
 							<!--<li><a  href="#" data-toggle="modal" data-target="#formModal">-->
 							<li>
 								<a href="#" data-toggle="modal" data-target="">
-											<i class="icon-envelope-alt"></i> {{App\User::find(Auth::id())->utente_email}}
+											<i class="icon-envelope-alt"></i> {{App\User::find(Auth::id())->getEmail()}}
 										</a>
-							
-
-
-
-
-
-
 							</li>
-
 							<!--Aggiunta dello stato matrimoniale-->
-							<li><strong>Stato Civile</strong>: {{App\User::find(Auth::id())->data_patient->paziente_stato_matrimoniale}}
+							<li><strong>Stato Civile</strong>: {{App\User::find(Auth::id())->getMaritalStatus()}}
 							</li>
 						</ul>
-
 					</div>
 					<!--bottone che apre il pannello per le modifiche informazioni anagrafiche del paziente-->
-					@if(App\User::find(Auth::user()->id_utente)->utente_tipologia === 1)
+					@if(App\User::find(Auth::id())->utente_tipologia === 1)
 					<div class="panel-footer" style="text-align:right">
 						<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatinfomodal"><i class="icon-pencil icon-white"></i> Modifica Dati</button>
 						<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatpswmodal"><i class="icon-pencil icon-white"></i> Modifica Password</button>
@@ -152,18 +100,12 @@
 							<ul class="list-unstyled">
 								<li><strong>Gruppo sanguigno</strong>:
 									<span id="grupposanguigno">
-										{{App\User::find(Auth::id())->data_patient->paziente_gruppo}}
+										{{App\User::find(Auth::id())->getFullBloodType()}}
 									</span>
-								
-
-
-
-
 								</li>
-
 							</ul>
 						</div>
-						@if(App\User::find(Auth::user()->id_utente)->utente_tipologia === 2)
+						@if(App\User::find(Auth::id())->utente_tipologia === 2)
 						<div class="panel-footer" style="text-align:right">
 							<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatgrsangmodal"><i class="icon-pencil icon-white"></i> Modifica</button>
 						</div>
@@ -214,21 +156,14 @@
 
 
 				<!-- MODAL MODIFICA PASSWORD-->
-
 				<div class="col-lg-12">
 					<div class="modal fade" id="modpatpswmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
-
-
 							<div class="modal-content">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="chiudimodpatpsw">&times;</button>
 									<h4 class="modal-title" id="H2">Modifica password</h4>
 								</div>
-
-
-
-
 								<form class="form-horizontal" id="modpatpsw">
 									<div class="modal-body">
 										<div class="form-group">
@@ -237,14 +172,12 @@
 												<input type="password" name="modcurrentpsw" id="modcurrentpsw" class="form-control col-lg-6" value=""/>
 											</div>
 										</div>
-
 										<div class="form-group">
 											<label for="modnewpsw" class="control-label col-lg-4">Nuova password:</label>
 											<div class="col-lg-8">
 												<input type="password" name="modnewpsw" id="modnewpsw" class="form-control col-lg-6" value=""/>
 											</div>
 										</div>
-
 										<div class="form-group">
 											<label for="modconfirmpsw" class="control-label col-lg-4">Conferma password:</label>
 											<div class="col-lg-8">
@@ -252,7 +185,6 @@
 											</div>
 										</div>
 									</div>
-
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
 										<button type="submit" class="btn btn-primary">Salva</button>
@@ -273,12 +205,8 @@
 							<ul class="list-unstyled">
 								<li> <strong>Donazione d'organi</strong>:
 									<span>
-									{{App\User::find(Auth::id())->data_patient->paziente_donatore_organi === 0 ? 'Nega il consenso' : 'Acconsente alla donazione'}}
+									{{App\User::find(Auth::id())->getOrgansDonor() === false ? 'Nega il consenso' : 'Acconsente alla donazione'}}
 									</span>
-								
-
-
-
 								</li>
 							</ul>
 						</div>
@@ -304,39 +232,20 @@
 									<div class="modal-body">
 										<iframe src="/informative/donazioneorgani.html" class="col-lg-12" height="500">
 												</iframe>
-									
-
-
 										<div class="form-group">
 											<label class="control-label col-lg-4">Dichiarazione di consenso alla donazione d'organi</label>
 											<div class="col-lg-8">
 												<label>
 															<input type="radio" name="patdonorg" id="negpatdonorg" value="false"
-																{{App\User::find(Auth::id())->data_patient->paziente_donatore_organi === 0 ? 'checked="checked"' : '' }}/> Nego il consenso
+																{{App\User::find(Auth::id())->getOrgansDonor() === false ? 'checked="checked"' : '' }}/> Nego il consenso
 														</label>
-											
-
-
-
-
-
-
 												<label>
 															<input type="radio" name="patdonorg" id="accpatdonorg" value="true" 
-																{{App\User::find(Auth::id())->data_patient->paziente_donatore_organi === 1 ? 'checked="checked"' : '' }}/> Acconsento alla donazione d'organi
+																{{App\User::find(Auth::id())->getOrgansDonor() === true ? 'checked="checked"' : '' }}/> Acconsento alla donazione d'organi
 														</label>
-											
-
-
-
-
-
-
 											</div>
 										</div>
 									</div>
-
-
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
 										<a id="saveModPatDonOrg" class="btn btn-primary">Salva</a>
@@ -357,7 +266,6 @@
 						<div class="panel-heading">
 							<center>
 								<h2>Contatti di emergenza</h2> </center>
-
 						</div>
 						<input type="hidden" name="delcontemerg_hidden" id="delcontemerg_hidden" class="form-control col-lg-6" value="0"/>
 						<div class="panel-body">
@@ -367,7 +275,7 @@
 										<tr>
 											<th>Nome</th>
 											<th>Telefono</th>
-											@if(App\User::find(Auth::user()->id_utente)->utente_tipologia === 1)
+											@if(App\User::find(Auth::id())->utente_tipologia === 1)
 											<th>
 												<button data-toggle="modal" data-target="#addpatcontemergmodal" id="addContact" type="button" class=" btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right"><i class="icon-plus"></i></button>
 											</th>
@@ -410,7 +318,7 @@
 											<th>Telefono</th>
 											<!--Aggiunto campo tipologia per la tipologia di relazione-->
 											<th>Relazione</th>
-											@if(App\User::find(Auth::user()->id_utente)->utente_tipologia === 1)
+											@if(App\User::find(Auth::id())->utente_tipologia === 1)
 											<th>
 												<button data-toggle="modal" data-target="#addpatcontmodal" id="addContact" type="button" class=" btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right"><i class="icon-plus"></i></button>
 											</th>

@@ -33,7 +33,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td><input id="eta" type="hidden" value="{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->age(App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_nascita)}}"/>
+									<td><input id="eta" type="hidden" value="{{App\User::find(Auth::id())->getAge(App\User::find(Auth::id())->getBirthdayDate())}}"/>
 									</td>
 									<td><input id="sesso" type="hidden" value="{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_sesso}}"/>
 									</td>

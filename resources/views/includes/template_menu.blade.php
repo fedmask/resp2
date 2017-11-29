@@ -3,17 +3,19 @@
 	<div id="left">
 		<div class="media user-media well-small">
 			<a class="user-link" href="/home">
-			<!-- TODO: Aggiungere controllo se l'immagine del profilo è stata impostata -->
-			<img class="media-object img-thumbnail user-img" alt="Immagine Utente" src="/img/user.gif"/>
+				<!-- TODO: Aggiungere controllo se l'immagine del profilo è stata impostata -->
+				<img class="media-object img-thumbnail user-img" alt="Immagine Utente" src="/img/user.gif"/>
 			</a>
 			<br/>
 			<div class="media-body">
 				<h5 class="media-heading">
-					{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_nome}}
+				{{App\User::find(Auth::id())->getName()}}
 				</h5>
+			
 				<h5 class="media-heading">
-					{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_cognome}}
+				{{App\User::find(Auth::id())->getSurname()}}
 				</h5>
+			
 			</div>
 			<br/>
 		</div>
@@ -22,23 +24,25 @@
 			<ul class="list-small">
 				<li><strong>C.F.</strong>:
 					<span>
-						{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_codfiscale}}
+						{{App\User::find(Auth::id())->getFiscalCode()}}
 					</span>
+				
 				</li>
 				<li><strong>Data di nascita</strong>:
 					<span>
-					<?php echo date('d/m/y', strtotime(App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_nascita)); ?>
-					
+						<?php echo date('d/m/y', strtotime(App\User::find(Auth::id())->getBirthdayDate())); ?>
+
 					</span> <strong>Età</strong>:
 					<span>
-						{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->age(App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_nascita)}}
+						{{App\User::find(Auth::id())->getAge(App\User::find(Auth::id())->getBirthdayDate())}}
 					</span>
+				
 				</li>
-				<li><strong>Telefono</strong>:
-					{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->getTelefono()}}
+				<li><strong>Telefono</strong>: {{App\User::find(Auth::id())->getTelephone()}}
 				</li>
 				@if($role === 'care_provider')
-				<li><a  href="#" data-toggle="modal" data-target="#formModal"><i class="icon-envelope-alt"></i>{{App\User::find(Auth::user()->id_utente)->email}}</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#formModal"><i class="icon-envelope-alt"></i>{{App\User::find(Auth::id())->getEmail()}}</a>
+				</li>
 				@endif
 			</ul>
 		</div>
@@ -57,6 +61,7 @@
 								<div class="form-group">
 									<!--il getvar deve prendere nome e cognome del medico-->
 									<label class="control-label col-lg-4">Da COGNOME-CP NOME-CP :</label>
+								
 									<div class="col-lg-8">
 										<input type="text" name="nomeutente" id="nomeutente" value="EMAIL-CP" readonly class="form-control"/>
 									</div>
@@ -93,18 +98,20 @@
 		<!--  FINE MODAL EMAIL-->
 		<div class="row">
 			<div class="well well-sm">
-			<!-- TODO: aggiungere controllo se vi è già una visita in corso -->
-			<a href="LINK-VISITA" class="btn btn-primary btn-block"id="btn_menu_nuovavisita"><i class="icon-stethoscope"></i>  Visite</a>
+				<!-- TODO: aggiungere controllo se vi è già una visita in corso -->
+				<a href="LINK-VISITA" class="btn btn-primary btn-block" id="btn_menu_nuovavisita"><i class="icon-stethoscope"></i>  Visite</a>
 			</div>
 		</div>
-		
+
 		<ul id="menu" class="collapse">
-		<!-- TODO: AGGIUNGERE CONTROLLI DI VERIFICA PER VEDERE SE IL PANEL È ATTIVO O NO -->
-			<li class="panel"> <a href="/patient-summary"> <em class="icon-table"></em> Patient Summary esteso </a></li>
+			<!-- TODO: AGGIUNGERE CONTROLLI DI VERIFICA PER VEDERE SE IL PANEL È ATTIVO O NO -->
+			<li class="panel {{Request::path() === 'patient-summary' ? 'active' : ''}}"> <a href="/patient-summary"> <em class="icon-table"></em> Patient Summary esteso </a>
+			</li>
 
 			<!-- ANAMNESI -->
 
-			<li class="panel"> <a href="ANAMNESI-FAM"> <em class="icon-archive"></em> Anamnesi </a></li>
+			<li class="panel"> <a href="ANAMNESI-FAM"> <em class="icon-archive"></em> Anamnesi </a>
+			</li>
 
 
 			<!-- VACCINAZIONE -->
@@ -119,6 +126,7 @@
                         </span>
                     </a>
 			
+
 				<ul class="collapse" id="form-nav">
 					<li class="diagnostic"><a href="LINK-INDAGINI"><i class="icon-angle-right"></i> Diario Indagini Diagnostiche </a>
 					</li>
