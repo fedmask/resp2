@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
 use App\Pazienti;
+use App\Contatti;
+use DB;
 use Auth;
 
 class User extends Authenticatable
@@ -134,7 +136,7 @@ class User extends Authenticatable
  	public function getTelephone(){
 			switch($this->utente_tipologia){
 			case 1:
-				return isset(Pazienti::findByIdUser(Auth::id())->contacts->paziente_telefono) ? Pazienti::findByIdUser(Auth::id())->contacts->paziente_telefono : 'Non pervenuto';
+				return isset(Contatti::findByIdUser(Auth::id())->paziente_telefono) ? Contatti::findByIdUser(Auth::id())->paziente_telefono : 'Non pervenuto';
 			default:
 				return 'Undefined';
 		}
@@ -154,6 +156,51 @@ class User extends Authenticatable
 			switch($this->utente_tipologia){
 			case 1:
 				return Pazienti::findByIdUser(Auth::id())->paziente_sesso;
+			default:
+				return 'Undefined';
+		}
+    }
+	
+	/**
+	* Ritorna la città di nascita dell'utente loggato
+	*/
+ 	public function getBirthTown(){
+		$result = null;
+			switch($this->utente_tipologia){
+			case 1:
+				$result = Contatti::findByIdUser(Auth::id())->id_comune_nascita;
+				break;
+			default:
+				return 'Undefined';
+				break;
+			}
+			return DB::table('tbl_comuni')->where('id_comune', $result)->first()->comune_nominativo;
+    }
+	
+	/**
+	* Ritorna la città dove risiede l'utente loggato
+	*/
+ 	public function getLivingTown(){
+		$result = null;
+			switch($this->utente_tipologia){
+			case 1:
+				$result = Contatti::findByIdUser(Auth::id())->id_comune_residenza;
+				break;
+			default:
+				return 'Undefined';
+		}
+		return DB::table('tbl_comuni')->where('id_comune', $result)->first()->comune_nominativo;
+    }
+	
+	/**
+	* Ritorna l'indirizzo dove risiede l'utente loggato
+	*/
+ 	public function getAddress(){
+		$result = null;
+			switch($this->utente_tipologia){
+			case 1:
+				return Contatti::findByIdUser(Auth::id())->paziente_indirizzo;
+					break;
 			default:
 				return 'Undefined';
 		}

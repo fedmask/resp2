@@ -34,10 +34,10 @@
 	<script src="{{ asset('js/validationInit.js') }}"></script>
 	<script src="{{ asset('js/formscripts/sendpatmail.js') }}"></script>
 	<script src="{{ asset('js/formscripts/modRemindPw.js') }}"></script>
-	<script src="{{ asset('js/formscripts/modpatinfo.js') }}"></script>
+	<!-- <script src="{{ asset('js/formscripts/modpatinfo.js') }}"></script> -->
 	<script src="{{ asset('js/formscripts/modpatpsw.js') }}"></script>
 	<script src="{{ asset('js/formscripts/modpatgrsang.js') }}"></script>
-	<script src="{{ asset('js/formscripts/modpatdonorg.js') }}"></script>
+	<!-- <script src="{{ asset('js/formscripts/modpatdonorg.js') }}"></script> -->
 	<script src="{{ asset('js/formscripts/modpatcontemerg.js') }}"></script>
 	<script src="{{ asset('js/notifications.js') }}"></script>
 	<script src="{{ asset('plugins/autosize/jquery.autosize.min.js') }}"></script>

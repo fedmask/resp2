@@ -68,6 +68,11 @@ Route::post('/user/updatepassword', 'UserController@updatePassword');
 */
 Route::post('/pazienti/updateOrgansDonor', 'PazienteController@updateOrgansDonor');
 
+/**
+* Route per effettuare l'update dell'anagrafica del paziente
+*/
+Route::post('/pazienti/updateAnagraphic', 'PazienteController@updateAnagraphic');
+
 /*
 * Reindirizza gli utenti non loggati alla homepage
 */

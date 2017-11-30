@@ -58,28 +58,26 @@
 							</li>
 							<li><strong>Città di nascita</strong>:
 								<span>
-									TODO: Placeholder
+								{{App\User::find(Auth::id())->getBirthTown()}}
 								</span>
 							</li>
 							<li><strong>Residenza</strong>:
 								<span>
-									TODO: Placeholder
+									{{App\User::find(Auth::id())->getLivingTown()}}
 								</span>
 								&nbsp;-&nbsp;
 								<span>
-									TODO: Placeholder
+									{{App\User::find(Auth::id())->getAddress()}}
 								</span>
 							</li>
 							</li>
 							<li><strong>Telefono</strong>: {{App\User::find(Auth::id())->getTelephone()}}
 							</li>
-							<!--<li><a  href="#" data-toggle="modal" data-target="#formModal">-->
 							<li>
 								<a href="#" data-toggle="modal" data-target="">
 											<i class="icon-envelope-alt"></i> {{App\User::find(Auth::id())->getEmail()}}
 										</a>
 							</li>
-							<!--Aggiunta dello stato matrimoniale-->
 							<li><strong>Stato Civile</strong>: {{App\User::find(Auth::id())->getMaritalStatus()}}
 							</li>
 						</ul>
@@ -344,7 +342,98 @@
 			<!--div row contatti-->
 			<!-- MODAL MODIFICA ANAGRAFICA -->
 			
-			<!-- TODO: Riaggiungere modifica Anagrafica -->
+			<div class="col-lg-12">
+                        <div class="modal fade" id="modpatinfomodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="chiudimodpatinfo">&times;</button>
+										<h4 class="modal-title" id="H2">Modifica informazioni utente</h4>
+									</div>
+									<form class="form-horizontal"  id="modpatinfo" action="{{action('PazienteController@updateAnagraphic')}}" method="post">
+									{{ Form::open(array('url' => '/pazienti/updateAnagraphic')) }}
+									{{ csrf_field() }}
+									<div class="modal-body">
+										<div class="form-group">
+											<label for="modcognome" class="control-label col-lg-4">Cognome:</label>
+											<div class="col-lg-8">
+											{{Form::text('editSurname', App\User::find(Auth::id())->getSurname(), ['class' => 'form-control col-lg-6'])}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="modnome" class="control-label col-lg-4">Nome:</label>
+											<div class="col-lg-8">
+											{{Form::text('editName', App\User::find(Auth::id())->getName(), ['class' => 'form-control col-lg-6'])}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="modcf" class="control-label col-lg-4">Codice Fiscale:</label>
+											<div class="col-lg-8">
+											{{Form::text('editFiscalCode', App\User::find(Auth::id())->getFiscalCode(), ['class' => 'form-control col-lg-6'])}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="moddatanascita" class="control-label col-lg-4">Data di nascita:</label>
+											<div class="col-lg-8">
+											{{Form::date('editBirthdayDate', App\User::find(Auth::id())->getBirthdayDate(), ['class' => 'form-control col-lg-6'])}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="modsesso" class="control-label col-lg-4">Sesso:</label>
+											<div class="col-lg-8">
+											{{Form::select('editGender', ['M' => 'M', 'F' => 'F'], App\User::find(Auth::id())->getGender(), ['class' => 'form-control col-lg-6'] )}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="modcittanascita" class="control-label col-lg-4">Città di nascita:</label>
+											<div class="col-lg-8">
+											{{Form::text('editBirthTown', App\User::find(Auth::id())->getBirthTown(), ['class' => 'form-control col-lg-6'])}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="modcittaresidenza" class="control-label col-lg-4">Città residenza:</label>
+											<div class="col-lg-8">
+											{{Form::text('editLivingTown', App\User::find(Auth::id())->getLivingTown(), ['class' => 'form-control col-lg-6'])}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="modviaresidenza" class="control-label col-lg-4">Via residenza:</label>
+											<div class="col-lg-8">
+											{{Form::text('editAddress', App\User::find(Auth::id())->getAddress(), ['class' => 'form-control col-lg-6'])}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="modemail" class="control-label col-lg-4">Email:</label>
+											<div class="col-lg-8">
+											{{Form::text('editEmail', App\User::find(Auth::id())->utente_email, ['class' => 'form-control col-lg-6'])}}
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="modtel" class="control-label col-lg-4">Telefono:</label>
+											<div class="col-lg-8">
+											{{Form::text('editTelephone', App\User::find(Auth::id())->getTelephone(), ['class' => 'form-control col-lg-6'])}}
+											</div>
+										</div>
+										<!--Modifica dello stato matrimoniale-->
+                                        <div class="form-group">
+											<label for="modmaritalStatus" class="control-label col-lg-4">Stato Civile:</label>
+											<div class="col-lg-8">
+											{{Form::select('editMaritalStatus', ['Annullato' => 'Annullato', 'Divorziato' => 'Divorziato', 'Interlocutorio' => 'Interlocutorio', 'Legalmente Separato' => 'Legalmente Separato', 'Sposato' => 'Sposato', 'PPoligamo' => 'Poligamo', 'Mai Sposato' => 'Mai Sposato', 'Convivente' => 'Convivente', 'Vedovo' => 'Vedovo',], App\User::find(Auth::id())->getMaritalStatus(), ['class' => 'form-control col-lg-6'])}}
+											</div>
+										</div>
+									 
+										
+									 </div> <!--modal-body--->
+									 <div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+											{{ Form::submit('Salva', ['class' => 'btn btn-primary'])}} 
+									 </div>
+									 {{ Form::close() }}
+									 </form>
+								</div>
+							</div>
+						</div>
+					</div>
 			
 			<!--col-lg-12--->
 			<!--FINE Modal ANAGRAFICA ESTESA-->
