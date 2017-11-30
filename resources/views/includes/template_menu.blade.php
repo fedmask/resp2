@@ -1,5 +1,4 @@
 <!-- MENU SECTION -->
-@php( $role = App\ User::find( Auth::id() )[ 'role' ] )
 	<div id="left">
 		<div class="media user-media well-small">
 			<a class="user-link" href="/home">
@@ -40,7 +39,7 @@
 				</li>
 				<li><strong>Telefono</strong>: {{App\User::find(Auth::id())->getTelephone()}}
 				</li>
-				@if($role === 'care_provider')
+				@if(App\User::find(Auth::id())->getRole() === 'Care provider')
 				<li><a href="#" data-toggle="modal" data-target="#formModal"><i class="icon-envelope-alt"></i>{{App\User::find(Auth::id())->getEmail()}}</a>
 				</li>
 				@endif

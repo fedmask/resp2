@@ -46,7 +46,7 @@ class User extends Authenticatable
 	* Restituisce la tipologia di account dell'utente loggato
 	*/
     public function getRole(){
-        return $this->hasOne("App\Tipologie", "tipologia_descrizione");
+		return Tipologie::findById($this->utente_tipologia)->tipologia_descrizione;
     }
 
     /**
