@@ -18,7 +18,6 @@ class UserController extends Controller {
 		} else {
 			return "Error, old password not matching";
 		}
-
 		return redirect( '/patient-summary' );
 	}
 }

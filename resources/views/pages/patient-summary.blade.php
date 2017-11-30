@@ -229,7 +229,9 @@
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="chiudimodpatdonorg">&times;</button>
 									<h4 class="modal-title" id="H2">Modifica consenso donazione organi</h4>
 								</div>
-								<form class="form-horizontal" id="modpatdonorg">
+								<form class="form-horizontal" action="{{action('PazienteController@updateOrgansDonor')}}" method="post">
+								{{ Form::open(array('url' => '/pazienti/updateOrgansDonor')) }}
+								{{ csrf_field() }}
 									<div class="modal-body">
 										<iframe src="/informative/donazioneorgani.html" class="col-lg-12" height="500">
 												</iframe>
@@ -237,20 +239,19 @@
 											<label class="control-label col-lg-4">Dichiarazione di consenso alla donazione d'organi</label>
 											<div class="col-lg-8">
 												<label>
-															<input type="radio" name="patdonorg" id="negpatdonorg" value="false"
-																{{App\User::find(Auth::id())->getOrgansDonor() === false ? 'checked="checked"' : '' }}/> Nego il consenso
-														</label>
+												{{Form::radio('patdonorg', 'nego', App\User::find(Auth::id())->getOrgansDonor() === false ? true : false )}} Nego il consenso
+												</label>
 												<label>
-															<input type="radio" name="patdonorg" id="accpatdonorg" value="true" 
-																{{App\User::find(Auth::id())->getOrgansDonor() === true ? 'checked="checked"' : '' }}/> Acconsento alla donazione d'organi
-														</label>
+												{{Form::radio('patdonorg', 'acconsento', App\User::find(Auth::id())->getOrgansDonor() === true ? true : false )}} Acconsento alla donazione d'organi
+												</label>
 											</div>
 										</div>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-										<a id="saveModPatDonOrg" class="btn btn-primary">Salva</a>
+										{{ Form::submit('Salva', ['class' => 'btn btn-primary'])}}
 									</div>
+									{{ Form::close() }}
 								</form>
 							</div>
 						</div>

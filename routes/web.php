@@ -56,7 +56,17 @@ Route::get('/register', function() {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/**
+* Route per effettuare l'update della password
+*/
 Route::post('/user/updatepassword', 'UserController@updatePassword');
+
+/**
+* Route per effettuare l'update del consenso alla donazione organi da parte
+* del paziente.
+*/
+Route::post('/pazienti/updateOrgansDonor', 'PazienteController@updateOrgansDonor');
 
 /*
 * Reindirizza gli utenti non loggati alla homepage
