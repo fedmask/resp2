@@ -28,62 +28,62 @@
 						<ul class="list-unstyled">
 							<li><strong>Cognome</strong>:
 								<span>
-									{{App\User::find(Auth::id())->getSurname()}}
+									{{$user->getSurname()}}
 								</span>
 							</li>
 							<li><strong>Nome</strong>:
 								<span>
-									{{App\User::find(Auth::id())->getName()}}
+									{{$user->getName()}}
 								</span>
 							</li>
 							<li><strong>Codice Fiscale</strong>:
 								<span>
-									{{App\User::find(Auth::id())->getFiscalCode()}}
+									{{$user->getFiscalCode()}}
 								</span>
 							</li>
 							<li><strong>Data di nascita</strong>:
 								<span>
-									<?php echo date('d/m/y', strtotime(App\User::find(Auth::id())->getBirthdayDate())); ?>
+									<?php echo date('d/m/y', strtotime($user->getBirthdayDate())); ?>
 								</span>
 							</li>
 							<li><strong>Età</strong>:
 								<span>
-									{{App\User::find(Auth::id())->getAge(App\User::find(Auth::id())->getBirthdayDate())}}
+									{{$user->getAge($user->getBirthdayDate())}}
 								</span>
 							</li>
 							<li><strong>Sesso</strong>:
 								<span>
-									{{App\User::find(Auth::id())->getGender()}}
+									{{$user->getGender()}}
 								</span>
 							</li>
 							<li><strong>Città di nascita</strong>:
 								<span>
-								{{App\User::find(Auth::id())->getBirthTown()}}
+								{{$user->getBirthTown()}}
 								</span>
 							</li>
 							<li><strong>Residenza</strong>:
 								<span>
-									{{App\User::find(Auth::id())->getLivingTown()}}
+									{{$user->getLivingTown()}}
 								</span>
 								&nbsp;-&nbsp;
 								<span>
-									{{App\User::find(Auth::id())->getAddress()}}
+									{{$user->getAddress()}}
 								</span>
 							</li>
 							</li>
-							<li><strong>Telefono</strong>: {{App\User::find(Auth::id())->getTelephone()}}
+							<li><strong>Telefono</strong>: {{$user->getTelephone()}}
 							</li>
 							<li>
 								<a href="#" data-toggle="modal" data-target="">
-											<i class="icon-envelope-alt"></i> {{App\User::find(Auth::id())->getEmail()}}
+											<i class="icon-envelope-alt"></i> {{$user->getEmail()}}
 										</a>
 							</li>
-							<li><strong>Stato Civile</strong>: {{App\User::find(Auth::id())->getMaritalStatus()}}
+							<li><strong>Stato Civile</strong>: {{$user->getMaritalStatus()}}
 							</li>
 						</ul>
 					</div>
 					<!--bottone che apre il pannello per le modifiche informazioni anagrafiche del paziente-->
-					@if(App\User::find(Auth::id())->getRole() === 'Paziente')
+					@if($user->getRole() === 'Paziente')
 					<div class="panel-footer" style="text-align:right">
 						<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatinfomodal"><i class="icon-pencil icon-white"></i> Modifica Dati</button>
 						<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatpswmodal"><i class="icon-pencil icon-white"></i> Modifica Password</button>
@@ -98,12 +98,12 @@
 							<ul class="list-unstyled">
 								<li><strong>Gruppo sanguigno</strong>:
 									<span id="grupposanguigno">
-										{{App\User::find(Auth::id())->getFullBloodType()}}
+										{{$user->getFullBloodType()}}
 									</span>
 								</li>
 							</ul>
 						</div>
-						@if(App\User::find(Auth::id())->getRole() === 'Care Provider')
+						@if($user->getRole() === 'Care Provider')
 						<div class="panel-footer" style="text-align:right">
 							<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatgrsangmodal"><i class="icon-pencil icon-white"></i> Modifica</button>
 						</div>
@@ -204,12 +204,12 @@
 							<ul class="list-unstyled">
 								<li> <strong>Donazione d'organi</strong>:
 									<span>
-									{{App\User::find(Auth::id())->getOrgansDonor() === false ? 'Nega il consenso' : 'Acconsente alla donazione'}}
+									{{$user->getOrgansDonor() === false ? 'Nega il consenso' : 'Acconsente alla donazione'}}
 									</span>
 								</li>
 							</ul>
 						</div>
-						@if(App\User::find(Auth::id())->getRole() === 'Paziente')
+						@if($user->getRole() === 'Paziente')
 						<div class="panel-footer" style="text-align:right">
 							<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatdonorgmodal"><i class="icon-pencil icon-white"></i> Modifica</button>
 						</div>
@@ -237,10 +237,10 @@
 											<label class="control-label col-lg-4">Dichiarazione di consenso alla donazione d'organi</label>
 											<div class="col-lg-8">
 												<label>
-												{{Form::radio('patdonorg', 'nego', App\User::find(Auth::id())->getOrgansDonor() === false ? true : false )}} Nego il consenso
+												{{Form::radio('patdonorg', 'nego', $user->getOrgansDonor() === false ? true : false )}} Nego il consenso
 												</label>
 												<label>
-												{{Form::radio('patdonorg', 'acconsento', App\User::find(Auth::id())->getOrgansDonor() === true ? true : false )}} Acconsento alla donazione d'organi
+												{{Form::radio('patdonorg', 'acconsento', $user->getOrgansDonor() === true ? true : false )}} Acconsento alla donazione d'organi
 												</label>
 											</div>
 										</div>
@@ -275,7 +275,7 @@
 										<tr>
 											<th>Nome</th>
 											<th>Telefono</th>
-											@if(App\User::find(Auth::id())->getRole() === 'Paziente')
+											@if($user->getRole() === 'Paziente')
 											<th>
 												<button data-toggle="modal" data-target="#addpatcontemergmodal" id="addContact" type="button" class=" btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right"><i class="icon-plus"></i></button>
 											</th>
@@ -318,7 +318,7 @@
 											<th>Telefono</th>
 											<!--Aggiunto campo tipologia per la tipologia di relazione-->
 											<th>Relazione</th>
-											@if(App\User::find(Auth::id())->getRole() === 'Paziente')
+											@if($user->getRole() === 'Paziente')
 											<th>
 												<button data-toggle="modal" data-target="#addpatcontmodal" id="addContact" type="button" class=" btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right"><i class="icon-plus"></i></button>
 											</th>
@@ -357,73 +357,73 @@
 										<div class="form-group">
 											<label for="modcognome" class="control-label col-lg-4">Cognome:</label>
 											<div class="col-lg-8">
-											{{Form::text('editSurname', App\User::find(Auth::id())->getSurname(), ['class' => 'form-control col-lg-6'])}}
+											{{Form::text('editSurname', $user->getSurname(), ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="modnome" class="control-label col-lg-4">Nome:</label>
 											<div class="col-lg-8">
-											{{Form::text('editName', App\User::find(Auth::id())->getName(), ['class' => 'form-control col-lg-6'])}}
+											{{Form::text('editName', $user->getName(), ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="modcf" class="control-label col-lg-4">Codice Fiscale:</label>
 											<div class="col-lg-8">
-											{{Form::text('editFiscalCode', App\User::find(Auth::id())->getFiscalCode(), ['class' => 'form-control col-lg-6'])}}
+											{{Form::text('editFiscalCode', $user->getFiscalCode(), ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="moddatanascita" class="control-label col-lg-4">Data di nascita:</label>
 											<div class="col-lg-8">
-											{{Form::date('editBirthdayDate', App\User::find(Auth::id())->getBirthdayDate(), ['class' => 'form-control col-lg-6'])}}
+											{{Form::date('editBirthdayDate', $user->getBirthdayDate(), ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="modsesso" class="control-label col-lg-4">Sesso:</label>
 											<div class="col-lg-8">
-											{{Form::select('editGender', ['M' => 'M', 'F' => 'F'], App\User::find(Auth::id())->getGender(), ['class' => 'form-control col-lg-6'] )}}
+											{{Form::select('editGender', ['M' => 'M', 'F' => 'F'], $user->getGender(), ['class' => 'form-control col-lg-6'] )}}
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="modcittanascita" class="control-label col-lg-4">Città di nascita:</label>
 											<div class="col-lg-8">
-											{{Form::text('editBirthTown', App\User::find(Auth::id())->getBirthTown(), ['class' => 'form-control col-lg-6'])}}
+											{{Form::text('editBirthTown', $user->getBirthTown(), ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="modcittaresidenza" class="control-label col-lg-4">Città residenza:</label>
 											<div class="col-lg-8">
-											{{Form::text('editLivingTown', App\User::find(Auth::id())->getLivingTown(), ['class' => 'form-control col-lg-6'])}}
+											{{Form::text('editLivingTown', $user->getLivingTown(), ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="modviaresidenza" class="control-label col-lg-4">Via residenza:</label>
 											<div class="col-lg-8">
-											{{Form::text('editAddress', App\User::find(Auth::id())->getAddress(), ['class' => 'form-control col-lg-6'])}}
+											{{Form::text('editAddress', $user->getAddress(), ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="modemail" class="control-label col-lg-4">Email:</label>
 											<div class="col-lg-8">
-											{{Form::text('editEmail', App\User::find(Auth::id())->utente_email, ['class' => 'form-control col-lg-6'])}}
+											{{Form::text('editEmail', $user->utente_email, ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="modtel" class="control-label col-lg-4">Telefono:</label>
 											<div class="col-lg-8">
-											{{Form::text('editTelephone', App\User::find(Auth::id())->getTelephone(), ['class' => 'form-control col-lg-6'])}}
+											{{Form::text('editTelephone', $user->getTelephone(), ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 										<!--Modifica dello stato matrimoniale-->
                                         <div class="form-group">
 											<label for="modmaritalStatus" class="control-label col-lg-4">Stato Civile:</label>
 											<div class="col-lg-8">
-											{{Form::select('editMaritalStatus', ['Annullato' => 'Annullato', 'Divorziato' => 'Divorziato', 'Interlocutorio' => 'Interlocutorio', 'Legalmente Separato' => 'Legalmente Separato', 'Sposato' => 'Sposato', 'PPoligamo' => 'Poligamo', 'Mai Sposato' => 'Mai Sposato', 'Convivente' => 'Convivente', 'Vedovo' => 'Vedovo',], App\User::find(Auth::id())->getMaritalStatus(), ['class' => 'form-control col-lg-6'])}}
+											{{Form::select('editMaritalStatus', ['Annullato' => 'Annullato', 'Divorziato' => 'Divorziato', 'Interlocutorio' => 'Interlocutorio', 'Legalmente Separato' => 'Legalmente Separato', 'Sposato' => 'Sposato', 'PPoligamo' => 'Poligamo', 'Mai Sposato' => 'Mai Sposato', 'Convivente' => 'Convivente', 'Vedovo' => 'Vedovo',], $user->getMaritalStatus(), ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 									 
 										
-									 </div> <!--modal-body--->
+									 </div> <!--modal-body -->
 									 <div class="modal-footer">
 											<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
 											{{ Form::submit('Salva', ['class' => 'btn btn-primary'])}} 

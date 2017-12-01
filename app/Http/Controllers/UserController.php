@@ -8,6 +8,11 @@ use Hash;
 
 class UserController extends Controller {
 	
+	/**
+	* Gestisce l'operazione di update della password dell'utente.
+	*
+	* @param  \Illuminate\Http\Request  $request
+	*/
 	public function updatePassword( Request $request ) {
 		$this->validate( $request, ['password' => 'required|confirmed',]);
 		$credentials = $request->only( 'current_password', 'password', 'password_confirmation' );
@@ -20,4 +25,6 @@ class UserController extends Controller {
 		}
 		return redirect( '/patient-summary' );
 	}
+
+
 }

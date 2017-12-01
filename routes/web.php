@@ -11,8 +11,15 @@
 |
 */
 
+/**
+* Route per l'index
+*/
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/home', function() {
+	return view('home');
 });
 
 /*
@@ -73,41 +80,17 @@ Route::post('/pazienti/updateOrgansDonor', 'PazienteController@updateOrgansDonor
 */
 Route::post('/pazienti/updateAnagraphic', 'PazienteController@updateAnagraphic');
 
+
 /*
-* Reindirizza gli utenti non loggati alla homepage
+* Routes base per le varie pagine e reindirizza gli utenti non loggati alla homepage
 */
-Route::get('/home', function() {
-	if (Auth::guest())
-		return redirect('/');
-	else
-		return view('home');
+Route::group(['middleware' => ['auth']], function () {
+
+	// Definito fuori da un controller poichè non accede ad alcun dato
+	Route::get('/links', function(){return view('pages.links');})->name('links');
+
+	Route::get('/calcolatrice-medica', 'PazienteController@showCalcolatriceMedica')->name('calcolatrice-medica');
+
+	Route::get('/patient-summary', 'PazienteController@showPatientSummary')->name('patient-summary');
+
 });
-
-/*
-* Routes base per le varie pagine
-*/
-Route::get('/links', function()
-{
-	if (Auth::guest())
-		return redirect('/');
-	else
-    	return view('pages.links');
-})->name('links');
-
-Route::get('/calcolatrice-medica', function()
-{
-	if (Auth::guest())
-		return redirect('/');
-	else
-    	return view('pages.calcolatrice-medica');
-})->name('calcolatrice-medica');
-
-Route::get('/patient-summary', function()
-{
-	if (Auth::guest())
-		return redirect('/');
-	else
-    	return view('pages.patient-summary');
-})->name('patient-summary');
-
-    

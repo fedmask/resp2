@@ -33,15 +33,15 @@
 									</td>
 								</tr>
 								<tr>
-									<td><input id="eta" type="hidden" value="{{App\User::find(Auth::id())->getAge(App\User::find(Auth::id())->getBirthdayDate())}}"/>
+									<td><input id="eta" type="hidden" value="{{$user->getAge($user->getBirthdayDate())}}"/>
 									</td>
-									<td><input id="sesso" type="hidden" value="{{App\Pazienti::findByIdUser(Auth::user()->id_utente)->paziente_sesso}}"/>
+									<td><input id="sesso" type="hidden" value="{{$user->getGender()}}"/>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					<!--table-responsive--->
+					<!--table-responsive-->
 					<div class="accordion ac" id="accordion2calc">
 						<div class="accordion-group">
 							<div class="row">

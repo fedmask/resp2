@@ -13,6 +13,12 @@ use Input;
 
 class PazienteController extends Controller
 {
+	/**
+	* Gestisce l'operazione di update per il consenso
+	* alla donazione degli organi.
+	*
+	* @param  \Illuminate\Http\Request  $request
+	*/
     public function updateOrgansDonor (Request $request){
 		// TODO: Completare validazione
 		$paziente = Pazienti::findByIdUser(Auth::id());
@@ -25,6 +31,12 @@ class PazienteController extends Controller
 		return redirect( '/patient-summary' );
 	}
 	
+	/**
+	* Gestisce l'operazione di update delle informazioni
+	* anagrafiche del paziente.
+	*
+	* @param  \Illuminate\Http\Request  $request
+	*/
 	public function updateAnagraphic (Request $request){
 		// TODO: Aggiungere validazione
 		$paziente = Pazienti::findByIdUser(Auth::id());
@@ -60,4 +72,18 @@ class PazienteController extends Controller
 		$contatti->save();
 		return redirect( '/patient-summary' );
 	}
+
+	/**
+    * Mostra la calcolatrice medica del paziente
+    */
+    public function showCalcolatriceMedica(){
+        return view('pages.calcolatrice-medica')->with('user', User::find(Auth::id()));
+    }
+
+    /**
+    * Mostra la patient summary del paziente del paziente
+    */
+    public function showPatientSummary(){
+        return view('pages.patient-summary')->with('user', User::find(Auth::id()));
+    }
 }
