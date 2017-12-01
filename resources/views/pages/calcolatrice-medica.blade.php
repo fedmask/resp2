@@ -33,9 +33,9 @@
 									</td>
 								</tr>
 								<tr>
-									<td><input id="eta" type="hidden" value="{{$user->getAge($user->getBirthdayDate())}}"/>
+									<td><input id="eta" type="hidden" value="{{$current_user->getAge($current_user->getBirthdayDate())}}"/>
 									</td>
-									<td><input id="sesso" type="hidden" value="{{$user->getGender()}}"/>
+									<td><input id="sesso" type="hidden" value="{{$current_user->getGender()}}"/>
 									</td>
 								</tr>
 							</tbody>

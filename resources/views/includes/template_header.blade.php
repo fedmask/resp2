@@ -4,7 +4,6 @@
 <link href="/css/typeahead.css" rel="stylesheet">
 
 <!-- BEGIN BODY-->
-@php( $role = App\ User::find( Auth::id() )[ 'role' ] )
 <body class="padTop53 ">
 	<audio id="notification_audio">
 		<source src="/audio/incoming_mex.mp3" type="audio/mpeg"></source>
@@ -159,7 +158,7 @@
 				<!-- END LOGO SECTION -->
 				<ul class="nav navbar-top-links navbar-right">
 					<!-- HOME SECTION -->
-					@if( $role === 'paziente')
+					@if( $current_user->getRole() === 'paziente')
 					<li><a href="/home">Home <em class="icon-home"></em> </a>
 					</li>
 					@else
@@ -172,7 +171,7 @@
 					<!--ALERTS SECTION -->
 					<?php
 					/*
-					if ( $role == "pz"){
+					if ( $current_user->getRole() == "pz"){
 					echo'
                     <li class="chat-panel dropdown">
                         <a id="numNotification_dropdown" class="" href="#">messaggi: <i class="panel-title-icon fa icon_custom-chat"></i>';
@@ -221,7 +220,7 @@
 					<!--rispetto alla versione originale si è tolta la classe dropdown  e si sono lasciate la modifica				
 					delle impostazioni di sicurezza ed il logout nella lista della navbar-->
 					<!--Modifica impostazioni sicurezza  -->
-					@if( $role === 'paziente')
+					@if( $current_user->getRole() === 'paziente')
 					<li>
 						<a href=" '. $this->get_var('link_impostazionisicurezza'). ' "><i class="icon-lock"></i>Impostazioni di sicurezza</a>
 					</li>
@@ -231,7 +230,7 @@
 					@endif
 
 					<!-- se l'utente e' un paziente visualizzo il pulsante per l'esportazione del profilo -->
-					@if( $role === 'paziente')
+					@if( $current_user->getRole() === 'paziente')
 					<li><a href="/formscripts/exportPatient.php?patientid=' . $pz_id . '"><i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
 					</li>
 					@endif

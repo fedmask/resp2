@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use View;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Passa ad ogni pagina il riferimento
+        // all'oggetto dell'utente loggato.
+        view()->composer('*', function($view) {
+            $view->with('current_user', auth()->user());
+        });
     }
 
     /**

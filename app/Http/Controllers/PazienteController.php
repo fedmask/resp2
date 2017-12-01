@@ -77,13 +77,13 @@ class PazienteController extends Controller
     * Mostra la calcolatrice medica del paziente
     */
     public function showCalcolatriceMedica(){
-        return view('pages.calcolatrice-medica')->with('user', User::find(Auth::id()));
+        return view('pages.calcolatrice-medica');
     }
 
     /**
     * Mostra la patient summary del paziente del paziente
     */
     public function showPatientSummary(){
-        return view('pages.patient-summary')->with('user', User::find(Auth::id()));
+        return view('pages.patient-summary');
     }
 }

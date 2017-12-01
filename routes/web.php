@@ -14,13 +14,9 @@
 /**
 * Route per l'index
 */
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('welcome'); });
 
-Route::get('/home', function() {
-	return view('home');
-});
+Route::get('/register', function() { return view('auth.register'); });
 
 /*
  * 
@@ -56,10 +52,6 @@ Route::get('/register/careprovider', function(){
 		return view('auth.register-careprovider');
 	else
 		return redirect('/');
-});
-
-Route::get('/register', function() {
-	return view('auth.register');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

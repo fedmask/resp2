@@ -8,11 +8,11 @@
 			<br/>
 			<div class="media-body">
 				<h5 class="media-heading">
-				{{App\User::find(Auth::id())->getName()}}
+				{{$current_user->getName()}}
 				</h5>
 			
 				<h5 class="media-heading">
-				{{App\User::find(Auth::id())->getSurname()}}
+				{{$current_user->getSurname()}}
 				</h5>
 			
 			</div>
@@ -23,24 +23,24 @@
 			<ul class="list-small">
 				<li><strong>C.F.</strong>:
 					<span>
-						{{App\User::find(Auth::id())->getFiscalCode()}}
+						{{$current_user->getFiscalCode()}}
 					</span>
 				
 				</li>
 				<li><strong>Data di nascita</strong>:
 					<span>
-						<?php echo date('d/m/y', strtotime(App\User::find(Auth::id())->getBirthdayDate())); ?>
+						<?php echo date('d/m/y', strtotime($current_user->getBirthdayDate())); ?>
 
 					</span> <strong>Età</strong>:
 					<span>
-						{{App\User::find(Auth::id())->getAge(App\User::find(Auth::id())->getBirthdayDate())}}
+						{{$current_user->getAge($current_user->getBirthdayDate())}}
 					</span>
 				
 				</li>
-				<li><strong>Telefono</strong>: {{App\User::find(Auth::id())->getTelephone()}}
+				<li><strong>Telefono</strong>: {{$current_user->getTelephone()}}
 				</li>
-				@if(App\User::find(Auth::id())->getRole() === 'Care provider')
-				<li><a href="#" data-toggle="modal" data-target="#formModal"><i class="icon-envelope-alt"></i>{{App\User::find(Auth::id())->getEmail()}}</a>
+				@if($current_user->getRole() === 'Care provider')
+				<li><a href="#" data-toggle="modal" data-target="#formModal"><i class="icon-envelope-alt"></i>{{$current_user->getEmail()}}</a>
 				</li>
 				@endif
 			</ul>
