@@ -37,15 +37,7 @@ Auth::routes();
 
 //Route::post('patientRegister', 'Auth\PatientRegisterController@create')->name('patientRegister');    
 Route::post('/register/patient', 'Auth\RegisterController@register');
-$this->get('/register/patient', 'Auth\RegisterController@showRegistrationForm')->name('register');
-
-/*Route::get('/register/patient', function(){
-	//if(Auth::guest())
-	//	return view('auth.register-patient');
-    //else
-	//	return redirect('/');
-});
-*/
+$this->get('/register/patient', 'Auth\RegisterController@showPatientRegistrationForm')->name('register_patient');
 
 Route::get('/register/careprovider', function(){
 	if(Auth::guest())

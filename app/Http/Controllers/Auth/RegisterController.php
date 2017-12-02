@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Contatti;
 use App\Pazienti;
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -101,7 +102,12 @@ class RegisterController extends Controller
         return $user && $user_contacts && $user_patient ? $user : false;
     }
     
-    public function showRegistrationForm(){
+    /*
+    * Gestisce la view da visualizzare per la registrazione dei pazienti
+    */
+    public function showPatientRegistrationForm(){
+        if(!Auth::guest())
+            return redirect()->route('home'); // se si è già loggati si va alla home
         return view('auth.register-patient');
     }
 }
