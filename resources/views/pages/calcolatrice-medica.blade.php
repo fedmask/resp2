@@ -17,17 +17,17 @@
 							<thead>
 								<tr>
 
-									<th>peso</th>
-									<th>altezza</th>
-									<th>creatininemia</th>
+									<th>Peso (in kg)</th>
+									<th>Altezza (in cm)</th>
+									<th>Creatininemia</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-								<!-- TODO: questi valori derivano dallo script a cui fa riferimento il commento alla riga 8 -->
-									<td><input id="peso" type="number" step="any" placeholder="Kg" min=5 max=2 00 value="0">
+								<!-- TODO: questi valori derivano dallo script a cui fa riferimento il commento alla riga 8, i primi due sono dei placeholder, vanno aggiornati -->
+									<td><input id="peso" type="number" step="any" placeholder="Kg" min=5 max=2 00 value="80">
 									</td>
-									<td><input id="altezza" type="number" step="1" placeholder="cm" min=8 0 max=2 30 value="0">
+									<td><input id="altezza" type="number" step="1" placeholder="cm" min=8 0 max=2 30 value="'182'">
 									</td>
 									<td><input id="creatininemia" type="number" step="0.1" placeholder="mg/dl" min=0.1 max=13 value="1">
 									</td>
@@ -340,4 +340,7 @@
 	</div>
 	<!--content-->
 	<!--END PAGE CONTENT -->
+
+	<!-- Caricaento script di calcolo -->
+	<script src="{{ asset('js/formscripts/medCalculator.js') }}"/>
 	@endsection
