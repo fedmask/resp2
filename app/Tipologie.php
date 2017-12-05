@@ -19,7 +19,4 @@ class Tipologie extends Model
         'id_tipologia', 'tipologia_descrizione',
     ];
 	
-	public static function findById($id_tipologia){
-        return Tipologie::where('id_tipologia', '=' , $id_tipologia)->firstOrFail();
-    }
 }

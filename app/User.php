@@ -48,7 +48,7 @@ class User extends Authenticatable
 	* Restituisce la tipologia di account dell'utente loggato
 	*/
     public function getRole(){
-		return Tipologie::findById($this->utente_tipologia)->tipologia_descrizione;
+		return Tipologie::find($this->utente_tipologia)->tipologia_descrizione;
     }
 
     /**
@@ -80,7 +80,7 @@ class User extends Authenticatable
 	public function getName(){
 		switch($this->utente_tipologia){
 			case 1:
-				return Pazienti::findByIdUser(Auth::id())->paziente_nome;
+				return Pazienti::findr(Auth::id())->paziente_nome;
 			default:
 				return 'Undefined';
 		}
@@ -92,7 +92,7 @@ class User extends Authenticatable
 	public function getSurname(){
 		switch($this->utente_tipologia){
 			case 1:
-				return Pazienti::findByIdUser(Auth::id())->paziente_cognome;
+				return Pazienti::find(Auth::id())->paziente_cognome;
 			default:
 				return 'Undefined';
 		}
@@ -104,7 +104,7 @@ class User extends Authenticatable
 	public function getFiscalCode(){
 		switch($this->utente_tipologia){
 			case 1:
-				return Pazienti::findByIdUser(Auth::id())->paziente_codfiscale;
+				return Pazienti::find(Auth::id())->paziente_codfiscale;
 			default:
 				return 'Undefined';
 		}
@@ -116,7 +116,7 @@ class User extends Authenticatable
 	public function getBirthdayDate(){
 		switch($this->utente_tipologia){
 			case 1:
-				return Pazienti::findByIdUser(Auth::id())->paziente_nascita;
+				return Pazienti::find(Auth::id())->paziente_nascita;
 			default:
 				return 'Undefined';
 		}
@@ -136,7 +136,7 @@ class User extends Authenticatable
  	public function getTelephone(){
 			switch($this->utente_tipologia){
 			case 1:
-				return isset(Contatti::findByIdUser(Auth::id())->paziente_telefono) ? Contatti::findByIdUser(Auth::id())->paziente_telefono : 'Non pervenuto';
+				return isset(Contatti::find(Auth::id())->paziente_telefono) ? Contatti::find(Auth::id())->paziente_telefono : 'Non pervenuto';
 			default:
 				return 'Undefined';
 		}
@@ -155,7 +155,7 @@ class User extends Authenticatable
  	public function getGender(){
 			switch($this->utente_tipologia){
 			case 1:
-				return Pazienti::findByIdUser(Auth::id())->paziente_sesso;
+				return Pazienti::find(Auth::id())->paziente_sesso;
 			default:
 				return 'Undefined';
 		}
@@ -168,7 +168,7 @@ class User extends Authenticatable
 		$result = null;
 			switch($this->utente_tipologia){
 			case 1:
-				$result = Contatti::findByIdUser(Auth::id())->id_comune_nascita;
+				$result = Contatti::find(Auth::id())->id_comune_nascita;
 				break;
 			default:
 				return 'Undefined';
@@ -184,7 +184,7 @@ class User extends Authenticatable
 		$result = null;
 			switch($this->utente_tipologia){
 			case 1:
-				$result = Contatti::findByIdUser(Auth::id())->id_comune_residenza;
+				$result = Contatti::find(Auth::id())->id_comune_residenza;
 				break;
 			default:
 				return 'Undefined';
@@ -199,7 +199,7 @@ class User extends Authenticatable
 		$result = null;
 			switch($this->utente_tipologia){
 			case 1:
-				return Contatti::findByIdUser(Auth::id())->paziente_indirizzo;
+				return Contatti::find(Auth::id())->paziente_indirizzo;
 					break;
 			default:
 				return 'Undefined';
@@ -212,7 +212,7 @@ class User extends Authenticatable
  	public function getMaritalStatus(){
 			switch($this->utente_tipologia){
 			case 1:
-				return Pazienti::findByIdUser(Auth::id())->paziente_stato_matrimoniale;
+				return Pazienti::find(Auth::id())->paziente_stato_matrimoniale;
 			default:
 				return 'Undefined';
 		}
@@ -224,7 +224,7 @@ class User extends Authenticatable
  	public function getFullBloodType(){
 			switch($this->utente_tipologia){
 			case 1:
-				return Pazienti::findByIdUser(Auth::id())->paziente_gruppo. " " .Pazienti::findByIdUser(Auth::id())->paziente_rh;
+				return Pazienti::find(Auth::id())->paziente_gruppo. " " .Pazienti::find(Auth::id())->paziente_rh;
 			default:
 				return 'Undefined';
 		}
@@ -236,7 +236,7 @@ class User extends Authenticatable
  	public function getOrgansDonor(){
 			switch($this->utente_tipologia){
 			case 1:
-				return (Pazienti::findByIdUser(Auth::id())->paziente_donatore_organi === 0) ? false : true;
+				return (Pazienti::find(Auth::id())->paziente_donatore_organi === 0) ? false : true;
 			default:
 				return 'Undefined';
 		}

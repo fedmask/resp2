@@ -455,6 +455,11 @@
 	<script src="/plugins/fileInput_kartik/js/fileinput.min.js"></script>
 	<script src="/plugins/fileInput_kartik/js/fileinput_locale_it.js"></script>
 
+	<script type="text/javascript">
+		// Carica il file di informativa per il modulo di registrazione
+		$("#consensus").load("/informative/consensoInformatoFsem.eu.html");
+	</script>
+
 
 	<!-- Custom Scrollbars -->
 	<!--<script src="assets/plugins/custom_scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>-->

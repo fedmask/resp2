@@ -28,13 +28,6 @@ class Pazienti extends Model
     }
     
     /**
-    * Restiruisce il paziente corrispondente all'id specificato
-    */
-    public static function findByIdUser($id_user){
-        return Pazienti::where('id_utente', '=' , $id_user)->firstOrFail();
-    }
-    
-    /**
     * Funzione dummy
     */
     public function list(){
