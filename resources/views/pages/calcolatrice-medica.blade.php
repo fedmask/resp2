@@ -27,7 +27,7 @@
 								<!-- TODO: questi valori derivano dallo script a cui fa riferimento il commento alla riga 8, i primi due sono dei placeholder, vanno aggiornati -->
 									<td><input id="peso" type="number" step="any" placeholder="Kg" min=5 max=2 00 value="80">
 									</td>
-									<td><input id="altezza" type="number" step="1" placeholder="cm" min=8 0 max=2 30 value="'182'">
+									<td><input id="altezza" type="number" step="1" placeholder="cm" min=0 value="182">
 									</td>
 									<td><input id="creatininemia" type="number" step="0.1" placeholder="mg/dl" min=0.1 max=13 value="1">
 									</td>
@@ -49,7 +49,7 @@
 									<div class="col-lg-12">
 										<div class="col-lg-4">
 											<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2calc" href="#collapseDosi">
-														<h3>Calcolo dosi 
+														<h3>Calcolo Dosi 
 															<span >
 															  <i  class="icon-angle-down"></i>
 															</span>           	
@@ -77,7 +77,7 @@
 									<div class="row">
 										<div class="col-lg-12">
 											<h3>
-												<center>posologia</center>
+												<center>Posologia</center>
 											</h3>
 											<p>Il sistema fornisce un supporto. E' compito e responsabilit&agrave del prescrittore verificare la corretta posologia.</p>
 										</div>
@@ -201,7 +201,7 @@
 											<div class="panel panel-success">
 
 												<div class="panel-heading">
-													<strong>Gocce-MILLILITRI</strong>
+													<strong>Gocce-Millilitri</strong>
 												</div>
 												<div class="panel-body">
 													<table>
@@ -248,7 +248,7 @@
 												<!--panel body-->
 												<div class=" panel-footer">
 
-													<label>MILLILITRI : </label><span id="N_millilitri"></span><span><label>ml</label></span>
+													<label>Millilitri : </label><span id="N_millilitri"></span><span><label>ml</label></span>
 													<br>
 													<label>Numero: </label><span id="N_gocce"></span> <span><label>gocce</label></span>
 												</div>
