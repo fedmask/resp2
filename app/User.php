@@ -80,7 +80,7 @@ class User extends Authenticatable
 	public function getName(){
 		switch($this->utente_tipologia){
 			case 1:
-				return Pazienti::finder(Auth::id())->paziente_nome;
+				return Pazienti::find(Auth::id())->paziente_nome;
 			default:
 				return 'Undefined';
 		}
