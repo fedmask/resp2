@@ -471,22 +471,37 @@
 			<div class="col-lg-7">
 				<h3>Dacci un suggerimento</h3>
 				<br>
-				<form id="form_contact_us">
+				@if ($errors->any())
+    				<div class="alert alert-danger" role="alert">
+				        <ul>
+				            @foreach ($errors->all() as $error)
+				                <li>{{ $error }}</li>
+				            @endforeach
+				        </ul>
+				    </div>
+				@endif
+				@if(Session::has('success'))
+				         <div class="alert alert-success" role="alert">
+				             {{ Session::get('success') }}
+				         </div>
+				@endif
+				{{ Form::open(array('url' => '/send-suggestion', 'method' => 'get', 'id' => 'form_contact_us')) }}
+				{{ csrf_field() }}
 					<div class="form-group">
 						<label for="name1">Nome</label>
-						<input type="name" name="nome" class="form-control" id="nome" placeholder="Il tuo nome">
+						{{ Form::text('nome', '', array('class' => 'form-control', 'placeholder' => 'Il tuo nome')) }}
 					</div>
 					<div class="form-group">
 						<label for="email1">Indirizzo email</label>
-						<input type="email" name="mail" class="form-control" id="mail" placeholder="Inserisci un indirizzo email">
+						{{ Form::email('mail', '', array('class' => 'form-control', 'placeholder' => 'Inserisci un indirizzo email')) }}
 					</div>
 					<div class="form-group">
 						<label>Messaggio</label>
-						<textarea class="form-control" name="messaggio" id="messaggio" rows="3"></textarea>
+						{{ Form::textarea('messaggio', '', array('class' => 'form-control', 'rows' => 3, 'placeholder' => 'Il tuo messaggio')) }}
 					</div>
 					<br>
-					<button class="btn btn-large btn-warning" type="submit">INVIA</button>
-				</form>
+					{{ Form::submit('INVIA', array('class' => 'btn btn-large btn-warning')) }}
+				{{ Form::close() }}
 			</div>
 		</div>
 
@@ -552,7 +567,6 @@
 	<!-- Scrolling Nav JavaScript -->
 	<script src="/plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
 	<script src="/plugins/jquery-validation-1.11.1/localization/messages_it.js"></script>
-	<script src="/js/formscripts/contact_us.js"></script>
 	<script src="/js/formscripts/login.js"></script>
 	<script>
 		$( '.carousel' ).carousel( {

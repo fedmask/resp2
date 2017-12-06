@@ -64,6 +64,11 @@ Route::post('/pazienti/updateOrgansDonor', 'PazienteController@updateOrgansDonor
 */
 Route::post('/pazienti/updateAnagraphic', 'PazienteController@updateAnagraphic');
 
+/**
+* Route per la gestione dell'invio di mail di suggerimento
+*/
+Route::get('/send-suggestion', 'MailController@sendSuggestion');
+
 
 /*
 * Routes base per le varie pagine e reindirizza gli utenti non loggati alla homepage
