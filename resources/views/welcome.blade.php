@@ -12,7 +12,7 @@
 	<meta name="norton-safeweb-site-verification" content="968cfkk7w10gz46o40uds-pcd3ycz6eb9pwfxvjrdyb20jhdn2rqzvjt-52lriqobfa56j0k34oa7ftdrw5ar2zg6gawwlnpvemqsnqliv3zee16nrdjyo0agyu3bdr2"/>
 	<link rel="shortcut icon" href="faviconFSEM.ico">
 
-	<title>Fascicolo Sanitario Elettronico Multimediale</title>
+	<title>Registro Elettronico Sanitario Personale</title>
 
 	<!-- Bootstrap Core CSS -->
 	<link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
