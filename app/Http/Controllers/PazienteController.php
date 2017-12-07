@@ -21,7 +21,7 @@ class PazienteController extends Controller
 	*/
     public function updateOrgansDonor (Request $request){
 		// TODO: Completare validazione
-		$paziente = Pazienti::find(Auth::id());
+		$paziente = Pazienti::where('id_utente', Auth::id())->first();
 		if(Input::get('patdonorg') === 'acconsento'){
 			$paziente->paziente_donatore_organi = 1;
 		} else {
@@ -39,7 +39,7 @@ class PazienteController extends Controller
 	*/
 	public function updateAnagraphic (Request $request){
 		// TODO: Aggiungere validazione
-		$paziente = Pazienti::find(Auth::id());
+		$paziente = Pazienti::where('id_utente', Auth::id())->first();
 		$contatti = Contatti::find(Auth::id());
 		$user = \Auth::user();
 		

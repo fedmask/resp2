@@ -35,6 +35,29 @@ class User extends Authenticatable
     protected $hidden = [
         'utente_password',
     ];
+
+    /**
+    * Identifica l'oggetto che definisce l'account dell'utente loggato.
+    * Es. Paziente, CareProvider, etc...
+    */
+    private $_user_concrete_account = null;
+
+    /**
+    * A seconda della tipologia di account dell'utente loggato
+    * restituisce un oggetto, appartenente alla classe di tale tipologia,
+    * contenente tutte le informazioni ad esso associate.
+    *
+    */
+    private function getUserConcreteAccount(){
+    	switch($this->utente_tipologia){
+			case 1:
+				$this->_user_concrete_account = Pazienti::where('id_utente', Auth::id())->first();
+				return;
+			default:
+				return 'Undefined';
+		}
+    }
+
     
     /**
      * 
@@ -78,48 +101,36 @@ class User extends Authenticatable
 	* Ritorna il nome dell'utente loggato
 	*/
 	public function getName(){
-		switch($this->utente_tipologia){
-			case 1:
-				return Pazienti::find(Auth::id())->paziente_nome;
-			default:
-				return 'Undefined';
-		}
+		if($this->_user_concrete_account == null)
+			$this->getUserConcreteAccount();
+		return $this->_user_concrete_account->paziente_nome;
 	}
 	
 	/**
 	* Ritorna il cognome dell'utente loggato
 	*/
 	public function getSurname(){
-		switch($this->utente_tipologia){
-			case 1:
-				return Pazienti::find(Auth::id())->paziente_cognome;
-			default:
-				return 'Undefined';
-		}
+		if($this->_user_concrete_account == null)
+			$this->getUserConcreteAccount();
+		return $this->_user_concrete_account->paziente_cognome;
 	}
 	
 	/**
 	* Ritorna il codice fiscale dell'utente loggato
 	*/
 	public function getFiscalCode(){
-		switch($this->utente_tipologia){
-			case 1:
-				return Pazienti::find(Auth::id())->paziente_codfiscale;
-			default:
-				return 'Undefined';
-		}
+		if($this->_user_concrete_account == null)
+			$this->getUserConcreteAccount();
+		return $this->_user_concrete_account->paziente_codfiscale;
 	}
 	
 	/**
 	* Ritorna la data di nascita dell'utente loggato
 	*/
 	public function getBirthdayDate(){
-		switch($this->utente_tipologia){
-			case 1:
-				return Pazienti::find(Auth::id())->paziente_nascita;
-			default:
-				return 'Undefined';
-		}
+		if($this->_user_concrete_account == null)
+			$this->getUserConcreteAccount();
+		return $this->_user_concrete_account->paziente_nascita;
 	}
 	
 	/**
@@ -153,12 +164,9 @@ class User extends Authenticatable
 	* Ritorna il sesso dell'utente loggato
 	*/
  	public function getGender(){
-			switch($this->utente_tipologia){
-			case 1:
-				return Pazienti::find(Auth::id())->paziente_sesso;
-			default:
-				return 'Undefined';
-		}
+			if($this->_user_concrete_account == null)
+			$this->getUserConcreteAccount();
+		return $this->_user_concrete_account->paziente_sesso;
     }
 	
 	/**
@@ -210,21 +218,20 @@ class User extends Authenticatable
 	* Ritorna lo stato matrimoniale dell'utente loggato
 	*/
  	public function getMaritalStatus(){
-			switch($this->utente_tipologia){
-			case 1:
-				return Pazienti::find(Auth::id())->paziente_stato_matrimoniale;
-			default:
-				return 'Undefined';
-		}
+		if($this->_user_concrete_account == null)
+			$this->getUserConcreteAccount();
+		return $this->_user_concrete_account->paziente_stato_matrimoniale;
     }
 	
 	/**
 	* Ritorna il gruppo sanguigno e il tipo di rh dell'utente loggato
 	*/
  	public function getFullBloodType(){
+ 		if($this->_user_concrete_account == null)
+			$this->getUserConcreteAccount();
 			switch($this->utente_tipologia){
 			case 1:
-				return Pazienti::find(Auth::id())->paziente_gruppo. " " .Pazienti::find(Auth::id())->paziente_rh;
+				return $this->_user_concrete_account->paziente_gruppo. " " .$this->_user_concrete_account->paziente_rh;
 			default:
 				return 'Undefined';
 		}
@@ -236,7 +243,7 @@ class User extends Authenticatable
  	public function getOrgansDonor(){
 			switch($this->utente_tipologia){
 			case 1:
-				return (Pazienti::find(Auth::id())->paziente_donatore_organi === 0) ? false : true;
+				return ($this->_user_concrete_account->paziente_donatore_organi == 0) ? false : true;
 			default:
 				return 'Undefined';
 		}
