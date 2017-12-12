@@ -18,7 +18,7 @@
 				<a class="quick-btn" href="#"><i class="icon-print icon-2x"></i><span>Stampa</span></a>
 			</div>
 		</div>
-		<!--row--->
+		<!--row-->
 		<hr/>
 		<div class="row">
 			<!-- ANAGRAFICA ESTESA -->

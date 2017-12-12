@@ -6,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Fascicolo Sanitario Elettronico Multimediale">
+	<meta name="description" content="Registro Elettronico Sanitario Personale">
 	<meta name="author" content="FSEM.EU">
 	<!--tag per Norton safeweb-->
 	<meta name="norton-safeweb-site-verification" content="968cfkk7w10gz46o40uds-pcd3ycz6eb9pwfxvjrdyb20jhdn2rqzvjt-52lriqobfa56j0k34oa7ftdrw5ar2zg6gawwlnpvemqsnqliv3zee16nrdjyo0agyu3bdr2"/>
@@ -471,15 +471,6 @@
 			<div class="col-lg-7">
 				<h3>Dacci un suggerimento</h3>
 				<br>
-				@if ($errors->any())
-    				<div class="alert alert-danger" role="alert">
-				        <ul>
-				            @foreach ($errors->all() as $error)
-				                <li>{{ $error }}</li>
-				            @endforeach
-				        </ul>
-				    </div>
-				@endif
 				@if(Session::has('success'))
 				         <div class="alert alert-success" role="alert">
 				             {{ Session::get('success') }}
@@ -490,14 +481,23 @@
 					<div class="form-group">
 						<label for="name1">Nome</label>
 						{{ Form::text('nome', '', array('class' => 'form-control', 'placeholder' => 'Il tuo nome')) }}
+						@if ($errors->has('nome'))
+    						<div class="alert alert-danger" role="alert">{{ $errors->first('nome') }}</div>
+						@endif
 					</div>
 					<div class="form-group">
 						<label for="email1">Indirizzo email</label>
 						{{ Form::email('mail', '', array('class' => 'form-control', 'placeholder' => 'Inserisci un indirizzo email')) }}
+						@if ($errors->has('mail'))
+    						<div class="alert alert-danger" role="alert">{{ $errors->first('mail') }}</div>
+						@endif
 					</div>
 					<div class="form-group">
 						<label>Messaggio</label>
 						{{ Form::textarea('messaggio', '', array('class' => 'form-control', 'rows' => 3, 'placeholder' => 'Il tuo messaggio')) }}
+						@if ($errors->has('messaggio'))
+    						<div class="alert alert-danger" role="alert">{{ $errors->first('messaggio') }}</div>
+						@endif
 					</div>
 					<br>
 					{{ Form::submit('INVIA', array('class' => 'btn btn-large btn-warning')) }}
