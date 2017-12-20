@@ -35,16 +35,12 @@ Route::get('/register', function() { return view('auth.register'); });
  */
 Auth::routes();
 
-//Route::post('patientRegister', 'Auth\PatientRegisterController@create')->name('patientRegister');    
-Route::post('/register/patient', 'Auth\RegisterController@register');
-$this->get('/register/patient', 'Auth\RegisterController@showPatientRegistrationForm')->name('register_patient');
-
-Route::get('/register/careprovider', function(){
-	if(Auth::guest())
-		return view('auth.register-careprovider');
-	else
-		return redirect('/');
-});
+/**
+* Routes per la registrazione di Pazienti e Care Provider
+*/
+Route::get('/register/patient', 'Auth\RegisterController@showPatientRegistrationForm')->name('register_patient');
+Route::post('/register/patient', 'Auth\RegisterController@registerPatient');
+Route::get('/register/careprovider', 'Auth\RegisterController@showCareProviderRegistrationForm')->name('register_careprovider');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
