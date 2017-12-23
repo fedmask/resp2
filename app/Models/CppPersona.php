@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * Created by Reliese Model.
+ * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ */
+
+namespace App\Models;
+
+use Reliese\Database\Eloquent\Model as Eloquent;
+
+/**
+ * Class CppPersona
+ * 
+ * @property int $id_persona
+ * @property int $id_utente
+ * @property int $id_comune
+ * @property string $persona_nome
+ * @property string $persona_cognome
+ * @property string $persona_telefono
+ * @property string $persona_fax
+ * @property string $persona_reperibilita
+ * @property bool $persona_attivo
+ * 
+ * @property \App\Models\TblComuni $tbl_comuni
+ * @property \App\Models\TblUtenti $tbl_utenti
+ * @property \Illuminate\Database\Eloquent\Collection $tbl_centri_indaginis
+ *
+ * @package App\Models
+ */
+class CppPersona extends Eloquent
+{
+	protected $table = 'tbl_cpp_persona';
+	protected $primaryKey = 'id_persona';
+	public $incrementing = false;
+	public $timestamps = false;
+
+	protected $casts = [
+		'id_persona' => 'int',
+		'id_utente' => 'int',
+		'id_comune' => 'int',
+		'persona_attivo' => 'bool'
+	];
+
+	protected $fillable = [
+		'id_utente',
+		'id_comune',
+		'persona_nome',
+		'persona_cognome',
+		'persona_telefono',
+		'persona_fax',
+		'persona_reperibilita',
+		'persona_attivo'
+	];
+
+	public function tbl_comuni()
+	{
+		return $this->belongsTo(\App\Models\TblComuni::class, 'id_comune');
+	}
+
+	public function tbl_utenti()
+	{
+		return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+	}
+
+	public function tbl_centri_indaginis()
+	{
+		return $this->hasMany(\App\Models\TblCentriIndagini::class, 'id_ccp_persona');
+	}
+}

@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * Created by Reliese Model.
+ * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ */
+
+namespace App\Models;
+
+use Reliese\Database\Eloquent\Model as Eloquent;
+
+/**
+ * Class CentriIndagini
+ * 
+ * @property int $id_centro
+ * @property int $id_tipologia
+ * @property int $id_comune
+ * @property int $id_ccp_persona
+ * @property string $centro_nome
+ * @property string $centro_indirizzo
+ * @property bool $centro_resp
+ * 
+ * @property \App\Models\TblCentriTipologie $tbl_centri_tipologie
+ * @property \App\Models\TblComuni $tbl_comuni
+ * @property \App\Models\TblCppPersona $tbl_cpp_persona
+ * @property \Illuminate\Database\Eloquent\Collection $tbl_centri_contattis
+ * @property \Illuminate\Database\Eloquent\Collection $tbl_indaginis
+ *
+ * @package App\Models
+ */
+class CentriIndagini extends Eloquent
+{
+	protected $table = 'tbl_centri_indagini';
+	protected $primaryKey = 'id_centro';
+	public $timestamps = false;
+
+	protected $casts = [
+		'id_tipologia' => 'int',
+		'id_comune' => 'int',
+		'id_ccp_persona' => 'int',
+		'centro_resp' => 'bool'
+	];
+
+	protected $fillable = [
+		'id_tipologia',
+		'id_comune',
+		'id_ccp_persona',
+		'centro_nome',
+		'centro_indirizzo',
+		'centro_resp'
+	];
+
+	public function tbl_centri_tipologie()
+	{
+		return $this->belongsTo(\App\Models\TblCentriTipologie::class, 'id_tipologia');
+	}
+
+	public function tbl_comuni()
+	{
+		return $this->belongsTo(\App\Models\TblComuni::class, 'id_comune');
+	}
+
+	public function tbl_cpp_persona()
+	{
+		return $this->belongsTo(\App\Models\TblCppPersona::class, 'id_ccp_persona');
+	}
+
+	public function tbl_centri_contattis()
+	{
+		return $this->hasMany(\App\Models\TblCentriContatti::class, 'id_centro');
+	}
+
+	public function tbl_indaginis()
+	{
+		return $this->hasMany(\App\Models\TblIndagini::class, 'id_centro_indagine');
+	}
+}

@@ -178,6 +178,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Providers per la generazione automatica dei models
+         * a partire dai migrations
+         */
+        Reliese\Coders\CodersServiceProvider::class
+
     ],
 
     /*

@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * Created by Reliese Model.
+ * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ */
+
+namespace App\Models;
+
+use Reliese\Database\Eloquent\Model as Eloquent;
+
+/**
+ * Class Icd9DiagCodici
+ * 
+ * @property string $codice_diag
+ * @property string $codice_categoria
+ * @property string $codice_descrizione
+ * 
+ * @property \App\Models\TblIcd9CatDiagCodici $tbl_icd9_cat_diag_codici
+ *
+ * @package App\Models
+ */
+class Icd9DiagCodici extends Eloquent
+{
+	protected $table = 'tbl_icd9_diag_codici';
+	protected $primaryKey = 'codice_diag';
+	public $incrementing = false;
+	public $timestamps = false;
+
+	protected $fillable = [
+		'codice_categoria',
+		'codice_descrizione'
+	];
+
+	public function tbl_icd9_cat_diag_codici()
+	{
+		return $this->hasOne(\App\Models\TblIcd9CatDiagCodici::class, 'codice_categoria', 'codice_categoria');
+	}
+}
