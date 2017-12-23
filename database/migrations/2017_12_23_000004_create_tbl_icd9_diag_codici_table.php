@@ -26,6 +26,8 @@ class CreateTblIcd9DiagCodiciTable extends Migration
             $table->increments('codice_diag');
             $table->string('codice_categoria', 6);
             $table->string('codice_descrizione', 120);
+
+            $table->index(["codice_categoria"], 'codie_categoria');
         });
     }
 

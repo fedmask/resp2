@@ -24,7 +24,7 @@ class CreateTblDiagnosiTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id_diagnosi');
-            $table->string('id_paziente', 45);
+            $table->integer('id_paziente');
             $table->smallInteger('diagnosi_confidenzialita');
             $table->date('diagnosi_inserimento_data');
             $table->date('diagnosi_aggiornamento_data');

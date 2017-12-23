@@ -27,7 +27,7 @@ class CreateTblVaccinazioneTable extends Migration
             $table->integer('id_vaccino');
             $table->integer('id_paziente');
             $table->integer('id_cpp');
-            $table->integer('vaccinazione_confidenzialita');
+            $table->smallInteger('vaccinazione_confidenzialita');
             $table->date('vaccinazione_data');
             $table->string('vaccinazione_aggiornamento', 45);
             $table->string('vaccinazione_reazioni', 45);

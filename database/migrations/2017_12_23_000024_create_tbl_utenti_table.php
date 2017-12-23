@@ -32,12 +32,12 @@ class CreateTblUtentiTable extends Migration
             $table->string('utente_email', 100);
             $table->string('utente_token_accesso', 60)->nullable();
 
-            $table->index(["id_ruolo"], 'fk_tbl_utenti_tbl_utenti_ruoli1_idx');
+            $table->index(["id_ruolo"], 'fk_tbl_utenti_ruoli_idx');
 
             $table->unique(["utente_email"], 'utente_email_UNIQUE');
 
 
-            $table->foreign('id_ruolo', 'fk_tbl_utenti_tbl_utenti_ruoli1_idx')
+            $table->foreign('id_ruolo', 'fk_tbl_utenti_ruoli_idx')
                 ->references('id_ruolo')->on('tbl_utenti_ruoli')
                 ->onDelete('no action')
                 ->onUpdate('no action');

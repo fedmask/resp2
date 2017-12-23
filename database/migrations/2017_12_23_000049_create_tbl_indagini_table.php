@@ -28,8 +28,8 @@ class CreateTblIndaginiTable extends Migration
             $table->integer('id_diagnosi');
             $table->integer('id_paziente');
             $table->integer('id_audit_log');
-            $table->integer('indagine_codice_icd');
-            $table->integer('indagine_codice_loinc');
+            $table->string('indagine_codice_icd', 7);
+            $table->string('indagine_codice_loinc', 10);
             $table->date('indagine_data');
             $table->date('indagine_aggiornamento');
             $table->string('indagine_stato', 12);

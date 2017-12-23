@@ -24,8 +24,8 @@ class CreateTblParametriVitaliTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id_parametro_vitale');
-            $table->string('id_paziente', 45);
-            $table->string('id_audit_log', 45);
+            $table->integer('id_paziente');
+            $table->integer('id_audit_log');
             $table->smallInteger('parametro_altezza');
             $table->smallInteger('parametro_peso');
             $table->smallInteger('parametro_pressione_minima');
