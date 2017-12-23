@@ -31,6 +31,6 @@ class TipologieContatti extends Eloquent
 
 	public function tbl_contatti_pazientis()
 	{
-		return $this->hasMany(\App\Models\TblContattiPazienti::class, 'id_contatto_tipologia');
+		return $this->hasMany(\App\Models\ContattiPazienti::class, 'id_contatto_tipologia');
 	}
 }

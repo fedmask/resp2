@@ -40,6 +40,6 @@ class PazientiDecessi extends Eloquent
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
 	}
 }

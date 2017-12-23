@@ -77,86 +77,86 @@ class Pazienti extends Eloquent
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
 	}
 
 	public function tbl_pazienti_contatti()
 	{
-		return $this->belongsTo(\App\Models\TblPazientiContatti::class, 'id_paziente_contatti');
+		return $this->belongsTo(\App\Models\PazientiContatti::class, 'id_paziente_contatti');
 	}
 
 	public function tbl_contatti_pazientis()
 	{
-		return $this->hasMany(\App\Models\TblContattiPazienti::class, 'id_paziente');
+		return $this->hasMany(\App\Models\ContattiPazienti::class, 'id_paziente');
 	}
 
 	public function tbl_cpp_pazientes()
 	{
-		return $this->hasMany(\App\Models\TblCppPaziente::class, 'id_paziente');
+		return $this->hasMany(\App\Models\CppPaziente::class, 'id_paziente');
 	}
 
 	public function tbl_diagnosis()
 	{
-		return $this->hasMany(\App\Models\TblDiagnosi::class, 'id_paziente');
+		return $this->hasMany(\App\Models\Diagnosi::class, 'id_paziente');
 	}
 
 	public function tbl_diagnosi_eliminates()
 	{
-		return $this->hasMany(\App\Models\TblDiagnosiEliminate::class, 'id_utente');
+		return $this->hasMany(\App\Models\DiagnosiEliminate::class, 'id_utente');
 	}
 
 	public function tbl_effetti_collateralis()
 	{
-		return $this->hasMany(\App\Models\TblEffettiCollaterali::class, 'id_paziente');
+		return $this->hasMany(\App\Models\EffettiCollaterali::class, 'id_paziente');
 	}
 
 	public function tbl_esami_obiettivis()
 	{
-		return $this->hasMany(\App\Models\TblEsamiObiettivi::class, 'id_paziente');
+		return $this->hasMany(\App\Models\EsamiObiettivi::class, 'id_paziente');
 	}
 
 	public function tbl_farmaci_vietatis()
 	{
-		return $this->hasMany(\App\Models\TblFarmaciVietati::class, 'id_paziente');
+		return $this->hasMany(\App\Models\FarmaciVietati::class, 'id_paziente');
 	}
 
 	public function tbl_files()
 	{
-		return $this->hasMany(\App\Models\TblFile::class, 'id_paziente');
+		return $this->hasMany(\App\Models\File::class, 'id_paziente');
 	}
 
 	public function tbl_indaginis()
 	{
-		return $this->hasMany(\App\Models\TblIndagini::class, 'id_paziente');
+		return $this->hasMany(\App\Models\Indagini::class, 'id_paziente');
 	}
 
 	public function tbl_parametri_vitalis()
 	{
-		return $this->hasMany(\App\Models\TblParametriVitali::class, 'id_paziente');
+		return $this->hasMany(\App\Models\ParametriVitali::class, 'id_paziente');
 	}
 
 	public function tbl_pazienti_decessi()
 	{
-		return $this->hasOne(\App\Models\TblPazientiDecessi::class, 'id_paziente');
+		return $this->hasOne(\App\Models\PazientiDecessi::class, 'id_paziente');
 	}
 
 	public function tbl_pazienti_familiarita()
 	{
-		return $this->hasMany(\App\Models\TblPazientiFamiliaritum::class, 'id_paziente');
+		return $this->hasMany(\App\Models\PazientiFamiliaritum::class, 'id_paziente');
 	}
 
 	public function tbl_pazienti_visites()
 	{
-		return $this->hasMany(\App\Models\TblPazientiVisite::class, 'id_paziente');
+		return $this->hasMany(\App\Models\PazientiVisite::class, 'id_paziente');
 	}
 
 	public function tbl_taccuinos()
 	{
-		return $this->hasMany(\App\Models\TblTaccuino::class, 'id_paziente');
+		return $this->hasMany(\App\Models\Taccuino::class, 'id_paziente');
 	}
 
 	public function tbl_vaccinaziones()
 	{
-		return $this->hasMany(\App\Models\TblVaccinazione::class, 'id_paziente');
+		return $this->hasMany(\App\Models\Vaccinazione::class, 'id_paziente');
 	}
 }

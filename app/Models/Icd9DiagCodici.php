@@ -34,6 +34,6 @@ class Icd9DiagCodici extends Eloquent
 
 	public function tbl_icd9_cat_diag_codici()
 	{
-		return $this->hasOne(\App\Models\TblIcd9CatDiagCodici::class, 'codice_categoria', 'codice_categoria');
+		return $this->hasOne(\App\Models\Icd9CatDiagCodici::class, 'codice_categoria', 'codice_categoria');
 	}
 }

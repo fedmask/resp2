@@ -40,16 +40,16 @@ class CppPaziente extends Eloquent
 
 	public function tbl_livelli_confidenzialitum()
 	{
-		return $this->belongsTo(\App\Models\TblLivelliConfidenzialitum::class, 'assegnazione_confidenzialita');
+		return $this->belongsTo(\App\Models\LivelliConfidenzialitum::class, 'assegnazione_confidenzialita');
 	}
 
 	public function tbl_care_provider()
 	{
-		return $this->belongsTo(\App\Models\TblCareProvider::class, 'id_cpp');
+		return $this->belongsTo(\App\Models\CareProvider::class, 'id_cpp');
 	}
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
 	}
 }

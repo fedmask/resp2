@@ -41,11 +41,11 @@ class EffettiCollaterali extends Eloquent
 
 	public function tbl_auditlog_log()
 	{
-		return $this->belongsTo(\App\Models\TblAuditlogLog::class, 'id_audit_log');
+		return $this->belongsTo(\App\Models\AuditlogLog::class, 'id_audit_log');
 	}
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
 	}
 }

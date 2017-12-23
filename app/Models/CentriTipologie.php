@@ -31,6 +31,6 @@ class CentriTipologie extends Eloquent
 
 	public function tbl_centri_indaginis()
 	{
-		return $this->hasMany(\App\Models\TblCentriIndagini::class, 'id_tipologia');
+		return $this->hasMany(\App\Models\CentriIndagini::class, 'id_tipologia');
 	}
 }

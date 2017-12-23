@@ -52,16 +52,16 @@ class PazientiFamiliaritum extends Eloquent
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
 	}
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\TblUtenti::class, 'id_parente');
+		return $this->belongsTo(\App\Models\Utenti::class, 'id_parente');
 	}
 
 	public function tbl_familiarita_decessi()
 	{
-		return $this->hasOne(\App\Models\TblFamiliaritaDecessi::class, 'id_paziente');
+		return $this->hasOne(\App\Models\FamiliaritaDecessi::class, 'id_paziente');
 	}
 }

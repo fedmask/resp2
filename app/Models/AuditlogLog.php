@@ -53,31 +53,31 @@ class AuditlogLog extends Eloquent
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\TblUtenti::class, 'id_visitato');
+		return $this->belongsTo(\App\Models\Utenti::class, 'id_visitato');
 	}
 
 	public function tbl_effetti_collateralis()
 	{
-		return $this->hasMany(\App\Models\TblEffettiCollaterali::class, 'id_audit_log');
+		return $this->hasMany(\App\Models\EffettiCollaterali::class, 'id_audit_log');
 	}
 
 	public function tbl_files()
 	{
-		return $this->hasMany(\App\Models\TblFile::class, 'id_audit_log');
+		return $this->hasMany(\App\Models\File::class, 'id_audit_log');
 	}
 
 	public function tbl_indaginis()
 	{
-		return $this->hasMany(\App\Models\TblIndagini::class, 'id_audit_log');
+		return $this->hasMany(\App\Models\Indagini::class, 'id_audit_log');
 	}
 
 	public function tbl_operazioni_logs()
 	{
-		return $this->hasMany(\App\Models\TblOperazioniLog::class, 'id_audit_log');
+		return $this->hasMany(\App\Models\OperazioniLog::class, 'id_audit_log');
 	}
 
 	public function tbl_parametri_vitalis()
 	{
-		return $this->hasMany(\App\Models\TblParametriVitali::class, 'id_audit_log');
+		return $this->hasMany(\App\Models\ParametriVitali::class, 'id_audit_log');
 	}
 }

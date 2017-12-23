@@ -43,11 +43,11 @@ class CentriContatti extends Eloquent
 
 	public function tbl_centri_indagini()
 	{
-		return $this->belongsTo(\App\Models\TblCentriIndagini::class, 'id_centro');
+		return $this->belongsTo(\App\Models\CentriIndagini::class, 'id_centro');
 	}
 
 	public function tbl_modalita_contatti()
 	{
-		return $this->belongsTo(\App\Models\TblModalitaContatti::class, 'id_modalita_contatto');
+		return $this->belongsTo(\App\Models\ModalitaContatti::class, 'id_modalita_contatto');
 	}
 }

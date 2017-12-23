@@ -55,16 +55,16 @@ class CppPersona extends Eloquent
 
 	public function tbl_comuni()
 	{
-		return $this->belongsTo(\App\Models\TblComuni::class, 'id_comune');
+		return $this->belongsTo(\App\Models\Comuni::class, 'id_comune');
 	}
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
 	}
 
 	public function tbl_centri_indaginis()
 	{
-		return $this->hasMany(\App\Models\TblCentriIndagini::class, 'id_ccp_persona');
+		return $this->hasMany(\App\Models\CentriIndagini::class, 'id_ccp_persona');
 	}
 }

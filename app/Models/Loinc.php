@@ -46,16 +46,16 @@ class Loinc extends Eloquent
 
 	public function tbl_indaginis()
 	{
-		return $this->hasMany(\App\Models\TblIndagini::class, 'indagine_codice_loinc');
+		return $this->hasMany(\App\Models\Indagini::class, 'indagine_codice_loinc');
 	}
 
 	public function tbl_loinc_risposte()
 	{
-		return $this->hasOne(\App\Models\TblLoincRisposte::class, 'codice_risposta');
+		return $this->hasOne(\App\Models\LoincRisposte::class, 'codice_risposta');
 	}
 
 	public function tbl_loinc_valoris()
 	{
-		return $this->hasMany(\App\Models\TblLoincValori::class, 'id_codice');
+		return $this->hasMany(\App\Models\LoincValori::class, 'id_codice');
 	}
 }

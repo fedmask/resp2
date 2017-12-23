@@ -32,6 +32,6 @@ class Icd9EsamiStrumentiCodici extends Eloquent
 
 	public function tbl_indaginis()
 	{
-		return $this->hasMany(\App\Models\TblIndagini::class, 'indagine_codice_icd');
+		return $this->hasMany(\App\Models\Indagini::class, 'indagine_codice_icd');
 	}
 }

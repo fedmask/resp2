@@ -44,16 +44,16 @@ class FarmaciVietati extends Eloquent
 
 	public function tbl_farmaci()
 	{
-		return $this->belongsTo(\App\Models\TblFarmaci::class, 'id_farmaco');
+		return $this->belongsTo(\App\Models\Farmaci::class, 'id_farmaco');
 	}
 
 	public function tbl_livelli_confidenzialitum()
 	{
-		return $this->belongsTo(\App\Models\TblLivelliConfidenzialitum::class, 'farmaco_vietato_confidenzialita');
+		return $this->belongsTo(\App\Models\LivelliConfidenzialitum::class, 'farmaco_vietato_confidenzialita');
 	}
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
 	}
 }

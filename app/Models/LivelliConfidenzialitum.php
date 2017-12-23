@@ -41,26 +41,26 @@ class LivelliConfidenzialitum extends Eloquent
 
 	public function tbl_cpp_pazientes()
 	{
-		return $this->hasMany(\App\Models\TblCppPaziente::class, 'assegnazione_confidenzialita');
+		return $this->hasMany(\App\Models\CppPaziente::class, 'assegnazione_confidenzialita');
 	}
 
 	public function tbl_diagnosis()
 	{
-		return $this->hasMany(\App\Models\TblDiagnosi::class, 'diagnosi_confidenzialita');
+		return $this->hasMany(\App\Models\Diagnosi::class, 'diagnosi_confidenzialita');
 	}
 
 	public function tbl_farmaci_vietatis()
 	{
-		return $this->hasMany(\App\Models\TblFarmaciVietati::class, 'farmaco_vietato_confidenzialita');
+		return $this->hasMany(\App\Models\FarmaciVietati::class, 'farmaco_vietato_confidenzialita');
 	}
 
 	public function tbl_files()
 	{
-		return $this->hasMany(\App\Models\TblFile::class, 'id_file_confidenzialita');
+		return $this->hasMany(\App\Models\File::class, 'id_file_confidenzialita');
 	}
 
 	public function tbl_vaccinaziones()
 	{
-		return $this->hasMany(\App\Models\TblVaccinazione::class, 'vaccinazione_confidenzialita');
+		return $this->hasMany(\App\Models\Vaccinazione::class, 'vaccinazione_confidenzialita');
 	}
 }

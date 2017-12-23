@@ -33,11 +33,11 @@ class Icd9GrupDiagCodici extends Eloquent
 
 	public function tbl_icd9_bloc_diag_codicis()
 	{
-		return $this->hasMany(\App\Models\TblIcd9BlocDiagCodici::class, 'codice_gruppo');
+		return $this->hasMany(\App\Models\Icd9BlocDiagCodici::class, 'codice_gruppo');
 	}
 
 	public function tbl_icd9_cat_diag_codicis()
 	{
-		return $this->hasMany(\App\Models\TblIcd9CatDiagCodici::class, 'codice_blocco');
+		return $this->hasMany(\App\Models\Icd9CatDiagCodici::class, 'codice_blocco');
 	}
 }

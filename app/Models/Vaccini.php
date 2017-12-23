@@ -41,6 +41,6 @@ class Vaccini extends Eloquent
 
 	public function tbl_vaccinaziones()
 	{
-		return $this->hasMany(\App\Models\TblVaccinazione::class, 'id_vaccino');
+		return $this->hasMany(\App\Models\Vaccinazione::class, 'id_vaccino');
 	}
 }

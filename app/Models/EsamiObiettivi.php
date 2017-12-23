@@ -56,11 +56,11 @@ class EsamiObiettivi extends Eloquent
 
 	public function tbl_loinc_risposte()
 	{
-		return $this->belongsTo(\App\Models\TblLoincRisposte::class, 'codice_risposta_loinc');
+		return $this->belongsTo(\App\Models\LoincRisposte::class, 'codice_risposta_loinc');
 	}
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
 	}
 }

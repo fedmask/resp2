@@ -52,26 +52,26 @@ class CentriIndagini extends Eloquent
 
 	public function tbl_centri_tipologie()
 	{
-		return $this->belongsTo(\App\Models\TblCentriTipologie::class, 'id_tipologia');
+		return $this->belongsTo(\App\Models\CentriTipologie::class, 'id_tipologia');
 	}
 
 	public function tbl_comuni()
 	{
-		return $this->belongsTo(\App\Models\TblComuni::class, 'id_comune');
+		return $this->belongsTo(\App\Models\Comuni::class, 'id_comune');
 	}
 
 	public function tbl_cpp_persona()
 	{
-		return $this->belongsTo(\App\Models\TblCppPersona::class, 'id_ccp_persona');
+		return $this->belongsTo(\App\Models\CppPersona::class, 'id_ccp_persona');
 	}
 
 	public function tbl_centri_contattis()
 	{
-		return $this->hasMany(\App\Models\TblCentriContatti::class, 'id_centro');
+		return $this->hasMany(\App\Models\CentriContatti::class, 'id_centro');
 	}
 
 	public function tbl_indaginis()
 	{
-		return $this->hasMany(\App\Models\TblIndagini::class, 'id_centro_indagine');
+		return $this->hasMany(\App\Models\Indagini::class, 'id_centro_indagine');
 	}
 }

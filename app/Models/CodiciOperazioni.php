@@ -32,6 +32,6 @@ class CodiciOperazioni extends Eloquent
 
 	public function tbl_operazioni_logs()
 	{
-		return $this->hasMany(\App\Models\TblOperazioniLog::class, 'operazione_codice');
+		return $this->hasMany(\App\Models\OperazioniLog::class, 'operazione_codice');
 	}
 }

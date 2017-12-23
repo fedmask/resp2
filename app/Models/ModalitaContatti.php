@@ -31,6 +31,6 @@ class ModalitaContatti extends Eloquent
 
 	public function tbl_centri_contattis()
 	{
-		return $this->hasMany(\App\Models\TblCentriContatti::class, 'id_modalita_contatto');
+		return $this->hasMany(\App\Models\CentriContatti::class, 'id_modalita_contatto');
 	}
 }

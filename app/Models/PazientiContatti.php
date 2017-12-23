@@ -45,11 +45,11 @@ class PazientiContatti extends Eloquent
 
 	public function tbl_comuni()
 	{
-		return $this->belongsTo(\App\Models\TblComuni::class, 'id_comune_residenza');
+		return $this->belongsTo(\App\Models\Comuni::class, 'id_comune_residenza');
 	}
 
 	public function tbl_pazientis()
 	{
-		return $this->hasMany(\App\Models\TblPazienti::class, 'id_paziente_contatti');
+		return $this->hasMany(\App\Models\Pazienti::class, 'id_paziente_contatti');
 	}
 }

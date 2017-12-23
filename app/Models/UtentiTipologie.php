@@ -31,6 +31,6 @@ class UtentiTipologie extends Eloquent
 
 	public function tbl_utentis()
 	{
-		return $this->hasMany(\App\Models\TblUtenti::class, 'utente_tipologia');
+		return $this->hasMany(\App\Models\Utenti::class, 'utente_tipologia');
 	}
 }

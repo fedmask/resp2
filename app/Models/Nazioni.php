@@ -38,6 +38,6 @@ class Nazioni extends Eloquent
 
 	public function tbl_comunis()
 	{
-		return $this->hasMany(\App\Models\TblComuni::class, 'id_comune_nazione');
+		return $this->hasMany(\App\Models\Comuni::class, 'id_comune_nazione');
 	}
 }

@@ -33,6 +33,6 @@ class LoincValori extends Eloquent
 
 	public function tbl_loinc()
 	{
-		return $this->belongsTo(\App\Models\TblLoinc::class, 'id_codice');
+		return $this->belongsTo(\App\Models\Loinc::class, 'id_codice');
 	}
 }

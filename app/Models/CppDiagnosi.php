@@ -42,11 +42,11 @@ class CppDiagnosi extends Eloquent
 
 	public function tbl_care_provider()
 	{
-		return $this->belongsTo(\App\Models\TblCareProvider::class, 'id_cpp');
+		return $this->belongsTo(\App\Models\CareProvider::class, 'id_cpp');
 	}
 
 	public function tbl_diagnosi()
 	{
-		return $this->belongsTo(\App\Models\TblDiagnosi::class, 'id_diagnosi');
+		return $this->belongsTo(\App\Models\Diagnosi::class, 'id_diagnosi');
 	}
 }

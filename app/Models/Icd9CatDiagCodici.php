@@ -35,11 +35,11 @@ class Icd9CatDiagCodici extends Eloquent
 
 	public function tbl_icd9_diag_codici()
 	{
-		return $this->belongsTo(\App\Models\TblIcd9DiagCodici::class, 'codice_categoria', 'codice_categoria');
+		return $this->belongsTo(\App\Models\Icd9DiagCodici::class, 'codice_categoria', 'codice_categoria');
 	}
 
 	public function tbl_icd9_grup_diag_codici()
 	{
-		return $this->belongsTo(\App\Models\TblIcd9GrupDiagCodici::class, 'codice_blocco');
+		return $this->belongsTo(\App\Models\Icd9GrupDiagCodici::class, 'codice_blocco');
 	}
 }

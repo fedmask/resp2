@@ -41,11 +41,11 @@ class DiagnosiEliminate extends Eloquent
 
 	public function tbl_diagnosi()
 	{
-		return $this->belongsTo(\App\Models\TblDiagnosi::class, 'id_diagnosi');
+		return $this->belongsTo(\App\Models\Diagnosi::class, 'id_diagnosi');
 	}
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\Pazienti::class, 'id_utente');
 	}
 }

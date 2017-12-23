@@ -35,11 +35,11 @@ class Farmaci extends Eloquent
 
 	public function tbl_farmaci_categorie()
 	{
-		return $this->belongsTo(\App\Models\TblFarmaciCategorie::class, 'id_categoria_farmaco');
+		return $this->belongsTo(\App\Models\FarmaciCategorie::class, 'id_categoria_farmaco');
 	}
 
 	public function tbl_farmaci_vietatis()
 	{
-		return $this->hasMany(\App\Models\TblFarmaciVietati::class, 'id_farmaco');
+		return $this->hasMany(\App\Models\FarmaciVietati::class, 'id_farmaco');
 	}
 }

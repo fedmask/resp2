@@ -36,6 +36,6 @@ class CppTipologie extends Eloquent
 
 	public function tbl_care_providers()
 	{
-		return $this->hasMany(\App\Models\TblCareProvider::class, 'id_cpp_tipologia');
+		return $this->hasMany(\App\Models\CareProvider::class, 'id_cpp_tipologia');
 	}
 }

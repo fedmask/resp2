@@ -45,26 +45,26 @@ class Comuni extends Eloquent
 
 	public function tbl_nazioni()
 	{
-		return $this->belongsTo(\App\Models\TblNazioni::class, 'id_comune_nazione');
+		return $this->belongsTo(\App\Models\Nazioni::class, 'id_comune_nazione');
 	}
 
 	public function tbl_centri_indaginis()
 	{
-		return $this->hasMany(\App\Models\TblCentriIndagini::class, 'id_comune');
+		return $this->hasMany(\App\Models\CentriIndagini::class, 'id_comune');
 	}
 
 	public function tbl_cpp_personas()
 	{
-		return $this->hasMany(\App\Models\TblCppPersona::class, 'id_comune');
+		return $this->hasMany(\App\Models\CppPersona::class, 'id_comune');
 	}
 
 	public function tbl_pazienti_contattis()
 	{
-		return $this->hasMany(\App\Models\TblPazientiContatti::class, 'id_comune_residenza');
+		return $this->hasMany(\App\Models\PazientiContatti::class, 'id_comune_residenza');
 	}
 
 	public function tbl_recapitis()
 	{
-		return $this->hasMany(\App\Models\TblRecapiti::class, 'id_comune_nascita');
+		return $this->hasMany(\App\Models\Recapiti::class, 'id_comune_nascita');
 	}
 }

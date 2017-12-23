@@ -32,6 +32,6 @@ class FarmaciCategorie extends Eloquent
 
 	public function tbl_farmacis()
 	{
-		return $this->hasMany(\App\Models\TblFarmaci::class, 'id_categoria_farmaco');
+		return $this->hasMany(\App\Models\Farmaci::class, 'id_categoria_farmaco');
 	}
 }

@@ -43,11 +43,11 @@ class ContattiPazienti extends Eloquent
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
 	}
 
 	public function tbl_tipologie_contatti()
 	{
-		return $this->belongsTo(\App\Models\TblTipologieContatti::class, 'id_contatto_tipologia');
+		return $this->belongsTo(\App\Models\TipologieContatti::class, 'id_contatto_tipologia');
 	}
 }

@@ -33,11 +33,11 @@ class LoincRisposte extends Eloquent
 
 	public function tbl_loinc()
 	{
-		return $this->belongsTo(\App\Models\TblLoinc::class, 'codice_risposta');
+		return $this->belongsTo(\App\Models\Loinc::class, 'codice_risposta');
 	}
 
 	public function tbl_esami_obiettivis()
 	{
-		return $this->hasMany(\App\Models\TblEsamiObiettivi::class, 'codice_risposta_loinc');
+		return $this->hasMany(\App\Models\EsamiObiettivi::class, 'codice_risposta_loinc');
 	}
 }

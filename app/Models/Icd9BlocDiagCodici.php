@@ -34,6 +34,6 @@ class Icd9BlocDiagCodici extends Eloquent
 
 	public function tbl_icd9_grup_diag_codici()
 	{
-		return $this->belongsTo(\App\Models\TblIcd9GrupDiagCodici::class, 'codice_gruppo');
+		return $this->belongsTo(\App\Models\Icd9GrupDiagCodici::class, 'codice_gruppo');
 	}
 }

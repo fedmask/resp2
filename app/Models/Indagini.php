@@ -74,31 +74,31 @@ class Indagini extends Eloquent
 
 	public function tbl_auditlog_log()
 	{
-		return $this->belongsTo(\App\Models\TblAuditlogLog::class, 'id_audit_log');
+		return $this->belongsTo(\App\Models\AuditlogLog::class, 'id_audit_log');
 	}
 
 	public function tbl_centri_indagini()
 	{
-		return $this->belongsTo(\App\Models\TblCentriIndagini::class, 'id_centro_indagine');
+		return $this->belongsTo(\App\Models\CentriIndagini::class, 'id_centro_indagine');
 	}
 
 	public function tbl_diagnosi()
 	{
-		return $this->belongsTo(\App\Models\TblDiagnosi::class, 'id_diagnosi');
+		return $this->belongsTo(\App\Models\Diagnosi::class, 'id_diagnosi');
 	}
 
 	public function tbl_icd9_esami_strumenti_codici()
 	{
-		return $this->belongsTo(\App\Models\TblIcd9EsamiStrumentiCodici::class, 'indagine_codice_icd');
+		return $this->belongsTo(\App\Models\Icd9EsamiStrumentiCodici::class, 'indagine_codice_icd');
 	}
 
 	public function tbl_loinc()
 	{
-		return $this->belongsTo(\App\Models\TblLoinc::class, 'indagine_codice_loinc');
+		return $this->belongsTo(\App\Models\Loinc::class, 'indagine_codice_loinc');
 	}
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
 	}
 }

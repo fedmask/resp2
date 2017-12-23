@@ -63,31 +63,31 @@ class CareProvider extends Eloquent
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
 	}
 
 	public function tbl_cpp_tipologie()
 	{
-		return $this->belongsTo(\App\Models\TblCppTipologie::class, 'id_cpp_tipologia');
+		return $this->belongsTo(\App\Models\CppTipologie::class, 'id_cpp_tipologia');
 	}
 
 	public function tbl_cpp_diagnosis()
 	{
-		return $this->hasMany(\App\Models\TblCppDiagnosi::class, 'id_cpp');
+		return $this->hasMany(\App\Models\CppDiagnosi::class, 'id_cpp');
 	}
 
 	public function tbl_cpp_pazientes()
 	{
-		return $this->hasMany(\App\Models\TblCppPaziente::class, 'id_cpp');
+		return $this->hasMany(\App\Models\CppPaziente::class, 'id_cpp');
 	}
 
 	public function tbl_pazienti_visites()
 	{
-		return $this->hasMany(\App\Models\TblPazientiVisite::class, 'id_cpp');
+		return $this->hasMany(\App\Models\PazientiVisite::class, 'id_cpp');
 	}
 
 	public function tbl_vaccinaziones()
 	{
-		return $this->hasMany(\App\Models\TblVaccinazione::class, 'id_cpp');
+		return $this->hasMany(\App\Models\Vaccinazione::class, 'id_cpp');
 	}
 }

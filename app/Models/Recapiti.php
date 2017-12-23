@@ -48,11 +48,11 @@ class Recapiti extends Eloquent
 
 	public function tbl_comuni()
 	{
-		return $this->belongsTo(\App\Models\TblComuni::class, 'id_comune_nascita');
+		return $this->belongsTo(\App\Models\Comuni::class, 'id_comune_nascita');
 	}
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
 	}
 }

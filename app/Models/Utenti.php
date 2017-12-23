@@ -60,36 +60,36 @@ class Utenti extends Eloquent
 
 	public function tbl_utenti_tipologie()
 	{
-		return $this->belongsTo(\App\Models\TblUtentiTipologie::class, 'utente_tipologia');
+		return $this->belongsTo(\App\Models\UtentiTipologie::class, 'utente_tipologia');
 	}
 
 	public function tbl_auditlog_logs()
 	{
-		return $this->hasMany(\App\Models\TblAuditlogLog::class, 'id_visitato');
+		return $this->hasMany(\App\Models\AuditlogLog::class, 'id_visitato');
 	}
 
 	public function tbl_care_providers()
 	{
-		return $this->hasMany(\App\Models\TblCareProvider::class, 'id_utente');
+		return $this->hasMany(\App\Models\CareProvider::class, 'id_utente');
 	}
 
 	public function tbl_cpp_personas()
 	{
-		return $this->hasMany(\App\Models\TblCppPersona::class, 'id_utente');
+		return $this->hasMany(\App\Models\CppPersona::class, 'id_utente');
 	}
 
 	public function tbl_pazientis()
 	{
-		return $this->hasMany(\App\Models\TblPazienti::class, 'id_utente');
+		return $this->hasMany(\App\Models\Pazienti::class, 'id_utente');
 	}
 
 	public function tbl_pazienti_familiarita()
 	{
-		return $this->hasMany(\App\Models\TblPazientiFamiliaritum::class, 'id_parente');
+		return $this->hasMany(\App\Models\PazientiFamiliaritum::class, 'id_parente');
 	}
 
 	public function tbl_recapitis()
 	{
-		return $this->hasMany(\App\Models\TblRecapiti::class, 'id_utente');
+		return $this->hasMany(\App\Models\Recapiti::class, 'id_utente');
 	}
 }

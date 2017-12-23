@@ -40,6 +40,6 @@ class FamiliaritaDecessi extends Eloquent
 
 	public function tbl_pazienti_familiaritum()
 	{
-		return $this->belongsTo(\App\Models\TblPazientiFamiliaritum::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\PazientiFamiliaritum::class, 'id_paziente');
 	}
 }

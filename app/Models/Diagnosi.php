@@ -59,26 +59,26 @@ class Diagnosi extends Eloquent
 
 	public function tbl_livelli_confidenzialitum()
 	{
-		return $this->belongsTo(\App\Models\TblLivelliConfidenzialitum::class, 'diagnosi_confidenzialita');
+		return $this->belongsTo(\App\Models\LivelliConfidenzialitum::class, 'diagnosi_confidenzialita');
 	}
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
 	}
 
 	public function tbl_cpp_diagnosi()
 	{
-		return $this->hasOne(\App\Models\TblCppDiagnosi::class, 'id_diagnosi');
+		return $this->hasOne(\App\Models\CppDiagnosi::class, 'id_diagnosi');
 	}
 
 	public function tbl_diagnosi_eliminates()
 	{
-		return $this->hasMany(\App\Models\TblDiagnosiEliminate::class, 'id_diagnosi');
+		return $this->hasMany(\App\Models\DiagnosiEliminate::class, 'id_diagnosi');
 	}
 
 	public function tbl_indaginis()
 	{
-		return $this->hasMany(\App\Models\TblIndagini::class, 'id_diagnosi');
+		return $this->hasMany(\App\Models\Indagini::class, 'id_diagnosi');
 	}
 }
