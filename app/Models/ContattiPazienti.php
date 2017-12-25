@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -18,8 +18,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $contatto_nominativo
  * @property string $contatto_telefono
  * 
- * @property \App\Models\TblPazienti $tbl_pazienti
- * @property \App\Models\TblTipologieContatti $tbl_tipologie_contatti
+ * @property \App\Models\Pazienti $tbl_pazienti
+ * @property \App\Models\TipologieContatti $tbl_tipologie_contatti
  *
  * @package App\Models
  */

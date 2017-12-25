@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -19,7 +19,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $id_visitante
  * @property \Carbon\Carbon $audit_data
  * 
- * @property \App\Models\TblUtenti $tbl_utenti
+ * @property \App\Models\Utenti $tbl_utenti
  * @property \Illuminate\Database\Eloquent\Collection $tbl_effetti_collateralis
  * @property \Illuminate\Database\Eloquent\Collection $tbl_files
  * @property \Illuminate\Database\Eloquent\Collection $tbl_indaginis
@@ -53,7 +53,7 @@ class AuditlogLog extends Eloquent
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\Utenti::class, 'id_visitato');
+		return $this->belongsTo(\App\Models\User::class, 'id_visitato');
 	}
 
 	public function tbl_effetti_collateralis()

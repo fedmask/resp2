@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -17,10 +17,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $comune_nominativo
  * @property string $comune_cap
  * 
- * @property \App\Models\TblNazioni $tbl_nazioni
+ * @property \App\Models\Nazioni $tbl_nazioni
  * @property \Illuminate\Database\Eloquent\Collection $tbl_centri_indaginis
  * @property \Illuminate\Database\Eloquent\Collection $tbl_cpp_personas
- * @property \Illuminate\Database\Eloquent\Collection $tbl_pazienti_contattis
  * @property \Illuminate\Database\Eloquent\Collection $tbl_recapitis
  *
  * @package App\Models
@@ -56,11 +55,6 @@ class Comuni extends Eloquent
 	public function tbl_cpp_personas()
 	{
 		return $this->hasMany(\App\Models\CppPersona::class, 'id_comune');
-	}
-
-	public function tbl_pazienti_contattis()
-	{
-		return $this->hasMany(\App\Models\PazientiContatti::class, 'id_comune_residenza');
 	}
 
 	public function tbl_recapitis()

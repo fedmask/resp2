@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -22,8 +22,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $vaccinazione_reazioni
  * 
  * @property \App\Models\TblCareProvider $tbl_care_provider
- * @property \App\Models\TblLivelliConfidenzialitum $tbl_livelli_confidenzialitum
- * @property \App\Models\TblPazienti $tbl_pazienti
+ * @property \App\Models\LivelliConfidenzialita $tbl_livelli_confidenzialitum
+ * @property \App\Models\Pazienti $tbl_pazienti
  * @property \App\Models\TblVaccini $tbl_vaccini
  *
  * @package App\Models
@@ -59,12 +59,12 @@ class Vaccinazione extends Eloquent
 
 	public function tbl_care_provider()
 	{
-		return $this->belongsTo(\App\Models\CareProvider::class, 'id_cpp');
+		return $this->belongsTo(\App\Models\TblCareProvider::class, 'id_cpp');
 	}
 
 	public function tbl_livelli_confidenzialitum()
 	{
-		return $this->belongsTo(\App\Models\LivelliConfidenzialitum::class, 'vaccinazione_confidenzialita');
+		return $this->belongsTo(\App\Models\LivelliConfidenzialita::class, 'vaccinazione_confidenzialita');
 	}
 
 	public function tbl_pazienti()
@@ -74,6 +74,6 @@ class Vaccinazione extends Eloquent
 
 	public function tbl_vaccini()
 	{
-		return $this->belongsTo(\App\Models\Vaccini::class, 'id_vaccino');
+		return $this->belongsTo(\App\Models\TblVaccini::class, 'id_vaccino');
 	}
 }

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -36,6 +36,6 @@ class CppTipologie extends Eloquent
 
 	public function tbl_care_providers()
 	{
-		return $this->hasMany(\App\Models\CareProvider::class, 'id_cpp_tipologia');
+		return $this->hasMany(\App\Models\TblCareProvider::class, 'id_cpp_tipologia');
 	}
 }

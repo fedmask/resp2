@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -23,8 +23,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $cpp_n_iscrizione
  * @property string $cpp_localita_iscrizione
  * 
- * @property \App\Models\TblUtenti $tbl_utenti
- * @property \App\Models\TblCppTipologie $tbl_cpp_tipologie
+ * @property \App\Models\Utenti $tbl_utenti
+ * @property \App\Models\CppTipologie $tbl_cpp_tipologie
  * @property \Illuminate\Database\Eloquent\Collection $tbl_cpp_diagnosis
  * @property \Illuminate\Database\Eloquent\Collection $tbl_cpp_pazientes
  * @property \Illuminate\Database\Eloquent\Collection $tbl_pazienti_visites
@@ -63,7 +63,7 @@ class CareProvider extends Eloquent
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\User::class, 'id_utente');
 	}
 
 	public function tbl_cpp_tipologie()

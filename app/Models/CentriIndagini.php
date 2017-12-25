@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -20,9 +20,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $centro_indirizzo
  * @property bool $centro_resp
  * 
- * @property \App\Models\TblCentriTipologie $tbl_centri_tipologie
- * @property \App\Models\TblComuni $tbl_comuni
- * @property \App\Models\TblCppPersona $tbl_cpp_persona
+ * @property \App\Models\CentriTipologie $tbl_centri_tipologie
+ * @property \App\Models\Comuni $tbl_comuni
+ * @property \App\Models\CppPersona $tbl_cpp_persona
  * @property \Illuminate\Database\Eloquent\Collection $tbl_centri_contattis
  * @property \Illuminate\Database\Eloquent\Collection $tbl_indaginis
  *

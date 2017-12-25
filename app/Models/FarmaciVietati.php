@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -18,9 +18,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $farmaco_vietato_motivazione
  * @property int $farmaco_vietato_confidenzialita
  * 
- * @property \App\Models\TblFarmaci $tbl_farmaci
- * @property \App\Models\TblLivelliConfidenzialitum $tbl_livelli_confidenzialitum
- * @property \App\Models\TblPazienti $tbl_pazienti
+ * @property \App\Models\Farmaci $tbl_farmaci
+ * @property \App\Models\LivelliConfidenzialita $tbl_livelli_confidenzialitum
+ * @property \App\Models\Pazienti $tbl_pazienti
  *
  * @package App\Models
  */
@@ -49,7 +49,7 @@ class FarmaciVietati extends Eloquent
 
 	public function tbl_livelli_confidenzialitum()
 	{
-		return $this->belongsTo(\App\Models\LivelliConfidenzialitum::class, 'farmaco_vietato_confidenzialita');
+		return $this->belongsTo(\App\Models\LivelliConfidenzialita::class, 'farmaco_vietato_confidenzialita');
 	}
 
 	public function tbl_pazienti()

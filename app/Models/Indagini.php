@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -28,11 +28,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $indagine_allegato
  * 
  * @property \App\Models\TblAuditlogLog $tbl_auditlog_log
- * @property \App\Models\TblCentriIndagini $tbl_centri_indagini
- * @property \App\Models\TblDiagnosi $tbl_diagnosi
- * @property \App\Models\TblIcd9EsamiStrumentiCodici $tbl_icd9_esami_strumenti_codici
- * @property \App\Models\TblLoinc $tbl_loinc
- * @property \App\Models\TblPazienti $tbl_pazienti
+ * @property \App\Models\CentriIndagini $tbl_centri_indagini
+ * @property \App\Models\Diagnosi $tbl_diagnosi
+ * @property \App\Models\Icd9EsamiStrumentiCodici $tbl_icd9_esami_strumenti_codici
+ * @property \App\Models\Loinc $tbl_loinc
+ * @property \App\Models\Pazienti $tbl_pazienti
  *
  * @package App\Models
  */
@@ -74,7 +74,7 @@ class Indagini extends Eloquent
 
 	public function tbl_auditlog_log()
 	{
-		return $this->belongsTo(\App\Models\AuditlogLog::class, 'id_audit_log');
+		return $this->belongsTo(\App\Models\TblAuditlogLog::class, 'id_audit_log');
 	}
 
 	public function tbl_centri_indagini()

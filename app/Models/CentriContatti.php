@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -17,8 +17,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $id_modalita_contatto
  * @property string $contatto_valore
  * 
- * @property \App\Models\TblCentriIndagini $tbl_centri_indagini
- * @property \App\Models\TblModalitaContatti $tbl_modalita_contatti
+ * @property \App\Models\CentriIndagini $tbl_centri_indagini
+ * @property \App\Models\ModalitaContatti $tbl_modalita_contatti
  *
  * @package App\Models
  */

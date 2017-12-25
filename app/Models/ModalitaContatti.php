@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -31,6 +31,6 @@ class ModalitaContatti extends Eloquent
 
 	public function tbl_centri_contattis()
 	{
-		return $this->hasMany(\App\Models\CentriContatti::class, 'id_modalita_contatto');
+		return $this->hasMany(\App\Models\TblCentriContatti::class, 'id_modalita_contatto');
 	}
 }

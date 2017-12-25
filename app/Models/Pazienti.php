@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -14,19 +14,17 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property int $id_paziente
  * @property int $id_utente
- * @property int $id_paziente_contatti
+ * @property int $id_stato_matrimoniale
  * @property string $paziente_nome
  * @property string $paziente_cognome
  * @property \Carbon\Carbon $paziente_nascita
  * @property string $paziente_codfiscale
  * @property string $paziente_sesso
- * @property string $paziente_gruppo
- * @property string $paziente_rh
- * @property int $paziente_donatore_organi
- * @property string $paziente_stato_matrimoniale
+ * @property bool $paziente_gruppo
+ * @property string $pazinte_rh
+ * @property bool $paziente_donatore_organi
  * 
- * @property \App\Models\TblUtenti $tbl_utenti
- * @property \App\Models\TblPazientiContatti $tbl_pazienti_contatti
+ * @property \App\Models\Utenti $tbl_utenti
  * @property \Illuminate\Database\Eloquent\Collection $tbl_contatti_pazientis
  * @property \Illuminate\Database\Eloquent\Collection $tbl_cpp_pazientes
  * @property \Illuminate\Database\Eloquent\Collection $tbl_diagnosis
@@ -37,7 +35,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Illuminate\Database\Eloquent\Collection $tbl_files
  * @property \Illuminate\Database\Eloquent\Collection $tbl_indaginis
  * @property \Illuminate\Database\Eloquent\Collection $tbl_parametri_vitalis
- * @property \App\Models\TblPazientiDecessi $tbl_pazienti_decessi
+ * @property \App\Models\PazientiDecessi $tbl_pazienti_decessi
  * @property \Illuminate\Database\Eloquent\Collection $tbl_pazienti_familiarita
  * @property \Illuminate\Database\Eloquent\Collection $tbl_pazienti_visites
  * @property \Illuminate\Database\Eloquent\Collection $tbl_taccuinos
@@ -53,8 +51,9 @@ class Pazienti extends Eloquent
 
 	protected $casts = [
 		'id_utente' => 'int',
-		'id_paziente_contatti' => 'int',
-		'paziente_donatore_organi' => 'int'
+		'id_stato_matrimoniale' => 'int',
+		'paziente_gruppo' => 'bool',
+		'paziente_donatore_organi' => 'bool'
 	];
 
 	protected $dates = [
@@ -63,26 +62,20 @@ class Pazienti extends Eloquent
 
 	protected $fillable = [
 		'id_utente',
-		'id_paziente_contatti',
+		'id_stato_matrimoniale',
 		'paziente_nome',
 		'paziente_cognome',
 		'paziente_nascita',
 		'paziente_codfiscale',
 		'paziente_sesso',
 		'paziente_gruppo',
-		'paziente_rh',
-		'paziente_donatore_organi',
-		'paziente_stato_matrimoniale'
+		'pazinte_rh',
+		'paziente_donatore_organi'
 	];
 
 	public function tbl_utenti()
 	{
 		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
-	}
-
-	public function tbl_pazienti_contatti()
-	{
-		return $this->belongsTo(\App\Models\PazientiContatti::class, 'id_paziente_contatti');
 	}
 
 	public function tbl_contatti_pazientis()
@@ -142,7 +135,7 @@ class Pazienti extends Eloquent
 
 	public function tbl_pazienti_familiarita()
 	{
-		return $this->hasMany(\App\Models\PazientiFamiliaritum::class, 'id_paziente');
+		return $this->hasMany(\App\Models\PazientiFamiliarita::class, 'id_paziente');
 	}
 
 	public function tbl_pazienti_visites()

@@ -5,8 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
-use App\Pazienti;
-use App\Contatti;
+use App\Models\Pazienti;
+use App\Model\Contatti;
 use DB;
 use Auth;
 
@@ -14,27 +14,31 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $table        = "tbl_utenti";
-    protected $primaryKey   = "id_utente";
-    public $timestamps      = false;
-    
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'utente_nome', 'utente_password', 'utente_tipologia','utente_scadenza', 'utente_email',
-    ];
+    protected $table = 'tbl_utenti';
+	protected $primaryKey = 'id_utente';
+	public $timestamps = false;
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'utente_password',
-    ];
+	protected $casts = [
+		'utente_tipologia' => 'int',
+		'utente_stato' => 'int'
+	];
+
+	protected $dates = [
+		'utente_scadenza'
+	];
+
+	protected $hidden = [
+		'utente_password'
+	];
+
+	protected $fillable = [
+		'utente_tipologia',
+		'utente_nome',
+		'utente_password',
+		'utente_stato',
+		'utente_scadenza',
+		'utente_email'
+	];
 
     /**
     * Identifica l'oggetto che definisce l'account dell'utente loggato.

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -15,7 +15,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $codice_risposta
  * @property string $codice_loinc
  * 
- * @property \App\Models\TblLoinc $tbl_loinc
+ * @property \App\Models\Loinc $tbl_loinc
  * @property \Illuminate\Database\Eloquent\Collection $tbl_esami_obiettivis
  *
  * @package App\Models

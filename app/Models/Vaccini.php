@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -10,7 +10,7 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class Vaccini
+ * Class TblVaccini
  * 
  * @property int $id_vaccino
  * @property string $vaccino_codice
@@ -22,7 +22,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class Vaccini extends Eloquent
+class TblVaccini extends Eloquent
 {
 	protected $table = 'tbl_vaccini';
 	protected $primaryKey = 'id_vaccino';

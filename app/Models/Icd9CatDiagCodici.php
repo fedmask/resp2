@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -16,8 +16,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $codice_blocco
  * @property string $categoria_cod_descrizione
  * 
- * @property \App\Models\TblIcd9DiagCodici $tbl_icd9_diag_codici
- * @property \App\Models\TblIcd9GrupDiagCodici $tbl_icd9_grup_diag_codici
+ * @property \App\Models\Icd9DiagCodici $tbl_icd9_diag_codici
+ * @property \App\Models\Icd9GrupDiagCodici $tbl_icd9_grup_diag_codici
  *
  * @package App\Models
  */

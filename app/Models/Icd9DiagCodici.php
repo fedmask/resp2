@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -16,7 +16,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $codice_categoria
  * @property string $codice_descrizione
  * 
- * @property \App\Models\TblIcd9CatDiagCodici $tbl_icd9_cat_diag_codici
+ * @property \App\Models\Icd9CatDiagCodici $tbl_icd9_cat_diag_codici
  *
  * @package App\Models
  */

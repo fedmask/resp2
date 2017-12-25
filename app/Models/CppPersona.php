@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -22,8 +22,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $persona_reperibilita
  * @property bool $persona_attivo
  * 
- * @property \App\Models\TblComuni $tbl_comuni
- * @property \App\Models\TblUtenti $tbl_utenti
+ * @property \App\Models\Comuni $tbl_comuni
+ * @property \App\Models\Utenti $tbl_utenti
  * @property \Illuminate\Database\Eloquent\Collection $tbl_centri_indaginis
  *
  * @package App\Models

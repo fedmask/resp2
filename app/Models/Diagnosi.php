@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -21,9 +21,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property bool $diagnosi_stato
  * @property \Carbon\Carbon $diagnosi_guarigione_data
  * 
- * @property \App\Models\TblLivelliConfidenzialitum $tbl_livelli_confidenzialitum
- * @property \App\Models\TblPazienti $tbl_pazienti
- * @property \App\Models\TblCppDiagnosi $tbl_cpp_diagnosi
+ * @property \App\Models\LivelliConfidenzialita $tbl_livelli_confidenzialitum
+ * @property \App\Models\Pazienti $tbl_pazienti
+ * @property \App\Models\CppDiagnosi $tbl_cpp_diagnosi
  * @property \Illuminate\Database\Eloquent\Collection $tbl_diagnosi_eliminates
  * @property \Illuminate\Database\Eloquent\Collection $tbl_indaginis
  *
@@ -59,7 +59,7 @@ class Diagnosi extends Eloquent
 
 	public function tbl_livelli_confidenzialitum()
 	{
-		return $this->belongsTo(\App\Models\LivelliConfidenzialitum::class, 'diagnosi_confidenzialita');
+		return $this->belongsTo(\App\Models\LivelliConfidenzialita::class, 'diagnosi_confidenzialita');
 	}
 
 	public function tbl_pazienti()

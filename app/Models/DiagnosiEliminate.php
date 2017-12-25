@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -16,8 +16,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $id_utente
  * @property int $id_diagnosi
  * 
- * @property \App\Models\TblDiagnosi $tbl_diagnosi
- * @property \App\Models\TblPazienti $tbl_pazienti
+ * @property \App\Models\Diagnosi $tbl_diagnosi
+ * @property \App\Models\Pazienti $tbl_pazienti
  *
  * @package App\Models
  */

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -20,7 +20,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $utente_scadenza
  * @property string $utente_email
  * 
- * @property \App\Models\TblUtentiTipologie $tbl_utenti_tipologie
+ * @property \App\Models\UtentiTipologie $tbl_utenti_tipologie
  * @property \Illuminate\Database\Eloquent\Collection $tbl_auditlog_logs
  * @property \Illuminate\Database\Eloquent\Collection $tbl_care_providers
  * @property \Illuminate\Database\Eloquent\Collection $tbl_cpp_personas
@@ -65,12 +65,12 @@ class Utenti extends Eloquent
 
 	public function tbl_auditlog_logs()
 	{
-		return $this->hasMany(\App\Models\AuditlogLog::class, 'id_visitato');
+		return $this->hasMany(\App\Models\TblAuditlogLog::class, 'id_visitato');
 	}
 
 	public function tbl_care_providers()
 	{
-		return $this->hasMany(\App\Models\CareProvider::class, 'id_utente');
+		return $this->hasMany(\App\Models\TblCareProvider::class, 'id_utente');
 	}
 
 	public function tbl_cpp_personas()
@@ -85,7 +85,7 @@ class Utenti extends Eloquent
 
 	public function tbl_pazienti_familiarita()
 	{
-		return $this->hasMany(\App\Models\PazientiFamiliaritum::class, 'id_parente');
+		return $this->hasMany(\App\Models\PazientiFamiliarita::class, 'id_parente');
 	}
 
 	public function tbl_recapitis()

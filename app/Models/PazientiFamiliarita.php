@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 23 Dec 2017 16:46:47 +0000.
+ * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
 namespace App\Models;
@@ -10,7 +10,7 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class PazientiFamiliaritum
+ * Class PazientiFamiliarita
  * 
  * @property int $id_familiarita
  * @property int $id_paziente
@@ -19,13 +19,13 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $familiarita_aggiornamento_data
  * @property bool $familiarita_conferma
  * 
- * @property \App\Models\TblPazienti $tbl_pazienti
- * @property \App\Models\TblUtenti $tbl_utenti
- * @property \App\Models\TblFamiliaritaDecessi $tbl_familiarita_decessi
+ * @property \App\Models\Pazienti $tbl_pazienti
+ * @property \App\Models\Utenti $tbl_utenti
+ * @property \App\Models\FamiliaritaDecessi $tbl_familiarita_decessi
  *
  * @package App\Models
  */
-class PazientiFamiliaritum extends Eloquent
+class PazientiFamiliarita extends Eloquent
 {
 	protected $primaryKey = 'id_familiarita';
 	public $incrementing = false;
