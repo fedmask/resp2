@@ -40,18 +40,19 @@ class Recapiti extends Eloquent
 
 	protected $fillable = [
 		'id_utente',
+		'id_contatto',
 		'id_comune_residenza',
 		'id_comune_nascita',
 		'contatto_telefono',
 		'contatto_indirizzo'
 	];
 
-	public function tbl_comuni()
+	public function town()
 	{
 		return $this->belongsTo(\App\Models\Comuni::class, 'id_comune_nascita');
 	}
 
-	public function tbl_utenti()
+	public function utente()
 	{
 		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
 	}

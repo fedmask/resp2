@@ -73,32 +73,32 @@ class Pazienti extends Eloquent
 		'paziente_donatore_organi'
 	];
 
-	public function tbl_utenti()
+	public function user()
 	{
 		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
 	}
 
-	public function tbl_contatti_pazientis()
+	public function patient_contacts()
 	{
 		return $this->hasMany(\App\Models\ContattiPazienti::class, 'id_paziente');
 	}
 
-	public function tbl_cpp_pazientes()
+	public function cpp_patients()
 	{
 		return $this->hasMany(\App\Models\CppPaziente::class, 'id_paziente');
 	}
 
-	public function tbl_diagnosis()
+	public function diagnosis()
 	{
 		return $this->hasMany(\App\Models\Diagnosi::class, 'id_paziente');
 	}
 
-	public function tbl_diagnosi_eliminates()
+	public function erased_diagnosis()
 	{
 		return $this->hasMany(\App\Models\DiagnosiEliminate::class, 'id_utente');
 	}
 
-	public function tbl_effetti_collateralis()
+	public function collateral_effects()
 	{
 		return $this->hasMany(\App\Models\EffettiCollaterali::class, 'id_paziente');
 	}

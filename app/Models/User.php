@@ -1,12 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
 use App\Models\Pazienti;
-use App\Model\Contatti;
+use App\Models\ContattiPazienti;
+use App\Models\UtentiTipologie;
+use App\Models\Comuni;
+use App\Models\StatiMatrimoniali;
 use DB;
 use Auth;
 
@@ -55,7 +58,7 @@ class User extends Authenticatable
     private function getUserConcreteAccount(){
     	switch($this->utente_tipologia){
 			case 1:
-				$this->_user_concrete_account = Pazienti::where('id_utente', Auth::id())->first();
+				$this->_user_concrete_account = $this->patient;
 				return;
 			default:
 				return 'Undefined';
@@ -68,14 +71,14 @@ class User extends Authenticatable
      * Recupera i dati di paziente dell'utente
      */
     public function data_patient(){
-        return $this->hasOne("App\Pazienti", "id_utente");
+        return $this->patient;
     }
 	
     /*
 	* Restituisce la tipologia di account dell'utente loggato
 	*/
     public function getRole(){
-		return Tipologie::find($this->utente_tipologia)->tipologia_descrizione;
+    	return $this->user_type->tipologia_descrizione;
     }
 
     /**
@@ -98,43 +101,59 @@ class User extends Authenticatable
     
     
     public function getEmailForPasswordReset(){
-        return "utente_email";
+        return $this->utente_email;
     }
 	
 	/**
 	* Ritorna il nome dell'utente loggato
 	*/
 	public function getName(){
-		if($this->_user_concrete_account == null)
-			$this->getUserConcreteAccount();
-		return $this->_user_concrete_account->paziente_nome;
+		switch($this->utente_tipologia){
+			case 1:
+				return $this->data_patient()->first()->paziente_nome;
+			default:
+				return 'Undefined';
+				break;
+		}
 	}
 	
 	/**
 	* Ritorna il cognome dell'utente loggato
 	*/
 	public function getSurname(){
-		if($this->_user_concrete_account == null)
-			$this->getUserConcreteAccount();
-		return $this->_user_concrete_account->paziente_cognome;
+		switch($this->utente_tipologia){
+			case 1:
+				return $this->data_patient()->first()->paziente_cognome;
+			default:
+				return 'Undefined';
+				break;
+		}
 	}
 	
 	/**
 	* Ritorna il codice fiscale dell'utente loggato
 	*/
 	public function getFiscalCode(){
-		if($this->_user_concrete_account == null)
-			$this->getUserConcreteAccount();
-		return $this->_user_concrete_account->paziente_codfiscale;
+		switch($this->utente_tipologia){
+			case 1:
+				return $this->data_patient()->first()->paziente_codfiscale;
+			default:
+				return 'Undefined';
+				break;
+		}
 	}
 	
 	/**
 	* Ritorna la data di nascita dell'utente loggato
 	*/
 	public function getBirthdayDate(){
-		if($this->_user_concrete_account == null)
-			$this->getUserConcreteAccount();
-		return $this->_user_concrete_account->paziente_nascita;
+		switch($this->utente_tipologia){
+			case 1:
+				return $this->data_patient()->first()->paziente_nascita;
+			default:
+				return 'Undefined';
+				break;
+		}
 	}
 	
 	/**
@@ -149,9 +168,9 @@ class User extends Authenticatable
 	* Ritorna il numero di telefono dell'utente loggato
 	*/
  	public function getTelephone(){
-			switch($this->utente_tipologia){
+		switch($this->utente_tipologia){
 			case 1:
-				return isset(Contatti::find(Auth::id())->paziente_telefono) ? Contatti::find(Auth::id())->paziente_telefono : 'Non pervenuto';
+				return isset($this->contacts()->first()->contatto_telefono) ? $this->contacts()->first()->contatto_telefono : 'Non pervenuto';
 			default:
 				return 'Undefined';
 		}
@@ -168,9 +187,13 @@ class User extends Authenticatable
 	* Ritorna il sesso dell'utente loggato
 	*/
  	public function getGender(){
-			if($this->_user_concrete_account == null)
-			$this->getUserConcreteAccount();
-		return $this->_user_concrete_account->paziente_sesso;
+		switch($this->utente_tipologia){
+			case 1:
+				return $this->data_patient()->first()->paziente_sesso;
+			default:
+				return 'Undefined';
+				break;
+		}
     }
 	
 	/**
@@ -180,13 +203,13 @@ class User extends Authenticatable
 		$result = null;
 			switch($this->utente_tipologia){
 			case 1:
-				$result = Contatti::find(Auth::id())->id_comune_nascita;
+				$result = $this->contacts()->first()->id_comune_nascita;
 				break;
 			default:
 				return 'Undefined';
 				break;
 			}
-			return DB::table('tbl_comuni')->where('id_comune', $result)->first()->comune_nominativo;
+			return Comuni::find($result)->comune_nominativo;
     }
 	
 	/**
@@ -196,12 +219,12 @@ class User extends Authenticatable
 		$result = null;
 			switch($this->utente_tipologia){
 			case 1:
-				$result = Contatti::find(Auth::id())->id_comune_residenza;
+				$result = $this->contacts()->first()->id_comune_residenza;
 				break;
 			default:
 				return 'Undefined';
 		}
-		return DB::table('tbl_comuni')->where('id_comune', $result)->first()->comune_nominativo;
+		return Comuni::find($result)->comune_nominativo; // TODO: Se non funziona provare ad aggiungere first()
     }
 	
 	/**
@@ -211,7 +234,7 @@ class User extends Authenticatable
 		$result = null;
 			switch($this->utente_tipologia){
 			case 1:
-				return Contatti::find(Auth::id())->paziente_indirizzo;
+				return Recapiti::find(Auth::id())->contatto_indirizzo; // TODO: Questa è vecchia!!
 					break;
 			default:
 				return 'Undefined';
@@ -222,22 +245,25 @@ class User extends Authenticatable
 	* Ritorna lo stato matrimoniale dell'utente loggato
 	*/
  	public function getMaritalStatus(){
-		if($this->_user_concrete_account == null)
-			$this->getUserConcreteAccount();
-		return $this->_user_concrete_account->paziente_stato_matrimoniale;
+ 		switch($this->utente_tipologia){
+			case 1:
+				return StatiMatrimoniali::find($this->patient->id_stato_matrimoniale)->stato_matrimoniale_descrizione;
+			default:
+				return 'Undefined';
+				break;
+		}
     }
 	
 	/**
 	* Ritorna il gruppo sanguigno e il tipo di rh dell'utente loggato
 	*/
  	public function getFullBloodType(){
- 		if($this->_user_concrete_account == null)
-			$this->getUserConcreteAccount();
-			switch($this->utente_tipologia){
+ 		switch($this->utente_tipologia){
 			case 1:
-				return $this->_user_concrete_account->paziente_gruppo. " " .$this->_user_concrete_account->paziente_rh;
+				return $this->data_patient()->first()->paziente_gruppo. " " .$this->data_patient()->first()->pazinte_rh;
 			default:
 				return 'Undefined';
+				break;
 		}
     }
 	
@@ -247,10 +273,45 @@ class User extends Authenticatable
  	public function getOrgansDonor(){
 			switch($this->utente_tipologia){
 			case 1:
-				return ($this->_user_concrete_account->paziente_donatore_organi == 0) ? false : true;
+				return ($this->data_patient()->first()->paziente_donatore_organi == 0) ? false : true;
 			default:
 				return 'Undefined';
 		}
     }
+
+    public function user_type()
+	{
+		return $this->belongsTo(\App\Models\UtentiTipologie::class, 'utente_tipologia');
+	}
+
+	public function auditlog_logs()
+	{
+		return $this->hasMany(\App\Models\TblAuditlogLog::class, 'id_visitato');
+	}
+
+	public function care_providers()
+	{
+		return $this->hasMany(\App\Models\TblCareProvider::class, 'id_utente');
+	}
+
+	public function cpp_persona()
+	{
+		return $this->hasMany(\App\Models\CppPersona::class, 'id_utente');
+	}
+
+	public function patient()
+	{
+		return $this->hasMany(\App\Models\Pazienti::class, 'id_utente');
+	}
+
+	public function pazienti_familiarita()
+	{
+		return $this->hasMany(\App\Models\PazientiFamiliarita::class, 'id_parente');
+	}
+
+	public function contacts()
+	{
+		return $this->hasMany(\App\Models\Recapiti::class, 'id_utente');
+	}
     
 }

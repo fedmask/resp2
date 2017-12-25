@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Pazienti;
-use App\User;
-use App\Contatti;
+use App\Models\Pazienti;
+use App\Models\User;
+use App\Models\Recapiti;
 use Auth;
 use DB;
 use Input;
@@ -40,7 +40,7 @@ class PazienteController extends Controller
 	public function updateAnagraphic (Request $request){
 		// TODO: Aggiungere validazione
 		$paziente = Pazienti::where('id_utente', Auth::id())->first();
-		$contatti = Contatti::find(Auth::id());
+		$contatti = Recapiti::find(Auth::id());
 		$user = \Auth::user();
 		
 		$paziente->paziente_nome = Input::get('editName');

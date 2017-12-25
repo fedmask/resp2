@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\Contatti;
-use App\Pazienti;
+use App\Models\User;
+use App\Models\Recapiti;
+use App\Models\Pazienti;
 use Auth;
 use Redirect;
 use Input;
@@ -105,12 +105,12 @@ class RegisterController extends Controller
             'utente_password' => bcrypt(Input::get('password')),
         ]);
 
-        $user_contacts = Contatti::create([
-            'id_paziente' => $user->id_utente,
+        $user_contacts = Recapiti::create([
+            'id_utente' => $user->id_utente,
             'id_comune_residenza' => 1,   // TODO: Da sistemare questo valore (può anche non esserci)
             'id_comune_nascita' => 1, // TODO: Da sistemare questo valore
-            'paziente_telefono'  => Input::get('telephone'),
-            'paziente_indirizzo' => Input::get('address'),
+            'contatto_telefono'  => Input::get('telephone'),
+            'contatto_indirizzo' => Input::get('address'),
         ]);
 
         $user_patient = Pazienti::create([
