@@ -15,7 +15,7 @@ class CreateTblCppPazienteTable extends Migration {
 		Schema::create('tbl_cpp_paziente', function(Blueprint $table)
 		{
 			$table->integer('id_cpp')->index('fk_tbl_medici_assegnati_tbl_medici1_idx');
-			$table->integer('id_paziente')->unsigned()->index('fk_tbl_medici_assegnati_tbl_pazienti1_idx');
+			$table->integer('id_paziente')->index('fk_tbl_medici_assegnati_tbl_pazienti1_idx');
 			$table->smallInteger('assegnazione_confidenzialita')->index('fk_tbl_medici_assegnati_tbl_livelli_confidenzialita1_idx');
 			$table->primary(['id_cpp','id_paziente']);
 		});

@@ -15,7 +15,7 @@ class CreateTblDiagnosiTable extends Migration {
 		Schema::create('tbl_diagnosi', function(Blueprint $table)
 		{
 			$table->integer('id_diagnosi', true);
-			$table->integer('id_paziente')->unsigned()->index('fk_tbl_diagnosi_tbl_pazienti1_idx');
+			$table->integer('id_paziente')->index('fk_tbl_diagnosi_tbl_pazienti1_idx');
 			$table->smallInteger('diagnosi_confidenzialita')->index('fk_tbl_diagnosi_tbl_livelli_confidenzialita1_idx');
 			$table->date('diagnosi_inserimento_data');
 			$table->date('diagnosi_aggiornamento_data');

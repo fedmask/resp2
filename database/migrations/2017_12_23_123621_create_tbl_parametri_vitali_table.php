@@ -15,7 +15,7 @@ class CreateTblParametriVitaliTable extends Migration {
 		Schema::create('tbl_parametri_vitali', function(Blueprint $table)
 		{
 			$table->integer('id_parametro_vitale')->primary();
-			$table->integer('id_paziente')->unsigned()->index('fk_tbl_parametri_vitali_tbl_pazienti1_idx');
+			$table->integer('id_paziente')->index('fk_tbl_parametri_vitali_tbl_pazienti1_idx');
 			$table->integer('id_audit_log')->index('fk_tbl_parametri_vitali_tbl_auditlog_log1_idx');
 			$table->smallInteger('parametro_altezza');
 			$table->smallInteger('parametro_peso');

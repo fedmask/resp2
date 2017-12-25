@@ -15,7 +15,7 @@ class CreateTblTaccuinoTable extends Migration {
 		Schema::create('tbl_taccuino', function(Blueprint $table)
 		{
 			$table->integer('id_taccuino')->primary();
-			$table->integer('id_paziente')->unsigned()->index('fk_tbl_taccuino_tbl_pazienti1_idx');
+			$table->integer('id_paziente')->index('fk_tbl_taccuino_tbl_pazienti1_idx');
 			$table->string('taccuino_descrizione', 45);
 			$table->date('taccuino_data');
 			$table->binary('taccuino_report_anteriore', 65535);

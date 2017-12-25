@@ -12,16 +12,13 @@ class CreateTblComuniTable extends Migration {
 	 */
 	public function up()
 	{
-	    if (!Schema::hasTable('tbl_utenti')) {
-	        
-    		Schema::create('tbl_comuni', function(Blueprint $table)
+	    Schema::create('tbl_comuni', function(Blueprint $table)
     		{
     			$table->integer('id_comune')->primary();
     			$table->integer('id_comune_nazione')->index('FOREIGN_NAZIONE_idx');
     			$table->string('comune_nominativo', 45);
     			$table->char('comune_cap', 5);
     		});
-	    }
 	}
 
 

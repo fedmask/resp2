@@ -16,7 +16,7 @@ class CreateTblPazientiVisiteTable extends Migration {
 		{
 			$table->string('id_visita', 45)->primary();
 			$table->integer('id_cpp')->index('fk_tbl_pazienti_visite_tbl_medici1_idx');
-			$table->integer('id_paziente')->unsigned()->index('fk_tbl_pazienti_visite_tbl_pazienti1_idx');
+			$table->integer('id_paziente')->index('fk_tbl_pazienti_visite_tbl_pazienti1_idx');
 			$table->date('visita_data');
 			$table->string('visita_motivazione', 100);
 			$table->text('visita_osservazioni', 65535);

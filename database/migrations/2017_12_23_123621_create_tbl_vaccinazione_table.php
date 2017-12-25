@@ -16,7 +16,7 @@ class CreateTblVaccinazioneTable extends Migration {
 		{
 			$table->integer('id_vaccinazione')->primary();
 			$table->integer('id_vaccino')->index('fk_tbl_vaccinazione_tbl_vaccini1_idx');
-			$table->integer('id_paziente')->unsigned()->index('fk_tbl_vaccinazione_tbl_pazienti1_idx');
+			$table->integer('id_paziente')->index('fk_tbl_vaccinazione_tbl_pazienti1_idx');
 			$table->integer('id_cpp')->index('fk_tbl_vaccinazione_tbl_care_provider1_idx');
 			$table->smallInteger('vaccinazione_confidenzialita')->index('fk_tbl_vaccinazione_tbl_livelli_confidenzialita1_idx');
 			$table->date('vaccinazione_data');

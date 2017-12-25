@@ -15,7 +15,7 @@ class CreateTblEsamiObiettiviTable extends Migration {
 		Schema::create('tbl_esami_obiettivi', function(Blueprint $table)
 		{
 			$table->integer('id_esame_obiettivo')->primary();
-			$table->integer('id_paziente')->unsigned()->index('fk_tbl_esami_obiettivi_tbl_pazienti1_idx');
+			$table->integer('id_paziente')->index('fk_tbl_esami_obiettivi_tbl_pazienti1_idx');
 			$table->string('codice_risposta_loinc', 10)->index('fk_tbl_esami_obiettivi_tbl_loinc_risposte1_idx');
 			$table->integer('id_diagnosi');
 			$table->date('esame_data');

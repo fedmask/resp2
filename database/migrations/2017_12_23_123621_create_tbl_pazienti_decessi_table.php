@@ -14,7 +14,7 @@ class CreateTblPazientiDecessiTable extends Migration {
 	{
 		Schema::create('tbl_pazienti_decessi', function(Blueprint $table)
 		{
-		    $table->integer('id_paziente')->unsigned()->primary();
+		    $table->integer('id_paziente')->primary();
 			$table->date('paziente_data_decesso');
 		});
 	}

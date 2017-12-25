@@ -15,7 +15,7 @@ class CreateTblEffettiCollateraliTable extends Migration {
 		Schema::create('tbl_effetti_collaterali', function(Blueprint $table)
 		{
 			$table->integer('id_effetto_collaterale', true);
-			$table->integer('id_paziente')->unsigned()->index('fk_tbl_effetti_collaterali_tbl_pazienti1_idx');
+			$table->integer('id_paziente')->index('fk_tbl_effetti_collaterali_tbl_pazienti1_idx');
 			$table->integer('id_audit_log')->index('fk_tbl_effetti_collaterali_tbl_auditlog_log1_idx');
 			$table->text('effetto_collaterale_descrizione', 65535);
 		});

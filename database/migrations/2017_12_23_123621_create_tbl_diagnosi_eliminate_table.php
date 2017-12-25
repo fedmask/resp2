@@ -15,7 +15,7 @@ class CreateTblDiagnosiEliminateTable extends Migration {
 		Schema::create('tbl_diagnosi_eliminate', function(Blueprint $table)
 		{
 			$table->integer('id_diagnosi_eliminata')->primary();
-			$table->integer('id_utente')->unsigned()->index('fk_tbl_diagnosi_eliminate_tbl_pazienti1_idx');
+			$table->integer('id_utente')->index('fk_tbl_diagnosi_eliminate_tbl_pazienti1_idx');
 			$table->integer('id_diagnosi')->index('fk_tbl_diagnosi_eliminate_tbl_diagnosi1_idx');
 		});
 	}
