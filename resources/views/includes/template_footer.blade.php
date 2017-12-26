@@ -5,7 +5,7 @@
 
    <!-- FOOTER -->
     <div id="footer">
-		<p><a href = "http://fsem.di.uniba.it/informative/consensoInformatoFsem.eu.html">Informativa privacy</a></p>
+		<p><a href = "http://fsem.di.uniba.it/informative/consensoInformatoFsem.eu.html">Informativa privacy</a></p> <!-- TODO: Aggiornare collegamento -->
         <p>Copyright © FSEM 2017</p>
     </div>
 
@@ -22,10 +22,8 @@
 	<script src="{{ asset('js/validationInit.js') }}"></script>
 	<script src="{{ asset('js/formscripts/sendpatmail.js') }}"></script>
 	<script src="{{ asset('js/formscripts/modRemindPw.js') }}"></script>
-	<!-- <script src="{{ asset('js/formscripts/modpatinfo.js') }}"></script> -->
 	<script src="{{ asset('js/formscripts/modpatpsw.js') }}"></script>
 	<script src="{{ asset('js/formscripts/modpatgrsang.js') }}"></script>
-	<!-- <script src="{{ asset('js/formscripts/modpatdonorg.js') }}"></script> -->
 	<script src="{{ asset('js/formscripts/modpatcontemerg.js') }}"></script>
 	<script src="{{ asset('js/notifications.js') }}"></script>
 	<script src="{{ asset('plugins/autosize/jquery.autosize.min.js') }}"></script>
@@ -37,4 +35,3 @@
 	<script src="{{ asset('js/formscripts/modvaccinazioni.js') }}"></script>
 	<script src="{{ asset('js/formscripts/modallergie.js') }}"></script>
 	<script src="{{ asset('plugins/autocomplete/typeahead.bundle.js') }}"></script>
-	<!-- TODO: dal footer del vecchio RESP imporatare gli script in base alla pagina caricata -->

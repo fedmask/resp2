@@ -75,7 +75,7 @@ class Pazienti extends Eloquent
 
 	public function user()
 	{
-		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\User::class, 'id_utente');
 	}
 
 	public function patient_contacts()

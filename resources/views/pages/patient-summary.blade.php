@@ -82,6 +82,22 @@
 							</li>
 						</ul>
 					</div>
+					@if ($errors->any())
+					<div class="alert alert-danger" role="alert">
+						@if(Session::has('FailEditPassword'))
+	                		{{ Session::get('FailEditPassword') }}
+	                	@endif
+						@foreach ($errors->all() as $error)
+	    					<li>{{ $error}}</li> 
+	            		@endforeach
+	            	</div>
+					@endif
+
+					@if(Session::has('SuccessEditPassword'))
+				         <div class="alert alert-success" role="alert">
+				             {{ Session::get('SuccessEditPassword') }}
+				         </div>
+					@endif
 					<!--bottone che apre il pannello per le modifiche informazioni anagrafiche del paziente-->
 					@if($current_user->getRole() === 'Paziente')
 					<div class="panel-footer" style="text-align:right">

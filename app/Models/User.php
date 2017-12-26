@@ -6,7 +6,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
 use App\Models\Pazienti;
-use App\Models\ContattiPazienti;
 use App\Models\UtentiTipologie;
 use App\Models\Comuni;
 use App\Models\StatiMatrimoniali;
@@ -48,27 +47,10 @@ class User extends Authenticatable
     * Es. Paziente, CareProvider, etc...
     */
     private $_user_concrete_account = null;
-
-    /**
-    * A seconda della tipologia di account dell'utente loggato
-    * restituisce un oggetto, appartenente alla classe di tale tipologia,
-    * contenente tutte le informazioni ad esso associate.
-    *
-    */
-    private function getUserConcreteAccount(){
-    	switch($this->utente_tipologia){
-			case 1:
-				$this->_user_concrete_account = $this->patient;
-				return;
-			default:
-				return 'Undefined';
-		}
-    }
-
     
     /**
      * 
-     * Recupera i dati di paziente dell'utente
+     * Recupera i dati dell'utente loggato nel caso sia un paziente.
      */
     public function data_patient(){
         return $this->patient;
@@ -224,7 +206,7 @@ class User extends Authenticatable
 			default:
 				return 'Undefined';
 		}
-		return Comuni::find($result)->comune_nominativo; // TODO: Se non funziona provare ad aggiungere first()
+		return Comuni::find($result)->comune_nominativo;
     }
 	
 	/**
@@ -234,7 +216,7 @@ class User extends Authenticatable
 		$result = null;
 			switch($this->utente_tipologia){
 			case 1:
-				return Recapiti::find(Auth::id())->contatto_indirizzo; // TODO: Questa è vecchia!!
+				return $this->contacts()->first()->contatto_indirizzo;
 					break;
 			default:
 				return 'Undefined';
@@ -247,7 +229,7 @@ class User extends Authenticatable
  	public function getMaritalStatus(){
  		switch($this->utente_tipologia){
 			case 1:
-				return StatiMatrimoniali::find($this->patient->id_stato_matrimoniale)->stato_matrimoniale_descrizione;
+				return StatiMatrimoniali::find($this->patient()->first()->id_stato_matrimoniale)->first()->stato_matrimoniale_descrizione;
 			default:
 				return 'Undefined';
 				break;
@@ -279,36 +261,63 @@ class User extends Authenticatable
 		}
     }
 
+    /**
+    * Gestisce la relazione con il model delle tipologie di utente (paziente, care provider, etc...)
+    */
     public function user_type()
 	{
 		return $this->belongsTo(\App\Models\UtentiTipologie::class, 'utente_tipologia');
 	}
 
+	/**
+    * Gestisce la relazione con il model dei log per la registrazione delle operazioni effettuate
+    * sulla piattaforma.
+    */
 	public function auditlog_logs()
 	{
 		return $this->hasMany(\App\Models\TblAuditlogLog::class, 'id_visitato');
 	}
 
+	/**
+    * Gestisce la relazione con il model dei care provider nel caso in cui l'utente loggato
+    * sia un care provider.
+    */
 	public function care_providers()
 	{
 		return $this->hasMany(\App\Models\TblCareProvider::class, 'id_utente');
 	}
 
+	/**
+    * Gestisce la relazione con il model dei care provider nel caso in cui l'utente loggato
+    * sia un care provider.
+    */
 	public function cpp_persona()
 	{
 		return $this->hasMany(\App\Models\CppPersona::class, 'id_utente');
 	}
 
+	/**
+    * Gestisce la relazione con il model dei pazienti nel caso in cui l'utente loggato
+    * sia un paziente.
+    */
 	public function patient()
 	{
 		return $this->hasMany(\App\Models\Pazienti::class, 'id_utente');
 	}
 
+	/**
+    * Gestisce la relazione con il model PazientiFamiliarita per la gestione delle
+    * relazioni familiari dei pazienti. 
+    */
 	public function pazienti_familiarita()
 	{
 		return $this->hasMany(\App\Models\PazientiFamiliarita::class, 'id_parente');
 	}
 
+	/**
+    * Gestisce la relazione con il model Recapiti per il recupero dei contatti, come telefono
+    * o indirizzo, forniti dall'utente loggato.
+    */
 	public function contacts()
 	{
 		return $this->hasMany(\App\Models\Recapiti::class, 'id_utente');

@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Pazienti;
 use App\Models\User;
 use App\Models\Recapiti;
+use App\Models\Comuni;
+use Validator;
+use Redirect;
 use Auth;
 use DB;
 use Input;
@@ -38,33 +41,50 @@ class PazienteController extends Controller
 	* @param  \Illuminate\Http\Request  $request
 	*/
 	public function updateAnagraphic (Request $request){
-		// TODO: Aggiungere validazione
 		$paziente = Pazienti::where('id_utente', Auth::id())->first();
-		$contatti = Recapiti::find(Auth::id());
-		$user = \Auth::user();
+		$user = Auth::user();
+		$contatti = $user->contacts()->first();
+
+		$validator = Validator::make(Input::all(), [
+            'editName' => 'required|string|max:40',
+            'editSurname' => 'required|string|max:40',
+            'editGender' => 'required',
+            'editFiscalCode' => 'required|regex:/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/',
+            'editEmail' => 'required|string|email|max:50',
+            'editBirthTown' => 'required|string|max:40',
+            'editBirthdayDate' => 'required|date',
+            'editLivingTown' => 'required|string|max:40',
+            'editAddress' => 'required|string|max:90',
+            'editTelephone' => 'required|numeric',
+            'editMaritalStatus' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
 		
 		$paziente->paziente_nome = Input::get('editName');
 		$paziente->paziente_cognome = Input::get('editSurname');
 		$paziente->paziente_codfiscale = Input::get('editFiscalCode');
 		$paziente->paziente_nascita = Input::get('editBirthdayDate');
 		$paziente->paziente_sesso = Input::get('editGender');
-		$paziente->paziente_stato_matrimoniale = Input::get('editMaritalStatus');
+		$paziente->id_stato_matrimoniale = Input::get('editMaritalStatus');
 		
-		if($paziente->contacts['paziente_indirizzo'] != Input::get('editAddress')){
-			$contatti->paziente_indirizzo = Input::get('editAddress');
+		if($contatti->contatto_indirizzo != Input::get('editAddress')){
+			$user->contacts()->first()->contatto_indirizzo = Input::get('editAddress');
 		}
 		
-		if($paziente->contacts['id_comune_nascita'] != Input::get('editBirthTown')){
+		if($contatti->id_comune_nascita != Input::get('editBirthTown')){
 			$current = Input::get('editBirthTown');
-			$contatti->id_comune_nascita = DB::table('tbl_comuni')->where('comune_nominativo', $current)->first()->id_comune;
+			$contatti->id_comune_nascita = Comuni::where('comune_nominativo', $current)->first()->id_comune;
 		}
 		
-		if($paziente->contacts['id_comune_residenza'] != Input::get('editLivingTown')){
+		if($contatti->id_comune_residenza != Input::get('editLivingTown')){
 			$current = Input::get('editLivingTown');
-			$contatti->id_comune_residenza = DB::table('tbl_comuni')->where('comune_nominativo', $current)->first()->id_comune;
+			$contatti->id_comune_residenza = Comuni::where('comune_nominativo', $current)->first()->id_comune;
 		}
 		
-		$contatti->paziente_telefono = Input::get('editTelephone');
+		$contatti->contatto_telefono = Input::get('editTelephone');
 		$user->utente_email = Input::get('editEmail');
 		
 		$paziente->save();

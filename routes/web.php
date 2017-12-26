@@ -16,7 +16,19 @@
 */
 Route::get('/', function () { return view('welcome'); });
 
+/**
+* Route per la pagina principale della web application
+*/
+Route::get('/home', 'HomeController@index')->name('home');
+
+/**
+* Routes per la registrazione di Pazienti e Care Provider
+*/
 Route::get('/register', function() { return view('auth.register'); });
+Route::get('/register/patient', 'Auth\RegisterController@showPatientRegistrationForm')->name('register_patient');
+Route::post('/register/patient', 'Auth\RegisterController@registerPatient');
+Route::get('/register/careprovider', 'Auth\RegisterController@showCareProviderRegistrationForm')->name('register_careprovider');
+
 
 /*
  * 
@@ -34,15 +46,6 @@ Route::get('/register', function() { return view('auth.register'); });
  * $this->post('password/reset', 'Auth\ResetPasswordController@reset');
  */
 Auth::routes();
-
-/**
-* Routes per la registrazione di Pazienti e Care Provider
-*/
-Route::get('/register/patient', 'Auth\RegisterController@showPatientRegistrationForm')->name('register_patient');
-Route::post('/register/patient', 'Auth\RegisterController@registerPatient');
-Route::get('/register/careprovider', 'Auth\RegisterController@showCareProviderRegistrationForm')->name('register_careprovider');
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 /**
 * Route per effettuare l'update della password
