@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use App\Models\Recapiti;
 use App\Models\Pazienti;
+use App\Models\Comuni;
 use Auth;
 use Redirect;
 use Input;
@@ -107,8 +108,8 @@ class RegisterController extends Controller
 
         $user_contacts = Recapiti::create([
             'id_utente' => $user->id_utente,
-            'id_comune_residenza' => 1,   // TODO: Da sistemare questo valore (può anche non esserci)
-            'id_comune_nascita' => 1, // TODO: Da sistemare questo valore
+            'id_comune_residenza' => $this->getTown(Input::get('livingCity')),
+            'id_comune_nascita' => $this->getTown(Input::get('birthCity')),
             'contatto_telefono'  => Input::get('telephone'),
             'contatto_indirizzo' => Input::get('address'),
         ]);
@@ -136,5 +137,13 @@ class RegisterController extends Controller
         }
 
         return redirect('/');
+    }
+
+    /**
+    * Identifica l'id di una città presente nel database
+    * a partire dal nome
+    */
+    private function getTown($name){
+        return Comuni::where('comune_nominativo', $name)->first()->id_comune;
     }
 }

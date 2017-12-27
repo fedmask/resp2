@@ -14,7 +14,7 @@ class CreateTblRecapitiTable extends Migration {
 	{
 		Schema::create('tbl_recapiti', function(Blueprint $table)
 		{
-			$table->integer('id_contatto')->primary();
+			$table->integer('id_contatto')->increments();
 			$table->integer('id_utente')->unsigned()->index('fk_tbl_contatti_tbl_utenti1_idx');
 			$table->integer('id_comune_residenza')->index('fk_tbl_contatti_tbl_comuni1_idx');
 			$table->integer('id_comune_nascita')->index('fk_tbl_contatti_tbl_comuni2_idx');
