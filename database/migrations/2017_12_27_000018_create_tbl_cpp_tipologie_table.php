@@ -24,7 +24,8 @@ class CreateTblCppTipologieTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->smallInteger('id_tipologia');
-            $table->string('tipologia_nome', 100);
+            $table->string('tipologia_nome', 30);
+            $table->string('tipologia_descrizione', 100);
 			
 			$table->index(["id_tipologia"], 'FOREIGN_TIPOLOGIA_idx');
 
