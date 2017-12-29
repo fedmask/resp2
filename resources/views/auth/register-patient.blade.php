@@ -141,29 +141,7 @@
 							<div class="form-group dropup">
 								<label for="bloodType" class="control-label col-lg-3">Gruppo sanguigno </label>
 								<div class="col-lg-3">
-									<button name="bloodTypeDrop" class="btn btn-default dropdown-toggle" type="button" id="bloodTypeDrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-										<span class="caret"></span>
-										</button>
-
-									<ul id="dropupMenu" class="dropdown-menu" role="menu" aria-labelledby="bloodTypeDrop">
-										<li role="presentation"><a id="0-" role="menuitem" tabindex="-1">0 negativo</a>
-										</li>
-										<li role="presentation"><a id="0+" role="menuitem" tabindex="-1">0 positivo</a>
-										</li>
-										<li role="presentation"><a id="A-" role="menuitem" tabindex="-1">A negativo</a>
-										</li>
-										<li role="presentation"><a id="A+" role="menuitem" tabindex="-1">A positivo</a>
-										</li>
-										<li role="presentation"><a id="B-" role="menuitem" tabindex="-1">B negativo</a>
-										</li>
-										<li role="presentation"><a id="B+" role="menuitem" tabindex="-1">B positivo</a>
-										</li>
-										<li role="presentation"><a id="AB-" role="menuitem" tabindex="-1">AB negativo</a>
-										</li>
-										<li role="presentation"><a id="AB+" role="menuitem" tabindex="-1">AB positivo</a>
-										</li>
-									</ul>
-									<input id="bloodType" name="bloodType" class="form-control" value="-1">
+										{{Form::select('bloodType', ['0' => '0 negativo', '1' => '0 positivo', '2' => 'A negativo', '3' => 'A positivo', '4' => 'B negativo', '5' => 'B positivo', '6' => 'AB negativo', '7' => 'AB positivo',], '0', ['class' => 'form-control'])}}
 									@if ($errors->has('bloodType'))
     									<div class="alert alert-danger" role="alert">{{ $errors->first('bloodType') }}</div>
 									@endif
@@ -172,15 +150,15 @@
 								<label for="maritalStatus" class="control-label col-lg-3">Stato Matrimoniale </label>
 								<div class="col-lg-3">
 									<select class="form-control" name="maritalStatus" id="maritalStatus">
-										<option value="A">Annullato</option>
-										<option value="D">Divorziato</option>
-										<option value="I">Interlocutorio</option>
-										<option value="L">Legalmente Separato</option>
-										<option value="M">Sposato</option>
-										<option value="P">Poligamo</option>
-										<option value="S">Mai Sposato</option>
-										<option value="T">Convivente</option>
-										<option value="W">Vedovo</option>
+										<option value="0">Sposato</option>
+										<option value="1">Annullato</option>
+										<option value="2">Divorziato</option>
+										<option value="3">Interlocutorio</option>
+										<option value="4">Legalmente Separato</option>
+										<option value="5">Poligamo</option>
+										<option value="6">Mai Sposato</option>
+										<option value="7">Convivente</option>
+										<option value="8">Vedovo</option>
 									</select>
 									@if ($errors->has('maritalStatus'))
     									<div class="alert alert-danger" role="alert">{{ $errors->first('maritalStatus') }}</div>

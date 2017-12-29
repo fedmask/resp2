@@ -39,26 +39,21 @@ class PatientsMarriageTableSeeder extends Seeder
         ]);
         DB::table('tbl_stati_matrimoniali')->insert([
             'id_stato_matrimoniale' => 5,
-            'stato_matrimoniale_nome' => 'Sposato',
-            'stato_matrimoniale_descrizione' => '',
-        ]);
-        DB::table('tbl_stati_matrimoniali')->insert([
-            'id_stato_matrimoniale' => 6,
             'stato_matrimoniale_nome' => 'Poligamo',
             'stato_matrimoniale_descrizione' => '',
         ]);
         DB::table('tbl_stati_matrimoniali')->insert([
-            'id_stato_matrimoniale' => 7,
+            'id_stato_matrimoniale' => 6,
             'stato_matrimoniale_nome' => 'Mai sposato',
             'stato_matrimoniale_descrizione' => '',
         ]);
         DB::table('tbl_stati_matrimoniali')->insert([
-            'id_stato_matrimoniale' => 8,
+            'id_stato_matrimoniale' => 7,
             'stato_matrimoniale_nome' => 'Convivente',
             'stato_matrimoniale_descrizione' => '',
         ]);
         DB::table('tbl_stati_matrimoniali')->insert([
-            'id_stato_matrimoniale' => 9,
+            'id_stato_matrimoniale' => 8,
             'stato_matrimoniale_nome' => 'Vedovo',
             'stato_matrimoniale_descrizione' => '',
         ]);

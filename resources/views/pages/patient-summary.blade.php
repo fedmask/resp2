@@ -434,7 +434,7 @@
                                         <div class="form-group">
 											<label for="modmaritalStatus" class="control-label col-lg-4">Stato Civile:</label>
 											<div class="col-lg-8">
-											{{Form::select('editMaritalStatus', ['Annullato' => 'Annullato', 'Divorziato' => 'Divorziato', 'Interlocutorio' => 'Interlocutorio', 'Legalmente Separato' => 'Legalmente Separato', 'Sposato' => 'Sposato', 'PPoligamo' => 'Poligamo', 'Mai Sposato' => 'Mai Sposato', 'Convivente' => 'Convivente', 'Vedovo' => 'Vedovo',], $current_user->getMaritalStatus(), ['class' => 'form-control col-lg-6'])}}
+											{{Form::select('editMaritalStatus', ['0' => 'Sposato', '1' => 'Annullato', '2' => 'Divorziato', '3' => 'Interlocutorio', '4' => 'Legalmente Separato', '5' => 'Poligamo', '6' => 'Mai Sposato', '7' => 'Convivente', '8' => 'Vedovo',], $current_user->getMaritalStatus(), ['class' => 'form-control col-lg-6'])}}
 											</div>
 										</div>
 									 

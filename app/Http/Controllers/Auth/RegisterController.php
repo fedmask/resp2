@@ -28,6 +28,9 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    private $bloodGroup = null;
+    private $bloodRh = null;
+
     /**
      * Where to redirect users after registration.
      *
@@ -71,6 +74,7 @@ class RegisterController extends Controller
      *
      */
     protected function registerPatient(){
+        $this->getBloodType(Input::get('bloodType'));
         $validator = Validator::make(Input::all(), [
             'acceptTerms' => 'bail|accepted',
             'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
@@ -122,8 +126,8 @@ class RegisterController extends Controller
             'paziente_sesso' => Input::get('gender'),
             'paziente_codfiscale' => str_replace("-", "", Input::get('CF')),
             'paziente_nascita' => date('Y-m-d', strtotime(Input::get('birthDate'))),
-            'paziente_gruppo' => Input::get('bloodType'),
-            'paziente_rh' => 1, //TODO: CAMBIARE!
+            'paziente_gruppo' => $this->bloodGroup,
+            'paziente_rh' => $this->bloodRh,
             'paziente_stato_matrimoniale' => Input::get('maritalStatus'),
         ]);
 
@@ -144,6 +148,49 @@ class RegisterController extends Controller
     * a partire dal nome
     */
     private function getTown($name){
-        return Comuni::where('comune_nominativo', $name)->first()->id_comune;
+        return Comuni::where('comune_nominativo', '=', $name)->first()->id_comune;
+    }
+
+    /**
+    * Identifica un gruppo sanguigno e l'rh in fase di registrazione
+    */
+    private function getBloodType($bloodType){
+        switch ($bloodType) {
+            case '0':
+                $this->bloodGroup = Pazienti::BLOODGROUP_0;
+                $this->bloodRh = 'NEG';
+                break;
+            case '1':
+                $this->bloodGroup = Pazienti::BLOODGROUP_0;
+                $this->bloodRh = 'POS';
+                break;
+            case '2':
+                $this->bloodGroup = Pazienti::BLOODGROUP_A;
+                $this->bloodRh = 'NEG';
+                break;
+            case '3':
+                $this->bloodGroup = Pazienti::BLOODGROUP_A;
+                $this->bloodRh = 'POS';
+                break;
+            case '4':
+                $this->bloodGroup = Pazienti::BLOODGROUP_B;
+                $this->bloodRh = 'NEG';
+                break;
+            case '5':
+                $this->bloodGroup = Pazienti::BLOODGROUP_B;
+                $this->bloodRh = 'POS';
+                break;
+            case '6':
+                $this->bloodGroup = Pazienti::BLOODGROUP_AB;
+                $this->bloodRh = 'NEG';
+                break;
+            case '7':
+                $this->bloodGroup = Pazienti::BLOODGROUP_AB;
+                $this->bloodRh = 'POS';
+                break;
+            default:
+                return 'undefined';
+                break;
+        }
     }
 }

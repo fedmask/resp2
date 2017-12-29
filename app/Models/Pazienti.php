@@ -73,6 +73,16 @@ class Pazienti extends Eloquent
 		'paziente_donatore_organi'
 	];
 
+	/**
+	* Costanti per i gruppi sanguigni e fattori RH
+	*/
+	const BLOODGROUP_0 = 0;
+	const BLOODGROUP_A = 1;
+	const BLOODGROUP_B = 2;
+	const BLOODGROUP_AB = 3;
+	const BLOODRH_POS = "POS";
+	const BLOODRH_NEG = "NEG";
+
 	public function user()
 	{
 		return $this->belongsTo(\App\Models\User::class, 'id_utente');

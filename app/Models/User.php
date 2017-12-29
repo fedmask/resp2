@@ -229,7 +229,7 @@ class User extends Authenticatable
  	public function getMaritalStatus(){
  		switch($this->utente_tipologia){
 			case 1:
-				return StatiMatrimoniali::find($this->patient()->first()->id_stato_matrimoniale)->first()->stato_matrimoniale_descrizione;
+				return StatiMatrimoniali::where('id_stato_matrimoniale', $this->patient()->first()->id_stato_matrimoniale)->first()->stato_matrimoniale_nome;
 			default:
 				return 'Undefined';
 				break;
@@ -242,11 +242,35 @@ class User extends Authenticatable
  	public function getFullBloodType(){
  		switch($this->utente_tipologia){
 			case 1:
-				return $this->data_patient()->first()->paziente_gruppo. " " .$this->data_patient()->first()->pazinte_rh;
+				return $this->getBloodGroup($this->data_patient()->first()->paziente_gruppo). " " .$this->data_patient()->first()->pazinte_rh;
 			default:
 				return 'Undefined';
 				break;
 		}
+    }
+
+    /**
+    * Associa il valore numerico registrato nel db per i gruppi sanguigni
+    * al valore nominale.
+    */
+    private function getBloodGroup($group){
+    	switch ($group) {
+    		case '0':
+    			return '0';
+    			break;
+    		case '1':
+    			return 'Ahvb';
+    			break;
+    		case '2':
+    			return 'B';
+    			break;
+    		case '3':
+    			return 'AB';
+    			break;
+    		default:
+    			return 'Undefined';
+    			break;
+    	}
     }
 	
 	/**
