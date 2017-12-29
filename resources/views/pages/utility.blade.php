@@ -7,7 +7,7 @@
 <!--utilità per i pazienti Ospedali - Linee guida -->    
 		<div id="content">
            <div class="inner" >
-		   <div class="col-lg-12"><h1><center> LINKS </center></h1>
+		   <div class="col-lg-12"><h1><center> Utility </center></h1>
 			</div>
 			<div class="accordion ac" id="accordionUtility">
 							<div class="accordion-group">

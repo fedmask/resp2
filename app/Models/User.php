@@ -259,7 +259,7 @@ class User extends Authenticatable
     			return '0';
     			break;
     		case '1':
-    			return 'Ahvb';
+    			return 'A';
     			break;
     		case '2':
     			return 'B';

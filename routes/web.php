@@ -75,10 +75,12 @@ Route::get('/send-suggestion', 'MailController@sendSuggestion');
 Route::group(['middleware' => ['auth']], function () {
 
 	// Definito fuori da un controller poichè non accede ad alcun dato
-	Route::get('/links', function(){return view('pages.links');})->name('links');
+	Route::get('/utility', function(){return view('pages.utility');})->name('utility');
 
 	Route::get('/calcolatrice-medica', 'PazienteController@showCalcolatriceMedica')->name('calcolatrice-medica');
 
 	Route::get('/patient-summary', 'PazienteController@showPatientSummary')->name('patient-summary');
+
+	Route::get('/taccuino', 'PazienteController@showTaccuino')->name('taccuino');
 
 });

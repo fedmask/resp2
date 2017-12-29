@@ -106,4 +106,11 @@ class PazienteController extends Controller
     public function showPatientSummary(){
         return view('pages.patient-summary');
     }
+
+    /**
+    * Mostra la patient summary del paziente del paziente
+    */
+    public function showTaccuino(){
+        return view('pages.taccuino');
+    }
 }

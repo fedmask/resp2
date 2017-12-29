@@ -137,16 +137,15 @@
 			</li>
 			<li class="panel"> <a href="LINK-FILES"> <em class="icon-file"></em> Files </a>
 			</li>
-			<li class="panel"> <a href="LINK-TACCUINO"> <em class="icon-book"></em> Taccuino Paziente </a>
+			<li class="panel  {{Request::path() === 'taccuino' ? 'active' : ''}}"> <a href="{{ url('taccuino') }}"> <em class="icon-book"></em> Taccuino Paziente </a>
 			</li>
 			<!--diario visite deve diventare diario paziente-->
 			<li class="panel"> <a href="LINK-CAREPROVIDERS"> <em class="icon-user-md"></em> Care Providers </a>
 			</li>
-			<li class="panel {{Request::path() === 'calcolatrice-medica' ? 'active' : ''}}"> <a href="/calcolatrice-medica"> <em class="icon-keyboard"></em> Calcolatrice Medica </a>
+			<li class="panel {{Request::path() === 'calcolatrice-medica' ? 'active' : ''}}"> <a href="{{ url('calcolatrice-medica') }}"> <em class="icon-keyboard"></em> Calcolatrice Medica </a>
 			</li>
-			<li class="panel {{Request::path() === 'links' ? 'active' : ''}}"> <a href="/links"> <em class="icon-tag"></em> Links </a>
+			<li class="panel {{Request::path() === 'links' ? 'active' : ''}}"> <a href="{{ url('utility') }}"> <em class="icon-tag"></em> Utility </a>
 			</li>
-			<!--N.B nel testo si è sostituito 'Utility' con 'Links?-->
 		</ul>
 
 	</div>

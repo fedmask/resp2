@@ -356,6 +356,63 @@
 				</div>
 			</div>
 			<!--div row contatti-->
+			<!-- Modale Contatti TODO: ANCORA DA MODIFICARE -->
+			<div class="col-lg-12">
+				<div class="modal fade" id="addpatcontmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="chiudiaddpatcontemerg">&times;</button>
+									<h4 class="modal-title" id="H2">Contatti</h4>
+								</div>
+								<form class="form-horizontal"  id="addpatcont">
+								<div class="modal-body">
+									<div class="form-group">
+										<label for="modcontemerg_add" class="control-label col-lg-4">Nome contatto:</label>
+										<div class="col-lg-8">
+										<input type="text" name="modcontemerg_add2" id="modcontemerg_add2" class="form-control col-lg-6" value=""/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="modtelcontemerg_add" class="control-label col-lg-4">Telefono:</label>
+										<div class="col-lg-8">
+										<input type="text" name="modtelcontemerg_add2" id="modtelcontemerg_add2" class="form-control col-lg-6" value=""/>
+										</div>
+									</div>
+                                    <div class="form-group">
+										<label for="modtipcontemerg_add" class="control-label col-lg-4">Tipologia Contatto:</label>
+										<div class="col-lg-8">
+                                        <select class="form-control col-lg-6" name="modtipcontemerg_add2" id="modtipcontemerg_add2">
+                                            <option value="family">Familiare</option>
+                                            <option value="guardian">Tutore</option>
+                                            <option value="friend">Amico</option>
+                                            <option value="partner">Compagno</option>
+                                            <option value="work">Lavorativo</option>
+                                            <option value="caregiver">Badante</option>
+                                            <option value="agent">Delegato</option>
+                                            <option value="guarantor">Garante</option>
+                                            <option value="owner">Padrone (nel caso di animale domestico)</option>
+                                            <option value="parent">Genitore</option>
+                                        </select>
+										</div>
+									</div>
+									<!--Non è specificata la id della table contatti che deve essere modificato-->
+									<hr>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+									<button type="submit" class="btn btn-primary">Salva</button> 
+								</div>
+								 </form>
+							</div>
+						</div>
+					</div>
+				</div>
+                <!--FINE MODALE CONTATTI-->
+
+
+
+
 			<!-- MODAL MODIFICA ANAGRAFICA -->
 			
 			<div class="col-lg-12">

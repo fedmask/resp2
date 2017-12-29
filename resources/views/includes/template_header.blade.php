@@ -4,6 +4,7 @@
 <link href="/css/typeahead.css" rel="stylesheet">
 
 <!-- BEGIN BODY-->
+<script src="{{ asset('js/jquery-2.0.3.min.js') }}"></script>
 <body class="padTop53 ">
 	<audio id="notification_audio">
 		<source src="/audio/incoming_mex.mp3" type="audio/mpeg"></source>
