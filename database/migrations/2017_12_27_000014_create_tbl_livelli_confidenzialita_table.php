@@ -23,11 +23,10 @@ class CreateTblLivelliConfidenzialitaTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->smallInteger('id_livello_confidenzialita');
-            $table->string('confidenzialita_codice', 45);
+            $table->smallInteger('id_livello_confidenzialita')->unsigend();
             $table->string('confidenzialita_descrizione', 45);
 			
-			$table->index(["id_livello_confidenzialita"], 'fk_tbl_diagnosi_tbl_livelli_confidenzialita_id_idx');
+			 $table->index(["id_livello_confidenzialita"], 'fk_tbl_livelli_confidenzialita_tbl_diagnosi_idx');
 
         });
     }

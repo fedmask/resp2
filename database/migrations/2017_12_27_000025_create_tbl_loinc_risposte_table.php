@@ -23,11 +23,12 @@ class CreateTblLoincRisposteTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->string('codice_risposta',10);
+            $table->string('id_codice', 10);
+            $table->string('codice_risposta', 100);
             $table->string('codice_loinc', 100);
 			
-			$table->index(["codice_risposta"], 'fkt_bl_loinc_risposte_tbl_esami_obiettivi_1_idx');
-
+			$table->index(["id_codice"], 'fk_tbl_loinc_risposte1_idx');
+			$table->index(["codice_risposta"], 'fk_tbl_loinc_risposte2_idx');
         });
     }
 

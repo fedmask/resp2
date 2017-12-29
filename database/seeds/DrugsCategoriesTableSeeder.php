@@ -12,7 +12,7 @@ class DrugsCategoriesTableSeeder extends Seeder
     public function run()
     {
     DB::table('tbl_farmaci_categorie')->insert([
-      ['categoria' => 'ACE inibitori, associazioni','id_categoria' => 'cf001'],
+      ['categoria_descrizione' => 'ACE inibitori, associazioni','id_categoria' => 'cf001'],
       ['categoria_descrizione' => 'ACE inibitori, semplici','id_categoria' => 'cf002'],
       ['categoria_descrizione' => 'Adrenergici per uso sistemico','id_categoria' => 'cf003'],
       ['categoria_descrizione' => 'Adrenergici, da inalare','id_categoria' => 'cf004'],
@@ -153,5 +153,6 @@ class DrugsCategoriesTableSeeder extends Seeder
       ['categoria_descrizione' => 'Vasodilatori periferici','id_categoria' => 'cf139'],
       ['categoria_descrizione' => 'Vitamina A e D, includendo associazioni dei due','id_categoria' => 'cf140'],
       ['categoria_descrizione' => 'Vitamina K e altri emostatici','id_categoria' => 'cf141'],
-    }
+	]);
+	}
 }
