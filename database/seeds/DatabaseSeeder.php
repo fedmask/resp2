@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
 		$this->call(LoincTableSeeder::class);
 		$this->call(LoincSlabValuesTableSeeder::class);
 		$this->call(ContactsTypesTableSeeder::class);
-		$this->call(ConfidentialityLevelTableSeeder::class);
 		//Fine tabelle dati statici
         $this->call(TownTableSeeder::class);
         //$this->call(UsersTableSeeder::class);
