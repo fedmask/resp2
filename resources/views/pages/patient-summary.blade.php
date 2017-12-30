@@ -286,24 +286,38 @@
 						<input type="hidden" name="delcontemerg_hidden" id="delcontemerg_hidden" class="form-control col-lg-6" value="0"/>
 						<div class="panel-body">
 							<div class="table-responsive">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>Nome</th>
-											<th>Telefono</th>
-											@if($current_user->getRole() === 'Paziente')
-											<th>
-												<button data-toggle="modal" data-target="#addpatcontemergmodal" id="addContact" type="button" class=" btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right"><i class="icon-plus"></i></button>
-											</th>
-											@endif
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<!-- TODO: Ricreare sezione conttatti emergenza -->
-										</tr>
-									</tbody>
-								</table>
+								<form action="/pazienti/removeContact"" method="POST">
+									{{ csrf_field() }}
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Nome</th>
+												<th>Telefono</th>
+												@if($current_user->getRole() === 'Paziente')
+												<th>
+													<button data-toggle="modal" data-target="#addpatcontemergmodal" id="addContact" type="button" class=" btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right"><i class="icon-plus"></i></button>
+												</th>
+												@endif
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												@foreach ($contacts as $contact)
+												@if($contact->id_contatto_tipologia == 10)
+		                            			<tr>
+			                            			<td>{{ $contact->contatto_nominativo }}</td>
+			                            			<td>{{ $contact->contatto_telefono }}</td>
+			                            			<td>
+			                            				<input type="hidden" name="id_contact" id="id_contact" value="{{$contact->id_contatto}}">
+														<button type="submit" class="removeContact buttonDelete btn btn-default btn-danger" ><i class="icon-remove"></i></button>
+													</td>
+		                            			<tr>
+	                            				@endif
+											@endforeach
+											</tr>
+										</tbody>
+									</table>
+								</form>
 							</div>
 						</div>
 						<!--<div class="panel-footer" style="text-align:right">
@@ -327,6 +341,8 @@
 						<input type="hidden" name="delcontemerg_hidden" id="delcontemerg_hidden" class="form-control col-lg-6" value="0"/>
 						<div class="panel-body">
 							<div class="table-responsive">
+								<form action="/pazienti/removeContact"" method="POST">
+									{{ csrf_field() }}
 								<table class="table">
 									<thead>
 										<tr>
@@ -342,11 +358,22 @@
 										</tr>
 									</thead>
 									<tbody>
+										@foreach ($contacts as $contact)
+										@if($contact->id_contatto_tipologia != 10)
 										<tr>
-										<!-- TODO: Rifare sezione e vedere dal vecchio template  -->
-										</tr>
+	                            			<td>{{ $contact->contatto_nominativo }}</td>
+	                            			<td>{{ $contact->contatto_telefono }}</td>
+	                            			<td>{{ $contact->contacts_type->tipologia_nome }}</td>
+	                            			<td>
+	                            				<input type="hidden" name="id_contact" id="id_contact" value="{{$contact->id_contatto}}">
+												<button type="submit" class="removeContact buttonDelete btn btn-default btn-danger" ><i class="icon-remove"></i></button>
+											</td>
+                            			<tr>
+										@endif
+										@endforeach
 									</tbody>
 								</table>
+								</form>
 							</div>
 						</div>
 						<!--<div class="panel-footer" style="text-align:right">
@@ -356,7 +383,7 @@
 				</div>
 			</div>
 			<!--div row contatti-->
-			<!-- Modale Contatti TODO: ANCORA DA MODIFICARE -->
+			<!-- Modale Contatti -->
 			<div class="col-lg-12">
 				<div class="modal fade" id="addpatcontmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
@@ -365,7 +392,8 @@
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="chiudiaddpatcontemerg">&times;</button>
 									<h4 class="modal-title" id="H2">Contatti</h4>
 								</div>
-								<form class="form-horizontal"  id="addpatcont">
+								<form class="form-horizontal" action="/pazienti/addContact" method="POST">
+									{{ csrf_field() }}
 								<div class="modal-body">
 									<div class="form-group">
 										<label for="modcontemerg_add" class="control-label col-lg-4">Nome contatto:</label>
@@ -383,16 +411,16 @@
 										<label for="modtipcontemerg_add" class="control-label col-lg-4">Tipologia Contatto:</label>
 										<div class="col-lg-8">
                                         <select class="form-control col-lg-6" name="modtipcontemerg_add2" id="modtipcontemerg_add2">
-                                            <option value="family">Familiare</option>
-                                            <option value="guardian">Tutore</option>
-                                            <option value="friend">Amico</option>
-                                            <option value="partner">Compagno</option>
-                                            <option value="work">Lavorativo</option>
-                                            <option value="caregiver">Badante</option>
-                                            <option value="agent">Delegato</option>
-                                            <option value="guarantor">Garante</option>
-                                            <option value="owner">Padrone (nel caso di animale domestico)</option>
-                                            <option value="parent">Genitore</option>
+                                            <option value="Familiare">Familiare</option>
+                                            <option value="Tutore">Tutore</option>
+                                            <option value="Amico">Amico</option>
+                                            <option value="Compagno">Compagno</option>
+                                            <option value="Lavorativo">Lavorativo</option>
+                                            <option value="Badante">Badante</option>
+                                            <option value="Delegato">Delegato</option>
+                                            <option value="Garante">Garante</option>
+                                            <option value="Padrone">Padrone (nel caso di animale domestico)</option>
+                                            <option value="Genitore">Genitore</option>
                                         </select>
 										</div>
 									</div>
@@ -511,12 +539,45 @@
 			<!--col-lg-12--->
 			<!--FINE Modal ANAGRAFICA ESTESA-->
 
-
-			<!-- MODALE MODIFICA CONTATTI EMERGENZA -->
-			
-			<!-- TODO: Riaggiungere modifica Contatti Emergenza -->
-			
-			<!--FINE CONTATTI DI EMERGENZA-->
+			<!-- MODALE ADD CONTATTI EMERGENZA -->                                                     
+			<div class="col-lg-12">
+				<div class="modal fade" id="addpatcontemergmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<form class="form-horizontal" action="/pazienti/addEmergencyContact" method="POST">
+					{{ csrf_field() }}
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="chiudiaddpatcontemerg">&times;</button>
+									<h4 class="modal-title" id="H2">Contatti di emergenza</h4>
+								</div>
+								<form class="form-horizontal"  id="addpatcontemerg">
+								<div class="modal-body">
+									<div class="form-group">
+										<label for="modcontemerg_add" class="control-label col-lg-4">Nome contatto:</label>
+										<div class="col-lg-8">
+										<input type="text" name="modcontemerg_add" id="modcontemerg_add" class="form-control col-lg-6" value=""/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="modtelcontemerg_add" class="control-label col-lg-4">Telefono:</label>
+										<div class="col-lg-8">
+										<input type="text" name="modtelcontemerg_add" id="modtelcontemerg_add" class="form-control col-lg-6" value=""/>
+										</div>
+										<input name="modtipcontemerg_add" id="modtipcontemerg_add" type="hidden" value="10" />
+									</div>
+									<hr>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+									<button type="submit" class="btn btn-primary">Salva</button> 
+								</div>
+								 </form>
+							</div>
+						</div>
+					</form>
+					</div>
+				</div> 
+                <!--FINE ADD CONTATTI DI EMERGENZA-->
 
 
 
@@ -527,11 +588,6 @@
 			
 			<!--FINE ADD CONTATTI DI EMERGENZA-->
 
-			<!--MODALE CONTATTI-->
-			
-			<!-- TODO: Riaggiungere MODALE CONTATTI -->
-			
-			<!--FINE MODALE CONTATTI-->
 		</div>
 	</div>
 </div> <!--content-->

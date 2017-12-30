@@ -64,6 +64,22 @@ Route::post('/pazienti/updateOrgansDonor', 'PazienteController@updateOrgansDonor
 Route::post('/pazienti/updateAnagraphic', 'PazienteController@updateAnagraphic');
 
 /**
+* Route per aggiungere un numero telefonico di un conoscente/familiare ad un paziente
+*/
+Route::post('/pazienti/addContact', 'PazienteController@addContact');
+
+/**
+* Route per aggiungere un numero telefonico di emergenza di un conoscente/familiare ad un paziente
+*/
+Route::post('/pazienti/addEmergencyContact', 'PazienteController@addEmergencyContact');
+
+
+/**
+* Route per rimuovere un numero telefonico di un conoscente/familiare ad un paziente
+*/
+Route::post('/pazienti/removeContact', 'PazienteController@removeContact');
+
+/**
 * Route per la gestione dell'invio di mail di suggerimento
 */
 Route::get('/send-suggestion', 'MailController@sendSuggestion');

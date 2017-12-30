@@ -149,18 +149,8 @@
 
 								<label for="maritalStatus" class="control-label col-lg-3">Stato Matrimoniale </label>
 								<div class="col-lg-3">
-									<select class="form-control" name="maritalStatus" id="maritalStatus">
-										<option value="0">Sposato</option>
-										<option value="1">Annullato</option>
-										<option value="2">Divorziato</option>
-										<option value="3">Interlocutorio</option>
-										<option value="4">Legalmente Separato</option>
-										<option value="5">Poligamo</option>
-										<option value="6">Mai Sposato</option>
-										<option value="7">Convivente</option>
-										<option value="8">Vedovo</option>
-									</select>
-									@if ($errors->has('maritalStatus'))
+									{{Form::select('maritalStatus', ['0' => 'Sposato', '1' => 'Annullato', '2' => 'Divorziato', '3' => 'Interlocutorio', '4' => 'Legalmente Separato', '5' => 'Poligamo', '6' => 'Mai Sposato', '7' => 'Convivente', '' => 'Vedovo',], '0', ['class' => 'form-control'])}}
+									@if ($errors->has('maritalStatus')) 
     									<div class="alert alert-danger" role="alert">{{ $errors->first('maritalStatus') }}</div>
 									@endif
 								</div>

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Pazienti;
-use App\Models\User;
-use App\Models\Recapiti;
-use App\Models\Comuni;
+use App\Models\Patient\Pazienti;
+use App\Models\CurrentUser\User;
+use App\Models\CurrentUser\Recapiti;
+use App\Models\Domicile\Comuni;
+use App\Models\Patient\Taccuino;
+use App\Models\Patient\PazientiContatti;
 use Validator;
 use Redirect;
 use Auth;
@@ -94,6 +96,105 @@ class PazienteController extends Controller
 	}
 
 	/**
+	* Aggiunge un nuovo contatto telefonico tra
+	* quelli associati al paziente.
+	*/
+	public function addContact(){
+		$validator = Validator::make(Input::all(), [
+			'modcontemerg_add2' => 'required|string|max:40',
+			'modtelcontemerg_add2' => 'required|numeric',
+			'modtipcontemerg_add2' => 'required',  
+		]);
+
+		if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
+
+        $contact = PazientiContatti::create([
+            'id_paziente' => Pazienti::where('id_utente', Auth::id())->first()->id_paziente,
+            'contatto_nominativo' => Input::get('modcontemerg_add2'),
+            'contatto_telefono' => Input::get('modtelcontemerg_add2'),
+            'id_contatto_tipologia' => $this->getContactType(Input::get('modtipcontemerg_add2')),
+        ]);
+
+        $contact->save();
+        return Redirect::back()->with('contact_added');
+	}
+
+	private function getContactType($type_contact_name){
+		switch ($type_contact_name) {
+			case 'Familiare':
+				return 0;
+				break;
+			case 'Tutore':
+				return 1;
+				break;
+			case 'Amico':
+				return 2;
+				break;
+			case 'Compagno':
+				return 3;
+				break;
+			case 'Lavorativo':
+				return 4;
+				break;
+			case 'Badante':
+				return 5;
+				break;
+			case 'Delegato':
+				return 6;
+				break;
+			case 'Garante':
+				return 7;
+				break;
+			case 'Padrone':
+				return 8;
+				break;
+			case 'Genitore':
+				return 9;
+				break;
+			default:
+				return 'Undifined';
+				break;
+		}
+	}
+
+	/**
+	* Aggiunge un nuovo contatto telefonico tra
+	* quelli associati al paziente.
+	*/
+	public function addEmergencyContact(){
+		$validator = Validator::make(Input::all(), [
+			'modcontemerg_add' => 'required|string|max:40',
+			'modtelcontemerg_add' => 'required|numeric',
+		]);
+
+		if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
+
+        $contact = PazientiContatti::create([
+            'id_paziente' => Pazienti::where('id_utente', Auth::id())->first()->id_paziente,
+            'contatto_nominativo' => Input::get('modcontemerg_add'),
+            'contatto_telefono' => Input::get('modtelcontemerg_add'),
+            'id_contatto_tipologia' => '10',
+        ]);
+
+        $contact->save();
+        return Redirect::back()->with('contact_added');
+	}
+
+	/**
+	* Aggiunge un nuovo contatto telefonico tra
+	* quelli associati al paziente.
+	*/
+	public function removeContact(){
+		$contact = PazientiContatti::find(Input::get('id_contact'));
+		$contact->delete();
+		return Redirect::back()->with('contact_deleted');
+	}
+
+	/**
     * Mostra la calcolatrice medica del paziente
     */
     public function showCalcolatriceMedica(){
@@ -104,13 +205,18 @@ class PazienteController extends Controller
     * Mostra la patient summary del paziente del paziente
     */
     public function showPatientSummary(){
-        return view('pages.patient-summary');
+    	$contacts = PazientiContatti::where('id_paziente', Auth::user()->patient()->first()->id_paziente)->get();
+        return view('pages.patient-summary')->with('contacts', $contacts);
     }
 
     /**
-    * Mostra la patient summary del paziente del paziente
+    * Mostra il taccuino di un paziente
     */
     public function showTaccuino(){
-        return view('pages.taccuino');
+    	$user = Auth::user();
+    	if($user->getRole() == "Paziente"){
+    		$records = Taccuino::where('id_paziente', $user->patient()->first()->id_paziente)->get();
+    	}
+        return view('pages.taccuino')->with('records', $records);
     }
 }
