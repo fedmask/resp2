@@ -4,13 +4,13 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTblContattiPazientiTable extends Migration
+class CreateTblPazientiContattiTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'tbl_contatti_pazienti';
+    public $set_schema_table = 'tbl_pazienti_contatti';
 
     /**
      * Run the migrations.
@@ -40,7 +40,7 @@ class CreateTblContattiPazientiTable extends Migration
                 ->onUpdate('no action');
 
             $table->foreign('id_contatto_tipologia', 'fk_tbl_contatti_pazienti_tbl_tipologie_contatti1_idx')
-                ->references('id_tipologia_centro_contatto')->on('tbl_tipologie_contatti')
+                ->references('id_tipologia_contatto')->on('tbl_tipologie_contatti')
                 ->onDelete('no action')
                 ->onUpdate('no action');
         });

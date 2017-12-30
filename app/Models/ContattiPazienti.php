@@ -25,7 +25,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class ContattiPazienti extends Eloquent
 {
-	protected $table = 'tbl_contatti_pazienti';
+	protected $table = 'tbl_pazienti_contatti';
 	protected $primaryKey = 'id_contatto';
 	public $timestamps = false;
 

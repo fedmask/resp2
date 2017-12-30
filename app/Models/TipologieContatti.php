@@ -22,7 +22,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class TipologieContatti extends Eloquent
 {
 	protected $table = 'tbl_tipologie_contatti';
-	protected $primaryKey = 'id_tipologia_centro_contatto';
+	protected $primaryKey = 'id_tipologia_contatto';
 	public $timestamps = false;
 
 	protected $fillable = [

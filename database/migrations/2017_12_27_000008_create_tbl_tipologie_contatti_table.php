@@ -23,10 +23,10 @@ class CreateTblTipologieContattiTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->smallInteger('id_tipologia_centro_contatto');
+            $table->smallInteger('id_tipologia_contatto');
             $table->string('tipologia_nome', 50);
 			
-			$table->index(["id_tipologia_centro_contatto"], 'fk_tbl_tipologie_contatti_tbl_contatti_pazienti1_idx');
+			$table->index(["id_tipologia_contatto"], 'fk_tbl_tipologie_contatti_tbl_contatti_pazienti1_idx');
 
         });
     }
