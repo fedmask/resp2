@@ -23,7 +23,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class ContattiPazienti extends Eloquent
+class PazientiContatti extends Eloquent
 {
 	protected $table = 'tbl_pazienti_contatti';
 	protected $primaryKey = 'id_contatto';
