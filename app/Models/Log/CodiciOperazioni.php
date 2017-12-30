@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Log;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -32,6 +32,6 @@ class CodiciOperazioni extends Eloquent
 
 	public function tbl_operazioni_logs()
 	{
-		return $this->hasMany(\App\Models\OperazioniLog::class, 'operazione_codice');
+		return $this->hasMany(\App\Models\Log\OperazioniLog::class, 'operazione_codice');
 	}
 }

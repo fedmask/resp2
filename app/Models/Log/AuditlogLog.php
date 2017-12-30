@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Log;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -53,7 +53,7 @@ class AuditlogLog extends Eloquent
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\User::class, 'id_visitato');
+		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_visitato');
 	}
 
 	public function tbl_effetti_collateralis()

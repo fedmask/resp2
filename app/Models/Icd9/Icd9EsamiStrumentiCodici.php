@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Icd9;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -32,6 +32,6 @@ class Icd9EsamiStrumentiCodici extends Eloquent
 
 	public function tbl_indaginis()
 	{
-		return $this->hasMany(\App\Models\Indagini::class, 'indagine_codice_icd');
+		return $this->hasMany(\App\Models\InvestigationCenter\Indagini::class, 'indagine_codice_icd');
 	}
 }

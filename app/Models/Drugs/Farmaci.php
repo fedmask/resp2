@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Drugs;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -35,11 +35,11 @@ class Farmaci extends Eloquent
 
 	public function tbl_farmaci_categorie()
 	{
-		return $this->belongsTo(\App\Models\FarmaciCategorie::class, 'id_categoria_farmaco');
+		return $this->belongsTo(\App\Models\Drugs\FarmaciCategorie::class, 'id_categoria_farmaco');
 	}
 
 	public function tbl_farmaci_vietatis()
 	{
-		return $this->hasMany(\App\Models\FarmaciVietati::class, 'id_farmaco');
+		return $this->hasMany(\App\Models\Drugs\FarmaciVietati::class, 'id_farmaco');
 	}
 }

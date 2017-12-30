@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\InvestigationCenter;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -52,26 +52,26 @@ class CentriIndagini extends Eloquent
 
 	public function tbl_centri_tipologie()
 	{
-		return $this->belongsTo(\App\Models\CentriTipologie::class, 'id_tipologia');
+		return $this->belongsTo(\App\Models\InvestigationCenter\CentriTipologie::class, 'id_tipologia');
 	}
 
 	public function tbl_comuni()
 	{
-		return $this->belongsTo(\App\Models\Comuni::class, 'id_comune');
+		return $this->belongsTo(\App\Models\Domicile\Comuni::class, 'id_comune');
 	}
 
 	public function tbl_cpp_persona()
 	{
-		return $this->belongsTo(\App\Models\CppPersona::class, 'id_ccp_persona');
+		return $this->belongsTo(\App\Models\CareProvider\CppPersona::class, 'id_ccp_persona');
 	}
 
 	public function tbl_centri_contattis()
 	{
-		return $this->hasMany(\App\Models\CentriContatti::class, 'id_centro');
+		return $this->hasMany(\App\Models\InvestigationCenter\CentriContatti::class, 'id_centro');
 	}
 
 	public function tbl_indaginis()
 	{
-		return $this->hasMany(\App\Models\Indagini::class, 'id_centro_indagine');
+		return $this->hasMany(\App\Models\InvestigationCenter\Indagini::class, 'id_centro_indagine');
 	}
 }

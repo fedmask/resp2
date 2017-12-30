@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\CareProvider;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -42,11 +42,11 @@ class CppDiagnosi extends Eloquent
 
 	public function tbl_care_provider()
 	{
-		return $this->belongsTo(\App\Models\CareProvider::class, 'id_cpp');
+		return $this->belongsTo(\App\Models\CareProvider\CareProvider::class, 'id_cpp');
 	}
 
 	public function tbl_diagnosi()
 	{
-		return $this->belongsTo(\App\Models\Diagnosi::class, 'id_diagnosi');
+		return $this->belongsTo(\App\Models\Diagnosis\Diagnosi::class, 'id_diagnosi');
 	}
 }

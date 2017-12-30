@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Patient;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -40,6 +40,6 @@ class FamiliaritaDecessi extends Eloquent
 
 	public function tbl_pazienti_familiaritum()
 	{
-		return $this->belongsTo(\App\Models\PazientiFamiliarita::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Patient\PazientiFamiliarita::class, 'id_paziente');
 	}
 }

@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Diagnosis;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -64,21 +64,21 @@ class Diagnosi extends Eloquent
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Patient\Pazienti::class, 'id_paziente');
 	}
 
 	public function tbl_cpp_diagnosi()
 	{
-		return $this->hasOne(\App\Models\CppDiagnosi::class, 'id_diagnosi');
+		return $this->hasOne(\App\Models\CareProvider\CppDiagnosi::class, 'id_diagnosi');
 	}
 
 	public function tbl_diagnosi_eliminates()
 	{
-		return $this->hasMany(\App\Models\DiagnosiEliminate::class, 'id_diagnosi');
+		return $this->hasMany(\App\Models\Diagnosis\DiagnosiEliminate::class, 'id_diagnosi');
 	}
 
 	public function tbl_indaginis()
 	{
-		return $this->hasMany(\App\Models\Indagini::class, 'id_diagnosi');
+		return $this->hasMany(\App\Models\InvestigationCenter\Indagini::class, 'id_diagnosi');
 	}
 }

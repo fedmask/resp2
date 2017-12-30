@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Loinc;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -33,7 +33,7 @@ class LoincRisposte extends Eloquent
 
 	public function tbl_loinc()
 	{
-		return $this->belongsTo(\App\Models\Loinc::class, 'codice_risposta');
+		return $this->belongsTo(\App\Models\Loinc\Loinc::class, 'codice_risposta');
 	}
 
 	public function tbl_esami_obiettivis()

@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\CareProvider;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -36,6 +36,6 @@ class CppTipologie extends Eloquent
 
 	public function tbl_care_providers()
 	{
-		return $this->hasMany(\App\Models\TblCareProvider::class, 'id_cpp_tipologia');
+		return $this->hasMany(\App\Models\CareProvider\CareProvider::class, 'id_cpp_tipologia');
 	}
 }

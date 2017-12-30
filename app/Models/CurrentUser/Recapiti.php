@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\CurrentUser;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -49,11 +49,11 @@ class Recapiti extends Eloquent
 
 	public function town()
 	{
-		return $this->belongsTo(\App\Models\Comuni::class, 'id_comune_nascita');
+		return $this->belongsTo(\App\Models\Domicile\Comuni::class, 'id_comune_nascita');
 	}
 
 	public function utente()
 	{
-		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_utente');
 	}
 }

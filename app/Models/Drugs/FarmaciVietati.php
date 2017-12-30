@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Drugs;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -44,7 +44,7 @@ class FarmaciVietati extends Eloquent
 
 	public function tbl_farmaci()
 	{
-		return $this->belongsTo(\App\Models\Farmaci::class, 'id_farmaco');
+		return $this->belongsTo(\App\Models\Drugs\Farmaci::class, 'id_farmaco');
 	}
 
 	public function tbl_livelli_confidenzialitum()
@@ -54,6 +54,6 @@ class FarmaciVietati extends Eloquent
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Patient\Pazienti::class, 'id_paziente');
 	}
 }

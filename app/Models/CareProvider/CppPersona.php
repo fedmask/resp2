@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\CareProvider;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -55,16 +55,16 @@ class CppPersona extends Eloquent
 
 	public function tbl_comuni()
 	{
-		return $this->belongsTo(\App\Models\Comuni::class, 'id_comune');
+		return $this->belongsTo(\App\Models\Domicile\Comuni::class, 'id_comune');
 	}
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\Utenti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_utente');
 	}
 
 	public function tbl_centri_indaginis()
 	{
-		return $this->hasMany(\App\Models\CentriIndagini::class, 'id_ccp_persona');
+		return $this->hasMany(\App\Models\InvestigationCenter\CentriIndagini::class, 'id_ccp_persona');
 	}
 }

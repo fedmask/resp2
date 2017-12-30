@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Log;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -44,11 +44,11 @@ class OperazioniLog extends Eloquent
 
 	public function tbl_auditlog_log()
 	{
-		return $this->belongsTo(\App\Models\TblAuditlogLog::class, 'id_audit_log');
+		return $this->belongsTo(\App\Models\Log\AuditlogLog::class, 'id_audit_log');
 	}
 
 	public function tbl_codici_operazioni()
 	{
-		return $this->belongsTo(\App\Models\CodiciOperazioni::class, 'operazione_codice');
+		return $this->belongsTo(\App\Models\Log\CodiciOperazioni::class, 'operazione_codice');
 	}
 }

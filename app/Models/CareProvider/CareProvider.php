@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\CareProvider;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -63,31 +63,31 @@ class CareProvider extends Eloquent
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\User::class, 'id_utente');
+		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_utente');
 	}
 
 	public function tbl_cpp_tipologie()
 	{
-		return $this->belongsTo(\App\Models\CppTipologie::class, 'id_cpp_tipologia');
+		return $this->belongsTo(\App\Models\CareProvider\CppTipologie::class, 'id_cpp_tipologia');
 	}
 
 	public function tbl_cpp_diagnosis()
 	{
-		return $this->hasMany(\App\Models\CppDiagnosi::class, 'id_cpp');
+		return $this->hasMany(\App\Models\CareProvider\CppDiagnosi::class, 'id_cpp');
 	}
 
 	public function tbl_cpp_pazientes()
 	{
-		return $this->hasMany(\App\Models\CppPaziente::class, 'id_cpp');
+		return $this->hasMany(\App\Models\CareProvider\CppPaziente::class, 'id_cpp');
 	}
 
 	public function tbl_pazienti_visites()
 	{
-		return $this->hasMany(\App\Models\PazientiVisite::class, 'id_cpp');
+		return $this->hasMany(\App\Models\Patient\PazientiVisite::class, 'id_cpp');
 	}
 
 	public function tbl_vaccinaziones()
 	{
-		return $this->hasMany(\App\Models\Vaccinazione::class, 'id_cpp');
+		return $this->hasMany(\App\Models\Vaccine\Vaccinazione::class, 'id_cpp');
 	}
 }

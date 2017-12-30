@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Domicile;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -38,6 +38,6 @@ class Nazioni extends Eloquent
 
 	public function tbl_comunis()
 	{
-		return $this->hasMany(\App\Models\Comuni::class, 'id_comune_nazione');
+		return $this->hasMany(\App\Models\Domicile\Comuni::class, 'id_comune_nazione');
 	}
 }

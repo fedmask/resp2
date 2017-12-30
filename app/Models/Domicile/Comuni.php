@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Domicile;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -44,21 +44,21 @@ class Comuni extends Eloquent
 
 	public function tbl_nazioni()
 	{
-		return $this->belongsTo(\App\Models\Nazioni::class, 'id_comune_nazione');
+		return $this->belongsTo(\App\Models\Domicile\Nazioni::class, 'id_comune_nazione');
 	}
 
 	public function tbl_centri_indaginis()
 	{
-		return $this->hasMany(\App\Models\CentriIndagini::class, 'id_comune');
+		return $this->hasMany(\App\Models\InvestigationCenter\CentriIndagini::class, 'id_comune');
 	}
 
 	public function tbl_cpp_personas()
 	{
-		return $this->hasMany(\App\Models\CppPersona::class, 'id_comune');
+		return $this->hasMany(\App\Models\CareProvider\CppPersona::class, 'id_comune');
 	}
 
 	public function tbl_recapitis()
 	{
-		return $this->hasMany(\App\Models\Recapiti::class, 'id_comune_nascita');
+		return $this->hasMany(\App\Models\CurrentUser\Recapiti::class, 'id_comune_nascita');
 	}
 }

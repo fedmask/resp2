@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Patient;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -52,16 +52,16 @@ class PazientiFamiliarita extends Eloquent
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Patient\Pazienti::class, 'id_paziente');
 	}
 
 	public function tbl_utenti()
 	{
-		return $this->belongsTo(\App\Models\Utenti::class, 'id_parente');
+		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_parente');
 	}
 
 	public function tbl_familiarita_decessi()
 	{
-		return $this->hasOne(\App\Models\FamiliaritaDecessi::class, 'id_paziente');
+		return $this->hasOne(\App\Models\Patient\FamiliaritaDecessi::class, 'id_paziente');
 	}
 }

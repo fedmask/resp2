@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\CurrentUser;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
-use App\Models\Pazienti;
+use App\Models\Patient\Pazienti;
 use App\Models\UtentiTipologie;
-use App\Models\Comuni;
-use App\Models\StatiMatrimoniali;
+use App\Models\Domicile\Comuni;
+use App\Models\Patient\StatiMatrimoniali;
 use DB;
 use Auth;
 
@@ -299,7 +299,7 @@ class User extends Authenticatable
     */
 	public function auditlog_logs()
 	{
-		return $this->hasMany(\App\Models\TblAuditlogLog::class, 'id_visitato');
+		return $this->hasMany(\App\Models\Log\AuditlogLog::class, 'id_visitato');
 	}
 
 	/**
@@ -308,7 +308,7 @@ class User extends Authenticatable
     */
 	public function care_providers()
 	{
-		return $this->hasMany(\App\Models\TblCareProvider::class, 'id_utente');
+		return $this->hasMany(\App\Models\CareProvider\CareProvider::class, 'id_utente');
 	}
 
 	/**
@@ -317,7 +317,7 @@ class User extends Authenticatable
     */
 	public function cpp_persona()
 	{
-		return $this->hasMany(\App\Models\CppPersona::class, 'id_utente');
+		return $this->hasMany(\App\Models\CareProvider\CppPersona::class, 'id_utente');
 	}
 
 	/**
@@ -326,7 +326,7 @@ class User extends Authenticatable
     */
 	public function patient()
 	{
-		return $this->hasMany(\App\Models\Pazienti::class, 'id_utente');
+		return $this->hasMany(\App\Models\Patient\Pazienti::class, 'id_utente');
 	}
 
 	/**
@@ -335,7 +335,7 @@ class User extends Authenticatable
     */
 	public function pazienti_familiarita()
 	{
-		return $this->hasMany(\App\Models\PazientiFamiliarita::class, 'id_parente');
+		return $this->hasMany(\App\Models\Patient\PazientiFamiliarita::class, 'id_parente');
 	}
 
 	/**
@@ -344,7 +344,7 @@ class User extends Authenticatable
     */
 	public function contacts()
 	{
-		return $this->hasMany(\App\Models\Recapiti::class, 'id_utente');
+		return $this->hasMany(\App\Models\CurrentUser\Recapiti::class, 'id_utente');
 	}
     
 }

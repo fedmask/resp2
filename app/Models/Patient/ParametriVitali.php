@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Patient;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -59,11 +59,11 @@ class ParametriVitali extends Eloquent
 
 	public function tbl_auditlog_log()
 	{
-		return $this->belongsTo(\App\Models\TblAuditlogLog::class, 'id_audit_log');
+		return $this->belongsTo(\App\Models\Log\AuditlogLog::class, 'id_audit_log');
 	}
 
 	public function tbl_pazienti()
 	{
-		return $this->belongsTo(\App\Models\Pazienti::class, 'id_paziente');
+		return $this->belongsTo(\App\Models\Patient\Pazienti::class, 'id_paziente');
 	}
 }

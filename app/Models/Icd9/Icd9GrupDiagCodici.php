@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Icd9;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -33,11 +33,11 @@ class Icd9GrupDiagCodici extends Eloquent
 
 	public function tbl_icd9_bloc_diag_codicis()
 	{
-		return $this->hasMany(\App\Models\Icd9BlocDiagCodici::class, 'codice_gruppo');
+		return $this->hasMany(\App\Models\Icd9\Icd9BlocDiagCodici::class, 'codice_gruppo');
 	}
 
 	public function tbl_icd9_cat_diag_codicis()
 	{
-		return $this->hasMany(\App\Models\Icd9CatDiagCodici::class, 'codice_blocco');
+		return $this->hasMany(\App\Models\Icd9\Icd9CatDiagCodici::class, 'codice_blocco');
 	}
 }

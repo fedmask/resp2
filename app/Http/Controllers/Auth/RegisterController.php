@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use App\Models\Recapiti;
-use App\Models\Pazienti;
-use App\Models\Comuni;
+use App\Models\CurrentUser\User;
+use App\Models\CurrentUser\Recapiti;
+use App\Models\Patient\Pazienti;
+use App\Models\Domicile\Comuni;
 use Auth;
 use Redirect;
 use Input;

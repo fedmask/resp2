@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\InvestigationCenter;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -31,6 +31,6 @@ class ModalitaContatti extends Eloquent
 
 	public function tbl_centri_contattis()
 	{
-		return $this->hasMany(\App\Models\TblCentriContatti::class, 'id_modalita_contatto');
+		return $this->hasMany(\App\Models\InvestigationCenter\CentriContatti::class, 'id_modalita_contatto');
 	}
 }

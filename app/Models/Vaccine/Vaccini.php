@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Vaccine;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -41,6 +41,6 @@ class TblVaccini extends Eloquent
 
 	public function tbl_vaccinaziones()
 	{
-		return $this->hasMany(\App\Models\Vaccinazione::class, 'id_vaccino');
+		return $this->hasMany(\App\Models\Vaccine\Vaccinazione::class, 'id_vaccino');
 	}
 }

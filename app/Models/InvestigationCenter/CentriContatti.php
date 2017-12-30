@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\InvestigationCenter;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -43,11 +43,11 @@ class CentriContatti extends Eloquent
 
 	public function tbl_centri_indagini()
 	{
-		return $this->belongsTo(\App\Models\CentriIndagini::class, 'id_centro');
+		return $this->belongsTo(\App\Models\InvestigationCenter\CentriIndagini::class, 'id_centro');
 	}
 
 	public function tbl_modalita_contatti()
 	{
-		return $this->belongsTo(\App\Models\ModalitaContatti::class, 'id_modalita_contatto');
+		return $this->belongsTo(\App\Models\InvestigationCenter\ModalitaContatti::class, 'id_modalita_contatto');
 	}
 }

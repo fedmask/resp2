@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Drugs;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -32,6 +32,6 @@ class FarmaciCategorie extends Eloquent
 
 	public function tbl_farmacis()
 	{
-		return $this->hasMany(\App\Models\Farmaci::class, 'id_categoria_farmaco');
+		return $this->hasMany(\App\Models\Drugs\Farmaci::class, 'id_categoria_farmaco');
 	}
 }

@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Diagnosis;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -39,13 +39,13 @@ class DiagnosiEliminate extends Eloquent
 		'id_diagnosi'
 	];
 
-	public function tbl_diagnosi()
+	public function diagnosi()
 	{
-		return $this->belongsTo(\App\Models\Diagnosi::class, 'id_diagnosi');
+		return $this->belongsTo(\App\ModelsDiagnosis\\Diagnosi::class, 'id_diagnosi');
 	}
 
-	public function tbl_pazienti()
+	public function pazienti()
 	{
-		return $this->belongsTo(\App\Models\Pazienti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\Patient\Pazienti::class, 'id_utente');
 	}
 }

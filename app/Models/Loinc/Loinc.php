@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\Loinc;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -46,16 +46,16 @@ class Loinc extends Eloquent
 
 	public function tbl_indaginis()
 	{
-		return $this->hasMany(\App\Models\Indagini::class, 'indagine_codice_loinc');
+		return $this->hasMany(\App\Models\InvestigationCenter\Indagini::class, 'indagine_codice_loinc');
 	}
 
 	public function tbl_loinc_risposte()
 	{
-		return $this->hasOne(\App\Models\LoincRisposte::class, 'codice_risposta');
+		return $this->hasOne(\App\Models\Loinc\LoincRisposte::class, 'codice_risposta');
 	}
 
 	public function tbl_loinc_valoris()
 	{
-		return $this->hasMany(\App\Models\LoincValori::class, 'id_codice');
+		return $this->hasMany(\App\Models\Loinc\LoincValori::class, 'id_codice');
 	}
 }

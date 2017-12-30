@@ -5,7 +5,7 @@
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\InvestigationCenter;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -31,6 +31,6 @@ class CentriTipologie extends Eloquent
 
 	public function tbl_centri_indaginis()
 	{
-		return $this->hasMany(\App\Models\CentriIndagini::class, 'id_tipologia');
+		return $this->hasMany(\App\Models\InvestigationCenter\CentriIndagini::class, 'id_tipologia');
 	}
 }
