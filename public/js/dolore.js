@@ -68,7 +68,6 @@ function prepareCanvas(fb){
 		ctxback.drawImage(outlineImageBack, 0, 0, w, h);
 		
 	}else{
-		
 		canvas = document.getElementById('canvas_dolore'+fb);
 		ctx = canvas.getContext("2d");
 		ctx.fillStyle="#00ff00";
@@ -241,9 +240,9 @@ $('.showPain').click(function(){
 		
 		
 });
-
 //save all data in the db
 function save_pain() {
+	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 		//document.getElementById("canvasimg").style.border = "2px solid";
 		var dataURLFront = canvas.toDataURL('image/png');
 		
@@ -253,20 +252,44 @@ function save_pain() {
 		if($('#save_pain_textarea').val() == '')
 			$('#save_pain_textarea').val('Nessun commento.');
 		
-		$.post("formscripts/addTaccuino.php", 
+		$.ajax({
+        url: "/pazienti/taccuino/addReporting",
+        method: "POST",
+        headers: {
+      		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		},
+        data: {_token: CSRF_TOKEN, description: "$('#save_pain_textarea').val()"},
+        dataType: "json",
+        success: function(response){
+            $("#preview").html(
+                $("<img>").attr("src", response.filename)
+            );
+        }
+    });
+		
+		/*
+		$.post("/pazienti/taccuino/addReporting", 
 			{
+				_token: CSRF_TOKEN,
 				description: $('#save_pain_textarea').val(),
-				datanota: $('#datanota').val(),				   
+				datanota: $('#datanota').val(),		
+				testo: "ciao",		   
 				imgfront: dataURLFront,
 				imgback: dataURLBack
 			},
 			function(data,status){
-				//alert(data + status);
-				$('#canvasModal').modal('hide');
-				location.reload();
+				send();
 			}
-		);
-		
+		).send(); */		
+}
+
+function getFront(){
+	prepareCanvas("");
+	return canvas.toDataURL('image/png');
+}
+function getBack(){
+	prepareCanvas("_back");
+	return canvasback.toDataURL('image/png');
 }
 
 //delete data from the db

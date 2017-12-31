@@ -80,6 +80,16 @@ Route::post('/pazienti/addEmergencyContact', 'PazienteController@addEmergencyCon
 Route::post('/pazienti/removeContact', 'PazienteController@removeContact');
 
 /**
+* Route per l'inserimento di una nuova segnalazione all'interno del taccuino
+*/
+Route::post('/pazienti/taccuino/addReporting', 'TaccuinoController@addReporting');
+
+/**
+* Route per la rimozione di una segnalazione all'interno del taccuino
+*/
+Route::post('/pazienti/taccuino/removeReporting', 'TaccuinoController@removeReporting');
+
+/**
 * Route per la gestione dell'invio di mail di suggerimento
 */
 Route::get('/send-suggestion', 'MailController@sendSuggestion');

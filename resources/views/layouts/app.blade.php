@@ -15,6 +15,7 @@
 	<!-- Carica il contenuto delle sezioni principali -->
 	@yield('content')
 	
+	<!-- Include la sidebar destra -->
 	@include('includes.template_sidebar')
 	
 	<!-- Include il template del footer -->
