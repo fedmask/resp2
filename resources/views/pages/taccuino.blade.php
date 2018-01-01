@@ -81,40 +81,7 @@
                             </div>
                         {{ Form::close() }}
 
-                        <script>
-                        	getFront();
-                        	getBack();
-                        	$( document ).ready(function() {
-                        		$('input[name=front]').val(getFront());
-                        		$('input[name=back]').val(getBack());
-                        		$("#report").on("submit", function(e){
-                        		
-							   $.ajaxSetup({
-					                headers: {
-					                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					                }
-					            });
-
-							   $.ajax({
-					                url: '/pazienti/taccuino/addReporting',
-					                data: {description: "prova"},
-					                method: 'POST',
-					                datatype: 'JSON',					                
-					                success: function (response) {
-					                    if (response.status === true) {
-					                    	alert($('input[name=front]').val());
-					                        console.log(response.message);
-					                        $('#myModalCallback').modal('toggle');
-					                    } else {
-					                        alert($('#front').val());
-					                    }
-					                },
-					                error: function (response) {
-					                    $('#errormessage').html(response.message);
-					                }
-							 });
-                        	});});
-                        </script>
+                        
                         <!--fine modal canvas-->
 
                             <div class="row">
@@ -164,8 +131,11 @@
 																			</button>
 																			<input type="hidden" name="id_taccuino" id="id_contact" value="{{$record->id_taccuino}}">
 																		
-																		<input id="painFront_{{$record->id_taccuino}}" type="hidden" value="'.$this->get_var('pain_front_'.$this->get_var('pains_id')[$i]).'"></input>
-																		<input id="painBack_{{$record->id_taccuino}}" type="hidden" value="'.$this->get_var('pain_back_'.$this->get_var('pains_id')[$i]).'"></input>
+																		<input id="painFront_{{$record->id_taccuino}}" type="hidden" value="{{$record->taccuino_report_anteriore }}"></input>
+																		
+																		<img id="canvas_dolore" class="M" src="{{$record->taccuino_report_anteriore }}"></img>
+																		<input id="painBack_{{$record->id_taccuino}}" type="hidden" value="{{$record->taccuino_report_posteriore }}"></input>
+																		
 																	</td></tr></tbody></table>
 																</form>
 																</td>
@@ -187,5 +157,48 @@
 		</div>
 	</div>
 </div>
+
+						<script>
+                        	getFront();
+                        	getBack();
+                        	$( document ).ready(function() {
+                        		$('.showPain').click(function(){
+                        			var idShow = $(this).attr('id').split('_')[1];
+                        			document.getElementById("canvasimg_back").src = $('#painBack_'+1).val();
+									document.getElementById("canvasimg").src = $('#painFront_'+1).val();
+                        		});
+
+                        		$('input[name=front]').val(getFront());
+                        		$('input[name=back]').val(getBack());
+                        		$("#report").on("submit", function(e){
+                        		   $('input[name=front]').val(getFront());
+                        		   $('input[name=back]').val(getBack());
+								   $.ajaxSetup({
+						                headers: {
+						                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						                }
+						            });
+
+								   $.ajax({
+						                url: '/pazienti/taccuino/addReporting',
+						                data: {description: "prova"},
+						                method: 'POST',
+						                datatype: 'JSON',					                
+						                success: function (response) {
+						                    if (response.status === true) {
+						                    	alert($('input[name=front]').val());
+						                        console.log(response.message);
+						                        $('#myModalCallback').modal('toggle');
+						                    } else {
+						                        alert($('#front').val());
+						                    }
+						                },
+						                error: function (response) {
+						                    $('#errormessage').html(response.message);
+						                }
+								 	});
+                        		});
+                        	});
+                        </script>
 <!--END PAGE CONTENT -->
 @endsection

@@ -33,8 +33,6 @@ class Taccuino extends Eloquent
 	protected $casts = [
 		'id_taccuino' => 'int',
 		'id_paziente' => 'int',
-		'taccuino_report_anteriore' => 'boolean',
-		'taccuino_report_posteriore' => 'boolean'
 	];
 
 	protected $dates = [

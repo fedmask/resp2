@@ -235,7 +235,6 @@ $('.showPain').click(function(){
 		//document.getElementById("canvasimg").style.border = "2px solid";
 		document.getElementById("canvasimg_back").src = $('#painBack_'+idShow).val();
 		document.getElementById("canvasimg").src = $('#painFront_'+idShow).val();
-		
 		//document.getElementById("canvasimg_back").style.border = "2px solid";
 		
 		
@@ -265,22 +264,7 @@ function save_pain() {
                 $("<img>").attr("src", response.filename)
             );
         }
-    });
-		
-		/*
-		$.post("/pazienti/taccuino/addReporting", 
-			{
-				_token: CSRF_TOKEN,
-				description: $('#save_pain_textarea').val(),
-				datanota: $('#datanota').val(),		
-				testo: "ciao",		   
-				imgfront: dataURLFront,
-				imgback: dataURLBack
-			},
-			function(data,status){
-				send();
-			}
-		).send(); */		
+    });		
 }
 
 function getFront(){
