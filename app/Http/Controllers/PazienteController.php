@@ -10,6 +10,9 @@ use App\Models\CurrentUser\Recapiti;
 use App\Models\Domicile\Comuni;
 use App\Models\Patient\Taccuino;
 use App\Models\Patient\PazientiContatti;
+use App\Models\CareProviders\CareProvider;
+use App\Models\CareProviders\CppPaziente;
+use App\Models\CareProviders\CppTipologie;
 use Validator;
 use Redirect;
 use Auth;
@@ -218,5 +221,24 @@ class PazienteController extends Controller
     		$records = Taccuino::where('id_paziente', $user->patient()->first()->id_paziente)->get();
     	}
         return view('pages.taccuino')->with('records', $records);
+    }
+
+    /**
+    * Mostra la pagina dei Care Providers associati ad un paziente
+    */
+    public function showCareProviders(){
+    	$user = Auth::user();
+    	$records = [];
+    	if($user->getRole() == "Paziente"){
+    		$id_patient = $user->patient()->first()->id_paziente;
+    		// Preleva l'id di tutti i careprovider associati al paziente attulmente loggato.
+    		$id_careproviders = CppPaziente::where('id_paziente', $id_patient)->get();
+
+    		for ($i = 0; $i < count($id_careproviders); $i++) {
+			  $careprovider = CareProvider::where('id_cpp', $id_careproviders[$i])->first();
+			  $records[$i] = $careprovider;
+			}
+    	}
+        return view('pages.careproviders')->with('careproviders', $records)->with('types', CppTipologie::all());
     }
 }

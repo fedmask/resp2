@@ -90,4 +90,9 @@ class CareProvider extends Eloquent
 	{
 		return $this->hasMany(\App\Models\Vaccine\Vaccinazione::class, 'id_cpp');
 	}
+
+	public function contacts()
+	{
+		return $this->hasMany(\App\Models\CurrentUser\Recapiti::class, 'id_utente');
+	}
 }

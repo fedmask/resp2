@@ -308,7 +308,7 @@ class User extends Authenticatable
     */
 	public function care_providers()
 	{
-		return $this->hasMany(\App\Models\CareProvider\CareProvider::class, 'id_utente');
+		return $this->hasMany(\App\Models\CareProviders\CareProvider::class, 'id_utente');
 	}
 
 	/**

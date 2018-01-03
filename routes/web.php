@@ -109,4 +109,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 	Route::get('/taccuino', 'PazienteController@showTaccuino')->name('taccuino');
 
+	Route::get('/careproviders', 'PazienteController@showCareProviders')->name('careproviders');
+
 });

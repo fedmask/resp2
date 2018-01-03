@@ -52,7 +52,7 @@ class PazientiVisite extends Eloquent
 
 	public function tbl_care_provider()
 	{
-		return $this->belongsTo(\App\Models\CareProvider\CareProvider::class, 'id_cpp');
+		return $this->belongsTo(\App\Models\CareProviders\CareProvider::class, 'id_cpp');
 	}
 
 	public function tbl_pazienti()
