@@ -88,12 +88,10 @@
 														<tbody>
 															<!--creo una tabella esplicativa dei codici che inserisce 3 valori per riga -->
 															@for($i = 0; $i < count($types)-2; $i = $i+3)
-																@php($j = $i+1)
-																@php($k = $i +2)
 																<tr>
 																	<td>{{ $types[ $i ]->id_tipologia}}</td><td>{{ $types[ $i ]->tipologia_descrizione}}</td>
-																	<td>{{ $types[ $i ]->id_tipologia}}</td><td>{{ $types[ $j ]->tipologia_descrizione}}</td>
-																	<td>{{ $types[ $i ]->id_tipologia}}</td><td>{{ $types[ $k ]->tipologia_descrizione}}</td>
+																	<td>{{ $types[ $i+1 ]->id_tipologia}}</td><td>{{ $types[ $i+1 ]->tipologia_descrizione}}</td>
+																	<td>{{ $types[ $i+2 ]->id_tipologia}}</td><td>{{ $types[ $i+2 ]->tipologia_descrizione}}</td>
 																</tr>
 
 																@if( (count($types)-2)% 3 ==1 )
@@ -101,9 +99,8 @@
 																	<td>{{ $types[ $i ]->id_tipologia}}</td><td>{{$types[ $i ]->tipologia_descrizione}}</td>
 																</tr>
 																@elseif((count($types)-2) == 2)
-																	@php($j = $i+1)
 																	<tr>
-																		<td>{{ $types[ $i ]->id_tipologia}}</td><td>{{$types[$j ]->tipologia_descrizione}}</td>
+																		<td>{{ $types[ $i+1 ]->id_tipologia}}</td><td>{{$types[$i+1 ]->tipologia_descrizione}}</td>
 																	</tr>
 																@endif
 															@endfor
@@ -114,9 +111,8 @@
 										</div><!--accordion-body-collapse-->
 									</div><!--panel panel-default-->
 								</div><!--panel-group accordion-->
-							
-                    	
-                        <div class="body">
+
+						<div class="body">
 							<div class="panel panel-warning">
 								<!-- TODO: Rivedere dal vecchio resp il controllo sulla condivisione o meno dei dati del paziente
 								con i care provider -->
@@ -142,16 +138,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        	@for($i=0; $i<$careproviders; $i++)
+                                        	@for($i=0; $i<count($careproviders); $i++)
                                         		<tr id="careProviderSet{{$i}}" style="display: none;">
 															<td id="careProvSet_{{$i}}_name">{{ $careproviders[ $i ]->cpp_nome }}</td>
 															<td id="careProvSet_{{$i}}_surname">{{$careproviders[ $i ]->cpp_cognome}}</td>
 															<td id="careProvSet_{{$i}}_role">Ruolo</td>
 															<td id="careProvSet_{{$i}}_tel">{{ $careproviders[ $i ]->contacts()->first()->cpp_cognome }}</td>
-															<td id="careProvSet_{{$i}}_reperibilita">'.$this->get_var('careProvSet_'.$i."_reperibilita").'</td>
-															<td id="careProvSet_{{$i}}_address">'.$this->get_var('careProvSet_'.$i."_address").'</td>
+															<td id="careProvSet_{{$i}}_reperibilita">.$this->get_var('careProvSet_'.$i."_reperibilita").</td>
+															<td id="careProvSet_{{$i}}_address">.$this->get_var('careProvSet_'.$i."_address").</td>
 															@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
-															<td id="careProvSet_{{$i}}_conf">'.$this->get_var('careProvSet_'.$i.'_conf').'
+															<td id="careProvSet_{{$i}}_conf">.$this->get_var('careProvSet_'.$i.'_conf').
 																	</td>
 																	<td>
 																		<table>
@@ -159,11 +155,11 @@
 																				
 																				<td>
 																					<div class="dropdown">
-																						  <button class="btn btn-info dropdown-toggle dropdown-toggle-set" type="button" id="dropdownMenuSet_'.$this->get_var('careProvSet_'.$i.'_id').'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" value="'.$this->get_var('careProvSet_'.$i.'_conf').'">
+																						  <button class="btn btn-info dropdown-toggle dropdown-toggle-set" type="button" id="dropdownMenuSet_careProvSet_{{$i}}_id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" value="careProvSet_{{$i}}_conf">
 																							<i class="icon-check"></i>
 																							<span class="caret"></span>
 																						  </button>
-																						  <ul id="setLevelCppSet_'.$id_Cp_set.'" class="dropdown-menu" aria-labelledby="dropdownMenu_'.$id_Cp_set.'">';
+																						  <ul id="setLevelCppSet_{{$i}}'" class="dropdown-menu" aria-labelledby="dropdownMenu_{{$i}}">';
 																							foreach($this->get_var('arrayConf') as $conf ){
 																								//echo '<li><a value="'.$idFiles.'" id="'.$conf['codice'].'" class="to_do" >'.$conf['descrizione'].'</a></li>';
 																								echo '<li><a value="'.$id_Cp_set.'" id="'.$conf['codice'].'" class="cppLevelSet" >'.$conf['descrizione'].'</a></li>';
@@ -172,7 +168,7 @@
 																						</div>														
 																				</td>
 																				<td>
-																					<button id="buttonCpp_'.$i.'" value=" '.$id_Cp_set.' " type="button" class="buttonDelete btn btn-default btn-danger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-remove"></i></button>
+																					<button id="buttonCpp_{{i}}" value=" {{i}} " type="button" class="buttonDelete btn btn-default btn-danger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-remove"></i></button>
 																				</td>
 															@else
 																	<td>
@@ -186,7 +182,7 @@
 																					</td>
 															@endif
 															<td>															
-																<button class="btn btn-warning btn-mailCppSet" data-target="#mailModal" data-toggle="modal" type="button" id="mailSet_'.$this->get_var('careProvSet_'.$i.'_id').'" aria-haspopup="true" aria-expanded="true" value="'.$i.'">
+																<button class="btn btn-warning btn-mailCppSet" data-target="#mailModal" data-toggle="modal" type="button" id="mailSet_{{i}}" aria-haspopup="true" aria-expanded="true" value="'.$i.'">
 																	<i class="icon-envelope"></i>
 																</button>
 															</td>
@@ -196,98 +192,7 @@
 															</tr>
                                         	@endfor
                                             
-												<?php
-													$addressArray_set = array();
-													$nameArray_set = array();
-													$surnameArray_set = array();
-													$emailArray_set = array();
 												
-												if($this->is_set('isCpp')){
-													$numCpSet = $this->get_var('numCpSet'); 
-													
-													$addressArray_set = array();
-													$nameArray_set = array();
-													$surnameArray_set = array();
-													
-													for($i=0; $i<$numCpSet ; $i++){
-														
-														$addressArray_set[$i] =	$this->get_var('careProvSet_'.$i.'_address');
-														$nameArray_set[$i] =	$this->get_var('careProvSet_'.$i.'_name');
-														$surnameArray_set[$i] =	$this->get_var('careProvSet_'.$i.'_surname');
-														$emailArray_set[$i] =	$this->get_var('careProvSet_'.$i.'_email');
-														
-														echo '<tr id="careProviderSet'.$i.'" style="display: none;">
-															<td id="careProvSet_'.$i.'_name">'.$this->get_var('careProvSet_'.$i.'_name').'</td>
-															<td id="careProvSet_'.$i.'_surname">'.$this->get_var('careProvSet_'.$i.'_surname').'</td>
-															<td id="careProvSet_'.$i.'_role">'.$this->get_var('careProvSet_'.$i."_role").'</td>
-															<td id="careProvSet_'.$i.'_tel">'.$this->get_var('careProvSet_'.$i."_tel").'</td>
-															<td id="careProvSet_'.$i.'_reperibilita">'.$this->get_var('careProvSet_'.$i."_reperibilita").'</td>
-															<td id="careProvSet_'.$i.'_address">'.$this->get_var('careProvSet_'.$i."_address").'</td>';
-															if ( $role == "pz")
-															{	
-																$id_Cp_set = $this->get_var('careProvSet_'.$i.'_id');
-																echo'
-																	<td id="careProvSet_'.$i.'_conf">'.$this->get_var('careProvSet_'.$i.'_conf').'
-																	</td>
-																	<td>
-																		<table>
-																			<tr>
-																				
-																				<td>
-																					<div class="dropdown">
-																						  <button class="btn btn-info dropdown-toggle dropdown-toggle-set" type="button" id="dropdownMenuSet_'.$this->get_var('careProvSet_'.$i.'_id').'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" value="'.$this->get_var('careProvSet_'.$i.'_conf').'">
-																							<i class="icon-check"></i>
-																							<span class="caret"></span>
-																						  </button>
-																						  <ul id="setLevelCppSet_'.$id_Cp_set.'" class="dropdown-menu" aria-labelledby="dropdownMenu_'.$id_Cp_set.'">';
-																							foreach($this->get_var('arrayConf') as $conf ){
-																								//echo '<li><a value="'.$idFiles.'" id="'.$conf['codice'].'" class="to_do" >'.$conf['descrizione'].'</a></li>';
-																								echo '<li><a value="'.$id_Cp_set.'" id="'.$conf['codice'].'" class="cppLevelSet" >'.$conf['descrizione'].'</a></li>';
-																							}
-																							/*
-																							<li><a value="'.$id_Cp_set.'" id="1" class="cppLevelSet" >Livello 1</a></li>
-																							<li><a value="'.$id_Cp_set.'" id="2" class="cppLevelSet">Livello 2</a></li>
-																							<li><a value="'.$id_Cp_set.'" id="3" class="cppLevelSet">Livello 3</a></li>
-																							<li><a value="'.$id_Cp_set.'" id="4" class="cppLevelSet">Livello 4</a></li>
-																							<li><a value="'.$id_Cp_set.'" id="5" class="cppLevelSet">Livello 5</a></li>
-																							<li><a value="'.$id_Cp_set.'" id="6" class="cppLevelSet">Livello 6</a></li>
-																							*/
-																						  echo '</ul>
-																						</div>														
-																				</td>
-																				<td>
-																					<button id="buttonCpp_'.$i.'" value=" '.$id_Cp_set.' " type="button" class="buttonDelete btn btn-default btn-danger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-remove"></i></button>
-																				</td>';
-																}
-																else 
-																	echo'
-																		<td>
-																		</td>
-																		<td>
-																			<table>
-																				<tr>
-																					<td>
-																					</td>
-																					<td>
-																					</td>
-																			';
-														echo'
-															<td>															
-																<button class="btn btn-warning btn-mailCppSet" data-target="#mailModal" data-toggle="modal" type="button" id="mailSet_'.$this->get_var('careProvSet_'.$i.'_id').'" aria-haspopup="true" aria-expanded="true" value="'.$i.'">
-																	<i class="icon-envelope"></i>
-																</button>
-															</td>
-															</tr>
-															</table>
-															</td>
-															</tr>';
-															//<td><a id="'.$this->get_var('careProvSet_'.$i.'_id').'"  href="#" data-toggle="modal" data-target="#formModalCpp"><i class="icon-envelope-alt"></i></a></td>
-															/*<td id="careProvSet_'.$i.'_spec">'.'Chirurgo'$this->get_var('careProvSet_'.$i."_spec").'</td>*/
-															//<td><button id="buttonCpp_'.$i.'" value=" '.$this->get_var('careProvSet_'.$i.'_id').' " type="button" class="buttonDelete btn btn-default btn-danger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button></td>
-													}													
-												}
-												
-                         						?>   
                                                 
                                         </tbody>
                                     </table>
@@ -327,7 +232,6 @@
 										<div class="panel-heading"><strong>I Care Provider  del Registro Elettronico Sanitario  Personale :</strong>
 										</div><!--panel-heading-->
 									</div><!--panel-warning-->
-									<?php	$numCp = $this->get_var('numCp'); ?>
 								
 								<div id="toSetTable" class="table-responsive" >
 										<table class="table" >
@@ -345,90 +249,56 @@
 												</tr>
 											</thead>
 											<tbody>
-                                            
-												<?php
-													
-													$num = $this->get_var('numCp'); 
-													
-													$addressArray = array();
-													$nameArray = array();
-													$surnameArray = array();
-													$emailArray = array();
-													$activeArray = array();
-													
-													for($i=0; $i<$num ; $i++){
-														//array_push($addressArray, $this->get_var('careProv_'.$i."_address"));
-														//array_push($nameArray, $this->get_var('careProv_'.$i."_name"));
-														//array_push($surnameArray, $this->get_var('careProv_'.$i."_surname"));
-														//array_push($emailArray, $this->get_var('careProv_'.$i.'_email'));
-														$addressArray[$i] =	$this->get_var('careProv_'.$i.'_address');
-														$nameArray[$i] =	$this->get_var('careProv_'.$i.'_name');
-														$surnameArray[$i] =	$this->get_var('careProv_'.$i.'_surname');
-														$emailArray[$i] =	$this->get_var('careProv_'.$i.'_email');
-														$activeArray [$i]=	$this->get_var('careProv_'.$i.'_active');
-														//if ( $activeArray [$i] == 1){
-														echo '<tr id="careProvider'.$i.'" style="display: none;">
-															<td id="careProv_'.$i.'_name">'.$this->get_var('careProv_'.$i.'_name').'</td>
-															<td id="careProv_'.$i.'_surname">'.$this->get_var('careProv_'.$i.'_surname').'</td>
-															<td id="careProv_'.$i.'_role">'.$this->get_var('careProv_'.$i."_role").'</td>
-															<td id="careProv_'.$i.'_tel">'.$this->get_var('careProv_'.$i."_tel").'</td>
-															<td id="careProv_'.$i.'_reperibilita">'.$this->get_var('careProv_'.$i."_reperibilita").'</td>
-															<td id="careProv_'.$i.'_address">'.$this->get_var('careProv_'.$i."_address").'</td>															
+												@for($i=0; $i<count(CareProvider::all()); $i++)
+													@php($careproviders = CareProvider::all());
+													<tr id="careProvider{{i}}" style="display: none;">
+															<td id="careProv_{{i}}_name">$careprovider->cpp_nome</td>
+															<td id="careProv_{{i}}_surname">$careprovider->cpp_cognome</td>
+															<td id="careProv_{{i}}_role">{{ UtentiTipologie::find($careprovider->id_cpp_tipologia)->first()->tipologia_descrizione}}</td>
+															<td id="careProv_{{i}}_tel">'.$this->get_var('careProv_'.$i."_tel").'</td>
+															<td id="careProv_{{i}}_reperibilita">'.$this->get_var('careProv_'.$i."_reperibilita").'</td>
+															<td id="careProv_{{i}}_address">'.$this->get_var('careProv_'.$i."_address").'</td>															
 															<td>
 															<table>
-															<tr>';
+															<tr>
 															if ( $sharableData)
 															echo'
 															<td>
-															<button id="buttonCpp_'.$i.'" value=" '.$this->get_var('careProv_'.$i.'_id').' " type="button" class="buttonAdd btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-plus"></i></button>
-															</td>';
+															<button id="buttonCpp_{{i}}" value="{{i}}" type="button" class="buttonAdd btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-plus"></i></button>
+															</td>
 															if ( $sharableData){
 															echo'
 															<td>
 																<div class="dropdown">
-																	  <button class="btn btn-info dropdown-toggle dropdown-toggle-unset" type="button" id="dropdownMenu_'.$this->get_var('careProv_'.$i.'_id').'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" value="1">
+																	  <button class="btn btn-info dropdown-toggle dropdown-toggle-unset" type="button" id="dropdownMenu_{{$i}}).'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" value="1">
 																		<i class="icon-check"></i>
 																		<span class="caret"></span>
 																	  </button>
-																	  <ul id="setLevelCpp_'.$this->get_var('careProv_'.$i.'_id').'" class="dropdown-menu" aria-labelledby="dropdownMenu_'.$this->get_var('careProv_'.$i.'_id').'">';
+																	  <ul id="setLevelCpp_'.$this->get_var('careProv_{{i}}_id').'" class="dropdown-menu" aria-labelledby="dropdownMenu_{{$i}}).'">';
 																		foreach($this->get_var('arrayConf') as $conf ){
 																			//echo '<li><a value="'.$idFiles.'" id="'.$conf['codice'].'" class="to_do" >'.$conf['descrizione'].'</a></li>';
-																			echo '<li><a value="'.$this->get_var('careProv_'.$i.'_id').'" id="'.$conf['codice'].'" class="cppLevel" >'.$conf['descrizione'].'</a></li>';
+																			echo '<li><a value="{{$i}}" id="'.$conf['codice'].'" class="cppLevel" >'.$conf['descrizione'].'</a></li>';
 																		}
-																		/*
-																		<li><a value="'.$this->get_var('careProv_'.$i.'_id').'" id="1" class="cppLevel" >Livello 1</a></li>
-																		<li><a value="'.$this->get_var('careProv_'.$i.'_id').'" id="2" class="cppLevel">Livello 2</a></li>
-																		<li><a value="'.$this->get_var('careProv_'.$i.'_id').'" id="3" class="cppLevel">Livello 3</a></li>
-																		<li><a value="'.$this->get_var('careProv_'.$i.'_id').'" id="4" class="cppLevel">Livello 4</a></li>
-																		<li><a value="'.$this->get_var('careProv_'.$i.'_id').'" id="5" class="cppLevel">Livello 5</a></li>
-																		<li><a value="'.$this->get_var('careProv_'.$i.'_id').'" id="6" class="cppLevel">Livello 6</a></li>
-																		*/
-																	  echo '</ul>
+																		</ul>
 																</div>
 															
-															</td>';
-															}
-															echo'
+															</td>
 															<td>
-																<button class="btn btn-warning btn-mailCpp" data-target="#mailModal" data-toggle="modal" type="button" id="mailCpp_'.$this->get_var('careProv_'.$i.'_id').'" aria-haspopup="true" aria-expanded="true" value="'.$i.'">
+																<button class="btn btn-warning btn-mailCpp" data-target="#mailModal" data-toggle="modal" type="button" id="mailCpp_{{i}}}" aria-haspopup="true" aria-expanded="true" value="{{$i}}">
 																	<i class="icon-envelope"></i>
 																</button>
 															</td>
-															</tr>
-															</table>
-															</td>
-															</tr>';
-															
-															//<td><button id="buttonCpp_'.$i.'" value=" '.$this->get_var('careProv_'.$i.'_id').' " type="button" class="buttonAdd btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Assegna</button></td>
-															/*<td id="careProv_'.$i.'_spec">'.'Chirurgo'$this->get_var('careProv_'.$i."_spec").'</td>*/
-													}
-													
-                         						?>   
-                                                
+														</tr>
+													</table>
+												</td>
+												</tr>
+												@endfor
 											</tbody>
 										</table>
 									</div><!--id="toSetTable" class="table-responsive"-->
 							</div><!--panelbody-->
+                    	
+                       
 							
 							<div class="panel-footer" style="text-align:right">
 							</div><!--panel-footer-->
@@ -489,7 +359,8 @@
 	<script src="plugins/bootstrap_slider/js/bootstrap-slider.js"></script>
 	
 	<!-- Custom javascript -->
-	@php(include "js/formscripts/careProvidersScript.php")
+	<!-- TODO: Decommentare la seguente riga quando si rivedrà la reimplementazione della sezione careproviders" -->
+	{{-- @php(include "careProvidersScript.php") --}}
 
 <!--END PAGE CONTENT -->
 @endsection

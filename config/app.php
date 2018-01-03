@@ -236,6 +236,8 @@ return [
 		'Html' => Collective\Html\HtmlFacade::class,
 		'Input' => Illuminate\Support\Facades\Input::class,
         'User' => App\Models\CurrentUser\User::class,
+        'UtentiTipologie' => App\Models\UtentiTipologie::class,
+        'CareProvider' => App\Models\CareProviders\CareProvider::class,
     ],
 
 ];

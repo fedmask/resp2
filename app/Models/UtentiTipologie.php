@@ -24,6 +24,7 @@ class UtentiTipologie extends Eloquent
 	protected $table = 'tbl_utenti_tipologie';
 	protected $primaryKey = 'id_tipologia';
 	public $timestamps = false;
+	public $incrementing = false;
 
 	protected $fillable = [
 	    'tipologia_nome',

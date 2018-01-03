@@ -140,7 +140,7 @@
 			<li class="panel  {{Request::path() === 'taccuino' ? 'active' : ''}}"> <a href="{{ url('taccuino') }}"> <em class="icon-book"></em> Taccuino Paziente </a>
 			</li>
 			<!--diario visite deve diventare diario paziente-->
-			<li class="panel"> <a href="LINK-CAREPROVIDERS"> <em class="icon-user-md"></em> Care Providers </a>
+			<li class="panel {{Request::path() === 'careproviders' ? 'active' : ''}}"> <a href="{{ url('careproviders') }}"> <em class="icon-user-md"></em> Care Providers </a>
 			</li>
 			<li class="panel {{Request::path() === 'calcolatrice-medica' ? 'active' : ''}}"> <a href="{{ url('calcolatrice-medica') }}"> <em class="icon-keyboard"></em> Calcolatrice Medica </a>
 			</li>
