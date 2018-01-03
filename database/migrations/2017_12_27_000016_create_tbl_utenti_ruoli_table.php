@@ -10,7 +10,7 @@ class CreateTblUtentiRuoliTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'tbl_utenti_ruoli';
+    public $set_schema_table = 'tbl_utenti_tipologie';
 
     /**
      * Run the migrations.
@@ -22,9 +22,13 @@ class CreateTblUtentiRuoliTable extends Migration
     {
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id_ruolo');
-            $table->string('ruolo_nome', 20);
+           $table->engine = 'InnoDB';
+           $table->char('id_tipologia', 3);
+           $table->string('tipologia_descrizione', 100);
+           $table->string('tipologia_nome', 30);
+           
+           $table->index(["id_tipologia"], 'fk_tbl_tipologia_idx');
+           
         });
     }
 

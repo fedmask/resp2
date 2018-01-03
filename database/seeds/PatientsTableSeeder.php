@@ -15,7 +15,6 @@ class PatientsTableSeeder extends Seeder
         DB::table('tbl_pazienti')->insert([
             'id_paziente' => '1',
             'id_utente' => '1',
-            'id_paziente_contatti' => '1',
             'paziente_nome' => 'Bob',
             'paziente_cognome' => 'Kelso',
             'paziente_nascita' => '1987-01-23',
@@ -24,12 +23,11 @@ class PatientsTableSeeder extends Seeder
             'paziente_gruppo' => '0',
             'paziente_rh' => 'pos',
             'paziente_donatore_organi' => '1',
-            'paziente_stato_matrimoniale' => 'Sposato'
+            'id_stato_matrimoniale' => '0'
         ]);
         
         DB::table('tbl_pazienti')->insert([
             'id_utente' => '2',
-            'id_paziente_contatti' => '1',
             'paziente_nome' => 'Janitor',
             'paziente_cognome' => 'Jan',
             'paziente_nascita' => '1987-01-23',
@@ -38,7 +36,7 @@ class PatientsTableSeeder extends Seeder
             'paziente_gruppo' => '0',
             'paziente_rh' => 'neg',
             'paziente_donatore_organi' => '1',
-            'paziente_stato_matrimoniale' => 'Celibe'
+            'id_stato_matrimoniale' => '5'
         ]);
         
     }

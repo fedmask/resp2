@@ -30,7 +30,6 @@ class CreateTblComuniTable extends Migration
 
             $table->index(["id_comune_nazione"], 'FOREIGN_NAZIONE_idx');
 
-
             $table->foreign('id_comune_nazione', 'FOREIGN_NAZIONE_idx')
                 ->references('id_nazione')->on('tbl_nazioni')
                 ->onDelete('no action')

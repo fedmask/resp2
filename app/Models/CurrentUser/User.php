@@ -34,7 +34,7 @@ class User extends Authenticatable
 	];
 
 	protected $fillable = [
-		'utente_tipologia',
+		'id_tipologia',
 		'utente_nome',
 		'utente_password',
 		'utente_stato',
@@ -290,7 +290,7 @@ class User extends Authenticatable
     */
     public function user_type()
 	{
-		return $this->belongsTo(\App\Models\UtentiTipologie::class, 'utente_tipologia');
+		return $this->belongsTo(\App\Models\UtentiTipologie::class, 'id_tipologia');
 	}
 
 	/**
