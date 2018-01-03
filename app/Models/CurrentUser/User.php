@@ -20,6 +20,9 @@ class User extends Authenticatable
 	protected $primaryKey = 'id_utente';
 	public $timestamps = false;
 
+	const PATIENT_ID           = "ass";
+	const PATIENT_DESCRIPTION  = "Assistito";
+	
 	protected $casts = [
 		'utente_tipologia' => 'int',
 		'utente_stato' => 'int'
@@ -34,7 +37,7 @@ class User extends Authenticatable
 	];
 
 	protected $fillable = [
-		'utente_tipologia',
+		'id_tipologia',
 		'utente_nome',
 		'utente_password',
 		'utente_stato',
@@ -90,8 +93,8 @@ class User extends Authenticatable
 	* Ritorna il nome dell'utente loggato
 	*/
 	public function getName(){
-		switch($this->utente_tipologia){
-			case 1:
+	    switch($this->id_tipologia){
+	        case $this::PATIENT_ID:
 				return $this->data_patient()->first()->paziente_nome;
 			default:
 				return 'Undefined';
@@ -103,8 +106,8 @@ class User extends Authenticatable
 	* Ritorna il cognome dell'utente loggato
 	*/
 	public function getSurname(){
-		switch($this->utente_tipologia){
-			case 1:
+	    switch($this->id_tipologia){
+	        case $this::PATIENT_ID:
 				return $this->data_patient()->first()->paziente_cognome;
 			default:
 				return 'Undefined';
@@ -116,8 +119,8 @@ class User extends Authenticatable
 	* Ritorna il codice fiscale dell'utente loggato
 	*/
 	public function getFiscalCode(){
-		switch($this->utente_tipologia){
-			case 1:
+	    switch($this->id_tipologia){
+	        case $this::PATIENT_ID:
 				return $this->data_patient()->first()->paziente_codfiscale;
 			default:
 				return 'Undefined';
@@ -129,8 +132,9 @@ class User extends Authenticatable
 	* Ritorna la data di nascita dell'utente loggato
 	*/
 	public function getBirthdayDate(){
-		switch($this->utente_tipologia){
-			case 1:
+
+		switch($this->id_tipologia){
+		    case $this::PATIENT_ID:
 				return $this->data_patient()->first()->paziente_nascita;
 			default:
 				return 'Undefined';
@@ -150,8 +154,8 @@ class User extends Authenticatable
 	* Ritorna il numero di telefono dell'utente loggato
 	*/
  	public function getTelephone(){
-		switch($this->utente_tipologia){
-			case 1:
+		switch($this->id_tipologia){
+		    case $this::PATIENT_ID:
 				return isset($this->contacts()->first()->contatto_telefono) ? $this->contacts()->first()->contatto_telefono : 'Non pervenuto';
 			default:
 				return 'Undefined';
@@ -169,8 +173,8 @@ class User extends Authenticatable
 	* Ritorna il sesso dell'utente loggato
 	*/
  	public function getGender(){
-		switch($this->utente_tipologia){
-			case 1:
+		switch($this->id_tipologia){
+		    case $this::PATIENT_ID:
 				return $this->data_patient()->first()->paziente_sesso;
 			default:
 				return 'Undefined';
@@ -183,8 +187,8 @@ class User extends Authenticatable
 	*/
  	public function getBirthTown(){
 		$result = null;
-			switch($this->utente_tipologia){
-			case 1:
+			switch($this->id_tipologia){
+			    case $this::PATIENT_ID:
 				$result = $this->contacts()->first()->id_comune_nascita;
 				break;
 			default:
@@ -199,8 +203,8 @@ class User extends Authenticatable
 	*/
  	public function getLivingTown(){
 		$result = null;
-			switch($this->utente_tipologia){
-			case 1:
+			switch($this->id_tipologia){
+			    case $this::PATIENT_ID:
 				$result = $this->contacts()->first()->id_comune_residenza;
 				break;
 			default:
@@ -214,8 +218,8 @@ class User extends Authenticatable
 	*/
  	public function getAddress(){
 		$result = null;
-			switch($this->utente_tipologia){
-			case 1:
+			switch($this->id_tipologia){
+			    case $this::PATIENT_ID:
 				return $this->contacts()->first()->contatto_indirizzo;
 					break;
 			default:
@@ -227,8 +231,8 @@ class User extends Authenticatable
 	* Ritorna lo stato matrimoniale dell'utente loggato
 	*/
  	public function getMaritalStatus(){
- 		switch($this->utente_tipologia){
-			case 1:
+ 		switch($this->id_tipologia){
+ 		    case $this::PATIENT_ID:
 				return StatiMatrimoniali::where('id_stato_matrimoniale', $this->patient()->first()->id_stato_matrimoniale)->first()->stato_matrimoniale_nome;
 			default:
 				return 'Undefined';
@@ -240,8 +244,8 @@ class User extends Authenticatable
 	* Ritorna il gruppo sanguigno e il tipo di rh dell'utente loggato
 	*/
  	public function getFullBloodType(){
- 		switch($this->utente_tipologia){
-			case 1:
+ 		switch($this->id_tipologia){
+ 		    case $this::PATIENT_ID:
 				return $this->getBloodGroup($this->data_patient()->first()->paziente_gruppo). " " .$this->data_patient()->first()->pazinte_rh;
 			default:
 				return 'Undefined';
@@ -277,8 +281,8 @@ class User extends Authenticatable
 	* Ritorna true se l'utente loggato acconsente alla donazione organi, false altrimenti
 	*/
  	public function getOrgansDonor(){
-			switch($this->utente_tipologia){
-			case 1:
+			switch($this->id_tipologia){
+			    case $this::PATIENT_ID:
 				return ($this->data_patient()->first()->paziente_donatore_organi == 0) ? false : true;
 			default:
 				return 'Undefined';
@@ -290,7 +294,7 @@ class User extends Authenticatable
     */
     public function user_type()
 	{
-		return $this->belongsTo(\App\Models\UtentiTipologie::class, 'utente_tipologia');
+		return $this->belongsTo(\App\Models\UtentiTipologie::class, 'id_tipologia');
 	}
 
 	/**

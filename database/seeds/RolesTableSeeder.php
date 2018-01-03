@@ -11,7 +11,7 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-    DB::table('tbl_cpp_tipologie')->insert([
+    DB::table('tbl_utenti_tipologie')->insert([
       ['id_tipologia' => '118','tipologia_nome' => 'cpp','tipologia_descrizione' => 'Medico 118'],
       ['id_tipologia' => 'amm','tipologia_nome' => 'amm','tipologia_descrizione' => 'Amministratore'],
       ['id_tipologia' => 'ass','tipologia_nome' => 'ass','tipologia_descrizione' => 'Assistito'],
@@ -34,7 +34,7 @@ class RolesTableSeeder extends Seeder
       ['id_tipologia' => 'pls','tipologia_nome' => 'cpp','tipologia_descrizione' => 'Pediatra di libera scelta'],
       ['id_tipologia' => 'psi','tipologia_nome' => 'cpp','tipologia_descrizione' => 'Psicologo'],
       ['id_tipologia' => 'tps','tipologia_nome' => 'cpp','tipologia_descrizione' => 'Tecnico Psicologo'],
-      ['id_tipologia' => 'tut','tipologia_nome' => 'tut','tipologia_descrizione' => 'Tutor'],
+      ['id_tipologia' => 'tut','tipologia_nome' => 'tut','tipologia_descrizione' => 'Tutor']
     ]);
     }
 }

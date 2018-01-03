@@ -105,7 +105,7 @@ class RegisterController extends Controller
             'utente_nome' => Input::get('username'),
             'utente_email' => Input::get('email'),
             'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
-            'utente_tipologia' => '1',      //Paziente
+            'id_tipologia' => 'ass',      //Paziente
             'utente_email' => Input::get('email'),
             'utente_password' => bcrypt(Input::get('password')),
         ]);

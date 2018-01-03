@@ -24,7 +24,6 @@ class CreateTblCareProviderTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id_cpp');
-            $table->smallInteger('id_cpp_tipologia');
             $table->integer('id_utente')->unsigned();
             $table->string('cpp_nome', 45);
             $table->string('cpp_cognome', 45);
@@ -36,20 +35,13 @@ class CreateTblCareProviderTable extends Migration
 
             $table->index(["id_utente"], 'FOREIGN_CPP_UTENTE_idx');
 
-            $table->index(["id_cpp_tipologia"], 'fk_tbl_medici_tbl_ruoli_tipologie1_idx');
-
             $table->unique(["cpp_codfiscale"], 'cpp_codfiscale_UNIQUE');
-
-
+            
             $table->foreign('id_utente', 'FOREIGN_CPP_UTENTE_idx')
                 ->references('id_utente')->on('tbl_utenti')
                 ->onDelete('no action')
                 ->onUpdate('no action');
 
-            $table->foreign('id_cpp_tipologia', 'fk_tbl_medici_tbl_ruoli_tipologie1_idx')
-                ->references('id_tipologia')->on('tbl_cpp_tipologie')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

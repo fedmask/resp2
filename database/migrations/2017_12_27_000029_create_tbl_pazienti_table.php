@@ -32,7 +32,7 @@ class CreateTblPazientiTable extends Migration
             $table->char('paziente_codfiscale', 16);
             $table->char('paziente_sesso', 1);
             $table->tinyInteger('paziente_gruppo');
-            $table->char('pazinte_rh', 3);
+            $table->char('paziente_rh', 3);
             $table->tinyInteger('paziente_donatore_organi');
 
             $table->index(["id_utente"], 'FOREIGN_UTENTE_idx');

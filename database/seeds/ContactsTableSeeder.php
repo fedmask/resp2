@@ -15,7 +15,18 @@ class ContactsTableSeeder extends Seeder
             'id_contatto' => '1',
             'id_utente' => '1',
             'id_comune_residenza' => '2',
-            'id_comune_nascita' => '2',
+            'id_comune_nascita' => '3',
+            'contatto_telefono' => '3895941255',
+            'contatto_indirizzo' => 'via delle palme',
+        ]);
+        
+        DB::table('tbl_recapiti')->insert([
+            'id_contatto' => '2',
+            'id_utente' => '2',
+            'id_comune_residenza' => '12',
+            'id_comune_nascita' => '33',
+            'contatto_telefono' => '389485698',
+            'contatto_indirizzo' => 'via delle bombe',
         ]);
     }
 }

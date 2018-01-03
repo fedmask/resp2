@@ -26,11 +26,12 @@ class UtentiTipologie extends Eloquent
 	public $timestamps = false;
 
 	protected $fillable = [
+	    'tipologia_nome',
 		'tipologia_descrizione'
 	];
 
 	public function tbl_utentis()
 	{
-		return $this->hasMany(\App\Models\Utenti::class, 'utente_tipologia');
+		return $this->hasMany(\App\Models\Utenti::class, 'id_tipologia');
 	}
 }

@@ -26,7 +26,9 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if($user->getRole() == "Paziente"){
+        
+        //$records = array();
+        if($user->getRole() == $user::PATIENT_DESCRIPTION){    //Dovrebbe essere il paziente
             $records = Taccuino::where('id_paziente', $user->patient()->first()->id_paziente)->get();
         }
         return view('pages.taccuino')->with('records', $records);
