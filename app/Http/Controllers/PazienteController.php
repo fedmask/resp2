@@ -214,7 +214,8 @@ class PazienteController extends Controller
     */
     public function showTaccuino(){
     	$user = Auth::user();
-    	if($user->getRole() == "Paziente"){
+ 
+    	if($user->getRole() == $user::PATIENT_DESCRIPTION){
     		$records = Taccuino::where('id_paziente', $user->patient()->first()->id_paziente)->get();
     	}
         return view('pages.taccuino')->with('records', $records);
