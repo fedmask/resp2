@@ -12,7 +12,7 @@ use App\Models\Patient\Taccuino;
 use App\Models\Patient\PazientiContatti;
 use App\Models\CareProviders\CareProvider;
 use App\Models\CareProviders\CppPaziente;
-use App\Models\CareProviders\CppTipologie;
+use App\Models\UtentiTipologie;
 use Validator;
 use Redirect;
 use Auth;
@@ -240,6 +240,6 @@ class PazienteController extends Controller
 			  $records[$i] = $careprovider;
 			}
     	}
-        return view('pages.careproviders')->with('careproviders', $records)->with('types', CppTipologie::all());
+        return view('pages.careproviders')->with('careproviders', $records)->with('types', UtentiTipologie::all());
     }
 }

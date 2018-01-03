@@ -22,7 +22,7 @@
 															<div class="form-group">
 																<label class="control-label col-lg-4">Da :</label>
 																<div class="col-lg-8">
-																	@if($current_user->getRole() == "Paziente")
+																	@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
 																	<input type="text" name="username" id="username" value=" {{$current_user->getName()}} " readonly class="form-control"/>
 																	@else
 																	<input type="text" name="username" id="username" value=" {{$current_user->getName()}} {{$current_user->getSurname()}} " readonly class= "form-control"/>
@@ -134,7 +134,7 @@
                                                 <th>Telefono</th>
 												<th>Altre informazioni</th>
 												<th>Città</th>
-												@if($current_user->getRole() == "Paziente")
+												@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
 													<th>Conf.</th>
 													<th>Opzioni</th>
 												@endif
@@ -150,7 +150,7 @@
 															<td id="careProvSet_{{$i}}_tel">{{ $careproviders[ $i ]->contacts()->first()->cpp_cognome }}</td>
 															<td id="careProvSet_{{$i}}_reperibilita">'.$this->get_var('careProvSet_'.$i."_reperibilita").'</td>
 															<td id="careProvSet_{{$i}}_address">'.$this->get_var('careProvSet_'.$i."_address").'</td>
-															@if($current_user->getRole() == "Paziente")
+															@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
 															<td id="careProvSet_{{$i}}_conf">'.$this->get_var('careProvSet_'.$i.'_conf').'
 																	</td>
 																	<td>

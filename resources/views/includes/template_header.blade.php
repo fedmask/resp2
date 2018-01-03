@@ -159,7 +159,7 @@
 				<!-- END LOGO SECTION -->
 				<ul class="nav navbar-top-links navbar-right">
 					<!-- HOME SECTION -->
-					@if( $current_user->getRole() === 'paziente')
+					@if( $current_user->getRole() == User::PATIENT_DESCRIPTION)
 					<li><a href="/home">Home <em class="icon-home"></em> </a>
 					</li>
 					@else
@@ -221,7 +221,7 @@
 					<!--rispetto alla versione originale si è tolta la classe dropdown  e si sono lasciate la modifica				
 					delle impostazioni di sicurezza ed il logout nella lista della navbar-->
 					<!--Modifica impostazioni sicurezza  -->
-					@if( $current_user->getRole() === 'paziente')
+					@if( $current_user->getRole() == User::PATIENT_DESCRIPTION)
 					<li>
 						<a href=" '. $this->get_var('link_impostazionisicurezza'). ' "><i class="icon-lock"></i>Impostazioni di sicurezza</a>
 					</li>
