@@ -135,7 +135,7 @@
 			</li>
 			<li class="panel"> <a href="LINK-DIAGNOSI"> <em class="icon-file-text-alt"></em> Diagnosi </a>
 			</li>
-			<li class="panel"> <a href="LINK-FILES"> <em class="icon-file"></em> Files </a>
+			<li class="panel {{Request::path() === 'files' ? 'active' : ''}}"> <a href="/files"> <em class="icon-file"></em> Files </a>
 			</li>
 			<li class="panel  {{Request::path() === 'taccuino' ? 'active' : ''}}"> <a href="{{ url('taccuino') }}"> <em class="icon-book"></em> Taccuino Paziente </a>
 			</li>

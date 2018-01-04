@@ -27,9 +27,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class File extends Eloquent
 {
-	protected $primaryKey = 'id_file';
-	public $incrementing = false;
-	public $timestamps = false;
+	protected $primaryKey = 'id_file'; 
+	protected $table = 'tbl_files';
+	public $incrementing = true;
+	public $timestamps = true;
 
 	protected $casts = [
 		'id_file' => 'int',
@@ -46,9 +47,9 @@ class File extends Eloquent
 		'file_commento'
 	];
 
-	public function tbl_auditlog_log()
+	public function auditlog_log()
 	{
-		return $this->belongsTo(\App\Models\TblAuditlogLog::class, 'id_audit_log');
+		return $this->belongsTo(\App\Models\Log\AuditlogLog::class, 'id_audit_log');
 	}
 
 	public function tbl_livelli_confidenzialitum()

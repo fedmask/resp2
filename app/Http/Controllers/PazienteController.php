@@ -12,7 +12,9 @@ use App\Models\Patient\Taccuino;
 use App\Models\Patient\PazientiContatti;
 use App\Models\CareProviders\CareProvider;
 use App\Models\CareProviders\CppPaziente;
+use App\Models\Log\AuditlogLog;
 use App\Models\UtentiTipologie;
+use App\Models\File;
 use Validator;
 use Redirect;
 use Auth;
@@ -230,7 +232,7 @@ class PazienteController extends Controller
     public function showCareProviders(){
     	$user = Auth::user();
     	$records = [];
-    	if($user->getRole() == "Paziente"){
+    	if($user->getRole() == User::PATIENT_DESCRIPTION){
     		$id_patient = $user->patient()->first()->id_paziente;
     		// Preleva l'id di tutti i careprovider associati al paziente attulmente loggato.
     		$id_careproviders = CppPaziente::where('id_paziente', $id_patient)->get();
@@ -242,4 +244,31 @@ class PazienteController extends Controller
     	}
         return view('pages.careproviders')->with('careproviders', $records)->with('types', UtentiTipologie::all());
     }
+
+    /**
+	* Mostra la sezione dei files associati ad un paziente
+	*/
+	public function showFiles(Request $request){
+		$user = Auth::user();
+		$files = [];
+		
+		if ($request->has('id_visiting')) {
+		    $id_visiting = request()->input('id_visiting');
+		}
+
+		if($user->getRole() == User::PATIENT_DESCRIPTION){
+			$files = File::where('id_paziente', $id_patient = $user->patient()->first()->id_paziente)->get();
+		}
+
+		$id_visiting = $user->id_utente;
+		$ip = $request->ip();
+		$log = AuditlogLog::create([ 'audit_nome' => $user->getName(),
+				'audit_ip' => $ip,
+				'id_visitato' => $id_visiting,
+				'id_visitante' => $user->id_utente,
+				'audit_data' => date('Y-m-d H:i:s'),
+			]);
+		$log->save();
+		return view('pages.files')->with('files', $files)->with('log', $log);
+	}
 }

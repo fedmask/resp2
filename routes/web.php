@@ -94,6 +94,16 @@ Route::post('/pazienti/taccuino/removeReporting', 'TaccuinoController@removeRepo
 */
 Route::get('/send-suggestion', 'MailController@sendSuggestion');
 
+/**
+* Route per l'upload di un file associandolo ad un paziente
+*/
+Route::post('/uploadFile', 'FilesController@uploadFile');
+
+/**
+* Route per la rimozione di un file associato ad un paziente
+*/
+Route::post('/deleteFile', 'FilesController@deleteFile');
+
 
 /*
 * Routes base per le varie pagine e reindirizza gli utenti non loggati alla homepage
@@ -110,5 +120,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/taccuino', 'PazienteController@showTaccuino')->name('taccuino');
 
 	Route::get('/careproviders', 'PazienteController@showCareProviders')->name('careproviders');
+
+	Route::get('/files', 'PazienteController@showFiles')->name('files');
 
 });

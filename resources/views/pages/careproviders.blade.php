@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @extends('includes.template_head')
 
-@section('pageTitle', 'Taccuino Paziente')
+@section('pageTitle', 'Care Providers')
 @section('content')
 <!--PAGE CONTENT -->
 <div id="content">

@@ -29,6 +29,8 @@ class CreateTblFilesTable extends Migration
             $table->smallInteger('id_file_confidenzialita');
             $table->string('file_nome', 60);
             $table->text('file_commento');
+            $table->date('updated_at');
+            $table->date('created_at');
 
             $table->index(["id_paziente"], 'fk_tbl_files_tbl_pazienti1_idx');
 

@@ -40,8 +40,8 @@ class AuditlogLog extends Eloquent
 	];
 
 	protected $dates = [
-		'audit_data'
-	];
+		//'audit_data'
+	]; 
 
 	protected $fillable = [
 		'audit_nome',
