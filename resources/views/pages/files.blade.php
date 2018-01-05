@@ -35,7 +35,7 @@
 								<th></th>
 								<th>Nome File</th>
 								<th>Commenti</th>
-								<th>Data creazione</th>
+								<th>Data Caricamento</th>
 								<th>Caricato da:</th>
 
 								@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
@@ -56,7 +56,7 @@
 								@foreach($files as $file)
 									<tr>
 										<td><button class= "btn btn-default btn-success "  type = "submit" onclick ='window.open({{Storage::url("/patient/".$id_patient."/".$file->file_nome)}})'> <i class="icon-check"></i></button></td>
-										<td><a href = "{{Storage::url('/patient/'.$id_patient.'/'.$file->file_nome)}}">{{$file->file_nome}}</a></td><td>{{$file->file_commento}}</td><td>{{$file->created_at}}</td><td>{{User::find($file->auditlog_log()->first()->id_visitante)->getName()}}</td>
+										<td><a href = "{{Storage::url('/patient/'.$id_patient.'/'.$file->file_nome)}}">{{$file->file_nome}}</a></td><td>{{$file->file_commento}}</td><td><?php echo date('d/m/y', strtotime($file->created_at )) ?></td><td>{{User::find($file->auditlog_log()->first()->id_visitante)->getSurname()}}</td>
 
 										@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
 											<td id = "nomeFile_{{$file->id_file}}conf">{{$file->id_file_confidenzialita}}</td>
@@ -65,19 +65,26 @@
 														<tr>
 															<td>
 																<div class="dropdown">
-																	  <button class="btn btn-info dropdown-toggle dropdown-toggle-set" type="button" id="dropdownMenuSet_{{$file->id_file}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" value="'{{$file->id_file}}_conf"> 
-																		<i class="icon-check"></i>
-																		<span class="caret"></span>
-																	  </button>
-																	  <ul id="setLevelFiles_{{$file->id_file}}" class="dropdown-menu" aria-labelledby="dropdownMenu_{{$file->id_file}}">
-																		<li><a value="{{$file->id_file}}" id="1" class="to_do" >Livello confidenzialit&agrave 1</a></li>
-																		<li><a value="{{$file->id_file}}" id="2" class="to_do">Livello confidenzialit&agrave 2</a></li>
-																		<li><a value="{{$file->id_file}}" id="3" class="to_do">Livello confidenzialit&agrave 3</a></li>
-																		<li><a value="{{$file->id_file}}" id="4" class="to_do">Livello confidenzialit&agrave  4</a></li>
-																		<li><a value="{{$file->id_file}}" id="5" class="to_do">Livello confidenzialit&agrave 5</a></li>
-																		<li><a value="{{$file->id_file}}" id="6" class="to_do">Livello confidenzialit&agrave 6</a></li>
-																	  </ul>
-																	</div>														
+																	<form method="post" action="/updateFileConfidentiality">
+																		{{ csrf_field() }}
+																		<select class="btn btn-info dropdown-toggle dropdown-toggle-set" data-toggle="tooltip" data-placement="top" title="Scegli livello confidenzialità" name="updateConfidentiality">
+																			<option value="1" title="Livello confidenzialità 1">Conf. 1</option>
+																			<option value="2" title="Livello confidenzialità 2">Conf. 2</option>
+																			<option value="3" title="Livello confidenzialità 3">Conf. 3</option>
+																			<option value="4" title="Livello confidenzialità 4">Conf. 4</option>
+																			<option value="5" title="Livello confidenzialità 5">Conf. 5</option>
+																			<option value="6" title="Livello confidenzialità 6">Conf. 6</option>
+																		</select>
+																		<input type="hidden" name="id_patient" value="{{$id_patient}}">
+																		<input type="hidden" name="name" value="{{$file->file_nome}}">
+																	</form>
+																	</div>
+																	<script type="text/javascript">
+																		$('select').change(function ()
+																		{
+																		    $(this).closest('form').submit();
+																		});
+																	</script>	
 															</td>
 															<td>
 																<form method="post" action="/deleteFile">
@@ -159,7 +166,7 @@
 										<div class="col-lg-12"> 
 												<div class="panel panel-warning">
 													<div class="panel-body">
-														<h3>foto</h3>
+														<h3>Foto</h3>
 														<hr/>
 														<form method = "post" action = "/uploadFile" enctype = "multipart/form-data">
 														{{ csrf_field() }} 
@@ -171,7 +178,7 @@
 															</textarea>
 															@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
 															<br><br>
-															<label for="conf_1">visibilità</label>
+															<label for="conf_1">Visibilità</label>
 															<select name="confidentiality">
 																	<option value="1">Nessuna restrizione</option>
 																	<option value="2">Basso</option>
@@ -197,7 +204,7 @@
 									<div class="col-lg-12"> 
 											<div class="panel panel-warning">
 												<div class="panel-body">
-													<h3>video</h3>
+													<h3>Video</h3>
 													<hr/>
 													<form method = "post" action = "/uploadFile" enctype = "multipart/form-data"> 
 														{{ csrf_field() }} 
@@ -209,14 +216,14 @@
 														</textarea>
 														@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
 														<br><br>
-														<label for="conf_1">visibilità</label>
+														<label for="conf_1">Visibilità</label>
 														<select name="conf_1">
-																<option value="1">nessuna restrizione</option>
-																<option value="2">basso</option>
-																<option value="3">moderato</option>
-																<option value="4" >normale</option>
-																<option value="5" selected = "true">riservato</option>
-																<option value="6"> strettamente riservato</option>
+																<option value="1">Nessuna restrizione</option>
+																<option value="2">Basso</option>
+																<option value="3">Moderato</option>
+																<option value="4" >Normale</option>
+																<option value="5" selected = "true">Riservato</option>
+																<option value="6"> Strettamente riservato</option>
 														  </select>
 														@endif
 														  <br> <br>
@@ -238,7 +245,7 @@
 										<div class="col-lg-12"> 
 												<div class="panel panel-danger">
 													<div class="panel-body">
-														<h3>registrazioni</h3>
+														<h3>Registrazioni</h3>
 														<br/>
 														<hr/>
 														<form method = "post" action = "/uploadFile" enctype = "multipart/form-data">
@@ -253,12 +260,12 @@
 															<br><br>
 															<label for "conf_1">visibilità</label>
 															<select name="conf_1">
-																	<option value="1">nessuna restrizione</option>
-																	<option value="2">basso</option>
-																	<option value="3">moderato</option>
-																	<option value="4" >normale</option>
-																	<option value="5" selected = "true">riservato</option>
-																	<option value="6"> strettamente riservato</option>
+																	<option value="1">Nessuna restrizione</option>
+																	<option value="2">Basso</option>
+																	<option value="3">Moderato</option>
+																	<option value="4" >Normale</option>
+																	<option value="5" selected = "true">Riservato</option>
+																	<option value="6"> Strettamente riservato</option>
 															  </select>
 															@endif
 															  <br> <br>
@@ -292,12 +299,12 @@
 															<br><br>
 															<label for "conf_1">visibilità</label>
 															<select name="conf_1">
-																	<option value="1">nessuna restrizione</option>
-																	<option value="2">basso</option>
-																	<option value="3">moderato</option>
-																	<option value="4" >normale</option>
-																	<option value="5" selected = "true">riservato</option>
-																	<option value="6"> strettamente riservato</option>
+																	<option value="1">Nessuna restrizione</option>
+																	<option value="2">Basso</option>
+																	<option value="3">Moderato</option>
+																	<option value="4" >Normale</option>
+																	<option value="5" selected = "true">Riservato</option>
+																	<option value="6"> Strettamente riservato</option>
 															  </select>
 															@endif
 														  <br> <br>
@@ -336,12 +343,12 @@
 															<br><br>
 															<label for="conf_1">visibilità</label>
 															<select name="conf_1">
-																	<option value="1">nessuna restrizione</option>
-																	<option value="2">basso</option>
-																	<option value="3">moderato</option>
-																	<option value="4" >normale</option>
-																	<option value="5" selected = "true">riservato</option>
-																	<option value="6"> strettamente riservato</option>
+																	<option value="1">Nessuna restrizione</option>
+																	<option value="2">Basso</option>
+																	<option value="3">Moderato</option>
+																	<option value="4" >Normale</option>
+																	<option value="5" selected = "true">Riservato</option>
+																	<option value="6"> Strettamente riservato</option>
 															  </select>
 													@endif
 													  <br> <br>
@@ -378,12 +385,12 @@
 															<br><br>
 															<label for="conf_1">visibilità</label>
 															<select name="conf_1">
-																	<option value="1">nessuna restrizione</option>
-																	<option value="2">basso</option>
-																	<option value="3">moderato</option>
-																	<option value="4" >normale</option>
-																	<option value="5" selected = "true">riservato</option>
-																	<option value="6"> strettamente riservato</option>
+																	<option value="1">Nessuna restrizione</option>
+																	<option value="2">Basso</option>
+																	<option value="3">Moderato</option>
+																	<option value="4" >Normale</option>
+																	<option value="5" selected = "true">Riservato</option>
+																	<option value="6"> Strettamente riservato</option>
 															  </select>
 													@endif
 												  <br> <br>

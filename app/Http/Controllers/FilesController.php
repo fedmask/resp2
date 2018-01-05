@@ -47,10 +47,8 @@ class FilesController extends Controller
 
         $file_model->save();
         //$file->store("patient/".Input::get('idPatient'), $file->getClientOriginalName(), 'local');
-        
-        //Storage::disk('public')->putFileAs("/patient/".Input::get('idPatient'), $file, $file->getClientOriginalName(), 'public'); 
-        $file->storeAs("patient/".Input::get('idPatient'), $file->getClientOriginalName(), 'public');
-		return Redirect::back();
+        //$file->storeAs("patient/".Input::get('idPatient'), $file->getClientOriginalName(), 'local');
+		return Storage::disk('public')->putFileAs("/patient/".Input::get('idPatient'), $file, $file->getClientOriginalName(), 'public'); ; //Redirect::back();
 	}
 
 	/**
@@ -61,5 +59,15 @@ class FilesController extends Controller
 		File::where('file_nome', Input::get('name'))->where('id_paziente', Input::get('id_patient'))->first()->delete();
 		return Redirect::back();
 	}
+
+    /**
+    * Aggiorna il livello di confidenzialità associato ad un file
+    */
+    public function updateFileConfidentiality(){
+        $file = File::where('file_nome', Input::get('name'))->where('id_paziente', Input::get('id_patient'))->first();
+        $file->id_file_confidenzialita = Input::get('updateConfidentiality');
+        $file->save();
+        return Redirect::back();
+    }
 	
 }

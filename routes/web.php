@@ -104,6 +104,12 @@ Route::post('/uploadFile', 'FilesController@uploadFile');
 */
 Route::post('/deleteFile', 'FilesController@deleteFile');
 
+/**
+* Route per l'aggiornamento del livello di confidenzialità
+* associato ad un file
+*/
+Route::post('/updateFileConfidentiality', 'FilesController@updateFileConfidentiality');
+
 
 /*
 * Routes base per le varie pagine e reindirizza gli utenti non loggati alla homepage

@@ -57,7 +57,7 @@
 									<div class="well col-lg-4">
 										<button type="button" class="btn btn-primary btn-lg btn-line btn-block" style="text-align:left;" onClick="color_dolore('#00ff00')">
 											&nbsp;&nbsp;<img src="img/taccuino/dolore_verde.png" /> Nessun dolore</button>
-											<button class="btn btn-primary btn-lg btn-line btn-block" style="text-align:left;" onClick="color_dolore('#ffffff')">
+											<button type="button" class="btn btn-primary btn-lg btn-line btn-block" style="text-align:left;" onClick="color_dolore('#ffffff')">
 												&nbsp;&nbsp;<img src="img/taccuino/dolore_bianco.png" /> Dolore lieve</button>
 												<button type="button" class="btn btn-primary btn-lg btn-line btn-block" style="text-align:left;" onClick="color_dolore('#2323d2')">
 													&nbsp;&nbsp;<img src="img/taccuino/dolore_blu.png" /> Dolore moderato</button>
