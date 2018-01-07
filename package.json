@@ -17,5 +17,15 @@
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
         "vue": "^2.5.7"
+    },
+    "repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/rafis/schema-extended"
     }
+    ],
+    "require": {
+        "laravel/framework": "5.*",
+        "rafis/schema-extended": "~1.0"
+    },
 }
