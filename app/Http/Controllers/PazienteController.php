@@ -202,14 +202,28 @@ class PazienteController extends Controller
 	/**
     * Mostra la calcolatrice medica del paziente
     */
-    public function showCalcolatriceMedica(){
+    public function showCalcolatriceMedica(Request $request){
+    	if ($request->has('id_visiting')) {
+		    $id_visiting = request()->input('id_visiting');
+		} else {
+			$id_visiting = Auth::user()->id_utente;
+		}
+
+		$this->buildLog('Calcolatrice medica', $request->ip(), $id_visiting);
         return view('pages.calcolatrice-medica');
     }
 
     /**
     * Mostra la patient summary del paziente del paziente
     */
-    public function showPatientSummary(){
+    public function showPatientSummary(Request $request){
+    	if ($request->has('id_visiting')) {
+		    $id_visiting = request()->input('id_visiting');
+		} else {
+			$id_visiting = Auth::user()->id_utente;
+		}
+
+		$this->buildLog('Patient summary', $request->ip(), $id_visiting);
     	$contacts = PazientiContatti::where('id_paziente', Auth::user()->patient()->first()->id_paziente)->get();
         return view('pages.patient-summary')->with('contacts', $contacts);
     }
@@ -217,8 +231,15 @@ class PazienteController extends Controller
     /**
     * Mostra il taccuino di un paziente
     */
-    public function showTaccuino(){
+    public function showTaccuino(Request $request){
     	$user = Auth::user();
+    	if ($request->has('id_visiting')) {
+		    $id_visiting = request()->input('id_visiting');
+		} else {
+			$id_visiting = Auth::user()->id_utente;
+		}
+
+		$this->buildLog('Taccuino', $request->ip(), $id_visiting);
  
     	if($user->getRole() == $user::PATIENT_DESCRIPTION){
     		$records = Taccuino::where('id_paziente', $user->patient()->first()->id_paziente)->get();
@@ -229,8 +250,16 @@ class PazienteController extends Controller
     /**
     * Mostra la pagina dei Care Providers associati ad un paziente
     */
-    public function showCareProviders(){
+    public function showCareProviders(Request $request){
     	$user = Auth::user();
+    	if ($request->has('id_visiting')) {
+		    $id_visiting = request()->input('id_visiting');
+		} else {
+			$id_visiting = Auth::user()->id_utente;
+		}
+
+		$this->buildLog('Care Providers', $request->ip(), $id_visiting);
+
     	$records = [];
     	if($user->getRole() == User::PATIENT_DESCRIPTION){
     		$id_patient = $user->patient()->first()->id_paziente;
@@ -254,21 +283,48 @@ class PazienteController extends Controller
 		
 		if ($request->has('id_visiting')) {
 		    $id_visiting = request()->input('id_visiting');
+		} else {
+			$id_visiting = Auth::user()->id_utente;
 		}
+
+		$log = $this->buildLog('Files', $request->ip(), $id_visiting);
 
 		if($user->getRole() == User::PATIENT_DESCRIPTION){
 			$files = File::where('id_paziente', $id_patient = $user->patient()->first()->id_paziente)->get();
 		}
+		return view('pages.files')->with('files', $files)->with('log', $log);
+	}
 
-		$id_visiting = $user->id_utente;
-		$ip = $request->ip();
-		$log = AuditlogLog::create([ 'audit_nome' => $user->getName(),
+	/**
+	* Mostra la pagina delle impostazioni di sicurezza in cui 
+	* è possibile vedere anche il registro degli accessi.
+	*/
+	public function showSecuritySettings(Request $request){
+		if ($request->has('id_visiting')) {
+		    $id_visiting = request()->input('id_visiting');
+		} else {
+			$id_visiting = Auth::user()->id_utente;
+		}
+
+		$this->buildLog('Impostazioni sicurezza', $request->ip(), $id_visiting);
+
+		$logs = AuditlogLog::where('id_visitato', $id_visiting)->orderBy('id_audit', 'desc')->get();
+
+		return view('pages.impostazioni-sicurezza')->with('logs', $logs);
+	}
+
+	/*
+	* Costruisce un nuovo record log per la pagina che si sta per visualizzare
+	*/
+	public function buildLog($actionName, $ip, $id_visiting){
+		$log = AuditlogLog::create([ 'audit_nome' => $actionName,
 				'audit_ip' => $ip,
 				'id_visitato' => $id_visiting,
-				'id_visitante' => $user->id_utente,
+				'id_visitante' => Auth::user()->id_utente,
 				'audit_data' => date('Y-m-d H:i:s'),
 			]);
 		$log->save();
-		return view('pages.files')->with('files', $files)->with('log', $log);
+		return $log;
 	}
+
 }
