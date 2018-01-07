@@ -27,8 +27,8 @@ class CreateTblTaccuinoTable extends Migration
             $table->integer('id_paziente')->unsigned();
             $table->string('taccuino_descrizione', 45);
             $table->date('taccuino_data');
-            $table->binary('taccuino_report_anteriore');
-            $table->binary('taccuino_report_posteriore');
+            $table->longBinary('taccuino_report_anteriore');
+            $table->longBinary('taccuino_report_posteriore');
 
             $table->index(["id_paziente"], 'fk_tbl_taccuino_tbl_pazienti1_idx');
 

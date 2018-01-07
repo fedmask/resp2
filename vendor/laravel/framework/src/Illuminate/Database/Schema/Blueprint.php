@@ -905,6 +905,17 @@ class Blueprint
     }
 
     /**
+     * Create a new Long binary column on the table.
+     *
+     * @param  string  $column
+     * @return \Illuminate\Support\Fluent
+     */
+    public function longBinary($column)
+    {
+        return $this->addColumn('longBinary', $column);
+    }
+    
+    /**
      * Create a new binary column on the table.
      *
      * @param  string  $column
