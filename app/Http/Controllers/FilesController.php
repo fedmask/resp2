@@ -56,10 +56,10 @@ class FilesController extends Controller
             return Redirect::back();
             
         }else{
-            //Uffaaaa... per qualche motivo il file non ï¿½ stato caricato
+            //Uffaaaa... per qualche motivo il file non è stato caricato
             App::abort(500);
         }
-    }
+	}
 
     /**
     * Cancella un file tra quelli associati ad un paziente
@@ -98,5 +98,4 @@ class FilesController extends Controller
             App::abort(403, 'Access denied ;)');
         }
     }
-    
 }
