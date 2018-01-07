@@ -261,10 +261,9 @@ function save_pain() {
 		},
         data: {/*_token: CSRF_TOKEN,*/ datanota: datan, front: dataURLFront, back: dataURLBack, save_pain_textarea: $('#save_pain_textarea').val()},
         dataType: "json",
-        success: function(response){
-            $("#preview").html(
-                $("<img>").attr("src", response.filename)
-            );
+        complete: function (data) {
+        	$('#canvasModal').modal('hide');
+			location.reload();
         }
     });		
 }
