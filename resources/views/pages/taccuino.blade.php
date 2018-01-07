@@ -164,8 +164,8 @@
                         	$( document ).ready(function() {
                         		$('.showPain').click(function(){
                         			var idShow = $(this).attr('id').split('_')[1];
-                        			document.getElementById("canvasimg_back").src = $('#painBack_'+1).val();
-									document.getElementById("canvasimg").src = $('#painFront_'+1).val();
+                        			document.getElementById("canvasimg_back").src = atob($('#painBack_'+1).val());
+									document.getElementById("canvasimg").src = atob($('#painFront_'+1).val());
                         		});
 
                         		$('input[name=front]').val(getFront());
