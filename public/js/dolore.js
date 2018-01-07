@@ -248,6 +248,8 @@ function save_pain() {
 		//document.getElementById("canvasimg_back").style.border = "2px solid";
 		var dataURLBack = canvasback.toDataURL('image/png');
 		
+		var datan = document.getElementById("datanota").value;
+		
 		if($('#save_pain_textarea').val() == '')
 			$('#save_pain_textarea').val('Nessun commento.');
 		
@@ -257,7 +259,7 @@ function save_pain() {
         headers: {
       		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		},
-        data: {_token: CSRF_TOKEN, description: "$('#save_pain_textarea').val()"},
+        data: {/*_token: CSRF_TOKEN,*/ datanota: datan, front: dataURLFront, back: dataURLBack, save_pain_textarea: $('#save_pain_textarea').val()},
         dataType: "json",
         success: function(response){
             $("#preview").html(

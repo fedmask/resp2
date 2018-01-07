@@ -4,7 +4,7 @@
 @section('pageTitle', 'Taccuino Paziente')
 @section('content')
 <!--PAGE CONTENT -->
-<script src="{{ asset('js/dolore.js') }}"></script>
+
 <div id="content">
 	<div class="inner" style="min-height:1200px;">
 		<div class="row">
@@ -16,7 +16,6 @@
 	<hr />
 
 	<!--inizio modal canvas-->
-	{{ Form::open(array('id'=>'report', 'url'=>'/pazienti/taccuino/addReporting')) }}
 		{{ csrf_field() }}
 	<meta name="csrf-token" content="{{ csrf_token() }}" />
 	<div class="modal" id="canvasModal" tabindex="-1"    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -25,7 +24,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title" id="myModalLabel">Annotazioni del paziente e rappresentazione del dolore</h4>
-					<button type="submit" id="sendBtn" name="sendBtn" class="btn btn-primary">Salva e Chiudi</button>
+					<button type="submit" id="sendBtn" onclick="save_pain()" name="sendBtn" class="btn btn-primary">Salva e Chiudi</button>
 					<!--<button class="btn btn-danger btn-lg btn-line btn-block" style="text-align:left;" onclick="erase_dolore()">btn-lg-->
 						<button type="button" class="btn btn-danger " style="text-align:right;" onclick="erase_dolore()">
 							<!--&nbsp;&nbsp;&nbsp;--><i class="icon-eraser icon-2x"></i> Cancella tutto fronte</button>
@@ -74,12 +73,11 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                        	<button type="button" class="btn btn-primary" onclick="save_dolore()" data-dismiss="modal">Salva e Chiudi</button>
+                                        	<button type="button" class="btn btn-primary" onclick="save_pain()" data-dismiss="modal">Salva e Chiudi</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        {{ Form::close() }}
 
                         
                         <!--fine modal canvas-->
@@ -131,10 +129,9 @@
 																			</button>
 																			<input type="hidden" name="id_taccuino" id="id_contact" value="{{$record->id_taccuino}}">
 																		
-																		<input id="painFront_{{$record->id_taccuino}}" type="hidden" value="{{$record->taccuino_report_anteriore }}"></input>
+																		<input id="painFront_{{$record->id_taccuino}}" type="hidden" value="{{$record->taccuino_report_anteriore}}"></input>
 																		
-																		<img id="canvas_dolore" class="M" src="{{$record->taccuino_report_anteriore }}"></img>
-																		<input id="painBack_{{$record->id_taccuino}}" type="hidden" value="{{$record->taccuino_report_posteriore }}"></input>
+																		<input id="painBack_{{$record->id_taccuino}}" type="hidden" value="{{$record->taccuino_report_posteriore}}"></input>
 																		
 																	</td></tr></tbody></table>
 																</form>
@@ -157,48 +154,7 @@
 		</div>
 	</div>
 </div>
+<script src="{{ asset('js/dolore.js') }}"></script>
 
-						<script>
-                        	getFront();
-                        	getBack();
-                        	$( document ).ready(function() {
-                        		$('.showPain').click(function(){
-                        			var idShow = $(this).attr('id').split('_')[1];
-                        			document.getElementById("canvasimg_back").src = atob($('#painBack_'+1).val());
-									document.getElementById("canvasimg").src = atob($('#painFront_'+1).val());
-                        		});
-
-                        		$('input[name=front]').val(getFront());
-                        		$('input[name=back]').val(getBack());
-                        		$("#report").on("submit", function(e){
-                        		   $('input[name=front]').val(getFront());
-                        		   $('input[name=back]').val(getBack());
-								   $.ajaxSetup({
-						                headers: {
-						                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-						                }
-						            });
-
-								   $.ajax({
-						                url: '/pazienti/taccuino/addReporting',
-						                data: {description: "prova"},
-						                method: 'POST',
-						                datatype: 'JSON',					                
-						                success: function (response) {
-						                    if (response.status === true) {
-						                    	alert($('input[name=front]').val());
-						                        console.log(response.message);
-						                        $('#myModalCallback').modal('toggle');
-						                    } else {
-						                        alert($('#front').val());
-						                    }
-						                },
-						                error: function (response) {
-						                    $('#errormessage').html(response.message);
-						                }
-								 	});
-                        		});
-                        	});
-                        </script>
 <!--END PAGE CONTENT -->
 @endsection
