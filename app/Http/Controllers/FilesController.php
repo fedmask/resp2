@@ -15,6 +15,7 @@ use Auth;
 use DB;
 use Input;
 use Storage;
+use App;
 
 class FilesController extends Controller
 {
@@ -36,19 +37,28 @@ class FilesController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-
-        $file_model = File::create([
-            'id_paziente' => Input::get('idPatient'),
-            'id_audit_log' => Input::get('idLog'),
-            'id_file_confidenzialita' => Input::get('confidentiality'),
-            'file_nome' => $file->getClientOriginalName(),
-            'file_commento' => Input::get('comment'),
-        ]);
-
-        $file_model->save();
+        
         //$file->store("patient/".Input::get('idPatient'), $file->getClientOriginalName(), 'local');
         //$file->storeAs("patient/".Input::get('idPatient'), $file->getClientOriginalName(), 'local');
-		return Storage::disk('public')->putFileAs("/patient/".Input::get('idPatient'), $file, $file->getClientOriginalName(), 'public'); ; //Redirect::back();
+        
+        if(Storage::disk('public')->putFileAs("/patient/".Input::get('idPatient'), $file, $file->getClientOriginalName(), 'public')){
+           
+            $file_model = File::create([
+                'id_paziente' => Input::get('idPatient'),
+                'id_audit_log' => Input::get('idLog'),
+                'id_file_confidenzialita' => Input::get('confidentiality'),
+                'file_nome' => $file->getClientOriginalName(),
+                'file_commento' => Input::get('comment'),
+            ]);
+            
+            $file_model->save();
+            
+            return Redirect::back();
+            
+        }else{
+            //Uffaaaa... per qualche motivo il file non è stato caricato
+            App::abort(500);
+        }
 	}
 
 	/**
@@ -68,6 +78,25 @@ class FilesController extends Controller
         $file->id_file_confidenzialita = Input::get('updateConfidentiality');
         $file->save();
         return Redirect::back();
+    }
+    
+    public function downloadImage($photo_id){
+
+        $user       = Auth::user();
+        $user_id    = $user->patient()->first()->id_paziente;
+        
+        //Controllo che sia il proprietario di questa immagine. Download solo per lui
+        $is_owner = File::where('id_file', $photo_id)->where('id_paziente', $user_id)->first();
+        
+        if($is_owner){
+            $img_name   = $is_owner->file_nome;
+            $path_file  = "app/public/patient/".$user_id."/".$img_name;
+            
+            return response()->download(storage_path($path_file));
+        }else{
+            //Sho! Prevedere una gestione delle risorse migliore che magari sia fatta a monte del sistema
+            App::abort(403, 'Access denied ;)');
+        }
     }
 	
 }

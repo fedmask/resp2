@@ -105,6 +105,12 @@ Route::post('/uploadFile', 'FilesController@uploadFile');
 Route::post('/deleteFile', 'FilesController@deleteFile');
 
 /**
+ * Route per il download di un immagine
+ */
+Route::get('/downloadImage/{id_photo}', 'FilesController@downloadImage');
+
+
+/**
 * Route per l'aggiornamento del livello di confidenzialità
 * associato ad un file
 */
