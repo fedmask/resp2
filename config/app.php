@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 		Collective\Html\HtmlServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -239,6 +240,7 @@ return [
         'User' => App\Models\CurrentUser\User::class,
         'UtentiTipologie' => App\Models\UtentiTipologie::class,
         'CareProvider' => App\Models\CareProviders\CareProvider::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

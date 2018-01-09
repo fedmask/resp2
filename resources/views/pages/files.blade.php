@@ -55,8 +55,9 @@
 							@if(count($files) > 0)
 								@foreach($files as $file)
 									<tr>
-										<td><button class= "btn btn-default btn-success "  type = "submit" onclick ='window.open({{Storage::url("/patient/".$id_patient."/".$file->file_nome)}})'> <i class="icon-check"></i></button></td>
+										<td><button class= "btn btn-default btn-success "  type = "submit" onclick ='window.open("downloadImage/{{$file->id_file}}")'> <i class="icon-check"></i></button></td>
 										<td><a href = "downloadImage/{{$file->id_file}}">{{$file->file_nome}}</a></td><td>{{$file->file_commento}}</td><td><?php echo date('d/m/y', strtotime($file->created_at )) ?></td><td>{{User::find($file->auditlog_log()->first()->id_visitante)->getSurname()}}</td>
+										
 
 										@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
 											<td id = "nomeFile_{{$file->id_file}}conf">{{$file->id_file_confidenzialita}}</td>

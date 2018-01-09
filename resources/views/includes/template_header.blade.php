@@ -27,49 +27,6 @@
 										<!-- / .panel-heading -->
 										<div class="panel-body padding-sm">
 											<div id="messages_list" class="messages-list">
-												<?php
-												/*
-												for($i=0; $i< $this->get_var('conversation_num'); $i++){
-													$lastMex = $this ->get_var('lastmex_conversation_'.$i);
-													//echo " NUM MEX CONV: ".$i." ".$this->get_var('mex_conversation_'.$i.'_num');
-													if($this->get_var('conv_status_'.$i) == 0){
-														echo '<div id="message_conversation#'.$this -> get_var('conversation_'.$i.'_id').'" class="message_'.$this -> get_var('conversation_'.$i.'_id').' message message_conversation_'.$this -> get_var('conversation_'.$i.'_id').' conversation_unread">
-															<input id="message_conversation_value_'.$this -> get_var('conversation_'.$i.'_id').'" value="'.$this -> get_var('conversation_'.$i.'_id').'" class="message_conversation_value"></input>
-															<input id="message_conversation_otheruserid_'.$this -> get_var('conversation_'.$i.'_id').'" value="'.$this -> get_var('otherUser_id_'.$i).'" class="message_conversation_value"></input>
-															<input id="first_second_user_conv_'.$this -> get_var('conversation_'.$i.'_id').'" value="'.$this->get_var('first_second_user_conv_'.$i).'" class="first_second_user" ></input>
-															<img src="'.$this->get_var('patientpic_path_'.$i).'" alt="" class="message-avatar-alt">
-															<a href="#" class="message-subject">'.$lastMex->getLabel().'</a>
-															<div class="message-description">
-																da <a href="#">'.$this->get_var('user_name_'.$i).'</a>
-																&nbsp;&nbsp;·&nbsp;&nbsp;'.$this->get_var('lastmex_conversation_'.$i.'_time').'
-															</div> <!-- / .message-description -->
-														</div> <!-- / .message -->';
-													}else{
-														echo '<div id="message_conversation#'.$this -> get_var('conversation_'.$i.'_id').'" class="message_'.$this -> get_var('conversation_'.$i.'_id').' message message_conversation_'.$this -> get_var('conversation_'.$i.'_id').' conversation_mex">
-															<input id="message_conversation_value_'.$this -> get_var('conversation_'.$i.'_id').'" value="'.$this -> get_var('conversation_'.$i.'_id').'" class="message_conversation_value"></input>
-															<input id="message_conversation_otheruserid_'.$this -> get_var('conversation_'.$i.'_id').'" value="'.$this -> get_var('otherUser_id_'.$i).'" class="message_conversation_value"></input>
-															<input id="first_second_user_conv_'.$this -> get_var('conversation_'.$i.'_id').'" value="'.$this->get_var('first_second_user_conv_'.$i).'" class="first_second_user" ></input>
-															<img src="'.$this->get_var('patientpic_path_'.$i).'" alt="" class="message-avatar-alt">';
-														if (isset ($lastMex))
-														echo'	
-															<a href="#" class="message-subject">'.$lastMex->getLabel().'</a>';
-														echo '	<div class="message-description">
-																da <a href="#">'.$this->get_var('user_name_'.$i).'</a>
-																&nbsp;&nbsp;·&nbsp;&nbsp;'.$this->get_var('lastmex_conversation_'.$i.'_time').'
-															</div> <!-- / .message-description -->
-														</div> <!-- / .message -->';
-													}
-												}
-												echo '<div id="new_conversation" class="message new_conversation" style="height: auto; width: auto;">
-															<i class="icon-plus"></i>
-															<a href="#" class="message-subject"></a>
-															<div class="message-description">
-																a <input   id="sendToUser" name="sendToUser" type="text"  class="typeahead message">
-																&nbsp;&nbsp;·&nbsp;&nbsp;
-															</div> <!-- / .message-description -->
-														</div> <!-- / .message -->';
-														*/
-												?>
 											</div>
 											<!-- / .messages-list -->
 										</div>
@@ -89,29 +46,6 @@
 										</div>
 										<!-- / .panel-heading -->
 										<div id="messages_chat" class="panel-body">
-
-											<?php
-											/*
-											for($i=0; $i<$this->get_var('conversation_num'); $i++){
-												echo '<div id="container_conversation_'.$this -> get_var('conversation_'.$i.'_id').'">';
-												for($j=0; $j<$this->get_var('mex_conversation_'.$i.'_num'); $j++){
-													echo '
-													<div data-timestamp="'.$this->get_var('mex_'.$j.'_conversation_'.$i.'_time').'"  class="'.$this -> get_var('mex_'.$j.'_conversation_'.$i.'_class').' mex_conversation mex_conversation_'.$this -> get_var('conversation_'.$i.'_id').'">
-														<img src="'.$this->get_var('mex_conv_'.$i.'patientpic_path_'.$j).'" alt="" class="message-avatar">
-														<div class="message-body">
-															<div class="message-heading">
-																<a class="username" href="#" title="">'.$this->get_var('mex_'.$j.'_conversation_'.$i.'_username').' </a> scrive:
-																<span class="pull-right">'.$this->get_var('mex_'.$j.'_conversation_'.$i.'_time').'</span>
-															</div>
-															<div class="message-text">'.$this->get_var('mex_'.$j.'_conversation_'.$i.'_content').'
-															</div>
-														</div> <!-- / .message-body -->
-													</div>  <!-- / .message -->';
-												}
-												echo '</div>';
-											}*/
-											?>
-
 										</div>
 										<!-- / .panel-body -->
 										<form class="panel-footer panel-footer-chat chat-controls" id="send_private_message">
@@ -168,62 +102,13 @@
 					@endif
 					<!-- END HOME SECTION -->
 
-
-					<!--ALERTS SECTION -->
-					<?php
-					/*
-					if ( $current_user->getRole() == "pz"){
-					echo'
-                    <li class="chat-panel dropdown">
-                        <a id="numNotification_dropdown" class="" href="#">messaggi: <i class="panel-title-icon fa icon_custom-chat"></i>';
-							if($this->get_var('label_notifiche') == 0){
-								echo '<span id="numNotification" class="label label-info">';
-							}else{
-								echo '<span id="numNotification" class="label label-danger">';
-							}
-							echo $this->get_var('label_notifiche') . 
-						 '</a>
-
-                        <ul id="modal_notification" class="dropdown-menu dropdown-alerts">'.
-						
-							$num=$this->get_var('label_notifiche'); //le notifiche mostrate sono massimo 7
-							if($num>7) { $num=7; }
-							for($i=0; $i<$this->get_var('conversation_num') ; $i++){
-								$lastMex = $this ->get_var('lastmex_conversation_'.$i);
-								if($this->get_var('conv_status_'.$i) == 0){
-									echo "<li id=\"notification_conversation#".$this -> get_var('conversation_'.$i.'_id')."\" class=\"notification_conversation notification_conversation_".$this -> get_var('conversation_'.$i.'_id')."\">
-                                		<a data-toggle=\"modal\" data-target=\"#messageModal\" href=\"\">
-                                    		<div>
-                                        	<i class=\"icon-envelope\"></i> ", $lastMex->getLabel(),
-                                    		"</div>
-											<span class=\"small\">DA: ".$this->get_var('user_name_'.$i)."<span><br>
-											<span class=\"text-muted\" >".$this->get_var('lastmex_conversation_'.$i.'_time')."</span>
-                                		</a>
-                            		 </li>
-                            		<li id=\"notification_divider_conversation#".$this -> get_var('conversation_'.$i.'_id')."\" class=\"divider notification_divider_conversation_".$this -> get_var('conversation_'.$i.'_id')."\"></li>";
-								}
-							}
-                       echo '    
-                            
-                            <li>
-                                <a class="text-center " data-toggle="modal" data-target="#messageModal" href=" ' . $this->get_var('link_mostratutti').' ">
-                                    <strong>Mostra tutti</strong>
-                                    <i class="icon-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-
-                    </li>';
-					}*/
-					?>
-					<!-- END ALERTS SECTION -->
 					<!--USER SETTINGS SECTIONS -->
 					<!--rispetto alla versione originale si è tolta la classe dropdown  e si sono lasciate la modifica				
 					delle impostazioni di sicurezza ed il logout nella lista della navbar-->
 					<!--Modifica impostazioni sicurezza  -->
 					@if( $current_user->getRole() == User::PATIENT_DESCRIPTION)
 					<li>
-						<a href=" '. $this->get_var('link_impostazionisicurezza'). ' "><i class="icon-lock"></i>Impostazioni di sicurezza</a>
+						<a href="/impostazioniSicurezza"><i class="icon-lock"></i>Impostazioni di sicurezza</a>
 					</li>
 					@else
 					<li><a href="http://fsem.di.uniba.it/modello%20PBAC/createPDF.php"><i class="icon-book"></i> Report</a>

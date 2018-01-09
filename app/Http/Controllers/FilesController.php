@@ -80,6 +80,9 @@ class FilesController extends Controller
         return Redirect::back();
     }
     
+    /*
+    * Permette il download di un'immagine
+    */
     public function downloadImage($photo_id){
 
         $user       = Auth::user();

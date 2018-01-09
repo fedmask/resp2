@@ -22,6 +22,7 @@ class User extends Authenticatable
 
 	const PATIENT_ID           = "ass";
 	const PATIENT_DESCRIPTION  = "Assistito";
+	const CAREPROVIDER_ID  = "cpp";
 	
 	protected $casts = [
 		'utente_tipologia' => 'int',
