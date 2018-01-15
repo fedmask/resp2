@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\CurrentUser\User;
 use App\Models\CurrentUser\Recapiti;
 use App\Models\Patient\Pazienti;
+use App\Models\CareProviders\CareProvider;
 use App\Models\Domicile\Comuni;
 use Auth;
 use Redirect;
@@ -105,7 +106,7 @@ class RegisterController extends Controller
             'utente_nome' => Input::get('username'),
             'utente_email' => Input::get('email'),
             'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
-            'id_tipologia' => 'ass',      //Paziente
+            'id_tipologia' => 'ass',
             'utente_email' => Input::get('email'),
             'utente_password' => bcrypt(Input::get('password')),
         ]);
@@ -192,5 +193,73 @@ class RegisterController extends Controller
                 return 'undefined';
                 break;
         }
+    }
+
+    public function registerCareprovider(){
+        $validator = Validator::make(Input::all(), [
+            'acceptTerms' => 'bail|accepted',
+            'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
+            'email' => 'required|string|email|max:50|unique:tbl_utenti,utente_email',
+            'confirmEmail' => 'required|same:email',
+            'password' => 'required|min:8|max:16',
+            'confirmPassword' => 'required|same:password',
+            'numOrdine' => 'required|numeric',
+            'registrationCity' => 'required',
+            'surname' => 'required|string|max:40',
+            'name' => 'required|string|max:40',
+            'gender' => 'required',
+            'CF' => 'required|regex:/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/',
+            'birthCity' => 'required|string|max:40',
+            'birthDate' => 'required|date|before:-18 years',
+            'livingCity' => 'required|string|max:40',
+            'address' => 'required|string|max:90',
+            'cap' => 'numeric|size:5',
+            'telephone' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $user = User::create([
+            'utente_nome' => Input::get('username'),
+            'utente_email' => Input::get('email'),
+            'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
+            'id_tipologia' => 'mos', // TODO: In futuro andrà cambiato in base al ruolo del cpp (medico/operatore emergenza/ecc...)
+            'utente_email' => Input::get('email'),
+            'utente_password' => bcrypt(Input::get('password')),
+        ]);
+
+        $user_contacts = Recapiti::create([
+            'id_utente' => $user->id_utente,
+            'id_comune_residenza' => $this->getTown(Input::get('livingCity')),
+            'id_comune_nascita' => $this->getTown(Input::get('birthCity')),
+            'contatto_telefono'  => Input::get('telephone'),
+            'contatto_indirizzo' => Input::get('address'),
+        ]);
+
+        $user_careprovider = CareProvider::create([
+            'id_utente' => $user->id_utente,
+            'cpp_nome' => Input::get('name'),
+            'cpp_cognome' => Input::get('surname'),
+            'cpp_nascita_data' => date('Y-m-d', strtotime(Input::get('birthDate'))),
+            'cpp_codfiscale' => Input::get('CF'),
+            'cpp_sesso' => Input::get('gender'),
+            'cpp_n_iscrizione' => Input::get('numOrdine'),
+            'cpp_localita_iscrizione' => Input::get('registrationCity'),
+        ]);
+
+        $user->save();
+        $user_contacts->save();
+        $user_careprovider->save();
+
+        $credentials = array('email' => Input::get('email'), 'password' => Input::get('password'));
+        if (Auth::attempt($credentials)) {
+            return Redirect::to('home');
+        }
+
+        return redirect('/');
     }
 }

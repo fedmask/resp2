@@ -28,6 +28,8 @@ Route::get('/register', function() { return view('auth.register'); });
 Route::get('/register/patient', 'Auth\RegisterController@showPatientRegistrationForm')->name('register_patient');
 Route::post('/register/patient', 'Auth\RegisterController@registerPatient');
 Route::get('/register/careprovider', 'Auth\RegisterController@showCareProviderRegistrationForm')->name('register_careprovider');
+Route::post('/register/careprovider', 'Auth\RegisterController@registerCareprovider');
+
 
 
 /*

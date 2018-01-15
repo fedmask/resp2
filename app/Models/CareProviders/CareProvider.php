@@ -61,32 +61,32 @@ class CareProvider extends Eloquent
 		'cpp_localita_iscrizione'
 	];
 
-	public function tbl_utenti()
+	public function users()
 	{
 		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_utente');
 	}
 
-	public function tbl_cpp_tipologie()
+	public function careprovider_types()
 	{
 		return $this->belongsTo(\App\Models\CareProvider\CppTipologie::class, 'id_cpp_tipologia');
 	}
 
-	public function tbl_cpp_diagnosis()
+	public function carprovider_diagnosis()
 	{
 		return $this->hasMany(\App\Models\CareProvider\CppDiagnosi::class, 'id_cpp');
 	}
 
-	public function tbl_cpp_pazientes()
+	public function careprovider_patients()
 	{
 		return $this->hasMany(\App\Models\CareProvider\CppPaziente::class, 'id_cpp');
 	}
 
-	public function tbl_pazienti_visites()
+	public function patient_visits()
 	{
 		return $this->hasMany(\App\Models\Patient\PazientiVisite::class, 'id_cpp');
 	}
 
-	public function tbl_vaccinaziones()
+	public function vaccines()
 	{
 		return $this->hasMany(\App\Models\Vaccine\Vaccinazione::class, 'id_cpp');
 	}
