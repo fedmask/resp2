@@ -40,7 +40,7 @@ Resp viene fornito con un set di dati di prova che è possibile installare segue
 - Lanciare il comando ```php artisan migrate:fresh```
 - Lanciare il comando ```php artisan db:seed```
 
-Ciò permette di potersi loggare come paziente utilizzando lo username "Bob Kelso" e la password "test1234".
+Ciò permette di potersi loggare come care provider utilizzando lo username "Bob Kelso" e la password "test1234" (attualmente dopo il login si riscontra un errorre in quanto il lato care provider non è ancora conlcuso) o come paziente con username "Janitor Jan" e password "test1234".
 
 ## Daily Use
 Ora, ogni volta che avremo bisogno di sviluppare in RESP, non ci resta che avviare o spegnere la macchina virtuale Homestead, dalla cartella omonima, tramite il comando ```vagrant up``` per farla partire (al primo avvio ci metterà del tempo) e ```vagrant halt``` per arrestare la macchina. Per vedere il sito, una volta che la macchina virtuale è up, basterà digitare nel browser http://resp.local
