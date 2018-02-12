@@ -19,7 +19,7 @@ class UserController extends Controller {
 	public function updatePassword( Request $request ) { 
 		$validator = Validator::make(Input::all(), [
 			'password' => 'required|confirmed', 
-			'confirmPassword' => 'required|same:password',
+			'password_confirmation' => 'required|same:password',
 		]);
 
 		 if ($validator->fails()) {

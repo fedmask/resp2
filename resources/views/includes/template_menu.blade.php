@@ -14,7 +14,6 @@
 				<h5 class="media-heading">
 				{{$current_user->getSurname()}}
 				</h5>
-			
 			</div>
 			<br/>
 		</div>
@@ -46,6 +45,21 @@
 			</ul>
 			@if($current_user->getRole() == $current_user::CAREPROVIDER_ID)
 				<button class="btn btn-primary btn-sm btn-line center-block" data-toggle="modal" data-target="#modcppswmodal"><i class="icon-key icon-white"></i> Modifica Password</button>
+				@if(Session::has('SuccessEditPassword'))
+				         <div class="alert alert-success" role="alert">
+				             {{ Session::get('SuccessEditPassword') }}
+				         </div>
+				@endif
+				@if ($errors->any())
+					<div class="alert alert-danger" role="alert">
+						@if(Session::has('FailEditPassword'))
+	                		{{ Session::get('FailEditPassword') }}
+	                	@endif
+						@foreach ($errors->all() as $error)
+	    					<li>{{ $error}}</li> 
+	            		@endforeach
+	            	</div>
+				@endif
 			@endif
 		</div>
 		<!--FINE ANAGRAFICA RIDOTTA-->
@@ -161,6 +175,49 @@
 		@endif
 	</div>
 <!--END MENU SECTION -->
+
+<!-- MODAL MODIFICA PASSWORD CARE PROVIDER-->
+    <div class="col-lg-12">
+        <div class="modal fade" id="modcppswmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="chiudimodcppsw">&times;</button>
+                        <h4 class="modal-title" id="H2">Modifica password</h4>
+                    </div>
+                    <form class="form-horizontal" action="/user/updatepassword" method="post">
+					{{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="modcurrentpsw" class="control-label col-lg-4">Password attuale:</label>
+                            <div class="col-lg-8">
+                                <input type="password" name="current_password" id="current_password" class="form-control col-lg-6" value=""/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="modnewpsw" class="control-label col-lg-4">Nuova password:</label>
+                            <div class="col-lg-8">
+                                <input type="password" name="password" id="password" class="form-control col-lg-6" value=""/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirmation" class="control-label col-lg-4">Conferma password:</label>
+                            <div class="col-lg-8">
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control col-lg-6" value=""/>
+                            </div>
+                        </div>
+                    </div> <!-- fine modal-body -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                        <button type="submit" class="btn btn-primary">Salva</button> 
+                    </div> <!-- fine modal-foote -->
+                    </form>
+				</div> <!-- fine modal-content -->
+            </div> <!-- fine modal-dialog-->
+        </div> <!-- fine modal -->
+    </div>
+    <!--FINE MODIFICA PASSWORD CARE PROVIDER-->
+
 <script>
 	window.onload = function () {
 		//var anamnesiArrowLink = document.getElementById('anamnesiArrowLink');
