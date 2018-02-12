@@ -27,10 +27,12 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         
-        //$records = array();
-        if($user->getRole() == $user::PATIENT_DESCRIPTION){    //Dovrebbe essere il paziente
+        if($user->getRole() == $user::PATIENT_ID){    //Dovrebbe essere il paziente
             $records = Taccuino::where('id_paziente', $user->patient()->first()->id_paziente)->get();
+            return view('pages.taccuino')->with('records', $records);
+        } else if($user->getRole() == $user::CAREPROVIDER_ID) {
+            return view('pages.careprovider.patients');
         }
-        return view('pages.taccuino')->with('records', $records);
+        return "Login Error Occured";
     }
 }

@@ -22,7 +22,7 @@
 															<div class="form-group">
 																<label class="control-label col-lg-4">Da :</label>
 																<div class="col-lg-8">
-																	@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+																	@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 																	<input type="text" name="username" id="username" value=" {{$current_user->getName()}} " readonly class="form-control"/>
 																	@else
 																	<input type="text" name="username" id="username" value=" {{$current_user->getName()}} {{$current_user->getSurname()}} " readonly class= "form-control"/>
@@ -130,7 +130,7 @@
                                                 <th>Telefono</th>
 												<th>Altre informazioni</th>
 												<th>Città</th>
-												@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+												@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 													<th>Conf.</th>
 													<th>Opzioni</th>
 												@endif
@@ -146,7 +146,7 @@
 															<td id="careProvSet_{{$i}}_tel">{{ $careproviders[ $i ]->contacts()->first()->cpp_cognome }}</td>
 															<td id="careProvSet_{{$i}}_reperibilita">.$this->get_var('careProvSet_'.$i."_reperibilita").</td>
 															<td id="careProvSet_{{$i}}_address">.$this->get_var('careProvSet_'.$i."_address").</td>
-															@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+															@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 															<td id="careProvSet_{{$i}}_conf">.$this->get_var('careProvSet_'.$i.'_conf').
 																	</td>
 																	<td>
@@ -249,22 +249,23 @@
 												</tr>
 											</thead>
 											<tbody>
+												
 												@for($i=0; $i<count(CareProvider::all()); $i++)
 													@php($careproviders = CareProvider::all());
-													<tr id="careProvider{{i}}" style="display: none;">
-															<td id="careProv_{{i}}_name">$careprovider->cpp_nome</td>
-															<td id="careProv_{{i}}_surname">$careprovider->cpp_cognome</td>
-															<td id="careProv_{{i}}_role">{{ UtentiTipologie::find($careprovider->id_cpp_tipologia)->first()->tipologia_descrizione}}</td>
-															<td id="careProv_{{i}}_tel">'.$this->get_var('careProv_'.$i."_tel").'</td>
-															<td id="careProv_{{i}}_reperibilita">'.$this->get_var('careProv_'.$i."_reperibilita").'</td>
-															<td id="careProv_{{i}}_address">'.$this->get_var('careProv_'.$i."_address").'</td>															
+													<tr id="careProvider{{$i}}" style="display: none;">
+															<td id="careProv_{{$i}}_name">$careprovider->cpp_nome</td>
+															<td id="careProv_{{$i}}_surname">$careprovider->cpp_cognome</td>
+															<td id="careProv_{{$i}}_role">{{ UtentiTipologie::find($careprovider->id_cpp_tipologia)->first()->tipologia_descrizione}}</td>
+															<td id="careProv_{{$i}}_tel">'.$this->get_var('careProv_'.$i."_tel").'</td>
+															<td id="careProv_{{$i}}_reperibilita">'.$this->get_var('careProv_'.$i."_reperibilita").'</td>
+															<td id="careProv_{{$i}}_address">'.$this->get_var('careProv_'.$i."_address").'</td>															
 															<td>
 															<table>
 															<tr>
 															if ( $sharableData)
 															echo'
 															<td>
-															<button id="buttonCpp_{{i}}" value="{{i}}" type="button" class="buttonAdd btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-plus"></i></button>
+															<button id="buttonCpp_{{$i}}" value="{{$i}}" type="button" class="buttonAdd btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-plus"></i></button>
 															</td>
 															if ( $sharableData){
 															echo'
@@ -274,7 +275,7 @@
 																		<i class="icon-check"></i>
 																		<span class="caret"></span>
 																	  </button>
-																	  <ul id="setLevelCpp_'.$this->get_var('careProv_{{i}}_id').'" class="dropdown-menu" aria-labelledby="dropdownMenu_{{$i}}).'">';
+																	  <ul id="setLevelCpp_'.$this->get_var('careProv_{{$i}}_id').'" class="dropdown-menu" aria-labelledby="dropdownMenu_{{$i}}).'">';
 																		foreach($this->get_var('arrayConf') as $conf ){
 																			//echo '<li><a value="'.$idFiles.'" id="'.$conf['codice'].'" class="to_do" >'.$conf['descrizione'].'</a></li>';
 																			echo '<li><a value="{{$i}}" id="'.$conf['codice'].'" class="cppLevel" >'.$conf['descrizione'].'</a></li>';

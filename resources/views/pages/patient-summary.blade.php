@@ -99,7 +99,7 @@
 				         </div>
 					@endif
 					<!--bottone che apre il pannello per le modifiche informazioni anagrafiche del paziente-->
-					@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+					@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 					<div class="panel-footer" style="text-align:right">
 						<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatinfomodal"><i class="icon-pencil icon-white"></i> Modifica Dati</button>
 						<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatpswmodal"><i class="icon-pencil icon-white"></i> Modifica Password</button>
@@ -119,7 +119,7 @@
 								</li>
 							</ul>
 						</div>
-						@if($current_user->getRole() === 'Care Provider')
+						@if($current_user->getDescription() === 'Care Provider')
 						<div class="panel-footer" style="text-align:right">
 							<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatgrsangmodal"><i class="icon-pencil icon-white"></i> Modifica</button>
 						</div>
@@ -225,7 +225,7 @@
 								</li>
 							</ul>
 						</div>
-						@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+						@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 						<div class="panel-footer" style="text-align:right">
 							<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatdonorgmodal"><i class="icon-pencil icon-white"></i> Modifica</button>
 						</div>
@@ -293,7 +293,7 @@
 											<tr>
 												<th>Nome</th>
 												<th>Telefono</th>
-												@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+												@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 												<th>
 													<button data-toggle="modal" data-target="#addpatcontemergmodal" id="addContact" type="button" class=" btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right"><i class="icon-plus"></i></button>
 												</th>
@@ -350,7 +350,7 @@
 											<th>Telefono</th>
 											<!--Aggiunto campo tipologia per la tipologia di relazione-->
 											<th>Relazione</th>
-											@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+											@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 											<th>
 												<button data-toggle="modal" data-target="#addpatcontmodal" id="addContact" type="button" class=" btn btn-default btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" align="right"><i class="icon-plus"></i></button>
 											</th>

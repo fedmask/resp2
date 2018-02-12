@@ -38,7 +38,7 @@
 								<th>Data Caricamento</th>
 								<th>Caricato da:</th>
 
-								@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+								@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 								<th>Conf.</th>
 								<th>Opzioni</th>
 								@endif
@@ -46,7 +46,7 @@
 						</thead>
 						<tbody>
 							@php
-								if($current_user->getRole() == User::PATIENT_DESCRIPTION){
+								if($current_user->getDescription() == User::PATIENT_DESCRIPTION){
 									$id_patient = $current_user->patient()->first()->id_paziente;	
 								} else{
 									//TODO: inserire caso in cui sia un care provider
@@ -59,7 +59,7 @@
 										<td><a href = "downloadImage/{{$file->id_file}}">{{$file->file_nome}}</a></td><td>{{$file->file_commento}}</td><td><?php echo date('d/m/y', strtotime($file->created_at )) ?></td><td>{{User::find($file->auditlog_log()->first()->id_visitante)->getSurname()}}</td>
 										
 
-										@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+										@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 											<td id = "nomeFile_{{$file->id_file}}conf">{{$file->id_file_confidenzialita}}</td>
 												<td>
 													<table>
@@ -177,7 +177,7 @@
 															</label>
 															<textarea name="comment" id="comment" cols = "60" rows = "2"  > 
 															</textarea>
-															@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+															@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 															<br><br>
 															<label for="conf_1">Visibilità</label>
 															<select name="confidentiality">
@@ -215,7 +215,7 @@
 														</label>
 														<textarea name="comm"  cols = "60" rows = "2"  > 
 														</textarea>
-														@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+														@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 														<br><br>
 														<label for="conf_1">Visibilità</label>
 														<select name="conf_1">
@@ -257,7 +257,7 @@
 															</label>
 															<textarea name="comm"  cols = "60" rows = "2"  > 
 															</textarea>
-															@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+															@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 															<br><br>
 															<label for "conf_1">visibilità</label>
 															<select name="conf_1">
@@ -296,7 +296,7 @@
 														</label>
 														<textarea name="comm"  cols = "60" rows = "2"  > 
 														</textarea>
-														@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+														@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 															<br><br>
 															<label for "conf_1">visibilità</label>
 															<select name="conf_1">
@@ -340,7 +340,7 @@
 													</label>
 													<textarea name="comm"  cols = "60" rows = "2"  > 
 													</textarea>
-													@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+													@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 															<br><br>
 															<label for="conf_1">visibilità</label>
 															<select name="conf_1">
@@ -382,7 +382,7 @@
 												</label>
 												<textarea name="comm"  cols = "60" rows = "2"  > 
 												</textarea>
-												@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+												@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
 															<br><br>
 															<label for="conf_1">visibilità</label>
 															<select name="conf_1">

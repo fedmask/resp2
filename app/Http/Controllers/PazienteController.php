@@ -241,7 +241,7 @@ class PazienteController extends Controller
 
 		$this->buildLog('Taccuino', $request->ip(), $id_visiting);
  
-    	if($user->getRole() == $user::PATIENT_DESCRIPTION){
+    	if($user->getDescription() == $user::PATIENT_DESCRIPTION){
     		$records = Taccuino::where('id_paziente', $user->patient()->first()->id_paziente)->get();
     	}
         return view('pages.taccuino')->with('records', $records);
@@ -261,7 +261,7 @@ class PazienteController extends Controller
 		$this->buildLog('Care Providers', $request->ip(), $id_visiting);
 
     	$records = [];
-    	if($user->getRole() == User::PATIENT_DESCRIPTION){
+    	if($user->getDescription() == User::PATIENT_DESCRIPTION){
     		$id_patient = $user->patient()->first()->id_paziente;
     		// Preleva l'id di tutti i careprovider associati al paziente attulmente loggato.
     		$id_careproviders = CppPaziente::where('id_paziente', $id_patient)->get();
@@ -289,7 +289,7 @@ class PazienteController extends Controller
 
 		$log = $this->buildLog('Files', $request->ip(), $id_visiting);
 
-		if($user->getRole() == User::PATIENT_DESCRIPTION){
+		if($user->getDescription() == User::PATIENT_DESCRIPTION){
 			$files = File::where('id_paziente', $id_patient = $user->patient()->first()->id_paziente)->get();
 		}
 		return view('pages.files')->with('files', $files)->with('log', $log);

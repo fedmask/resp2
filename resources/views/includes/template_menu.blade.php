@@ -39,11 +39,14 @@
 				</li>
 				<li><strong>Telefono</strong>: {{$current_user->getTelephone()}}
 				</li>
-				@if($current_user->getRole() === 'Care provider')
+				@if($current_user->getRole() == $current_user::CAREPROVIDER_ID)
 				<li><a href="#" data-toggle="modal" data-target="#formModal"><i class="icon-envelope-alt"></i>{{$current_user->getEmail()}}</a>
 				</li>
 				@endif
 			</ul>
+			@if($current_user->getRole() == $current_user::CAREPROVIDER_ID)
+				<button class="btn btn-primary btn-sm btn-line center-block" data-toggle="modal" data-target="#modcppswmodal"><i class="icon-key icon-white"></i> Modifica Password</button>
+			@endif
 		</div>
 		<!--FINE ANAGRAFICA RIDOTTA-->
 		<!--MODAL EMAIL-->
@@ -95,6 +98,8 @@
 
 		</div>
 		<!--  FINE MODAL EMAIL-->
+
+		@if($current_user->getRole() == $current_user::PATIENT_ID)
 		<div class="row">
 			<div class="well well-sm">
 				<!-- TODO: aggiungere controllo se vi è già una visita in corso -->
@@ -147,7 +152,13 @@
 			<li class="panel {{Request::path() === 'links' ? 'active' : ''}}"> <a href="{{ url('utility') }}"> <em class="icon-tag"></em> Utility </a>
 			</li>
 		</ul>
-
+		@elseif($current_user->getRole() == $current_user::CAREPROVIDER_ID)
+				<ul id="menu" class="collapse">
+                    <li class="panel {{Request::path() === 'patients-list' ? 'active' : ''}}"> <a href="LINK-PAZIENTI"> <i class="icon-stethoscope" style="font-size:36px"></i> Pazienti </a></li>
+                    
+                    <li class="panel {{Request::path() === 'structures' ? 'active' : ''}}"> <a href="LINK-STRUTTURE"> <em class="icon-home" style="font-size:36px"></em> Strutture </a></li>
+                </ul>
+		@endif
 	</div>
 <!--END MENU SECTION -->
 <script>

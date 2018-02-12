@@ -59,11 +59,18 @@ class User extends Authenticatable
     public function data_patient(){
         return $this->patient;
     }
-	
+
     /*
-	* Restituisce la tipologia di account dell'utente loggato
+	* Restituisce il ruolo dell'utente loggato.
 	*/
     public function getRole(){
+    	return $this->user_type->tipologia_nome;
+    }
+	
+    /*
+	* Restituisce la descrizione del ruolo dell'utente loggato.
+	*/
+    public function getDescription(){
     	return $this->user_type->tipologia_descrizione;
     }
 
@@ -94,11 +101,12 @@ class User extends Authenticatable
 	* Ritorna il nome dell'utente loggato
 	*/
 	public function getName(){
-	    switch($this->id_tipologia){
+	    switch($this->getRole()){
 	        case $this::PATIENT_ID:
 				return $this->data_patient()->first()->paziente_nome;
+			case $this::CAREPROVIDER_ID:
+				return $this->care_providers()->first()->cpp_nome;
 			default:
-				return 'Undefined';
 				break;
 		}
 	}
@@ -107,11 +115,12 @@ class User extends Authenticatable
 	* Ritorna il cognome dell'utente loggato
 	*/
 	public function getSurname(){
-	    switch($this->id_tipologia){
+	    switch($this->getRole()){
 	        case $this::PATIENT_ID:
 				return $this->data_patient()->first()->paziente_cognome;
+			case $this::CAREPROVIDER_ID:
+				return $this->care_providers()->first()->cpp_cognome;
 			default:
-				return 'Undefined';
 				break;
 		}
 	}
@@ -120,11 +129,12 @@ class User extends Authenticatable
 	* Ritorna il codice fiscale dell'utente loggato
 	*/
 	public function getFiscalCode(){
-	    switch($this->id_tipologia){
+	    switch($this->getRole()){
 	        case $this::PATIENT_ID:
 				return $this->data_patient()->first()->paziente_codfiscale;
+			case $this::CAREPROVIDER_ID:
+				return $this->care_providers()->first()->cpp_codfiscale;
 			default:
-				return 'Undefined';
 				break;
 		}
 	}
@@ -134,11 +144,12 @@ class User extends Authenticatable
 	*/
 	public function getBirthdayDate(){
 
-		switch($this->id_tipologia){
+		switch($this->getRole()){
 		    case $this::PATIENT_ID:
 				return $this->data_patient()->first()->paziente_nascita;
+			case $this::CAREPROVIDER_ID:
+				return $this->care_providers()->first()->cpp_nascita_data;
 			default:
-				return 'Undefined';
 				break;
 		}
 	}
@@ -155,11 +166,13 @@ class User extends Authenticatable
 	* Ritorna il numero di telefono dell'utente loggato
 	*/
  	public function getTelephone(){
-		switch($this->id_tipologia){
+		switch($this->getRole()){
 		    case $this::PATIENT_ID:
 				return isset($this->contacts()->first()->contatto_telefono) ? $this->contacts()->first()->contatto_telefono : 'Non pervenuto';
+			case $this::CAREPROVIDER_ID:
+				return isset($this->contacts()->first()->contatto_telefono) ? $this->contacts()->first()->contatto_telefono : 'Non pervenuto';
 			default:
-				return 'Undefined';
+				break;
 		}
     }
 	
@@ -174,11 +187,12 @@ class User extends Authenticatable
 	* Ritorna il sesso dell'utente loggato
 	*/
  	public function getGender(){
-		switch($this->id_tipologia){
+		switch($this->getRole()){
 		    case $this::PATIENT_ID:
 				return $this->data_patient()->first()->paziente_sesso;
+			case $this::CAREPROVIDER_ID:
+				return $this->care_providers()->first()->cpp_sesso;
 			default:
-				return 'Undefined';
 				break;
 		}
     }
@@ -187,30 +201,15 @@ class User extends Authenticatable
 	* Ritorna la città di nascita dell'utente loggato
 	*/
  	public function getBirthTown(){
-		$result = null;
-			switch($this->id_tipologia){
-			    case $this::PATIENT_ID:
-				$result = $this->contacts()->first()->id_comune_nascita;
-				break;
-			default:
-				return 'Undefined';
-				break;
-			}
-			return Comuni::find($result)->comune_nominativo;
+		$result = $this->contacts()->first()->id_comune_nascita;
+		return Comuni::find($result)->comune_nominativo;
     }
 	
 	/**
 	* Ritorna la città dove risiede l'utente loggato
 	*/
  	public function getLivingTown(){
-		$result = null;
-			switch($this->id_tipologia){
-			    case $this::PATIENT_ID:
-				$result = $this->contacts()->first()->id_comune_residenza;
-				break;
-			default:
-				return 'Undefined';
-		}
+		$result = $this->contacts()->first()->id_comune_residenza;
 		return Comuni::find($result)->comune_nominativo;
     }
 	
@@ -218,14 +217,7 @@ class User extends Authenticatable
 	* Ritorna l'indirizzo dove risiede l'utente loggato
 	*/
  	public function getAddress(){
-		$result = null;
-			switch($this->id_tipologia){
-			    case $this::PATIENT_ID:
-				return $this->contacts()->first()->contatto_indirizzo;
-					break;
-			default:
-				return 'Undefined';
-		}
+		return $this->contacts()->first()->contatto_indirizzo;
     }
 	
 	/**
@@ -237,7 +229,6 @@ class User extends Authenticatable
 				return StatiMatrimoniali::where('id_stato_matrimoniale', $this->patient()->first()->id_stato_matrimoniale)->first()->stato_matrimoniale_nome;
 			default:
 				return 'Undefined';
-				break;
 		}
     }
 	

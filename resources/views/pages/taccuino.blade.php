@@ -82,7 +82,7 @@
                             <div class="row">
                             	<div class="col-lg-12">
                             		<div class="box dark">
-                            			@if($current_user->getRole() == User::PATIENT_DESCRIPTION)
+                            			@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
                             			<header>
                             				<h5>Aggiorna il taccuino</h5>
                             				</header>

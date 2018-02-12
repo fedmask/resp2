@@ -15,8 +15,10 @@
 	<!-- Carica il contenuto delle sezioni principali -->
 	@yield('content')
 	
-	<!-- Include la sidebar destra -->
-	@include('includes.template_sidebar')
+	<!-- Include la sidebar destra solo se si è loggati come pazienti --> 
+	@if(Auth::user()->getRole() == Auth::user()::PATIENT_ID)
+		@include('includes.template_sidebar')
+	@endif
 	
 	<!-- Include il template del footer -->
 	@include('includes.template_footer')

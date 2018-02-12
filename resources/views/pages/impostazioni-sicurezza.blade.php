@@ -39,7 +39,7 @@
                                     	@foreach($logs as $log)
                                     		<tr>
                                     			<td>{{User::where('id_utente', $log->id_visitante)->first()->getName()}} {{User::where('id_utente', $log->id_visitante)->first()->getSurname()}}</td>
-                                    			<td>{{User::where('id_utente', $log->id_visitante)->first()->getRole()}}</td>
+                                    			<td>{{User::where('id_utente', $log->id_visitante)->first()->getDescription()}}</td>
                                     			<td>{{$log->audit_nome}}</td>
                                     			<td><?php echo date('d/m/y', strtotime($log->audit_data)) ?></td>
                                     		</tr>

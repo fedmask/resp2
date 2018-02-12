@@ -31,7 +31,7 @@ function createReport($id, $typeExam = null, $version = null){
 		return false;
 	}
 	
-	$myRole = getRole(getMyID());
+	$myRole = getDescription(getMyID());
 	$maxConfidentiality = 0;
     		
     /*	if(defaultPermissions(getMyID()))
