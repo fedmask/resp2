@@ -253,9 +253,9 @@
 												@for($i=0; $i<count(CareProvider::all()); $i++)
 													@php($careproviders = CareProvider::all());
 													<tr id="careProvider{{$i}}" style="display: none;">
-															<td id="careProv_{{$i}}_name">$careprovider->cpp_nome</td>
-															<td id="careProv_{{$i}}_surname">$careprovider->cpp_cognome</td>
-															<td id="careProv_{{$i}}_role">{{ UtentiTipologie::find($careprovider->id_cpp_tipologia)->first()->tipologia_descrizione}}</td>
+															<td id="careProv_{{$i}}_name">{{$careproviders[$i]->cpp_nome}}</td>
+															<td id="careProv_{{$i}}_surname">{{$careproviders[$i]->cpp_cognome}}</td>
+															<td id="careProv_{{$i}}_role"></td>
 															<td id="careProv_{{$i}}_tel">'.$this->get_var('careProv_'.$i."_tel").'</td>
 															<td id="careProv_{{$i}}_reperibilita">'.$this->get_var('careProv_'.$i."_reperibilita").'</td>
 															<td id="careProv_{{$i}}_address">'.$this->get_var('careProv_'.$i."_address").'</td>															
@@ -285,7 +285,7 @@
 															
 															</td>
 															<td>
-																<button class="btn btn-warning btn-mailCpp" data-target="#mailModal" data-toggle="modal" type="button" id="mailCpp_{{i}}}" aria-haspopup="true" aria-expanded="true" value="{{$i}}">
+																<button class="btn btn-warning btn-mailCpp" data-target="#mailModal" data-toggle="modal" type="button" id="mailCpp_" aria-haspopup="true" aria-expanded="true" value="">
 																	<i class="icon-envelope"></i>
 																</button>
 															</td>
