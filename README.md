@@ -28,15 +28,16 @@ Con questi passi l&#39;installazione di Homestead è terminata. Adesso si tratta
 ## Configurazione
 - Per prima cosa generare delle chiavi ssh aprendo il terminale Git Bash e digitando ```ssh-keygen -t rsa -C "yourname@homestead" ```, in questa maniera verrà creato un file id\_rsa.pub nella cartella .ssh di sistema.
 - Ora nella cartella Laravel aprire il terminale Git Bash ed inserire il seguente comando ```git clone https://gitlab.com/antoniodemarco95/laravel-resp.git``` creando così una nuova directory denominata laravel-resp contenente tutti i file di RESP in laravel.
-- Aprire il file Homestead.yaml presente nella cartella Homestead e sostituire nella sezione &quot;folders&quot; modificare l&#39;attributo 'map' con il percorso della nostra directory Laravel e l'attributo 'to' sostituendo la parola 'code' con 'Laravel'; nella sezione &quot;sites&quot; modificare  l&#39;attributo 'map' con la dicitura &quot;resp.local&quot; e l'attributo 'to' con '/home/vagrant/Laravel/laravel-resp/public'; nella sezione database modificare la parola homestead con resp.
+- Aprire il file Homestead.yaml presente nella cartella Homestead e sostituire nella sezione &quot;folders&quot; modificare l&#39;attributo 'map' con il percorso della nostra directory Laravel e l'attributo 'to' con '/home/vagrant/Laravel''; nella sezione &quot;sites&quot; modificare  l&#39;attributo 'map' con la dicitura &quot;resp.local&quot; e l'attributo 'to' con '/home/vagrant/Laravel/laravel-resp/public'; nella sezione database modificare la parola homestead con resp.
 - Modificare il file hosts ( [https://support.rackspace.com/how-to/modify-your-hosts-file/](https://support.rackspace.com/how-to/modify-your-hosts-file/)) aggiungendo la riga ```192.168.10.10  resp.local```.
 
 In questa maniera anche la configurazione è terminata.
 
 ## Caricamento Dati Di Prova
 Resp viene fornito con un set di dati di prova che è possibile installare seguendo questi passi:
+- Aprire il terminale e spostarsi nella cartella "Homestead".
+- Lanciare il comando ```vagrant up ``` ed attendere che la macchina virtuale venga lanciata con successo.
 - Aprire il terminale e spostarsi nella cartella "laravel-resp".
-- Lanciare il comando ```composer require "laravelcollective/html" ```
 - Lanciare il comando ```php artisan migrate:fresh```
 - Lanciare il comando ```php artisan db:seed```
 
