@@ -1,0 +1,162 @@
+<StructureDefinition xmlns="http://hl7.org/fhir">
+  <url value="http://fsem.eu/resources/extensions/user-fields.xml" />
+  <name value="Campi contenenti informazioni sull'account di un utente nel registro" />
+  <kind value="datatype" />
+  <constrainedType value="Extension" />
+  <contextType value="resource" />
+  <context value="Patient" />
+  <differential>
+    <element>
+      <path value="Extension"/>
+      <short value="campi record utente" />
+      <definition value="i campi dell'account utente" />
+      <comments value="poiche' la risorsa Patient non puo' esistere senza un utente presente nel database memorizzo i vari campi utente sotto forma di estensione" />
+      <mustSupport value="true" />
+      <isModifier value="false" />
+    </element>
+    <!-- id -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="id" />
+      <short value="la stringa contenente l'id" />
+      <min value="0" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- username -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="username" />
+      <short value="l'username dell'utente" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- password -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="password" />
+      <short value="la password criptata dell'utente" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- pin -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="pin" />
+      <short value="il pin dell'utente" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- codicefiscale -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="codicefiscale" />
+      <short value="il codicefiscale dell'utente" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- stato -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="stato" />
+      <short value="il campo stato dell'utente" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- scadenza -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="scadenza" />
+      <short value="il campo scadenza" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- codiceruolo -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="codiceruolo" />
+      <short value="il codice del ruolo dell'utente" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- email -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="email" />
+      <short value="l'email criptata dell'utente" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- active -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="active" />
+      <short value="il campo active dell'utente" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- confKey -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="confKey" />
+      <short value="il campo confKey dell'utente" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+    <!-- salt -->
+    <element>
+      <path value="Extension.valueString"/>
+      <name value="salt" />
+      <short value="il salt della password dell'utente" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+  </differential>
+</StructureDefinition>
