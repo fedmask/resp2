@@ -140,3 +140,33 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/impostazioniSicurezza', 'PazienteController@showSecuritySettings')->name('securitySettings');
 
 });
+
+
+Route::group( ['prefix' => 'fhir' ], function () {
+        
+        // Get a specific Patient Resource using ID
+        Route::get('Patient/{id?}', 'Fhir\Modules\FHIRPatient@getResource');
+        // Create a Patient by POSTing a Patient Resource
+        Route::post('Patient', '\LibreEHR\FHIR\Http\Controllers\PatientController@post');
+        // Update a Patient
+        Route::put('Patient/{id}', '\LibreEHR\FHIR\Http\Controllers\PatientController@update');
+        // Delete a Patient
+        Route::delete('Patient/{id}', '\LibreEHR\FHIR\Http\Controllers\PatientController@destroy');
+        Route::get('Appointments', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@showGroup');
+        // Appointment?patient=1&date=lt2016-09-30&dat=gt2016-08-30 Gets all appointments for September 2016 where patient ID == 1
+        // - if no patient is specified, we return the appointments of the current logged-in user
+        Route::get('Appointment', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@index');
+        // Create an Appointment by posting an Appointment Resource
+        Route::post('Appointment', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@post');
+        // Update an Appointment by PUTing an Appointment Resource
+        Route::put('Appointment{id?}', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@put');
+        // DELETE and appointment
+        Route::delete('Appointment/{id}', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@destroy');
+        // Get Slots for a provider Slot?provider=1&date=lt2020-09-30&date=gt2014-08-30
+        Route::get('Slot/{slotDate?}', '\LibreEHR\FHIR\Http\Controllers\SlotController@index');
+        // Post a Blundle of Resources to the base to create a bunch of resources
+        Route::post('/', '\LibreEHR\FHIR\Http\Controllers\BundleController@store');
+        // Get a ValueSet resource
+        Route::get('ValueSet/{id}', '\LibreEHR\FHIR\Http\Controllers\ValuesetController@show');
+    });
+        

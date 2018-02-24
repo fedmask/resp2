@@ -1,9 +1,12 @@
 <?php
 
-require_once("FHIRResource.php");
+namespace App\Http\Controllers\Fhir\Modules;
+
+use App\Http\Controllers\Fhir\Modules\FHIRResource;
+use App\Models\Patient\Pazienti;
+
 
 /*
-
 N.B.
 la risorsa Patient utilizza diverse estensioni tra cui blood-type.
 Ci sono estensioni che servono per acquisire informazioni sull'utente presente
@@ -15,29 +18,22 @@ user-fields: e' invece una estensione che contiene tutti i campi della
 tabella utenti presente nel database. Questa estensione sara' utilizzata in fase
 di creazione e visualizzazione della risorsa in maniera tale da creare un
 nuovo utente ogni qualvolta si crea un nuovo paziente nel sistema.
-
 */
 
-class Patient extends FHIRResource {
+class FHIRPatient extends FHIRResource {
+    
 	public function __construct() {}
 
     function deleteResource($id) {
-        if (empty(getInfo('idutente', 'pazienti', 'idutente = ' . $id))) {
+       
+        if (Pazienti::where('id_utente', $id)->first()) {
             throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         # -----------------------------------------
         # ELIMINO I DATI DAL DATABASE
 
-        $query_delete = 'DELETE FROM pazienti WHERE idutente = "' . $id . '"';
-        executeQuery($query_delete);
-
-        // effettuo un nuovo controllo per verificare se la risorsa e' stata
-        // effettivamente eliminata
-
-        if (!empty(getInfo('idutente', 'pazienti', 'idutente = ' . $id))) {
-            throw new DeleteRequestRefusedException("can't delete resources with id provided");
-        }
+        Pazienti::find($id)->delete();
     }
 
     function updateResource($id, $xml) {
@@ -436,193 +432,34 @@ class Patient extends FHIRResource {
 
 	function getResource($id)
 	{
+
 		//Recupero i dati del paziente avente l' ID richiesto
 		$idutente = $id;
-
-        if (empty(getInfo('idutente', 'pazienti', 'idutente = ' . $id))) {
+		$paziente = Pazienti::where('id_utente', $id)->first();
+		
+		if (!$paziente) {
             throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         // prelevo i dati dell'utente da mostrare come estensione
         $db_values = array(
-            'username' => getInfo('username', 'utenti', 'id = ' . $idutente),
-            'password' => getInfo('password', 'utenti', 'id = ' . $idutente),
-            'pin' => getInfo('pin', 'utenti', 'id = ' . $idutente),
-            'codicefiscale' => getInfo('codicefiscale', 'utenti', 'id = ' . $idutente),
-            'stato' => getInfo('stato', 'utenti', 'id = ' . $idutente),
-            'scadenza' => getInfo('scadenza', 'utenti', 'id = ' . $idutente),
-            'codiceruolo' => getInfo('codiceruolo', 'utenti', 'id = ' . $idutente),
-            'email' => getInfo('email', 'utenti', 'id = ' . $idutente),
-            'active' => getInfo('active', 'utenti', 'id = ' . $idutente),
-            'confKey' => getInfo('confKey', 'utenti', 'id = ' . $idutente),
-
-            'salt' => '',
+            'username' => $paziente->user->utente_nome,
+            'password' => $paziente->user->utente_password,
+            //'pin' => getInfo('pin', 'utenti', 'id = ' . $idutente),
+            'codicefiscale' => $paziente->paziente_codfiscale,
+            'stato' => $paziente->user->stato,
+            'scadenza' => $paziente->user->utente_scadenza,
+            'codiceruolo' => $paziente->user->id_tipologia,
+            'email' => $paziente->user->utente_email,
+            //'active' => getInfo('active', 'utenti', 'id = ' . $idutente),
+            //'confKey' => getInfo('confKey', 'utenti', 'id = ' . $idutente),
+            //'salt' => '',
         );
 
-        // prelevo il salt della password dal file xml
-
-        $xml_values = simplexml_load_file($_SERVER['DOCUMENT_ROOT'] . "modello PBAC/Users.xml");
-        $json = json_encode($xml_values);
-        $array_data = json_decode($json, true);
-
-        foreach ($array_data['Utente'] as $user) {
-            if ($user['username'] == $db_values['username']) {
-                $db_values['salt'] = $user['salt'];
-            }
-        }
-
-        // prelevo il resto dei dati del paziente dal database
-
-        $paziente_gruppo_sanguigno = "";
-        if (getInfo('grupposanguigno', 'pazienti', 'idutente = ' . $idutente) != "")
-            $paziente_gruppo_sanguigno = decryptData(deserializeData(getInfo('grupposanguigno', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$nome_utente = "";
-		if(getInfo('nome', 'pazienti', 'idutente = ' . $idutente)!="")
-			$nome_utente = decryptData(deserializeData(getInfo('nome', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$cognome_utente ="";
-		if(getInfo('cognome', 'pazienti', 'idutente = ' . $idutente)!="")
-			$cognome_utente = decryptData(deserializeData(getInfo('cognome', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$data_nascita = "";
-		if(getInfo('datanascita', 'pazienti', 'idutente = ' . $idutente)!="")
-			$data_nascita = decryptData(deserializeData(getInfo('datanascita', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$data_morte ="";
-		if(getInfo('datamorte', 'pazienti', 'idutente = ' . $idutente)!="")
-			$data_morte = decryptData(deserializeData(getInfo('datamorte', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$indirizzo = "";
-		if(getInfo('indirizzo', 'pazienti', 'idutente = ' . $idutente)!="")
-			$indirizzo = decryptData(deserializeData(getInfo('indirizzo', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$comunenascita = "";
-		if(getInfo('comunenascita', 'pazienti', 'idutente = ' . $idutente)!="")
-			$comunenascita = decryptData(deserializeData(getInfo('comunenascita', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$comuneresidenza = "";
-		if(getInfo('comuneresidenza', 'pazienti', 'idutente = ' . $idutente)!="")
-			$comuneresidenza = decryptData(deserializeData(getInfo('comuneresidenza', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$sesso = "";
-		if(getInfo('sesso', 'pazienti', 'idutente = ' . $idutente)!="")
-			$sesso = decryptData(deserializeData(getInfo('sesso', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$telefono = "";
-		if(getInfo('telefono', 'pazienti', 'idutente = ' . $idutente)!="")
-			$telefono = decryptData(deserializeData(getInfo('telefono', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$stato_matrimoniale = "";
-		if(getInfo('statomatrimoniale', 'pazienti', 'idutente = ' . $idutente)!="")
-			$stato_matrimoniale = decryptData(deserializeData(getInfo('statomatrimoniale', 'pazienti', 'idutente = ' . $idutente)));
-
-		$citta = "";
-		if(getInfo('comune', 'pazienti', 'idutente = ' . $idutente)!="")
-			$citta = decryptData(deserializeData(getInfo('comune', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$cap = "";
-		if(getInfo('cap', 'pazienti', 'idutente = ' . $idutente)!="")
-			$cap = decryptData(deserializeData(getInfo('cap', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$stato= "";
-		if(getInfo('nazione', 'pazienti', 'idutente = ' . $idutente)!="")
-			$stato= decryptData(deserializeData(getInfo('nazione', 'pazienti', 'idutente = ' . $idutente)));
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$pref_stato = "";
-		if(getInfo('prefisso_stato', 'pazienti', 'idutente = ' . $idutente)!="")
-			$pref_stato = decryptData(deserializeData(getInfo('prefisso_stato', 'pazienti', 'idutente = ' . $idutente)));
-
-		//Recupero la foto del paziente dal DB
-		$foto = getInfo('nome', 'data', "idproprietario = " . $idutente." AND tipologia =  	'Immagine profilo'");
-		//$foto = openImage(null,'Immagine profilo',  $idutente);
-
-		//Recupero tutti i contatti di emergeza del Paziente
-		$emergencyContacts = "";
-		if(count(getArray('id','contattoemergenza','id='.$idutente))>0)
-			$emergencyContacts = getArray('id','contattoemergenza','id='.$idutente);
-
-		//dichiaro le variabili in modo tale che se non vi sono i relativi valori nel DB, il sistema non vada in crash
-		$nome_contatto = array();
-		$numero_contatto = array();
-		$relazione_contatto	= array();
-		$ncontattiemergenza = "";
-
-		//Se vi sono contatti di emergenza per il paziente ne valorizzo le relative infomazioni richieste dalla risorsa
-		if($emergencyContacts != null){
-			$ncontattiemergenza = count($emergencyContacts);
-
-			for($i=0; $i<$ncontattiemergenza; $i++){
-				//Controllo che il campo non sia  vuoto
-				if(getInfo('nome', 'contattoemergenza', 'idutente = ' . $emergencyContacts[$i])!="")
-					$nome_contatto[$i] = decryptData(deserializeData(getInfo('nome', 'contattoemergenza', 'idutente = ' . $emergencyContacts[$i])));
-				//Controllo che il campo non sia  vuoto
-				if(getInfo('numero', 'contattoemergenza', 'idutente = ' . $emergencyContacts[$i])!="")
-					$numero_contatto[$i] = decryptData(deserializeData(getInfo('numero', 'contattoemergenza', 'idutente = ' . $emergencyContacts[$i]))); //solo digits
-				//Controllo che il campo non sia  vuoto
-				if(getInfo('tipo_contatto', 'contattoemergenza', 'idutente = ' . $emergencyContacts[$i])!="")
-					$relazione_contatto[$i] = decryptData(deserializeData(getInfo('tipo_contatto', 'contattoemergenza', 'idutente = ' . $emergencyContacts[$i])));
-				else $relazione_contatto[$i]="";
-			}
-
-		}
-
-		//Recupero tutti i Careprovider del paziente
-		$careproviders = getArray('id','careproviderpersona','id='.$idutente);
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$id_careprovider = array();
-
-		//dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-		$ncareproviders = "";
-		if($careproviders != null){
-			$ncareproviders = count($careproviders);
-			for($i=0; $i<$ncareproviders; $i++){
-				$id_careprovider[$i] = getInfo('id', 'careproviderpersona', 'idutente = ' . $careproviders[$i]);
-			}
-
-		}
-
-		//Associo ad ogni codice dello stato civile il corrispettivo valore testuale in italiano
-		$maritalstatus = $stato_matrimoniale;
-		if($maritalstatus=="")
-		  $maritalstatus = "Nessuno";
-		elseif($maritalstatus=="A")
-			  $maritalstatus = "Annullato";
-		elseif($maritalstatus=="D")
-			  $maritalstatus = "Divorziato";
-		elseif($maritalstatus=="I")
-			  $maritalstatus = "Interlocutorio";
-		elseif($maritalstatus=="L")
-			  $maritalstatus = "Legalmente Separato";
-		elseif($maritalstatus=="M")
-			  $maritalstatus = "Sposato";
-		elseif($maritalstatus=="P")
-			  $maritalstatus = "Poligamo";
-		elseif($maritalstatus=="S")
-			  $maritalstatus = "Mai Sposato";
-		elseif($maritalstatus=="T")
-			  $maritalstatus = "Convivente";
-		elseif($maritalstatus=="W")
-			  $maritalstatus = "Vedovo";
-
-		//Creazione del documento XML per il paziente
+  		//Creazione del documento XML per il paziente
 
 		//Creazione di un oggetto dom con la codifica UTF-8
-		$dom = new DOMDocument('1.0', 'utf-8');
+		$dom = new \DOMDocument('1.0', 'utf-8');
 
 		//Creazione del nodo Patient, cioè il nodo Root  della risorsa
 		$patient = $dom->createElement('Patient');
@@ -679,7 +516,7 @@ class Patient extends FHIRResource {
 		$td = $tr->appendChild($td);
 
 		//Creazione della colonna con il valore di nome e cognome del paziente
-		$td = $dom->createElement('td', $nome_utente." ".$cognome_utente);
+		$td = $dom->createElement('td', $paziente->paziente_nome." ".$paziente->paziente_cognome);
 		$td = $tr->appendChild($td);
 
 
@@ -694,7 +531,7 @@ class Patient extends FHIRResource {
 
 
 		//Creazione della colonna con il valore di data di nascita del paziente
-		$td = $dom->createElement('td', $data_nascita);
+		$td = $dom->createElement('td', $paziente->paziente_nascita);
 		$td = $tr->appendChild($td);
 
 
@@ -709,7 +546,8 @@ class Patient extends FHIRResource {
 
 
 		//Creazione della colonna con il valore del contatto telefonico
-		$td = $dom->createElement('td',$telefono);
+
+		$td = $dom->createElement('td',$paziente->user()->first()->contacts()->first()->contatto_telefono);
 		$td = $tr->appendChild($td);
 
 
@@ -724,7 +562,7 @@ class Patient extends FHIRResource {
 
 
 		//Creazione della colonna con il valore del comune di residenza
-		$td = $dom->createElement('td',$comuneresidenza);
+		$td = $dom->createElement('td',$paziente->user()->first()->contacts()->first()->id_comune_residenza);
 		$td = $tr->appendChild($td);
 
 
@@ -739,7 +577,7 @@ class Patient extends FHIRResource {
 
 
 		///Creazione della colonna con il valore dell'indirizzo
-		$td = $dom->createElement('td',$indirizzo);
+		$td = $dom->createElement('td',$paziente->user()->first()->contacts()->first()->contatto_indirizzo);
 		$td = $tr->appendChild($td);
 
 
@@ -754,7 +592,7 @@ class Patient extends FHIRResource {
 
 
 		//Creazione della colonna con il valore dello stato di residenza
-		$td = $dom->createElement('td',$stato." ".$pref_stato);
+		$td = $dom->createElement('td', "DA FARE" /*$stato." ".$pref_stato*/);
 		$td = $tr->appendChild($td);
 
 
@@ -769,8 +607,9 @@ class Patient extends FHIRResource {
 
 
 		//Creazione della colonna con il valore di stato civile
-		$td = $dom->createElement('td',$maritalstatus);
+		$td = $dom->createElement('td',$paziente->id_stato_matrimoniale);
 		$td = $tr->appendChild($td);
+
 
         // creo l'estensione per indicare il gruppo sanguigno
         $node_extension = $dom->createElement('extension');
@@ -778,9 +617,10 @@ class Patient extends FHIRResource {
         $node_extension = $patient->appendChild($node_extension);
 
         $node_valueString = $dom->createElement('valueString');
-        $node_valueString->setAttribute('value', $paziente_gruppo_sanguigno);
+        $node_valueString->setAttribute('value', $paziente->paziente_gruppo);
         $node_valueString = $node_extension->appendChild($node_valueString);
 
+        
         // creazione del nodo extension che rappresenta i vari campi dell'utente a cui
         // corrisponde il paziente della risorsa
 
@@ -798,6 +638,7 @@ class Patient extends FHIRResource {
             $node_valueString = $node_inner_extension->appendChild($node_valueString);
         }
 
+        
 		//Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
 		$identifier = $dom->createElement('identifier');
 		$identifier = $patient->appendChild($identifier);
@@ -815,12 +656,13 @@ class Patient extends FHIRResource {
 		$value->setAttribute('value', "../fhir/Patient/".$idutente);
 		$value = $identifier->appendChild($value);
 
-
+		
+		
 		//Creazione del nodo active settato a true in quanto la risorsa è attiva per il FSEM
 		$active = $dom->createElement('active');
 		$active->setAttribute('value', 'true');
 		$active = $patient->appendChild($active);
-
+		
 
 		//Creazione del nodo per il nominativo del paziente
 		$name = $dom->createElement('name');
@@ -831,15 +673,14 @@ class Patient extends FHIRResource {
 		$use = $name->appendChild($use);
 		//Creazione del nodo family che indica il nome dalla famiglia di provenienza, quindi il cognome del paziente
 		$family = $dom->createElement('family');
-		$family->setAttribute('value', $cognome_utente);
+		$family->setAttribute('value', $paziente->paziente_cognome);
 		$family = $name->appendChild($family);
 		//Creazione del nodo given che indica il nome di battesimo dato al paziente
 		$given = $dom->createElement('given');
-		$given->setAttribute('value', $nome_utente);
+		$given->setAttribute('value', $paziente->paziente_nome);
 		$given = $name->appendChild($given);
 
-
-
+		
 		//Creazione del nodo telecom con il contatto telefonico del paziente
 		$telecom = $dom->createElement('telecom');
 		$telecom = $patient->appendChild($telecom);
@@ -849,37 +690,36 @@ class Patient extends FHIRResource {
 		$system = $telecom->appendChild($system);
 		//Creazione del nodo value che contiene il valore del numero di telefono del paziente
 		$value = $dom->createElement('value');
-		$value->setAttribute('value', $telefono);
+		$value->setAttribute('value', $paziente->user()->first()->contacts()->first()->contatto_telefono);
 		$value = $telecom->appendChild($value);
 		//Creazione del nodo use che indica la tipologia di numero di telefono
 		$use = $dom->createElement('use');
 		//Contro se il numero di telefono è di un mobile o fisso
-		if($telefono[0]=="3")
+		if($paziente->user()->first()->contacts()->first()->contatto_telefono[0]=="3")
 			$use->setAttribute('value', 'mobile');
-		elseif($telefono[0]=="0")
+		else
 			$use->setAttribute('value', 'home');
+		
 		$use = $telecom->appendChild($use);
 
 
 		//Creazione del nodo gender per il sesso del paziente
 		$gender = $dom->createElement('gender');
 		//Controllo se il sesso salvato nel FSEM sia maschio o femmina e do il valore all'attributo con codifica HL7
-		if($sesso=="M")
-			$sex="male";
-		else
-			$sex="female";
-		$gender->setAttribute('value', $sex);
+		$gender->setAttribute('value', $paziente->paziente_sesso);
 		$gender = $patient->appendChild($gender);
 
 
 		//Creazione del nodo birthdate con la data di nascita del paziente
 		$birthDate = $dom->createElement('birthDate');
-		$birthDate->setAttribute('value', $data_nascita);
+		$birthDate->setAttribute('value', $paziente->paziente_nascita);
 		$birthDate = $patient->appendChild($birthDate);
 
 
 		//Effettuo il controllo sulla data di decesso del paziente
-		if($data_morte=="")
+		
+		
+		if(!$paziente->tbl_pazienti_decessi()->first())
 		{
 			//Se la data di decesso non esiste allora setto a false il valore del nodo deceasedBoolean
 			$deceasedBoolean = $dom->createElement('deceasedBoolean');
@@ -890,7 +730,7 @@ class Patient extends FHIRResource {
 		{
 			//Se la data di decesso esiste allora la inserisco
 			$deceasedDateTime = $dom->createElement('deceasedDateTime');
-			$deceasedDateTime->setAttribute('value', $data_morte);
+			$deceasedDateTime->setAttribute('value', $paziente->tbl_pazienti_decessi()->first()->paziente_data_decesso);
 			$deceasedDateTime = $patient->appendChild($deceasedDateTime);
 		}
 
@@ -902,24 +742,29 @@ class Patient extends FHIRResource {
 		$use = $dom->createElement('use');
 		$use->setAttribute('value', 'home');
 		$use = $address->appendChild($use);
+		
 		//Creazione del nodo line che indica l'indirizzo di residenza
 		$line = $dom->createElement('line');
-		$line->setAttribute('value', $indirizzo);
+		$line->setAttribute('value', $paziente->user()->first()->getAddress());
 		$line = $address->appendChild($line);
 		//Creazione del nodo city che indica la città di residenza
 		$city = $dom->createElement('city');
-		$city->setAttribute('value', $comuneresidenza);
+		$city->setAttribute('value', $paziente->user()->first()->getLivingTown());
 		$city = $address->appendChild($city);
+	
 		//Creazione del nodo postalCode che indica il codice postale di residenza
 		$postalCode = $dom->createElement('postalCode');
-		$postalCode->setAttribute('value', $cap);
+		$postalCode->setAttribute('value', $paziente->user()->first()->getCapLivingTown());
 		$postalCode = $address->appendChild($postalCode);
 		//Creazione del nodo country che indica lo stato di residenza
-		$country = $dom->createElement('country');
+		
+		
+		/****$country = $dom->createElement('country');
 		$country->setAttribute('value', $pref_stato);
-		$country = $address->appendChild($country);
+		$country = $address->appendChild($country); ****/
 
 
+		
 		//Creazione del nodo maritalStatus cioè lo stato civile del paziente
 		$maritalStatus = $dom->createElement('maritalStatus');
 		$maritalStatus = $patient->appendChild($maritalStatus);
@@ -932,16 +777,17 @@ class Patient extends FHIRResource {
 		$system = $coding->appendChild($system);
 		//Creazione del nodo code con codice dello stato civile
 		$code = $dom->createElement('code');
-		$code->setAttribute('value', $stato_matrimoniale);
+		$code->setAttribute('value', $paziente->user()->first()->utente_stato);
 		$code = $coding->appendChild($code);
 		//Creazione del nodo dysplay cioè la visualizzazione dello stato civile
 		$dysplay = $dom->createElement('display');
 		//Do il valore all' attributo del tag
-		$dysplay->setAttribute('value', $maritalstatus );
+		$dysplay->setAttribute('value', $paziente->user()->first()->getMaritalStatus() );
 		$dysplay = $coding->appendChild($dysplay);
 
 
 		//Controllo che ci sia una foto relativa al paziente
+		/*
 		if($foto!=""){
 			//Creazione del nodo photo se esiste la foto del paziente
 			$photo = $dom->createElement('photo');
@@ -954,13 +800,13 @@ class Patient extends FHIRResource {
 			$url = $dom->createElement('url');
 			$url->setAttribute('value', "../files/uploads/".$foto);
 			$url = $photo->appendChild($url);
-			/*$data = $dom->createElement('data');
 			$data->setAttribute('value', $foto);
-			$data = $photo->appendChild($data);*/
+			$data = $photo->appendChild($data);
 		}
+		*/
 
 		//Inserisco tutti i contatti di emergenza in quanto possono essere più di uno
-		for($i=0; $i<$ncontattiemergenza; $i++)
+		/*for($i=0; $i<$ncontattiemergenza; $i++)
 		{
 			$contact = $dom->createElement('contact');
 			$contact = $patient->appendChild($contact);
@@ -1010,6 +856,7 @@ class Patient extends FHIRResource {
 			$use = $telecom->appendChild($use);
 		}
 
+*/
 
 		//Creazione del nodo communication per indicare la lingua di comunicazione del paziente
 		$communication = $dom->createElement('communication');
@@ -1032,6 +879,7 @@ class Patient extends FHIRResource {
 		$display = $coding->appendChild($display);
 
 
+		/*
 		//Creo il riferimento a tutti i careprovider selezionati dal paziente
 		for($i=0; $i<$ncareproviders; $i++)
 		{
@@ -1044,6 +892,7 @@ class Patient extends FHIRResource {
 			$reference = $careProvider->appendChild($reference);
 		}
 
+*/
 		//Elimino gli spazi bianchi superflui per la viasualizzazione grafica dell'XML
 		$dom->preserveWhiteSpace = false;
 		//Formatto il documento per l'output
@@ -1051,8 +900,8 @@ class Patient extends FHIRResource {
 		//Salvo il documento XML nella cartella rsources dando come nome, l'id del paziente
 		//$dom->save("../fhir/Patient/".$idutente.".xml");
 
-		return $dom->saveXML();
+		echo $dom->saveXML();
+		//return $dom->saveXML();
 	}
 }
-
 ?>

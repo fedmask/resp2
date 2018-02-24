@@ -90,7 +90,7 @@ class Pazienti extends Eloquent
 
 	public function patient_contacts()
 	{
-		return $this->hasMany(\App\Models\ContattiPazienti::class, 'id_paziente');
+		return $this->hasMany(\App\Models\Patient\PazientiContatti::class, 'id_paziente');
 	}
 
 	public function cpp_patients()
