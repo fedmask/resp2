@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
 		$this->call(UsersTableSeeder::class);
 		$this->call(PatientsTableSeeder::class);
         $this->call(TownTableSeeder::class);
+        $this->call(CareProviderPeopleTableSeeder::class); //Va dopo l'inserimento dei comuni
         $this->call(ContactsTableSeeder::class);
+        
     }
 }

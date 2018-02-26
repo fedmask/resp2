@@ -1,27 +1,28 @@
 <?php
 
-require_once("FHIRResource.php");
+namespace App\Http\Controllers\Fhir\Modules;
 
-class Practitioner extends FHIRResource {
-    public function __construct() {}
+use App\Http\Controllers\Fhir\Modules\FHIRResource;
+use App\Models\CareProvider\CppPersona;
+use Illuminate\Http\Request;
+use App;
+use Redirect;
+
+class FHIRPractitioner extends FHIRResource {
+    
+    public function __construct() {
+    //    $a = new ResourceExceptions();
+    }
 
     function deleteResource($id) {
-        if (empty(getInfo('id', 'careproviderpersona', 'id = ' . $id))) {
+        
+        if (!CppPersona::where('id_persona', $id)->exists()) {
             throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
-        # -----------------------------------------
         # ELIMINO I DATI DAL DATABASE
 
-        $query_delete = 'DELETE FROM careproviderpersona WHERE id = "' . $id . '"';
-        executeQuery($query_delete);
-
-        // effettuo un nuovo controllo per verificare se la risorsa e' stata
-        // effettivamente eliminata
-
-        if (!empty(getInfo('id', 'careproviderpersona', 'id = ' . $id))) {
-            throw new DeleteRequestRefusedException("can't delete resources with id provided");
-        }
+        CppPersona::find($id)->delete();
     }
 
     function updateResource($id, $xml) {
@@ -29,7 +30,7 @@ class Practitioner extends FHIRResource {
         $json = json_encode($xml_values);
         $array_data = json_decode($json, true);
 
-        if (empty(getInfo('id', 'careproviderpersona', 'id = ' . $id))) {
+        if (!CppPersona::where('id_persona', $id)->exists()) {
             throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
@@ -92,23 +93,22 @@ class Practitioner extends FHIRResource {
             throw new InvalidResourceFieldException('invalid active field');
         }
 
-        //print_r($db_values);
-
-        # -----------------------------------------
         # AGGIORNO I DATI PARSATI NEL DATABASE
 
-        // query di inserimento che verra' eseguita
-        $query_update = 'UPDATE careproviderpersona SET ' .
-            'idutente = "' . $db_values['idutente'] . '", ' .
-            'nome = "' . $db_values['nome'] . '", ' .
-            'cognome = "' . $db_values['cognome'] . '", ' .
-            'comune = "' . $db_values['comune'] . '", ' .
-            'telefono = "' . $db_values['telefono'] . '", ' .
-            'fax = "' . $db_values['fax'] . '", ' .
-            'active = ' . $db_values['active'] . ' ' .
-            'WHERE id = ' . $id;
+        $comune_nascita = Comuni::where('comune_nominativo', $db_values['comune'])->first();
+        
+        $careProviderPersona = CppPersona::find($id);
+        
+        $careProviderPersona->id_utente = $db_values['idutente'];
+        $careProviderPersona->id_comune = $comune_nascita->id_comune;
+        $careProviderPersona->persona_nome = $db_values['nome'];
+        $careProviderPersona->persona_cognome = $db_values['cognome'];
+        $careProviderPersona->persona_telefono = $db_values['telefono'];
+        $careProviderPersona->persona_fax = $db_values['fax'];
+        $careProviderPersona->persona_attivo = $db_values['active'];
+        
+        $careProviderPersona->save();
 
-        executeQuery($query_update);
     }
     
     function createResource($xml) {
@@ -177,40 +177,34 @@ class Practitioner extends FHIRResource {
             throw new InvalidResourceFieldException('invalid active field');
         }
 
-        //print_r($db_values);
-
         # -----------------------------------------
         # INSERISCO I DATI PARSATI NEL DATABASE
 
-        $query_insert = 'INSERT INTO careproviderpersona (id, idutente, nome, cognome, comune, telefono, fax, active) values (NULL, "' . $db_values['idutente'] . '", "' . $db_values['nome'] . '", "' . $db_values['cognome'] . '", "' . $db_values['comune'] . '", "' . $db_values['telefono'] . '", "' . $db_values['fax'] . '", '. $db_values['active'] . ')';
-
-        executeQuery($query_insert);
-
-        // prelevo l'id del campo con i valori appena inseriti
-        $value_id = getInfo('id', 'careproviderpersona',
-            'nome = "' . $db_values['nome'] . '" AND ' .
-            'idutente = "' . $db_values['idutente'] . '" AND ' .
-            'cognome = "' . $db_values['cognome'] . '" AND ' .
-            'comune = "' . $db_values['comune'] . '" AND ' .
-            'telefono = "' . $db_values['telefono'] . '" AND ' .
-            'fax = "'. $db_values['fax'] . '" AND ' .
-            'active ' . (($db_values['active'] == 'NULL') ? 'IS NULL' : '= 1')
-        );
-
-        return $value_id;
+        $comune_nascita = Comuni::where('comune_nominativo', $db_values['comune'])->first();
+        
+        $careProviderPersona = new CppPersona();
+        
+        $careProviderPersona->id_utente = $db_values['idutente'];
+        $careProviderPersona->id_comune = $comune_nascita->id_comune;
+        $careProviderPersona->persona_nome = $db_values['nome'];
+        $careProviderPersona->persona_cognome = $db_values['cognome'];
+        $careProviderPersona->persona_telefono = $db_values['telefono'];
+        $careProviderPersona->persona_fax = $db_values['fax'];
+        $careProviderPersona->persona_attivo = $db_values['active'];
+        
+        $careProviderPersona->save();
+        
+        return CppPersona::find('id_utente', $db_values['idutente'])->first()->id_persona;
     }
 
     function getResource($id)
     {
-        if (empty(getInfo('id', 'careproviderpersona', 'id = ' . $id))) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+        if (!CppPersona::where('id_persona', $id)->exists()) {
+            App::abort(403, "resource with the id provided doesn't exist in database");
         }
-        
+
         //dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
         $careproviders = "";
-        
-        //Recupero i dati del Careprovider richiesto
-        $careproviders = getInfo('id','careproviderpersona','id='.$id);
         
         //dichiaro le variabili in modo tale che se non vi sono i relativi valori nel DB, il sistema non vada in crash
         $nome_careprovider = "";
@@ -223,16 +217,14 @@ class Practitioner extends FHIRResource {
         $comune_careprovider = "";
         
         //Se il valore dell'ID del careprovider richiesto non è nullo recupero i dati richiesti dalla specifica dal DB
-        if($careproviders != null){ 
-            $nome_careprovider = getInfo('nome', 'careproviderpersona', 'id = ' . $careproviders);
-            $cognome_careprovider = getInfo('cognome', 'careproviderpersona', 'id = ' . $careproviders);
-            $telefono_careprovider = getInfo('telefono', 'careproviderpersona', 'id = ' . $careproviders);
-            $citta_careprovider = getInfo('comune', 'careproviderpersona', 'id = ' . $careproviders);
-            $active_careprovider = getInfo('active', 'careproviderpersona', 'id = ' . $careproviders);
-
-            $id_utente_careprovider = getInfo('idutente', 'careproviderpersona', 'id = ' . $careproviders);
-            $comune_careprovider = getInfo('comune', 'careproviderpersona', 'id = ' . $careproviders);
-        }
+        $nome_careprovider = getInfo('nome', 'careproviderpersona', 'id = ' . $careproviders);
+        $cognome_careprovider = getInfo('cognome', 'careproviderpersona', 'id = ' . $careproviders);
+        $telefono_careprovider = getInfo('telefono', 'careproviderpersona', 'id = ' . $careproviders);
+        $citta_careprovider = getInfo('comune', 'careproviderpersona', 'id = ' . $careproviders);
+        $active_careprovider = getInfo('active', 'careproviderpersona', 'id = ' . $careproviders);
+        $id_utente_careprovider = getInfo('idutente', 'careproviderpersona', 'id = ' . $careproviders);
+        $comune_careprovider = getInfo('comune', 'careproviderpersona', 'id = ' . $careproviders);
+        
 
         //Creazione del documento XML per il CareProvider del Paziente
 
@@ -444,6 +436,7 @@ class Practitioner extends FHIRResource {
         //$dom->save("Practitioner/".$careproviders.".xml");
         
         return $dom->saveXML();
+
     }
 }
 

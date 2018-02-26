@@ -35,6 +35,10 @@ class Nazioni extends Eloquent
 		'nazione_nominativo',
 		'nazione_prefisso_telefonico'
 	];
+	
+	public function getCountryName(){
+	    return $this->nazione_nominativo;
+	}
 
 	public function tbl_comunis()
 	{

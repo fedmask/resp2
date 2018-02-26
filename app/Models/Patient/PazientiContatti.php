@@ -40,6 +40,10 @@ class PazientiContatti extends Eloquent
 		'contatto_nominativo',
 		'contatto_telefono'
 	];
+	
+	public function getCount(){
+	    return $this::count();
+	}
 
 	public function tbl_pazienti()
 	{

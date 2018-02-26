@@ -144,14 +144,13 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::group( ['prefix' => 'fhir' ], function () {
         
-        // Get a specific Patient Resource using ID
         Route::get('Patient/{id?}', 'Fhir\Modules\FHIRPatient@getResource');
-        // Create a Patient by POSTing a Patient Resource
-        Route::post('Patient', '\LibreEHR\FHIR\Http\Controllers\PatientController@post');
-        // Update a Patient
-        Route::put('Patient/{id}', '\LibreEHR\FHIR\Http\Controllers\PatientController@update');
-        // Delete a Patient
-        Route::delete('Patient/{id}', '\LibreEHR\FHIR\Http\Controllers\PatientController@destroy');
+        Route::post('Patient', 'Fhir\Modules\FHIRPatient@createResource');
+        Route::put('Patient/{id}', 'Fhir\Modules\FHIRPatient@update');
+        Route::delete('Patient/{id}', 'Fhir\Modules\FHIRPatient@destroy');
+        
+        Route::get('Practitioner/{id?}','Fhir\Modules\FHIRPractitioner@getResource');
+        
         Route::get('Appointments', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@showGroup');
         // Appointment?patient=1&date=lt2016-09-30&dat=gt2016-08-30 Gets all appointments for September 2016 where patient ID == 1
         // - if no patient is specified, we return the appointments of the current logged-in user

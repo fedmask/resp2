@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Fhir\Modules;
 
 use App\Http\Controllers\Fhir\Modules\FHIRResource;
 use App\Models\Patient\Pazienti;
-
-
+use App\Models\Patient\PazientiContatti;
+use App\Models\CareProviders\CppPaziente;
 /*
 N.B.
 la risorsa Patient utilizza diverse estensioni tra cui blood-type.
@@ -26,22 +26,20 @@ class FHIRPatient extends FHIRResource {
 
     function deleteResource($id) {
        
-        if (Pazienti::where('id_utente', $id)->first()) {
+        if (!Pazienti::where('id_utente', $id)->exists()) {
             throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
-        # -----------------------------------------
-        # ELIMINO I DATI DAL DATABASE
 
         Pazienti::find($id)->delete();
     }
 
     function updateResource($id, $xml) {
-        $xml_values = simplexml_load_string($xml);
-        $json = json_encode($xml_values);
-        $array_data = json_decode($json, true);
+        $xml_values     = simplexml_load_string($xml);
+        $json           = json_encode($xml_values);
+        $array_data     = json_decode($json, true);
 
-        if (empty(getInfo('idutente', 'pazienti', 'idutente = ' . $id))) {
+        if (!Pazienti::where('id_utente', $id)->exists()) {
             throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
@@ -142,43 +140,29 @@ class FHIRPatient extends FHIRResource {
             throw new InvalidResourceFieldException('invalid phone number');
         }
 
-        //print_r($db_values);
 
         # -----------------------------------------
         # INSERISCO I DATI PARSATI NEL DATABASE
 
-        // cripto i valori presi dal file xml dato che la tabella mysql
-        // pazienti accetta i dati in formato blob
-
-        foreach ($db_values as $key => $value) {
-            if ($key == 'idutente') {
-                // salto al valore successivo nell'array
-                // in modo da non criptare anche l'idutente
-                continue;
-            }
-
-            $data_values[$key] = new Data($db_values[$key]);
-            $encrypted_values[$key] = serializeData(encryptData($data_values[$key]));
-        }
-
-        # -----------------------------------------
-        # AGGIORNO I DATI PARSATI NEL DATABASE
-
-        // query di inserimento che verra' eseguita
-        $query_update = 'UPDATE pazienti SET ' .
-            'nome = "' . $encrypted_values['nome'] . '", ' .
-            'cognome = "' . $encrypted_values['cognome'] . '", ' .
-            'datanascita = "' . $encrypted_values['datanascita'] . '", ' .
-            'indirizzo = "' . $encrypted_values['indirizzo'] . '", ' .
-            'comunenascita = "' . $encrypted_values['comunenascita'] . '", ' .
-            'comuneresidenza = "' . $encrypted_values['comuneresidenza'] . '", ' .
-            'sesso = "' . $encrypted_values['sesso'] . '", ' .
-            'grupposanguigno = "' . $encrypted_values['grupposanguigno'] . '", ' .
-            'telefono = "' . $encrypted_values['telefono'] . '", ' .
-            'donatoreorgani = "0" ' .
-            'WHERE idutente = ' . $id;
-
-        executeQuery($query_update);
+        $paziente = Paziente::find($id);
+        
+        $paziente->paziente_nome = $db_values['nome'];
+        $paziente->paziente_cognome = $db_values['cognome'];
+        $paziente->paziente_nascita = $db_values['datanascita'];
+        $paziente->paziente_sesso = $db_values['sesso'];
+        $paziente->paziente_gruppo = $db_values['grupposanguigno'];
+        $paziente->paziente_donatore_organi = 0;
+        
+        $paziente->user()->first()->contacts()->first()->utente_indirizzo = $db_values['indirizzo'];
+        $paziente->user()->first()->contacts()->first()->utente_telefono  = $db_values['telefono'];
+        
+        $comune_nascita     = Comuni::where('comune_nominativo', $encrypted_values['comunenascita'])->first();
+        $comune_residenza   = Comuni::where('comune_nominativo', $encrypted_values['comuneresidenza'])->first();
+        
+        $paziente->user()->first()->contacts()->first()->id_comune_residenza = $comune_residenza->id_comune;
+        $paziente->user()->first()->contacts()->first()->id_comune_nascita   = $comune_nascita->id_comune;
+        
+        $paziente->save();
     }
 
 	function createResource($xml) {
@@ -189,8 +173,6 @@ class FHIRPatient extends FHIRResource {
         $xml_values = simplexml_load_string($xml);
         $json = json_encode($xml_values);
         $array_data = json_decode($json, true);
-
-        //echo var_dump($array_data);
 
         $db_values = array(
             'idutente' => '',
@@ -209,19 +191,18 @@ class FHIRPatient extends FHIRResource {
 
         $db_values_user = array(
             'id' => '',
-
             'username' => '',
             'password' => '',
-            'pin' => '',
+   //         'pin' => '',
             'codicefiscale' => '',
             'stato' => '',
             'scadenza' => '',
             'codiceruolo' => '',
             'email' => '',
-            'active' => '',
-            'confKey' => '',
+    //        'active' => '',
+    //        'confKey' => '',
 
-            'salt' => '',
+     //       'salt' => '',
         );
 
         $encrypted_values = array();
@@ -275,6 +256,7 @@ class FHIRPatient extends FHIRResource {
                             case 'email':
                                 $db_values_user['email'] = $inner_ext['valueString']['@attributes']['value'];
                             break;
+                            /*
                             case 'active':
                                 $db_values_user['active'] = $inner_ext['valueString']['@attributes']['value'];
                             break;
@@ -284,6 +266,7 @@ class FHIRPatient extends FHIRResource {
                             case 'salt':
                                 $db_values_user['salt'] = $inner_ext['valueString']['@attributes']['value'];
                             break;
+                            */
                             default:
                                 throw new InvalidResourceFieldException('an inner extension is missing');
                         }
@@ -349,85 +332,65 @@ class FHIRPatient extends FHIRResource {
 
         // controllo che nel database non esista un altro paziente con lo stesso username
 
-        if (!empty(getInfo('username', 'utenti', 'username = "' . $db_values_user['username'] . '"'))) {
+        if (User::where('utente_nome', $db_values_user['username'])->exists()) {
             throw new UserAlreadyExistsException('cannot create resource Patient because username specified via extension already exists');
         }
-
-        //print_r($db_values);
 
         # -----------------------------------------
         # INSERISCO I DATI PARSATI NEL DATABASE
 
         // per prima cosa creo il nuovo utente a cui associare la risorsa Patient
 
-        $query_insert = 'INSERT INTO utenti (id, username, password, pin, codicefiscale, stato, scadenza, codiceruolo, email, active, confKey) VALUES (NULL, "' .
-            $db_values_user['username'] . '", "' .
-            $db_values_user['password'] . '", ' .
-            (empty($db_values_user['pin']) ? 'NULL' : '"' . $db_values_user['pin'] . '"') . ', "' .
-            $db_values_user['codicefiscale'] . '", "' .
-            $db_values_user['stato'] . '", "' .
-            $db_values_user['scadenza'] . '", "' .
-            $db_values_user['codiceruolo'] . '", "' .
-            $db_values_user['email'] . '", "' .
-            $db_values_user['active'] . '", "' .
-            $db_values_user['confKey'] . '")';
-
-        executeQuery($query_insert);
-
+        $utente = new User();
+        
+        $utente->utente_nome = $db_values_user['username'];
+        $utente->utente_password = $db_values_user['password'];
+        $utente->utente_email = $db_values_user['email'];
+        $utente->utente_stato = $db_values_user['stato'];
+        $utente->utente_scadenza = $db_values_user['scadenza'];
+        $utente->utente_ruolo = $db_values_user['codiceruolo'];
+        
+        $utente->save();
+        
+        $utente = User::find('utente_nome', $db_values_user['username'])->first();
+        
         // se tutto e' andato a buon fine, prelevo l'id del nuovo record appena creato nel database per l'utente
 
-        $db_values_user['id'] = getInfo('id', 'utenti', 'username = "' . $db_values_user['username'] . '"');
+        $db_values_user['id'] = $utente->id_utente;
 
-        if (empty($db_values_user['id'])) {
+        if (!$db_values_user['id']) {
             throw new InvalidResourceFieldException('impossible to create username in database');
         }
 
         $db_values['idutente'] = $db_values_user['id'];
 
-        // salvo il salt della password nel file Users.xml
-
-        $xml = simplexml_load_file($_SERVER['DOCUMENT_ROOT']."modello PBAC/Users.xml");
-
-        $newSalt = $xml->addChild('Utente');
-        $newSalt->addChild('username', $db_values_user['username']);
-        $newSalt->addChild('salt', $db_values_user['salt']);
-
-        $dom = new DOMDocument;
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput   = true;
-        $dom->loadXML($xml->asXML());
-
-        $f = fopen($_SERVER['DOCUMENT_ROOT']."modello PBAC/Users.xml","w");
-        fwrite($f,$dom->saveXML());
-        fclose($f);
-
 		// inserisco i dati effettivi del paziente nel database
 
-        // cripto i valori presi dal file xml dato che la tabella mysql
-        // pazienti accetta i dati in formato blob
+        $paziente = new Pazienti();
+        
+        $paziente->paziente_codfiscale  = $db_values_user['codicefiscale'];
+        $paziente->id_utente            = $db_values['idutente'];
+        $paziente->paziente_nome        = $data_values['nome'];
+        $paziente->paziente_cognome     = $data_values['cognome'];
+        $paziente->paziente_nascita     = $data_values['datanascita'];
+        $paziente->paziente_sesso       = $data_values['sesso'];
+        $paziente->paziente_gruppo      = $data_values['grupposanguigno'];
+        
+        $paziente->save();
+        
+        $utente_recapiti                = new Recapiti();
+        
+        $utente_recapiti->contatto_telefono  = $data_values['telefono'];
+        $utente_recapiti->contatto_indirizzo = $data_values['indirizzo'];
+        $utente_recapiti->id_utente          = $db_values['idutente'];
+        
+        $comune_nascita     = Comuni::where('comune_nominativo', $encrypted_values['comunenascita'])->first();
+        $comune_residenza   = Comuni::where('comune_nominativo', $encrypted_values['comuneresidenza'])->first();
 
-        foreach ($db_values as $key => $value) {
-            if ($key == 'idutente') {
-                // salto al valore successivo nell'array
-                // in modo da non criptare anche l'idutente
-                continue;
-            }
-
-            $data_values[$key] = new Data($db_values[$key]);
-            $encrypted_values[$key] = serializeData(encryptData($data_values[$key]));
-        }
-
-        $query_insert = 'INSERT INTO pazienti (id, idutente, nome, cognome,' .
-                                ' datanascita, indirizzo,' .
-                                ' comunenascita, comuneresidenza,' .
-                                ' sesso, grupposanguigno, telefono, donatoreorgani)' .
-         ' VALUES (NULL, ' . $db_values['idutente'] . ', "'  . $encrypted_values['nome'] . '", "' . $encrypted_values['cognome'] . '", "' . $encrypted_values['datanascita'] . '", "'. $encrypted_values['indirizzo'] . '", "' . $encrypted_values['comunenascita'] . '", "' . $encrypted_values['comuneresidenza'] . '", "' . $encrypted_values['sesso'] . '", "' . $encrypted_values['grupposanguigno'] . '", "' . $encrypted_values['telefono'] . '", "0")';
-
-        executeQuery($query_insert);
-
-        $value_id = $db_values['idutente'];
-
-        return $value_id;
+        $utente_recapiti->id_comune_nascita   = $comune_nascita->id_comune;
+        $utente_recapiti->id_comune_residenza = $comune_residenza->id_comune;
+        
+        return $db_values['idutente'];
 	}
 
 	function getResource($id)
@@ -436,6 +399,8 @@ class FHIRPatient extends FHIRResource {
 		//Recupero i dati del paziente avente l' ID richiesto
 		$idutente = $id;
 		$paziente = Pazienti::where('id_utente', $id)->first();
+		$contatti = PazientiContatti::where('id_paziente', $id)->get();
+		$careproviders = CppPaziente::where('id_paziente', $id)->get();
 		
 		if (!$paziente) {
             throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
@@ -592,7 +557,7 @@ class FHIRPatient extends FHIRResource {
 
 
 		//Creazione della colonna con il valore dello stato di residenza
-		$td = $dom->createElement('td', "DA FARE" /*$stato." ".$pref_stato*/);
+		$td = $dom->createElement('td', "Italia IT");
 		$td = $tr->appendChild($td);
 
 
@@ -717,8 +682,6 @@ class FHIRPatient extends FHIRResource {
 
 
 		//Effettuo il controllo sulla data di decesso del paziente
-		
-		
 		if(!$paziente->tbl_pazienti_decessi()->first())
 		{
 			//Se la data di decesso non esiste allora setto a false il valore del nodo deceasedBoolean
@@ -756,15 +719,12 @@ class FHIRPatient extends FHIRResource {
 		$postalCode = $dom->createElement('postalCode');
 		$postalCode->setAttribute('value', $paziente->user()->first()->getCapLivingTown());
 		$postalCode = $address->appendChild($postalCode);
+		
 		//Creazione del nodo country che indica lo stato di residenza
-		
-		
-		/****$country = $dom->createElement('country');
-		$country->setAttribute('value', $pref_stato);
-		$country = $address->appendChild($country); ****/
+		$country = $dom->createElement('country');
+		$country->setAttribute('value', $paziente->user()->first()->contacts()->first()->town()->first()->tbl_nazioni()->first()->getCountryName());
+		$country = $address->appendChild($country);
 
-
-		
 		//Creazione del nodo maritalStatus cioè lo stato civile del paziente
 		$maritalStatus = $dom->createElement('maritalStatus');
 		$maritalStatus = $patient->appendChild($maritalStatus);
@@ -787,7 +747,9 @@ class FHIRPatient extends FHIRResource {
 
 
 		//Controllo che ci sia una foto relativa al paziente
-		/*
+
+		/**
+		 * @TODO: Il caricamento delle foto non funziona
 		if($foto!=""){
 			//Creazione del nodo photo se esiste la foto del paziente
 			$photo = $dom->createElement('photo');
@@ -803,11 +765,12 @@ class FHIRPatient extends FHIRResource {
 			$data->setAttribute('value', $foto);
 			$data = $photo->appendChild($data);
 		}
-		*/
+        */
+
 
 		//Inserisco tutti i contatti di emergenza in quanto possono essere più di uno
-		/*for($i=0; $i<$ncontattiemergenza; $i++)
-		{
+		foreach ($contatti as $contatto){
+
 			$contact = $dom->createElement('contact');
 			$contact = $patient->appendChild($contact);
 			//Creazione del nodo relationship indicante la relazione che intercorre fra paziente e contatto
@@ -821,7 +784,7 @@ class FHIRPatient extends FHIRResource {
 			$system = $coding->appendChild($system);
 			//Creazione del nodo code avente il valore della tipologia di contatto
 			$code = $dom->createElement('code');
-			$code->setAttribute('value', $relazione_contatto[$i]);
+			$code->setAttribute('value', $contatto->contacts_type()->first()->tipologia_nome);
 			$code = $coding->appendChild($code);
 			//Creazione del nodo name con il nominativo del contatto
 			$name = $dom->createElement('name');
@@ -833,7 +796,7 @@ class FHIRPatient extends FHIRResource {
 			$use = $name->appendChild($use);
 			//Creazione del nodo text in cui inserisco il valore del nominativo del contatto
 			$text = $dom->createElement('text');
-			$text->setAttribute('value', $nome_contatto[$i]);
+			$text->setAttribute('value', $contatto->contatto_nominativo);
 			$text = $name->appendChild($text);
 			//Creazione del nodo telecom per il recapito del contatto di emergenza
 			$telecom = $dom->createElement('telecom');
@@ -844,19 +807,19 @@ class FHIRPatient extends FHIRResource {
 			$system = $telecom->appendChild($system);
 			//Creazione del nodo value contenente il numero telefonico del contatto
 			$value = $dom->createElement('value');
-			$value->setAttribute('value', $numero_contatto[$i]);
+			$value->setAttribute('value', $contatto->contatto_telefono);
 			$value = $telecom->appendChild($value);
 			//Creazione del nodo use che indica se il numero di telefono è fisso o mobile
 			$use = $dom->createElement('use');
 			//Controllo se il primo carattere del numero è 3 e in questo caso è un numero mobile altrimenti è un fisso
-			if($numero_contatto[$i][0]=="3")
+			
+			if($contatto->contatto_telefono[0]=="3")
 				$use->setAttribute('value', 'mobile');
-			elseif($numero_contatto[$i][0]=="0")
+				elseif($contatto->contatto_telefono[0]=="0")
 				$use->setAttribute('value', 'home');
 			$use = $telecom->appendChild($use);
-		}
 
-*/
+		}
 
 		//Creazione del nodo communication per indicare la lingua di comunicazione del paziente
 		$communication = $dom->createElement('communication');
@@ -878,21 +841,16 @@ class FHIRPatient extends FHIRResource {
 		$display->setAttribute('value', 'Italiano');
 		$display = $coding->appendChild($display);
 
-
-		/*
-		//Creo il riferimento a tutti i careprovider selezionati dal paziente
-		for($i=0; $i<$ncareproviders; $i++)
-		{
-			//Creazione del nodo careProvider che è in relazione alla risorsa Practitioner
-			$careProvider = $dom->createElement('careProvider');
-			$careProvider = $patient->appendChild($careProvider);
-			//Creazione del nodo reference per inserire il riferimento alla relativa risorsa Practitioner
-			$reference = $dom->createElement('reference');
-			$reference->setAttribute('value', "../fhir/Practitioner/".$id_careprovider[$i]);
-			$reference = $careProvider->appendChild($reference);
+		foreach ($careproviders as $cpp){
+		    //Creazione del nodo careProvider che è in relazione alla risorsa Practitioner
+		    $careProvider = $dom->createElement('careProvider');
+		    $careProvider = $patient->appendChild($careProvider);
+		    //Creazione del nodo reference per inserire il riferimento alla relativa risorsa Practitioner
+		    $reference = $dom->createElement('reference');
+		    $reference->setAttribute('value', "../fhir/Practitioner/".$cpp->id_cpp);
+		    $reference = $careProvider->appendChild($reference);
 		}
 
-*/
 		//Elimino gli spazi bianchi superflui per la viasualizzazione grafica dell'XML
 		$dom->preserveWhiteSpace = false;
 		//Formatto il documento per l'output
