@@ -212,6 +212,11 @@ class User extends Authenticatable
 		$result = $this->contacts()->first()->id_comune_residenza;
 		return Comuni::find($result)->comune_nominativo;
     }
+    
+    public function getCapLivingTown(){
+        $result = $this->contacts()->first()->id_comune_residenza;
+        return Comuni::find($result)->comune_cap;
+    }
 	
 	/**
 	* Ritorna l'indirizzo dove risiede l'utente loggato

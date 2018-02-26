@@ -82,7 +82,7 @@ class Pazienti extends Eloquent
 	const BLOODGROUP_AB = 3;
 	const BLOODRH_POS = "POS";
 	const BLOODRH_NEG = "NEG";
-
+	
 	public function user()
 	{
 		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_utente');
@@ -90,7 +90,7 @@ class Pazienti extends Eloquent
 
 	public function patient_contacts()
 	{
-		return $this->hasMany(\App\Models\ContattiPazienti::class, 'id_paziente');
+		return $this->hasMany(\App\Models\Patient\PazientiContatti::class, 'id_paziente');
 	}
 
 	public function cpp_patients()
