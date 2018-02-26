@@ -104,6 +104,7 @@ return array(
     'Collective\\Html\\HtmlServiceProvider' => $vendorDir . '/laravelcollective/html/src/HtmlServiceProvider.php',
     'ContactsTableSeeder' => $baseDir . '/database/seeds/ContactsTableSeeder.php',
     'ContactsTypesTableSeeder' => $baseDir . '/database/seeds/ContactsTypesTableSeeder.php',
+    'CppUsers' => $baseDir . '/database/seeds/CppUsers.php',
     'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
     'Cron\\CronExpression' => $vendorDir . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
     'Cron\\DayOfMonthField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/DayOfMonthField.php',

@@ -451,6 +451,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'Collective\\Html\\HtmlServiceProvider' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlServiceProvider.php',
         'ContactsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ContactsTableSeeder.php',
         'ContactsTypesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ContactsTypesTableSeeder.php',
+        'CppUsers' => __DIR__ . '/../..' . '/database/seeds/CppUsers.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
         'Cron\\DayOfMonthField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/DayOfMonthField.php',

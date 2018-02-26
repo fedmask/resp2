@@ -229,7 +229,7 @@ class FHIRPractitioner extends FHIRResource {
         //Creazione del documento XML per il CareProvider del Paziente
 
         //Creazione di un oggetto dom con la codifica UTF-8
-        $dom = new DOMDocument('1.0', 'utf-8');
+        $dom = new \DOMDocument('1.0', 'utf-8');
         
         //Creazione del nodo Practitioner, cioè il nodo Root  della risorsa
         $careProvider = $dom->createElement('Practitioner');
