@@ -118,13 +118,18 @@ Route::get('/downloadImage/{id_photo}', 'FilesController@downloadImage');
 */
 Route::post('/updateFileConfidentiality', 'FilesController@updateFileConfidentiality');
 
+/**
+* Route per l'inserimento da parte di un careprovider di un nuovo centro.
+*/
+Route::post('/addstructure', 'CareProviderController@addStructure');
+
 
 /*
 * Routes base per le varie pagine e reindirizza gli utenti non loggati alla homepage
 */
 Route::group(['middleware' => ['auth']], function () {
 
-	// Definito fuori da un controller poichè non accede ad alcun dato
+	// Inizio Route Paziente
 	Route::get('/utility', function(){return view('pages.utility');})->name('utility');
 
 	Route::get('/calcolatrice-medica', 'PazienteController@showCalcolatriceMedica')->name('calcolatrice-medica');
@@ -137,6 +142,13 @@ Route::group(['middleware' => ['auth']], function () {
 
 	Route::get('/files', 'PazienteController@showFiles')->name('files');
 
+	Route::get('/visits', 'PazienteController@showVisits')->name('visite');
+
 	Route::get('/impostazioniSicurezza', 'PazienteController@showSecuritySettings')->name('securitySettings');
+
+	// Inizio Routes Care Provider
+	Route::get('/patients-list', 'CareProviderController@showPatientsList')->name('patients-list');
+
+	Route::get('/structures', 'CareProviderController@showStructures')->name('structures');
 
 });

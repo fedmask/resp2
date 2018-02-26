@@ -313,6 +313,24 @@ class PazienteController extends Controller
 		return view('pages.impostazioni-sicurezza')->with('logs', $logs);
 	}
 
+	/**
+	* Mostra la pagina delle visite di un paziente in cui vengono
+	* memorizzate anche alcune rilevazioni.
+	*/
+	public function showVisits(Request $request){
+		if ($request->has('id_visiting')) {
+		    $id_visiting = request()->input('id_visiting');
+		} else {
+			$id_visiting = Auth::user()->id_utente;
+		}
+
+		$this->buildLog('Visite', $request->ip(), $id_visiting);
+
+		$logs = AuditlogLog::where('id_visitato', $id_visiting)->orderBy('id_audit', 'desc')->get();
+
+		return view('pages.visite')->with('logs', $logs);
+	}
+
 	/*
 	* Costruisce un nuovo record log per la pagina che si sta per visualizzare
 	*/
