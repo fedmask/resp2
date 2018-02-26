@@ -117,7 +117,7 @@
 		<div class="row">
 			<div class="well well-sm">
 				<!-- TODO: aggiungere controllo se vi è già una visita in corso -->
-				<a href="LINK-VISITA" class="btn btn-primary btn-block" id="btn_menu_nuovavisita"><i class="icon-stethoscope"></i>  Visite</a>
+				<a href="visits" class="btn btn-primary btn-block" id="btn_menu_nuovavisita"><i class="icon-stethoscope"></i>  Visite</a>
 			</div>
 		</div>
 
