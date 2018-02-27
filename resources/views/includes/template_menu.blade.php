@@ -116,13 +116,11 @@
 		@if($current_user->getRole() == $current_user::PATIENT_ID)
 		<div class="row">
 			<div class="well well-sm">
-				<!-- TODO: aggiungere controllo se vi è già una visita in corso -->
-				<a href="LINK-VISITA" class="btn btn-primary btn-block" id="btn_menu_nuovavisita"><i class="icon-stethoscope"></i>  Visite</a>
+				<a href="{{ url('visite') }}" class="btn btn-primary btn-block" id="btn_menu_nuovavisita"><i class="icon-stethoscope"></i>  Visite</a>
 			</div>
 		</div>
 
 		<ul id="menu" class="collapse">
-			<!-- TODO: AGGIUNGERE CONTROLLI DI VERIFICA PER VEDERE SE IL PANEL È ATTIVO O NO -->
 			<li class="panel {{Request::path() === 'patient-summary' ? 'active' : ''}}"> <a href="/patient-summary"> <em class="icon-table"></em> Patient Summary esteso </a>
 			</li>
 
@@ -168,9 +166,9 @@
 		</ul>
 		@elseif($current_user->getRole() == $current_user::CAREPROVIDER_ID)
 				<ul id="menu" class="collapse">
-                    <li class="panel {{Request::path() === 'patients-list' ? 'active' : ''}}"> <a href="LINK-PAZIENTI"> <i class="icon-stethoscope" style="font-size:36px"></i> Pazienti </a></li>
+                    <li class="panel {{Request::path() === 'patients-list' ? 'active' : ''}}"> <a href="{{ url('patients-list') }}"> <i class="icon-stethoscope" style="font-size:36px"></i> Pazienti </a></li>
                     
-                    <li class="panel {{Request::path() === 'structures' ? 'active' : ''}}"> <a href="LINK-STRUTTURE"> <em class="icon-home" style="font-size:36px"></em> Strutture </a></li>
+                    <li class="panel {{Request::path() === 'structures' ? 'active' : ''}}"> <a href="{{ url('structures') }}"> <em class="icon-home" style="font-size:36px"></em> Strutture </a></li>
                 </ul>
 		@endif
 	</div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Patient\Taccuino;
+use App\Models\Patient\Pazienti;
 
 class HomeController extends Controller
 {
@@ -31,7 +32,7 @@ class HomeController extends Controller
             $records = Taccuino::where('id_paziente', $user->patient()->first()->id_paziente)->get();
             return view('pages.taccuino')->with('records', $records);
         } else if($user->getRole() == $user::CAREPROVIDER_ID) {
-            return view('pages.careprovider.patients');
+            return redirect()->route('patients-list');
         }
         return "Login Error Occured";
     }
