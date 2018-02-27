@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Fhir\Modules;
 
+use App\Exceptions\FHIR as FHIR;
 use App\Http\Controllers\Fhir\Modules\FHIRResource;
 use App\Models\Patient\Pazienti;
 use App\Models\Patient\PazientiContatti;
@@ -403,7 +404,7 @@ class FHIRPatient extends FHIRResource {
 		$careproviders = CppPaziente::where('id_paziente', $id)->get();
 		
 		if (!$paziente) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+		    throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         // prelevo i dati dell'utente da mostrare come estensione
