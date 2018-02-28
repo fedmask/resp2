@@ -164,6 +164,7 @@ Route::group( ['prefix' => 'fhir' ], function () {
         Route::get('Practitioner/{id?}','Fhir\Modules\FHIRPractitioner@getResource');
         
         Route::get('Observation/{id?}','Fhir\Modules\FHIRObservation@getResource');
+        Route::get('Organization/{id?}','Fhir\Modules\FHIROrganization@getResource');
         
         Route::get('Appointments', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@showGroup');
         // Appointment?patient=1&date=lt2016-09-30&dat=gt2016-08-30 Gets all appointments for September 2016 where patient ID == 1

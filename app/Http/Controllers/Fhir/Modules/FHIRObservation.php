@@ -12,7 +12,7 @@ class FHIRObservation extends FHIRResource {
 
     function deleteResource($id) {
         
-        if (!CentriIndagini::where('id_centro', $id)->exists()) {
+        if (!Indagini::where('id_indagine', $id)->exists()) {
             throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
         
@@ -26,7 +26,7 @@ class FHIRObservation extends FHIRResource {
         $json = json_encode($xml_values);
         $array_data = json_decode($json, true);
 
-        if (!CentriIndagini::where('id_centro', $id)->exists()) {
+        if (!Indagini::where('id_indagine', $id)->exists()) {
             throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
@@ -223,7 +223,7 @@ class FHIRObservation extends FHIRResource {
     
     function getResource($id)
     {
-        if (!CentriIndagini::where('id_centro', $id)->exists()) {
+        if (!Indagini::where('id_indagine', $id)->exists()) {
             throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
         

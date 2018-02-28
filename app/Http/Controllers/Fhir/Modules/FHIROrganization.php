@@ -1,37 +1,43 @@
 <?php
+namespace App\Http\Controllers\Fhir\Modules;
 
-require_once("FHIRResource.php");
+use App\Exceptions\FHIR as FHIR;
+use App\Http\Controllers\Fhir\Modules\FHIRResource;
+use App\Models\InvestigationCenter\CentriIndagini;
+use App\Models\InvestigationCenter\Indagini;
 
-class Organization extends FHIRResource {
+class FHIROrganization extends FHIRResource {
+    
     public function __construct() {}
 
     function deleteResource($id) {
-        if (empty(getInfo('id', 'centriindagini', 'id = ' . $id))) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+        
+        if (!CentriIndagini::where('id_centro', $id)->exists()) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
-        # -----------------------------------------
         # ELIMINO I DATI DAL DATABASE
-
-        $query_delete = 'DELETE FROM centriindagini WHERE id = "' . $id . '"';
-        executeQuery($query_delete);
-
-        // effettuo un nuovo controllo per verificare se la risorsa e' stata
-        // effettivamente eliminata
-
-        if (!empty(getInfo('id', 'centriindagini', 'id = ' . $id))) {
-            throw new DeleteRequestRefusedException("can't delete resources with id provided");
-        }
-
-        $query_delete = 'DELETE FROM telefonocentriindagini WHERE idCentroIndagini = "' . $id . '"';
-        executeQuery($query_delete);
+        
+        CentriIndagini::find($id)->delete();
 
         // effettuo un nuovo controllo per verificare se la risorsa e' stata
         // effettivamente eliminata
 
-        if (!empty(getInfo('id', 'telefonocentriindagini', 'id = ' . $id))) {
+        if (!CentriIndagini::where('id_centro_indagine', $id)->exists()) {
             throw new DeleteRequestRefusedException("can't delete resources with id provided");
         }
+
+        /** @TODO: Verificare nel vecchio DB questa sezione **/
+        
+      //  $query_delete = 'DELETE FROM telefonocentriindagini WHERE idCentroIndagini = "' . $id . '"';
+      //  executeQuery($query_delete);
+
+        // effettuo un nuovo controllo per verificare se la risorsa e' stata
+        // effettivamente eliminata
+
+//        if (!empty(getInfo('id', 'telefonocentriindagini', 'id = ' . $id))) {
+//            throw new DeleteRequestRefusedException("can't delete resources with id provided");
+//        }
     }
 
     function updateResource($id, $xml) {
@@ -39,8 +45,8 @@ class Organization extends FHIRResource {
         $json = json_encode($xml_values);
         $array_data = json_decode($json, true);
 
-        if (empty(getInfo('id', 'centriindagini', 'id = ' . $id))) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+        if (!CentriIndagini::where('id_centro', $id)->exists()) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         //echo var_dump($array_data);
@@ -117,17 +123,24 @@ class Organization extends FHIRResource {
         # -----------------------------------------
         # AGGIORNO I DATI PARSATI NEL DATABASE
 
-        $query_update = 'UPDATE centriindagini SET ' .
-            'idcpp = "' . $db_values['idcpp'] . '", ' .
-            'nomeStudio = "' . $db_values['nomeStudio'] . '", ' .
-            'via = "' . $db_values['via'] . '", ' .
-            'citta = "' . $db_values['citta'] . '", ' .
-            'tipoCentro = "' . $db_values['tipoCentro'] . '", ' .
-            'mail = "' . $db_values['mail'] . '" ' .
-            'WHERE id = ' . $id;
-
-        executeQuery($query_update);
-
+        $centro_indagine = CentriIndagini::find($id);
+        
+        $centro_indagine->centro_nome = $db_values['nomeStudio'];
+        $centro_indagine->centro_indirizzo = $db_values['via'];
+        $centro_indagine->id_cpp_persona = $db_values['idcpp'];
+        
+        $centro_tipologia = CentriTipologie::where('tipologia_nome', $db_values['tipoCentro'])->first();
+        
+        $centro_indagine->id_tipologia = $centro_tipologia->id_centro_tipologia;
+        
+        $centro_citta     = Comuni::where('comune_nominativo', $db_values['citta'])->first();
+        $centro_indagine->id_citta = $centro_citta->id_comune;
+        
+        /** TODO: Verificare i contatti email, telefono ecc..**/
+        
+        $centro_indagine->save();
+    
+        /*
         // cancello i numeri di telefono precedenti
         $query_delete = 'DELETE FROM telefonocentriindagini WHERE idCentroIndagini = "' . $id . '"';
         executeQuery($query_delete);
@@ -138,6 +151,7 @@ class Organization extends FHIRResource {
 
             executeQuery($query_insert);
         }
+        */
     }
 
     function createResource($xml) {
@@ -220,21 +234,28 @@ class Organization extends FHIRResource {
         # -----------------------------------------
         # INSERISCO I DATI PARSATI NEL DATABASE
 
-        $query_insert = 'INSERT INTO centriindagini (id, idcpp, nomeStudio, via, citta, tipoCentro, mail) values (NULL, "' . $db_values['idcpp'] . '", "' . $db_values['nomeStudio'] . '", "' . $db_values['via'] . '", "' . $db_values['citta'] . '", "' . $db_values['tipoCentro'] . '", "' . $db_values['mail'] . '")';
+        $centro_indagine = new CentriIndagini();
+        
+        $centro_indagine->centro_nome = $db_values['nomeStudio'];
+        $centro_indagine->centro_indirizzo = $db_values['via'];
+        $centro_indagine->id_cpp_persona = $db_values['idcpp'];
+        
+        $centro_tipologia = CentriTipologie::where('tipologia_nome', $db_values['tipoCentro'])->first();
+        
+        $centro_indagine->id_tipologia = $centro_tipologia->id_centro_tipologia;
+        
+        $centro_citta     = Comuni::where('comune_nominativo', $db_values['citta'])->first();
+        $centro_indagine->id_citta = $centro_citta->id_comune;
+        
+      
+        $centro_indagine->save();
 
-        executeQuery($query_insert);
-
+        
         // prelevo l'id del campo con i valori appena inseriti
-        $value_id = getInfo('id', 'centriindagini',
-            'idcpp = "' . $db_values['idcpp'] . '" AND ' .
-            'nomeStudio = "' . $db_values['nomeStudio'] . '" AND ' .
-            'via = "'. $db_values['via'].'" AND ' .
-            'citta = "' . $db_values['citta'] . '" AND ' .
-            'tipoCentro = "' . $db_values['tipoCentro'] . '" AND ' .
-            'mail = "' . $db_values['mail'] . '"'
-        );
-
+        $value_id = $centro_indagine->id_centro;
+        
         // inserisco anche nella tabella telefonocentriindagini
+        /*
         foreach($db_values['telefono'] as $num) {
             $query_insert = 'INSERT INTO telefonocentriindagini (telefono, idCentroIndagini) values ("' . $num . '", "' . $value_id . '")';
 
@@ -244,6 +265,8 @@ class Organization extends FHIRResource {
                 throw new IdNotFoundInDatabaseException('can\'t insert telephone into database due to a problem');
             }
         }
+        
+        */
 
         return $value_id;
     }
@@ -251,8 +274,8 @@ class Organization extends FHIRResource {
     function getResource($id) {
         $id_centro = $id;
 
-        if (empty(getInfo('id', 'centriindagini', 'id = ' . $id_centro))) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+        if (!CentriIndagini::where('id_centro', $id)->exists()) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         $db_values = array(
@@ -268,28 +291,33 @@ class Organization extends FHIRResource {
             'cognome_cpp' => '',
         );
 
+        $centro_indagine = CentriIndagini::find($id)->first();
+        
         // prelevo i campi della tabella centriindagini e telefonocentriindagini se l'id e' valido
-        $db_values['idcpp'] = getInfo('idcpp', 'centriindagini', 'id = ' . $id_centro);
-        $db_values['nomeStudio'] = getInfo('nomeStudio', 'centriindagini', 'id = ' . $id_centro);
-        $db_values['via'] = getInfo('via', 'centriindagini', 'id = ' . $id_centro);
-        $db_values['citta'] = getInfo('citta', 'centriindagini', 'id = ' . $id_centro);
-        $db_values['tipoCentro'] = getInfo('tipoCentro', 'centriindagini', 'id = ' . $id_centro);
-        $db_values['mail'] = getInfo('mail', 'centriindagini', 'id = ' . $id_centro);
+        $db_values['idcpp'] = $centro_indagine->id_cpp_persona; // getInfo('idcpp', 'centriindagini', 'id = ' . $id_centro);
+        $db_values['nomeStudio'] = $centro_indagine->centro_nome; //getInfo('nomeStudio', 'centriindagini', 'id = ' . $id_centro);
+        $db_values['via'] = $centro_indagine->centro_indirizzo; //getInfo('via', 'centriindagini', 'id = ' . $id_centro);
+        $db_values['citta'] = $centro_indagine->id_citta; //getInfo('citta', 'centriindagini', 'id = ' . $id_centro);
+        $db_values['tipoCentro'] = $centro_indagine->id_tipologia; //getInfo('tipoCentro', 'centriindagini', 'id = ' . $id_centro);
+        $db_values['mail'] = ""; //getInfo('mail', 'centriindagini', 'id = ' . $id_centro);
 
+        /*
         // prelevo i numeri di telefono di un centro
         $db_values['telefono'] = getArray('telefono', 'telefonocentriindagini', 'idCentroIndagini = ' . $id_centro);
-
-        // se esiste il careprovider nel database allora prelevo il nome ed il cognome        
-        if (!empty(getInfo('id', 'careproviderpersona', 'id = ' . $db_values['idcpp']))) {
-            $db_values['cognome_cpp'] = getInfo('cognome', 'careproviderpersona', 'id = ' . $db_values['idcpp']);
-            $db_values['nome_cpp'] = getInfo('nome', 'careproviderpersona', 'id = ' . $db_values['idcpp']);
+        */
+        
+        // se esiste il careprovider nel database allora prelevo il nome ed il cognome
+        if (!CppPersona::where('id_persona', $db_values['idcpp'])->exists()) {
+            $db_values['cognome_cpp'] = CppPersona::find($db_values['idcpp'])->first()->persona_cognome;//   getInfo('cognome', 'careproviderpersona', 'id = ' . $db_values['idcpp']);
+            $db_values['nome_cpp'] = CppPersona::find($db_values['idcpp'])->first()->persona_nome; //getInfo('nome', 'careproviderpersona', 'id = ' . $db_values['idcpp']);
         }
+        
 
         # -----------------------------------------
         # HEADER DEL DOCUMENTO XML
 
         // Creazione del documento xml con codifica del dom UTF-8
-        $dom = new DOMDocument('1.0', 'utf-8');
+        $dom = new \DOMDocument('1.0', 'utf-8');
 
         $node_org = $dom->createElement('Organization');
         //Valorizzo il namespace della risorsa e del documento XML, in  questo caso la specifica FHIR
@@ -481,6 +509,7 @@ class Organization extends FHIRResource {
 
         // Organization.telecom
 
+        /**
         foreach ($db_values['telefono'] as $index => $number) {
             $node_telecom = $dom->createElement('telecom');
             $node_telecom = $node_org->appendChild($node_telecom);
@@ -501,6 +530,7 @@ class Organization extends FHIRResource {
             $node_rank->setAttribute('value', ($index + 1));
             $node_rank = $node_telecom->appendChild($node_rank);
         }
+        */
 
         // campo telecom che indica l'indirizzo email
         $node_telecom = $dom->createElement('telecom');

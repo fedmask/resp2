@@ -1,28 +1,31 @@
 <?php
 
-require_once("FHIRResource.php");
+namespace App\Http\Controllers\Fhir\Modules;
 
-class DiagnosticReport extends FHIRResource {
+use App\Http\Controllers\Fhir\Modules\FHIRResource;
+use App\Models\Diagnosis\Diagnosi;
+
+class FHIRDiagnosticReport extends FHIRResource {
+    
 	public function __construct() {}
 
     function deleteResource($id) {
-        if (empty(getInfo('id', 'diagnosi', 'id = ' . $id))) {
+        
+        if (!Diagnosi::where('id_diagnosi', $id)->exists()) {
             throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         # -----------------------------------------
         # ELIMINO I DATI DAL DATABASE
 
-        $query_delete = 'DELETE FROM diagnosi WHERE id = \'' . $id . '\'';
-        executeQuery($query_delete);
-
-        $query_delete = 'DELETE FROM careproviderdiagnosi WHERE diagnosi_id = \'' . $id . '\'';
-        executeQuery($query_delete);
+        Diagnosi::find($id)->delete();
+        
+        CppDiagnosi::find($id)->delete();
 
         // effettuo un nuovo controllo per verificare se la risorsa e' stata
         // effettivamente eliminata
 
-        if (!empty(getInfo('id', 'diagnosi', 'id = ' . $id)) || !empty(getInfo('id', 'diagnosi', 'id = ' . $id))) {
+        if (!Diagnosi::where('id_diagnosi', $id)->exists()) {
             throw new DeleteRequestRefusedException("can't delete resources with id provided");
         }
     }
@@ -32,7 +35,7 @@ class DiagnosticReport extends FHIRResource {
         $json = json_encode($xml_values);
         $array_data = json_decode($json, true);
 
-        if (empty(getInfo('id', 'diagnosi', 'id = ' . $id))) {
+        if (!Diagnosi::where('id_diagnosi', $id)->exists()) {
             throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
@@ -88,34 +91,34 @@ class DiagnosticReport extends FHIRResource {
             throw new InvalidResourceFieldException('invalid extension for status');
         }
 
-        $db_values['careprovider'] = getInfo('nome', 'careproviderpersona', 'id = ' . $db_values['idcpp']) . ' ' . getInfo('cognome', 'careproviderpersona', 'id = ' . $db_values['idcpp']);
+       
+        $db_values['careprovider'] = CppPersona::find($db_values['idcpp'])->first()->persona_nome . ' ' . CppPersona::find($db_values['idcpp'])->first()->persona_cognome;
 
         // print_r($db_values);
 
         # -----------------------------------------
         # AGGIORNO I DATI PARSATI NEL DATABASE
 
-        $query_update = 'UPDATE diagnosi SET ' .
-            'idpaziente = "' . $db_values['idpaziente'] . '", ' .
-            'dataIns = "' . $db_values['dataInserimento'] . '", ' .
-            'dataAgg = "' . date('Y-m-d H:i:s') . '", ' .
-            'patologia = "' . $db_values['patologia'] . '", ' .
-            'stato = "' . $db_values['stato'] . '", ' .
-            'conf = "1", ' .
-            'dataguarigione = "0000-00-00"' .
-            'WHERE id = ' . $id;
-
-        executeQuery($query_update);
+        $diagnosi = Diagnosi::find($id);
+        
+        $diagnosi->id_paziente = $db_values['idpaziente'];
+        $diagnosi->diagnosi_inserimento_data = $db_values['dataInserimento'];
+        $diagnosi->diagnosi_aggiornamento_data = date('Y-m-d H:i:s');
+        $diagnosi->diagnosi_stato = $db_values['stato'];
+        $diagnosi->diagnosi_patologia = $db_values['patologia'];
+        $diagnosi->diagnosi_confidenzialita = "1";
+        
+        $diagnosi->save();
 
         // aggiorno i valori anche della seconda tabella
-
-        $query_update = 'UPDATE careproviderdiagnosi SET ' .
-            'statoDiagnosi = "' . $db_values['stato'] . '", ' .
-            'careprovider = "' . $db_values['careprovider'] . '", ' .
-            'idcpp = "' . $db_values['idcpp'] . '" ' .
-            'WHERE diagnosi_id = ' . $id;
-
-        executeQuery($query_update);
+        
+        $cppdiagnosi = CppDiagnosi::find($id);
+        
+        $cppdiagnosi->diagnosi_stato = $db_values['stato'];
+        $cppdiagnosi->id_cpp = $db_values['idcpp'];
+        $cppdiagnosi->careprovider = $db_values['careprovider'];
+        
+        $cppdiagnosi->save();
     }
 
 	function createResource($xml) {
@@ -180,26 +183,32 @@ class DiagnosticReport extends FHIRResource {
         # -----------------------------------------
         # INSERISCO I DATI PARSATI NEL DATABASE
 
-        $query_insert = 'INSERT INTO diagnosi (id, idpaziente, dataIns, dataAgg, patologia, stato, conf, dataguarigione) values (NULL, "' . $db_values['idpaziente'] . '", "' . $db_values['dataInserimento'] . '", "'. $db_values['dataInserimento'] .'", "' . $db_values['patologia'] . '", "' . $db_values['stato'] . '", "1", "0000-00-00")';
-
-        executeQuery($query_insert);
+        
+        
+        $diagnosi = new Diagnosi();
+        
+        $diagnosi->id_paziente = $db_values['idpaziente'];
+        $diagnosi->diagnosi_inserimento_data = $db_values['dataInserimento'];
+        $diagnosi->diagnosi_aggiornamento_data = date('Y-m-d H:i:s');
+        $diagnosi->diagnosi_stato = $db_values['stato'];
+        $diagnosi->diagnosi_patologia = $db_values['patologia'];
+        $diagnosi->diagnosi_confidenzialita = "1";
+        
+        $diagnosi->save();
 
         // prelevo l'id del campo con i valori appena inseriti
-        $value_id = getInfo('id', 'diagnosi',
-            'idpaziente = "' . $db_values['idpaziente'] . '" AND ' .
-            'dataIns = "' . $db_values['dataInserimento'] . '" AND ' .
-            'dataAgg = "'. $db_values['dataInserimento'].'" AND ' .
-            'patologia = "' . $db_values['patologia'] . '" AND ' .
-            'stato = "' . $db_values['stato'] . '" AND ' .
-            'conf = "1" AND ' .
-            'dataguarigione = "0000-00-00"'
-        );
+        $value_id = $diagnosi->id_diagnosi;
 
         // inserisco anche nella tabella careproviderdiagnosi
 
-        $query_insert = 'INSERT INTO careproviderdiagnosi (diagnosi_id, statoDiagnosi, careprovider, idcpp) values ("'.$value_id.'", "'.$db_values['stato'].'", "'.$db_values['careprovider'].'", "'.$db_values['idcpp'].'")';
-
-        executeQuery($query_insert);
+        $cppdiagnosi = CppDiagnosi::find($id);
+        
+        $cppdiagnosi->id_diagnosi = $value_id;
+        $cppdiagnosi->diagnosi_stato = $db_values['stato'];
+        $cppdiagnosi->id_cpp = $db_values['idcpp'];
+        $cppdiagnosi->careprovider = $db_values['careprovider'];
+        
+        $cppdiagnosi->save();
 
         return $value_id;
 	}
@@ -209,9 +218,9 @@ class DiagnosticReport extends FHIRResource {
 		//Recupero il Report Diagnostico richiesto  dall' ID del report
 		$diagnosi = $id;
 
-        if (empty(getInfo('id', 'diagnosi', 'id = ' . $id))) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
-        }
+		if (!Diagnosi::where('id_diagnosi', $id)->exists()) {
+		    throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+		}
 		
 		//dichiaro le variabili in modo tale che se non vi sono i relativi valori nel DB, il sistema non vada in crash
 		$idpaziente = "";
