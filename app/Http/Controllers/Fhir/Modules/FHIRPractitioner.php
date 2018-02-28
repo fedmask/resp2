@@ -17,7 +17,7 @@ class FHIRPractitioner extends FHIRResource {
     function deleteResource($id) {
         
         if (!CppPersona::where('id_persona', $id)->exists()) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         # ELIMINO I DATI DAL DATABASE
@@ -31,7 +31,7 @@ class FHIRPractitioner extends FHIRResource {
         $array_data = json_decode($json, true);
 
         if (!CppPersona::where('id_persona', $id)->exists()) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         $db_values = array(
@@ -51,7 +51,7 @@ class FHIRPractitioner extends FHIRResource {
         // risorsa xml passata come input
 
         if ($id != $array_data['id']['@attributes']['value']) {
-            throw new MatchException('ID provided in url doesn\'t match the one in XML resource');
+            throw new FHIR\MatchException('ID provided in url doesn\'t match the one in XML resource');
         }
 
         // prelevo il nome del care provider
@@ -60,7 +60,7 @@ class FHIRPractitioner extends FHIRResource {
             $db_values['cognome'] = $array_data['name']['family']['@attributes']['value'];
             $db_values['nome'] = $array_data['name']['given']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid care provider name and surname');
+            throw new FHIR\InvalidResourceFieldException('invalid care provider name and surname');
         }
 
         // prelevo i campi delle estensioni
@@ -73,7 +73,7 @@ class FHIRPractitioner extends FHIRResource {
                     $db_values['idutente'] = $extension_element['valueString']['@attributes']['value'];
                     break;
                 default:
-                    throw new InvalidResourceFieldException('an extension is missing');
+                    throw new FHIR\InvalidResourceFieldException('an extension is missing');
             }
         }
         
@@ -81,7 +81,7 @@ class FHIRPractitioner extends FHIRResource {
         if (!empty($array_data['telecom']['value']['@attributes']['value'])) {
             $db_values['telefono'] = $array_data['telecom']['value']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid phone number');
+            throw new FHIR\InvalidResourceFieldException('invalid phone number');
         }
 
         // prelevo il campo active
@@ -90,7 +90,7 @@ class FHIRPractitioner extends FHIRResource {
 
             $db_values['active'] = ($active_value == 'true') ? '1' : 'NULL';
         } else {
-            throw new InvalidResourceFieldException('invalid active field');
+            throw new FHIR\InvalidResourceFieldException('invalid active field');
         }
 
         # AGGIORNO I DATI PARSATI NEL DATABASE
@@ -135,7 +135,7 @@ class FHIRPractitioner extends FHIRResource {
         # PARSO I DATI DAL DOCUMENTO XML
 
         if (!empty($array_data['id']['@attributes']['value'])) {
-            throw new IdFoundInCreateException('invalid id specified in CREATE');
+            throw new FHIR\IdFoundInCreateException('invalid id specified in CREATE');
         }
 
         // prelevo il nome del care provider
@@ -144,7 +144,7 @@ class FHIRPractitioner extends FHIRResource {
             $db_values['cognome'] = $array_data['name']['family']['@attributes']['value'];
             $db_values['nome'] = $array_data['name']['given']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid care provider name and surname');
+            throw new FHIR\InvalidResourceFieldException('invalid care provider name and surname');
         }
 
         // prelevo i campi delle estensioni
@@ -157,7 +157,7 @@ class FHIRPractitioner extends FHIRResource {
                     $db_values['idutente'] = $extension_element['valueString']['@attributes']['value'];
                     break;
                 default:
-                    throw new InvalidResourceFieldException('an extension is missing');
+                    throw new FHIR\InvalidResourceFieldException('an extension is missing');
             }
         }
         
@@ -165,7 +165,7 @@ class FHIRPractitioner extends FHIRResource {
         if (!empty($array_data['telecom']['value']['@attributes']['value'])) {
             $db_values['telefono'] = $array_data['telecom']['value']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid phone number');
+            throw new FHIR\InvalidResourceFieldException('invalid phone number');
         }
 
         // prelevo il campo active
@@ -174,7 +174,7 @@ class FHIRPractitioner extends FHIRResource {
 
             $db_values['active'] = ($active_value == 'true') ? '1' : 'NULL';
         } else {
-            throw new InvalidResourceFieldException('invalid active field');
+            throw new FHIR\InvalidResourceFieldException('invalid active field');
         }
 
         # -----------------------------------------

@@ -1,27 +1,24 @@
 <?php
 
-require_once("FHIRResource.php");
+namespace App\Http\Controllers\Fhir\Modules;
 
-class Observation extends FHIRResource {
+use App\Http\Controllers\Fhir\Modules\FHIRResource;
+use App\Exceptions\FHIR as FHIR;
+use App\Models\InvestigationCenter\CentriIndagini;
+use App\Models\InvestigationCenter\Indagini;
+
+class FHIRObservation extends FHIRResource {
     public function __construct() {}
 
     function deleteResource($id) {
-        if (empty(getInfo('id', 'indagini', 'id = ' . $id))) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+        
+        if (!CentriIndagini::where('id_centro', $id)->exists()) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
-
+        
         # -----------------------------------------
-        # ELIMINO I DATI DAL DATABASE
-
-        $query_delete = 'DELETE FROM indagini WHERE id = "' . $id . '"';
-        executeQuery($query_delete);
-
-        // effettuo un nuovo controllo per verificare se la risorsa e' stata
-        // effettivamente eliminata
-
-        if (!empty(getInfo('id', 'indagini', 'id = ' . $id))) {
-            throw new DeleteRequestRefusedException("can't delete resources with id provided");
-        }
+        
+        CentriIndagini::find($id)->delete();
     }
 
     function updateResource($id, $xml) {
@@ -29,8 +26,8 @@ class Observation extends FHIRResource {
         $json = json_encode($xml_values);
         $array_data = json_decode($json, true);
 
-        if (empty(getInfo('id', 'indagini', 'id = ' . $id))) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+        if (!CentriIndagini::where('id_centro', $id)->exists()) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         $db_values = array(
@@ -49,28 +46,28 @@ class Observation extends FHIRResource {
         // risorsa xml passata come input
 
         if ($id != $array_data['id']['@attributes']['value']) {
-            throw new MatchException('ID provided in url doesn\'t match the one in XML resource');
+            throw new FHIR\MatchException('ID provided in url doesn\'t match the one in XML resource');
         }
 
         // prelevo l'id del paziente
         if (preg_match("/^\.\.\/fhir\/Patient\/(.*?)$/i", $array_data['subject']['reference']['@attributes']['value'], $matches)) {
             $db_values['idpaziente'] = $matches[1];
         } else {
-            throw new InvalidResourceFieldException('invalid Patient id');
+            throw new FHIR\InvalidResourceFieldException('invalid Patient id');
         }
 
         // prelevo l'id della diagnosi
         if (preg_match("/^\.\.\/fhir\/DiagnosticReport\/(.*?)$/i", $array_data['identifier']['value']['@attributes']['value'], $matches)) {
             $db_values['iddiagnosi'] = $matches[1];
         } else {
-            throw new InvalidResourceFieldException('invalid diagnostic report id');
+            throw new FHIR\InvalidResourceFieldException('invalid diagnostic report id');
         }
 
         // prelevo la data
         if (!empty($array_data['effectiveDateTime']['@attributes']['value'])) {
             $db_values['data'] = $array_data['effectiveDateTime']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid date format');
+            throw new FHIR\InvalidResourceFieldException('invalid date format');
         }
 
         // prelevo lo stato
@@ -91,7 +88,7 @@ class Observation extends FHIRResource {
                     throw new InvalidResourceFieldException('invalid status code');
             }
         } else {
-            throw new InvalidResourceFieldException('invalid status field');
+            throw new FHIR\InvalidResourceFieldException('invalid status field');
         }
 
         // prelevo i campi delle estensioni
@@ -104,7 +101,7 @@ class Observation extends FHIRResource {
                     $db_values['motivo'] = $extension_element['valueString']['@attributes']['value'];
                     break;
                 default:
-                    throw new InvalidResourceFieldException('an extension is missing');
+                    throw new FHIR\InvalidResourceFieldException('an extension is missing');
             }
         }
 
@@ -113,19 +110,17 @@ class Observation extends FHIRResource {
         # -----------------------------------------
         # AGGIORNO I DATI PARSATI NEL DATABASE
 
-        // query di inserimento che verra' eseguita
-        $query_update = 'UPDATE indagini SET ' .
-            'idpaziente = "' . $db_values['idpaziente'] . '", ' .
-            'idDiagnosi = "' . $db_values['iddiagnosi'] . '", ' .
-            'idStudioIndagini = "1", ' .
-            'data = "' . $db_values['data'] . '", ' .
-            'dataAggiornamento = "' . date('Y-m-d') . '", ' .
-            'stato = "' . $db_values['stato'] . '", ' .
-            'tipoIndagine = "' . $db_values['tipo'] . '", ' .
-            'motivo = "' . $db_values['motivo'] . '" ' .
-            'WHERE id = ' . $id;
-
-        executeQuery($query_update);
+        $indagine = Indagini::find($id);
+        
+        $indagine->id_paziente = $db_values['idpaziente'];
+        $indagine->id_diagnosi = $db_values['iddiagnosi'];
+        $indagine->indagine_data = $db_values['data'];
+        $indagine->indagine_aggiornamento = date('Y-m-d');
+        $indagine->indagine_stato = $db_values['stato'];
+        $indagine->indagine_tipologia = $db_values['tipo'];
+        $indagine->indagine_motivo = $db_values['motivo'];
+        
+        $indagine->save();
     }
 
     function createResource($xml) {
@@ -148,28 +143,28 @@ class Observation extends FHIRResource {
         # PARSO I DATI DAL DOCUMENTO XML
 
         if (!empty($array_data['id']['@attributes']['value'])) {
-            throw new IdFoundInCreateException('invalid id specified in CREATE');
+            throw new FHIR\IdFoundInCreateException('invalid id specified in CREATE');
         }
 
         // prelevo l'id del paziente
         if (preg_match("/^\.\.\/fhir\/Patient\/(.*?)$/i", $array_data['subject']['reference']['@attributes']['value'], $matches)) {
             $db_values['idpaziente'] = $matches[1];
         } else {
-            throw new InvalidResourceFieldException('invalid Patient id');
+            throw new FHIR\InvalidResourceFieldException('invalid Patient id');
         }
 
         // prelevo l'id della diagnosi
         if (preg_match("/^\.\.\/fhir\/DiagnosticReport\/(.*?)$/i", $array_data['identifier']['value']['@attributes']['value'], $matches)) {
             $db_values['iddiagnosi'] = $matches[1];
         } else {
-            throw new InvalidResourceFieldException('invalid diagnostic report id');
+            throw new FHIR\InvalidResourceFieldException('invalid diagnostic report id');
         }
 
         // prelevo la data
         if (!empty($array_data['effectiveDateTime']['@attributes']['value'])) {
             $db_values['data'] = $array_data['effectiveDateTime']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid date format');
+            throw new FHIR\InvalidResourceFieldException('invalid date format');
         }
 
         // prelevo lo stato
@@ -187,10 +182,10 @@ class Observation extends FHIRResource {
                     $db_values['stato'] = 'programmata';
                     break;
                 default:
-                    throw new InvalidResourceFieldException('invalid status code');
+                    throw new FHIR\InvalidResourceFieldException('invalid status code');
             }
         } else {
-            throw new InvalidResourceFieldException('invalid status field');
+            throw new FHIR\InvalidResourceFieldException('invalid status field');
         }
 
         // prelevo i campi delle estensioni
@@ -203,7 +198,7 @@ class Observation extends FHIRResource {
                     $db_values['motivo'] = $extension_element['valueString']['@attributes']['value'];
                     break;
                 default:
-                    throw new InvalidResourceFieldException('an extension is missing');
+                    throw new FHIR\InvalidResourceFieldException('an extension is missing');
             }
         }
 
@@ -212,35 +207,31 @@ class Observation extends FHIRResource {
         # -----------------------------------------
         # INSERISCO I DATI PARSATI NEL DATABASE
 
-        $query_insert = 'INSERT INTO indagini (id, idpaziente, idDiagnosi, idStudioIndagini, data, stato, tipoIndagine, motivo) values (NULL, "' . $db_values['idpaziente'] . '", "' . $db_values['iddiagnosi'] . '", "1", "' . $db_values['data'] . '", "' . $db_values['stato'] . '", "' . $db_values['tipo'] . '", "'. $db_values['motivo'] . '")';
+        $indagine = new Indagini();
+        
+        $indagine->id_diagnosi      = $db_values['iddiagnosi'];
+        $indagine->id_paziente      = $db_values['idpaziente'];
+        $indagine->indagine_data    = $db_values['data'];
+        $indagine->indagine_stato   = $db_values['stato'];
+        $indagine->indagine_tipologia = $db_values['tipo'];
+        $indagine->indagine_motivo  = $db_values['motivo'];
 
-        executeQuery($query_insert);
-
-        // prelevo l'id del campo con i valori appena inseriti
-        $value_id = getInfo('id', 'indagini',
-            'idpaziente = "' . $db_values['idpaziente'] . '" AND ' .
-            'idDiagnosi = "' . $db_values['iddiagnosi'] . '" AND ' .
-            'idStudioIndagini = "1" AND ' .
-            'data = "' . $db_values['data'] . '" AND ' .
-            'stato = "' . $db_values['stato'] . '" AND ' .
-            'tipoIndagine = "'. $db_values['tipo'] . '" AND ' .
-            'motivo = "'. $db_values['motivo'] . '"'
-        );
-
-        return $value_id;
+        $indagine->save();
+        
+        return $inagine->id_indagine;
     }
     
     function getResource($id)
     {
-        if (empty(getInfo('id', 'indagini', 'id = ' . $id))) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+        if (!CentriIndagini::where('id_centro', $id)->exists()) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
         
         //dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
         $indagine = "";
         
         //Recupero l' indagine diagnostica del paziente richiesta
-        $indagine = getInfo('id','indagini','id='.$id);
+        $indagine = $id;
         
         //dichiaro le variabili in modo tale che se non vi sono i relativi valori nel DB, il sistema non vada in crash
         $data = "";
@@ -256,16 +247,19 @@ class Observation extends FHIRResource {
         
         //Sec l' ID dell'indagine diagnostica non è vuoto recupero i valori richiesti dal DB
         if($indagine != null){
-                $data = getInfo('data', 'indagini', 'id = ' . $indagine);
-                $stato = getInfo('stato', 'indagini', 'id = ' . $indagine);
-                $tipoIndagine = getInfo('tipoIndagine', 'indagini', 'id = ' . $indagine);
-                $motivo = getInfo('motivo', 'indagini', 'id = ' . $indagine);
-                $idpaziente = getInfo('idpaziente', 'indagini', 'id = ' . $indagine);
-                $idcareprovider = getInfo('idcpp', 'indagini', 'id = ' . $indagine);
-                $iddiagnosi = getInfo('idDiagnosi', 'indagini', 'id = ' . $indagine);
-                $statodiagnosi = getInfo('stato', 'diagnosi', 'id = ' . $iddiagnosi);
-                $responso = getInfo('responso', 'diagnosi', 'id = ' . $iddiagnosi);
-                $loincID = getInfo('loincID', 'indagini', 'id = ' . $indagine);
+            
+            $dati_indagine = Indagine::find($id);
+            
+            $data = $dati_indagine->indagine_data;
+            $stato = $dati_indagine->indagine_stato;
+            $tipoIndagine = $dati_indagine->indagine_tipologia;
+            $motivo = $dati_indagine->indagine_motivo;
+            $idpaziente = $dati_indagine->id_paziente;
+      //          $idcareprovider = getInfo('idcpp', 'indagini', 'id = ' . $indagine);
+            $iddiagnosi = $dati_indagine->id_diagnosi;
+            $statodiagnosi = $dati_indagine->indagine_stato;
+       //         $responso = getInfo('responso', 'diagnosi', 'id = ' . $iddiagnosi);
+      //      $loincID = $dati_indagine->id_audit_log;
         }
         
         //recupero il codice dell'indagine secondo la codifica LOINC e il suo valore testuale
@@ -273,15 +267,15 @@ class Observation extends FHIRResource {
         $codice_visualizzabile_loinc = "";
         if($loincID!="")
         {
-            $codice_loinc = getInfo('LOINC_NUM', 'loinc', 'ID = ' . $loincID);
-            $codice_visualizzabile_loinc = getInfo('COMPONENT', 'loinc', 'ID = ' . $loincID);
+            $codice_loinc = "123";//getInfo('LOINC_NUM', 'loinc', 'ID = ' . $loincID);
+            $codice_visualizzabile_loinc = "TT"; //getInfo('COMPONENT', 'loinc', 'ID = ' . $loincID);
         }
         
 
 
         //Creazione del documento XML per l'indagine diagnostica
         //Creazione di un oggetto dom con la codifica UTF-8
-        $dom = new DOMDocument('1.0', 'utf-8');
+        $dom = new \DOMDocument('1.0', 'utf-8');
         
         //Creazione del nodo Observation, cioè il nodo Root  della risorsa
         $Observation = $dom->createElement('Observation');

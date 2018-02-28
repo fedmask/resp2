@@ -28,7 +28,7 @@ class FHIRPatient extends FHIRResource {
     function deleteResource($id) {
        
         if (!Pazienti::where('id_utente', $id)->exists()) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
 
@@ -41,7 +41,7 @@ class FHIRPatient extends FHIRResource {
         $array_data     = json_decode($json, true);
 
         if (!Pazienti::where('id_utente', $id)->exists()) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         $db_values = array(
@@ -75,7 +75,7 @@ class FHIRPatient extends FHIRResource {
             $db_values['nome'] = $array_data['name']['given']['@attributes']['value'];
             $db_values['cognome'] = $array_data['name']['family']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid care provider name and surname');
+            throw new FHIR\InvalidResourceFieldException('invalid care provider name and surname');
         }
 
         // prelevo i campi delle estensioni
@@ -88,7 +88,7 @@ class FHIRPatient extends FHIRResource {
                     $db_values['grupposanguigno'] = $extension_element['valueString']['@attributes']['value'];
                     break;
                 default:
-                    throw new InvalidResourceFieldException('an extension is missing');
+                    throw new FHIR\InvalidResourceFieldException('an extension is missing');
             }
         }
 
@@ -96,14 +96,14 @@ class FHIRPatient extends FHIRResource {
         if (!empty($array_data['birthDate']['@attributes']['value'])) {
             $db_values['datanascita'] = $array_data['birthDate']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid patient birthdate');
+            throw new FHIR\InvalidResourceFieldException('invalid patient birthdate');
         }
 
         // prelevo l'indirizzo di residenza del paziente
         if (!empty($array_data['address']['line']['@attributes']['value'])) {
             $db_values['indirizzo'] = $array_data['address']['line']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid patient address field');
+            throw new FHIR\InvalidResourceFieldException('invalid patient address field');
         }
 
         // prelevo il comune
@@ -112,7 +112,7 @@ class FHIRPatient extends FHIRResource {
             $db_values['comunenascita'] = $array_data['address']['city']['@attributes']['value'];
             $db_values['comuneresidenza'] = $db_values['comunenascita'];
         } else {
-            throw new InvalidResourceFieldException('invalid comune field');
+            throw new FHIR\InvalidResourceFieldException('invalid comune field');
         }
 
         // prelevo il genere del paziente
@@ -131,14 +131,14 @@ class FHIRPatient extends FHIRResource {
                     break;
             }
         } else {
-            throw new InvalidResourceFieldException('invalid patient gender');
+            throw new FHIR\InvalidResourceFieldException('invalid patient gender');
         }
 
         // prelevo il numero di telefono
         if (!empty($array_data['telecom']['value']['@attributes']['value'])) {
             $db_values['telefono'] = $array_data['telecom']['value']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid phone number');
+            throw new FHIR\InvalidResourceFieldException('invalid phone number');
         }
 
 
@@ -212,7 +212,7 @@ class FHIRPatient extends FHIRResource {
         # PARSO I DATI DAL DOCUMENTO XML
 
         if (!empty($array_data['id']['@attributes']['value'])) {
-            throw new IdFoundInCreateException('invalid id specified in CREATE');
+            throw new FHIR\IdFoundInCreateException('invalid id specified in CREATE');
         }
 
         // prelevo il nome del paziente
@@ -221,7 +221,7 @@ class FHIRPatient extends FHIRResource {
             $db_values['nome'] = $array_data['name']['family']['@attributes']['value'];
             $db_values['cognome'] = $array_data['name']['given']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid care provider name and surname');
+            throw new FHIR\InvalidResourceFieldException('invalid care provider name and surname');
         }
 
         // prelevo i campi delle estensioni
@@ -278,7 +278,7 @@ class FHIRPatient extends FHIRResource {
                     $db_values['grupposanguigno'] = $extension_element['valueString']['@attributes']['value'];
                     break;
                 default:
-                    throw new InvalidResourceFieldException('an extension is missing');
+                    throw new FHIR\InvalidResourceFieldException('an extension is missing');
             }
         }
 
@@ -286,14 +286,14 @@ class FHIRPatient extends FHIRResource {
         if (!empty($array_data['birthDate']['@attributes']['value'])) {
             $db_values['datanascita'] = $array_data['birthDate']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid patient birthdate');
+            throw new FHIR\InvalidResourceFieldException('invalid patient birthdate');
         }
 
         // prelevo l'indirizzo di residenza del paziente
         if (!empty($array_data['address']['line']['@attributes']['value'])) {
             $db_values['indirizzo'] = $array_data['address']['line']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid patient address field');
+            throw new FHIR\InvalidResourceFieldException('invalid patient address field');
         }
 
         // prelevo il comune
@@ -302,7 +302,7 @@ class FHIRPatient extends FHIRResource {
             $db_values['comunenascita'] = $array_data['address']['city']['@attributes']['value'];
             $db_values['comuneresidenza'] = $db_values['comunenascita'];
         } else {
-            throw new InvalidResourceFieldException('invalid comune field');
+            throw new FHIR\InvalidResourceFieldException('invalid comune field');
         }
 
         // prelevo il genere del paziente
@@ -321,20 +321,20 @@ class FHIRPatient extends FHIRResource {
                     break;
             }
         } else {
-            throw new InvalidResourceFieldException('invalid patient gender');
+            throw new FHIR\InvalidResourceFieldException('invalid patient gender');
         }
 
         // prelevo il numero di telefono
         if (!empty($array_data['telecom']['value']['@attributes']['value'])) {
             $db_values['telefono'] = $array_data['telecom']['value']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid phone number');
+            throw new FHIR\InvalidResourceFieldException('invalid phone number');
         }
 
         // controllo che nel database non esista un altro paziente con lo stesso username
 
         if (User::where('utente_nome', $db_values_user['username'])->exists()) {
-            throw new UserAlreadyExistsException('cannot create resource Patient because username specified via extension already exists');
+            throw new FHIR\UserAlreadyExistsException('cannot create resource Patient because username specified via extension already exists');
         }
 
         # -----------------------------------------
@@ -360,7 +360,7 @@ class FHIRPatient extends FHIRResource {
         $db_values_user['id'] = $utente->id_utente;
 
         if (!$db_values_user['id']) {
-            throw new InvalidResourceFieldException('impossible to create username in database');
+            throw new FHIR\InvalidResourceFieldException('impossible to create username in database');
         }
 
         $db_values['idutente'] = $db_values_user['id'];
