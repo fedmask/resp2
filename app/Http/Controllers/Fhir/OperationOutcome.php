@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Http\Controllers\Fhir;
 /*
 
 Nello standardi fhir gli OperationOutcome sono una collezione di errori
@@ -12,13 +13,16 @@ https://www.hl7.org/fhir/operationoutcome.html
 */
 
 class OperationOutcome {
+    
     public function __construct() {}
 
     // metodo statico che permette di ottenere il codice XML della risorsa
     // OperationOutcome inserendo un testo come parametro
 
     public static function getXML($text) {
-        $dom = new DOMDocument('1.0', 'utf-8');
+
+        $dom = new \DOMDocument('1.0', 'utf-8');
+
         $node_operationoutcome = $dom->createElement('OperationOutcome');
         $node_operationoutcome->setAttribute('xmlns', 'http://hl7.org/fhir');
         $node_operationoutcome = $dom->appendChild($node_operationoutcome);
@@ -58,7 +62,7 @@ class OperationOutcome {
 
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
-        
+
         return $dom->saveXML();
     }
 }

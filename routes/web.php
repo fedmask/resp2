@@ -156,19 +156,20 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group( ['prefix' => 'fhir', 'middleware' => ['App\Http\Middleware\CareProviderMiddleware'] ], function () {
         
     Route::get('Patient/{id?}', 'Fhir\Modules\FHIRPatient@getResource');
-    Route::post('Patient', 'Fhir\Modules\FHIRPatient@createResource');
-    Route::put('Patient/{id}', 'Fhir\Modules\FHIRPatient@update');
-    Route::delete('Patient/{id}', 'Fhir\Modules\FHIRPatient@destroy');
-        
     Route::get('Practitioner/{id?}','Fhir\Modules\FHIRPractitioner@getResource');
-        
-    Route::get('Observation/{id?}','Fhir\Modules\FHIRObservation@getResource');
     Route::get('Organization/{id?}','Fhir\Modules\FHIROrganization@getResource');
-        
+    Route::get('Observation/{id?}','Fhir\Modules\FHIRObservation@getResource');
     Route::get('DiagnosticReport/{id?}','Fhir\Modules\FHIRDiagnosticReport@getResource');
+    
+    //
+    Route::post('Patient', 'Fhir\Modules\FHIRPatient@createResource');
+    
+   // Route::put('Patient/{id}', 'Fhir\Modules\FHIRPatient@update');
+   // Route::delete('Patient/{id}', 'Fhir\Modules\FHIRPatient@destroy');
+
 });
 
-/** Gestione della pagine di errore **/
+Route::get("TestSend", "Fhir\Modules\FHIRPatient@setPage");
 
 
         

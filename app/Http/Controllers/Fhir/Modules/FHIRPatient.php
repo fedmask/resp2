@@ -25,6 +25,11 @@ class FHIRPatient extends FHIRResource {
     
 	public function __construct() {}
 
+	
+	function setPage(){
+	    return "<form method='POST' action='http://resp.local/fhir/Patient' enctype='application/xml-fhir'><input type=\"hidden\" name=\"_token\" value=\"".csrf_token()."\"><input type='text' value='123' /><input type='submit'></form>";
+	}
+	
     function deleteResource($id) {
        
         if (!Pazienti::where('id_utente', $id)->exists()) {
@@ -168,6 +173,8 @@ class FHIRPatient extends FHIRResource {
 
 	function createResource($xml) {
 
+	    
+	    die("!!");
 		// converto il documento in formato json
         // per accedere facilmente alla struttura con un
         // array associativo php

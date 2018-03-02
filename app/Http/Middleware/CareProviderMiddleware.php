@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\CurrentUser\User;
 use Closure;
 use Auth;
+use App\Http\Controllers\Fhir\OperationOutcome;
 
 class CareProviderMiddleware
 {
@@ -22,7 +23,9 @@ class CareProviderMiddleware
         if (!Auth::check() || $request->user()->getRole() != User::CAREPROVIDER_ID)
         {
             /** TODO: Creare questa pagine per personalizzare l'errore di accesso alle risorse FHIR **/
-            return redirect('unauthorized_request');
+            $error_in_xml = OperationOutcome::getXML("Per accedere alle API e' necessaria l'autenticazione come care provider!");
+
+            return response()->view('errors.FHIR', ["errorMessage" => $error_in_xml], 401)->withHeaders(['Content-Type' => 'application/xml']);
         }
 
         return $next($request);

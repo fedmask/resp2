@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
+use App\Exceptions\FHIR as FHIR;
+use App\Http\Controllers\Fhir\OperationOutcome;
 
 class Handler extends ExceptionHandler
 {
@@ -49,6 +51,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        
+        $error_message = OperationOutcome::getXML($exception->getMessage());
+        
+        if ($exception instanceof FHIR\IdNotFoundInDatabaseException) {
+            return response()->view('errors.FHIR', ["errorMessage" => $error_message], 404);//->withHeaders(['Content-Type' => 'application/xml']);
+        }
+        
+        if ($exception instanceof FHIR\ResourceNotFoundException) {
+            return response()->view('errors.FHIR', ["errorMessage" => $error_message], 404);//->withHeaders(['Content-Type' => 'application/xml']);
+        }
+        
+        if ($exception instanceof FHIR\UnsupportedOperationException) {
+            return response()->view('errors.FHIR', ["errorMessage" => $error_message], 422);//->withHeaders(['Content-Type' => 'application/xml']);
+        }
+
         return parent::render($request, $exception);
     }
 

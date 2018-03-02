@@ -1,7 +1,6 @@
 <?php
 
-include ('../modello PBAC/Utility.php');
-include ('../modello PBAC/Login/Session.php');
+
 
 include('ResourceExceptions.php');
 
@@ -27,12 +26,12 @@ class ResourceFactory {
     // ogni volta che si crea una nuova risorsa
     // bisogna elencare nel seguente array il nome della risorsa
     private $resources = array(
-        'Patient',
-        'Practitioner',
-        'Observation',
-        'DiagnosticReport',
-        'FamilyMemberHistory',
-        'Organization'
+        'FHIRPatient',
+        'FHIRPractitioner',
+        'FHIRObservation',
+        'FHIRDiagnosticReport',
+        'FHIRFamilyMemberHistory',
+        'FHIROrganization'
     );
 
     private $resource = NULL;
@@ -43,7 +42,7 @@ class ResourceFactory {
 
         // includo dinamicamente i vari file php
         foreach($this->resources as $res) {
-            require_once('modules/' . $res . '.php');
+            require_once('Modules/' . $res . '.php');
             
             // dopo che ho incluso la classe inserisco
             // in un array una istanza della classe appena caricata
