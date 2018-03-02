@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Fhir\Modules;
 
-use App\Http\Controllers\Fhir\Modules\FHIRResource;
+use App\Http\Controllers\Fhir\Modules\FHIRResource as FHIR;
+use App\Exceptions\FHIR as FHIR;
 use App\Models\CareProvider\CppPersona;
 use Illuminate\Http\Request;
 use App;

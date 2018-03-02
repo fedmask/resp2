@@ -1,27 +1,30 @@
 <?php
 
-require_once("FHIRResource.php");
+namespace App\Http\Controllers\Fhir\Modules;
+
+use App\Exceptions\FHIR as FHIR;
+use App\Http\Controllers\Fhir\Modules\FHIRResource;
+
+/**
+ * 
+ * Al momento sospesa in quanto manca l'implementazione nel DB
+ */
 
 class FamilyMemberHistory extends FHIRResource {
+    
     public function __construct() {}
 
     function deleteResource($id) {
-        if (empty(getInfo('id', 'anamnesifamiliare_nuova', 'id = ' . $id))) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+
+        if (!AnamnesiFamiliare::where('id_anamnesi_familiare', $id)->exists()) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
+        
 
         # -----------------------------------------
         # ELIMINO I DATI DAL DATABASE
 
-        $query_delete = 'DELETE FROM anamnesifamiliare_nuova WHERE id = "' . $id . '"';
-        executeQuery($query_delete);
-
-        // effettuo un nuovo controllo per verificare se la risorsa e' stata
-        // effettivamente eliminata
-
-        if (!empty(getInfo('id', 'anamnesifamiliare_nuova', 'id = ' . $id))) {
-            throw new DeleteRequestRefusedException("can't delete resources with id provided");
-        }
+        AnamnesiFamiliare::find($id)->delete();
     }
 
     function updateResource($id, $xml) {
@@ -29,8 +32,8 @@ class FamilyMemberHistory extends FHIRResource {
         $json = json_encode($xml_values);
         $array_data = json_decode($json, true);
 
-        if (empty(getInfo('id', 'anamnesifamiliare_nuova', 'id = ' . $id))) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+        if (!AnamnesiFamiliare::where('id_anamnesi_familiare', $id)->exists()) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         $db_values = array(
@@ -48,7 +51,7 @@ class FamilyMemberHistory extends FHIRResource {
         // risorsa xml passata come input
 
         if ($id != $array_data['id']['@attributes']['value']) {
-            throw new MatchException('ID provided in url doesn\'t match the one in XML resource');
+            throw new FHIR\MatchException('ID provided in url doesn\'t match the one in XML resource');
         }
 
         # -----------------------------------------
@@ -58,7 +61,7 @@ class FamilyMemberHistory extends FHIRResource {
         if (preg_match("/^\.\.\/fhir\/Patient\/(.*?)$/i", $array_data['patient']['reference']['@attributes']['value'], $matches)) {
             $db_values['idpaziente'] = $matches[1];
         } else {
-            throw new InvalidResourceFieldException('invalid Patient id');
+            throw new FHIR\InvalidResourceFieldException('invalid Patient id');
         }
 
         // prelevo la data di aggiornamento
@@ -68,14 +71,14 @@ class FamilyMemberHistory extends FHIRResource {
 
             $db_values['dataAggiornamento'] = $formattedDate;
         } else {
-            throw new InvalidResourceFieldException('invalid date format');
+            throw new FHIR\InvalidResourceFieldException('invalid date format');
         }
 
         // prelevo il nome del componente
         if (!empty($array_data['name']['@attributes']['value'])) {
             $db_values['componente'] = $array_data['name']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid component name');
+            throw new FHIR\InvalidResourceFieldException('invalid component name');
         }
 
         // prelevo il genere del componente
@@ -94,14 +97,14 @@ class FamilyMemberHistory extends FHIRResource {
                     break;
             }
         } else {
-            throw new InvalidResourceFieldException('invalid patient gender');
+            throw new FHIR\InvalidResourceFieldException('invalid patient gender');
         }
 
         // prelevo gli anni
         if (!empty($array_data['ageString']['@attributes']['value'])) {
             $db_values['anni'] = $array_data['ageString']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid age');
+            throw new FHIR\InvalidResourceFieldException('invalid age');
         }
 
         // prelevo la data di morte
@@ -110,21 +113,21 @@ class FamilyMemberHistory extends FHIRResource {
         } else if (!empty($array_data['deceasedBoolean']['@attributes']['value'])) {
             $db_values['dataMorte'] = 'NULL';
         } else {
-            throw new InvalidResourceFieldException('invalid deceased date');
+            throw new FHIR\InvalidResourceFieldException('invalid deceased date');
         }
 
         // parso il codice snomed da inserire nel database
         if (!empty($array_data['condition']['code']['coding']['code']['@attributes']['value'])) {
             $db_values['snomedId'] = $array_data['condition']['code']['coding']['code']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid snomed ct code');
+            throw new FHIR\InvalidResourceFieldException('invalid snomed ct code');
         }
 
         // prelevo le note
         if (!empty($array_data['condition']['note']['text']['@attributes']['value'])) {
             $db_values['note'] = $array_data['condition']['note']['text']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid note for condition');
+            throw new FHIR\InvalidResourceFieldException('invalid note for condition');
         }
 
         //print_r($db_values);
@@ -135,6 +138,7 @@ class FamilyMemberHistory extends FHIRResource {
         $encrypted_notes = new Data($db_values['note']);
         $encrypted_notes = serializeData(encryptData($encrypted_notes));
 
+        
         // query di inserimento che verra' eseguita
         $query_update = 'UPDATE anamnesifamiliare_nuova SET ' .
             'idpaziente = "' . $db_values['idpaziente'] . '", ' .

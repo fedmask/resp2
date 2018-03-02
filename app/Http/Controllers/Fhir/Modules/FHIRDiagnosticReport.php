@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Fhir\Modules;
 
+use App\Exceptions\FHIR as FHIR;
 use App\Http\Controllers\Fhir\Modules\FHIRResource;
 use App\Models\Diagnosis\Diagnosi;
 
@@ -12,7 +13,7 @@ class FHIRDiagnosticReport extends FHIRResource {
     function deleteResource($id) {
         
         if (!Diagnosi::where('id_diagnosi', $id)->exists()) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         # -----------------------------------------
@@ -26,7 +27,7 @@ class FHIRDiagnosticReport extends FHIRResource {
         // effettivamente eliminata
 
         if (!Diagnosi::where('id_diagnosi', $id)->exists()) {
-            throw new DeleteRequestRefusedException("can't delete resources with id provided");
+            throw new FHIR\DeleteRequestRefusedException("can't delete resources with id provided");
         }
     }
 
@@ -36,7 +37,7 @@ class FHIRDiagnosticReport extends FHIRResource {
         $array_data = json_decode($json, true);
 
         if (!Diagnosi::where('id_diagnosi', $id)->exists()) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         //echo var_dump($array_data);
@@ -56,39 +57,39 @@ class FHIRDiagnosticReport extends FHIRResource {
         // controllo che l'id passato come URL coincida con il campo id della
         // risorsa xml passata come input
         if ($id != $array_data['id']['@attributes']['value']) {
-            throw new MatchException('ID provided in url doesn\'t match the one in XML resource');
+            throw new FHIR\MatchException('ID provided in url doesn\'t match the one in XML resource');
         }
 
         // prelevo l'id del paziente
         if (preg_match("/^\.\.\/fhir\/Patient\/(.*?)$/i", $array_data['subject']['reference']['@attributes']['value'], $matches)) {
             $db_values['idpaziente'] = $matches[1];
         } else {
-            throw new InvalidResourceFieldException('invalid Patient id');
+            throw new FHIR\InvalidResourceFieldException('invalid Patient id');
         }
 
         // prelevo l'id del care provider
         if (preg_match("/^\.\.\/fhir\/Practitioner\/(.*?)$/i", $array_data['performer']['reference']['@attributes']['value'], $matches)) {
             $db_values['idcpp'] = $matches[1];
         } else {
-            throw new InvalidResourceFieldException('invalid Care provider id');
+            throw new FHIR\InvalidResourceFieldException('invalid Care provider id');
         }
 
         if (!empty($array_data['effectiveDateTime']['@attributes']['value'])) {
             $db_values['dataInserimento'] = $array_data['effectiveDateTime']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid entry date field');
+            throw new FHIR\InvalidResourceFieldException('invalid entry date field');
         }
 
         if (!empty($array_data['conclusion']['@attributes']['value'])) {
             $db_values['patologia'] = $array_data['conclusion']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid conclusion field');
+            throw new FHIR\InvalidResourceFieldException('invalid conclusion field');
         }
 
         if ($array_data['extension']['@attributes']['url'] == 'http://'.$_SERVER['HTTP_HOST'].'/resources/extensions/diagnosticreport-status.xml') {
             $db_values['stato'] = $array_data['extension']['valueString']['@attributes']['value'];
         } else {
-            throw new InvalidResourceFieldException('invalid extension for status');
+            throw new FHIR\InvalidResourceFieldException('invalid extension for status');
         }
 
        
@@ -141,42 +142,44 @@ class FHIRDiagnosticReport extends FHIRResource {
         # PARSO I DATI DAL DOCUMENTO XML
 
         if (!empty($array_data['id']['@attributes']['value'])) {
-            throw new IdFoundInCreateException('invalid id specified in CREATE');
+            throw new FHIR\IdFoundInCreateException('invalid id specified in CREATE');
         }
 
         // prelevo l'id del paziente
         if (preg_match("/^\.\.\/fhir\/Patient\/(.*?)$/i", $array_data['subject']['reference']['@attributes']['value'], $matches)) {
             $db_values['idpaziente'] = $matches[1];
         } else {
-            throw new InvalidResourceFieldException('invalid Patient id');
+            throw new FHIR\InvalidResourceFieldException('invalid Patient id');
         }
 
         // prelevo l'id del care provider
         if (preg_match("/^\.\.\/fhir\/Practitioner\/(.*?)$/i", $array_data['performer']['reference']['@attributes']['value'], $matches)) {
             $db_values['idcpp'] = $matches[1];
         } else {
-            throw new InvalidResourceFieldException('invalid Care provider id');
+            throw new FHIR\InvalidResourceFieldException('invalid Care provider id');
         }
 
         if (!empty($array_data['effectiveDateTime']['@attributes']['value'])) {
         	$db_values['dataInserimento'] = $array_data['effectiveDateTime']['@attributes']['value'];
         } else {
-        	throw new InvalidResourceFieldException('invalid entry date field');
+            throw new FHIR\InvalidResourceFieldException('invalid entry date field');
         }
 
         if (!empty($array_data['conclusion']['@attributes']['value'])) {
         	$db_values['patologia'] = $array_data['conclusion']['@attributes']['value'];
         } else {
-        	throw new InvalidResourceFieldException('invalid conclusion field');
+            throw new FHIR\InvalidResourceFieldException('invalid conclusion field');
         }
 
         if ($array_data['extension']['@attributes']['url'] == 'http://'.$_SERVER['HTTP_HOST'].'/resources/extensions/diagnosticreport-status.xml') {
         	$db_values['stato'] = $array_data['extension']['valueString']['@attributes']['value'];
         } else {
-        	throw new InvalidResourceFieldException('invalid extension for status');
+            throw new FHIR\InvalidResourceFieldException('invalid extension for status');
         }
 
-        $db_values['careprovider'] = getInfo('nome', 'careproviderpersona', 'id = ' . $db_values['idcpp']) . ' ' . getInfo('cognome', 'careproviderpersona', 'id = ' . $db_values['idcpp']);
+        $dati_cpp = CppPersona::find($db_values['idcpp']);
+        
+        $db_values['careprovider'] = $dati_cpp->persona_nome . ' ' . $dati_cpp->persona_cognome;
 
         //print_r($db_values);
 
@@ -219,7 +222,7 @@ class FHIRDiagnosticReport extends FHIRResource {
 		$diagnosi = $id;
 
 		if (!Diagnosi::where('id_diagnosi', $id)->exists()) {
-		    throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+		    throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
 		}
 		
 		//dichiaro le variabili in modo tale che se non vi sono i relativi valori nel DB, il sistema non vada in crash
@@ -238,33 +241,43 @@ class FHIRDiagnosticReport extends FHIRResource {
 		
 		//Se l'ID passato non è vuoto recupero le informazioni necessari dalla specifica dal DB
 		if($diagnosi != null){
-			$idpaziente = getInfo('idPaziente', 'diagnosi', 'id = ' . $diagnosi);
-			$datains = getInfo('dataIns', 'diagnosi', 'id = ' . $diagnosi);
-			$dataagg = getInfo('dataAgg', 'diagnosi', 'id = ' . $diagnosi);
-			$patologia = getInfo('patologia', 'diagnosi', 'id = ' . $diagnosi);
-			$stato = getInfo('stato', 'diagnosi', 'id = ' . $diagnosi);
-			$conf = getInfo('conf', 'diagnosi', 'id = ' . $diagnosi);
-			$idcareprovider = getInfo('idcpp', 'careproviderdiagnosi', 'diagnosi_id = ' . $diagnosi);
-			$careproviderdiagnosi = getInfo('careprovider', 'careproviderdiagnosi', 'diagnosi_id = ' . $diagnosi);
-			$statodiagnosi = getInfo('statoDiagnosi', 'careproviderdiagnosi', 'diagnosi_id = ' . $diagnosi);
-			$idindagine = getArray('id', 'indagini', 'idDiagnosi = ' . $diagnosi);	
-			$nindagini = count($idindagine);
-			$loincID = getInfo('loincID', 'diagnosi', 'id = ' . $diagnosi);
+		    $dati_diagnosi = Diagnosi::find($diagnosi);
+		    $idpaziente = $dati_diagnosi->id_paziente; //getInfo('idPaziente', 'diagnosi', 'id = ' . $diagnosi);
+		    $datains = $dati_diagnosi->diagnosi_inserimento_data; //getInfo('dataIns', 'diagnosi', 'id = ' . $diagnosi);
+		    $dataagg = $dati_diagnosi->diagnosi_aggiornamento_data; //getInfo('dataAgg', 'diagnosi', 'id = ' . $diagnosi);
+		    $patologia = $dati_diagnosi->diagnosi_patologia; //getInfo('patologia', 'diagnosi', 'id = ' . $diagnosi);
+		    $stato = $dati_diagnosi->diagnosi_stato; //getInfo('stato', 'diagnosi', 'id = ' . $diagnosi);
+		    $conf = $dati_diagnosi->diagnosi_confidenzialita; //getInfo('conf', 'diagnosi', 'id = ' . $diagnosi);
+			
+		    $cppdiagnosi = CppDiagnosi::find($diagnosi);
+		    
+		    $idcareprovider = $cppdiagnosi->id_cpp; // getInfo('idcpp', 'careproviderdiagnosi', 'diagnosi_id = ' . $diagnosi);
+		    $careproviderdiagnosi = $cppdiagnosi->careprovider; //getInfo('careprovider', 'careproviderdiagnosi', 'diagnosi_id = ' . $diagnosi);
+		    $statodiagnosi = $cppdiagnosi->diagnosi_stato; //getInfo('statoDiagnosi', 'careproviderdiagnosi', 'diagnosi_id = ' . $diagnosi);
+			
+		    $indagine_data = Indagini::find($diagnosi);
+		    
+		    $idindagine = $indagine_data->id_indagine; //getArray('id', 'indagini', 'idDiagnosi = ' . $diagnosi);	
+		    $nindagini = $indagine_data->count();
+			$loincID = '1'; //getInfo('loincID', 'diagnosi', 'id = ' . $diagnosi);
 		}
 		
 		//recupero il codice della diagnosi secondo la codifica LOINC e il suo valore testuale
-		$codice_loinc = "";
+		/*$codice_loinc = "";
 		$codice_visualizzabile_loinc = "";
-		if($loincID!="")
+		
+		
+		 * if($loincID!="")
 		{
 			$codice_loinc = getInfo('LOINC_NUM', 'loinc', 'ID = ' . $loincID);
 			$codice_visualizzabile_loinc = getInfo('COMPONENT', 'loinc', 'ID = ' . $loincID);
 		}
+		*/
 		
 		
 		//Creazione del documento XML per il report diagnostico
 		//Creazione di un oggetto dom con la codifica UTF-8
-		$dom = new DOMDocument('1.0', 'utf-8');
+		$dom = new \DOMDocument('1.0', 'utf-8');
 		
 		//Creazione del nodo Practitioner, cioè il nodo Root  della risorsa
 		$DiagnosticReport = $dom->createElement('DiagnosticReport');
