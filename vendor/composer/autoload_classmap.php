@@ -3812,6 +3812,7 @@ return array(
     'TownTableSeeder' => $baseDir . '/database/seeds/TownTableSeeder.php',
     'TypesUsersTableSeeder' => $baseDir . '/database/seeds/TypesUsersTableSeeder.php',
     'UsersTableSeeder' => $baseDir . '/database/seeds/UsersTableSeeder.php',
+    'VisiteTableSeeder' => $baseDir . '/database/seeds/VisiteTableSeeder.php',
     'Webmozart\\Assert\\Assert' => $vendorDir . '/webmozart/assert/src/Assert.php',
     'Whoops\\Exception\\ErrorException' => $vendorDir . '/filp/whoops/src/Whoops/Exception/ErrorException.php',
     'Whoops\\Exception\\Formatter' => $vendorDir . '/filp/whoops/src/Whoops/Exception/Formatter.php',

@@ -316,19 +316,62 @@
 			</div>
 			<!--accordion group-->
 
+			<!-- TAB INFORMAZIONI VISITE PRECEDENTI -->
 			<div id="Info" class="accordion-body collapse">
 				<div class="row">
 					<!--info-->
 					<div class="col-lg-12">
 						<h2>Informazioni Visite Precedenti</h2>
 						<hr>
-						<div class="panel-body"></div>
-						<!-- panel body -->
+@foreach($current_user->visiteUser() as $visita)
+
+						<!-- INSERIRE FOR PER TABELLE GIALLEEE -->
+						<div class="panel-body">
+							<div class="panel panel-warning">
+								<div class="panel-heading">Visita del
+									<?php echo date('d/m/y', strtotime($visita->visita_data)); ?></div>
+								<div class="table-responsive">
+									<table class="table">
+										<thead>
+										</thead>
+										<tbody>
+											<form class="form-horizontal" id="modpatinfo" method="post">
+												<div class="modal-body">
+													<div class="form-group">
+														<label class="control-label col-lg-4">Motivo:</label>
+														<div class="col-lg-8">
+															{{Form::label($visita->visita_motivazione)}}</div>
+													</div>
+
+
+													<div class="form-group">
+														<label class="control-label col-lg-4">Osservazioni:</label>
+														<div class="col-lg-8">
+															{{Form::label($visita->visita_osservazioni)}}</div>
+													</div>
+
+													<div class="form-group">
+														<label class="control-label col-lg-4">Conclusioni:</label>
+														<div class="col-lg-8">
+															{{Form::label($visita->visita_conclusioni)}}</div>
+													</div>
+											
+											</form>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!-- panel body -->
+						</div>
+						<!-- col lg 12 -->
+						<!-- FINE FORR -->
+						@endforeach
 					</div>
-					<!-- col lg 12 -->
+
 				</div>
 			</div>
-			<!--accordion body collapse-->
+			<!--FINE TAB INFORMAZIONI VISITE PRECEDENTI -->
 
 			<div id="Rilievi" class="accordion-body collapse">
 				<div class="row">

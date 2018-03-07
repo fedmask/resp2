@@ -4159,6 +4159,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'TownTableSeeder' => __DIR__ . '/../..' . '/database/seeds/TownTableSeeder.php',
         'TypesUsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/TypesUsersTableSeeder.php',
         'UsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/UsersTableSeeder.php',
+        'VisiteTableSeeder' => __DIR__ . '/../..' . '/database/seeds/VisiteTableSeeder.php',
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'Whoops\\Exception\\ErrorException' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/ErrorException.php',
         'Whoops\\Exception\\Formatter' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/Formatter.php',

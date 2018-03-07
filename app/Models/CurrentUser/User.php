@@ -9,6 +9,7 @@ use App\Models\Patient\Pazienti;
 use App\Models\UtentiTipologie;
 use App\Models\Domicile\Comuni;
 use App\Models\Patient\StatiMatrimoniali;
+use App\Models\Patient\PazientiVisite;
 use DB;
 use Auth;
 
@@ -348,4 +349,33 @@ class User extends Authenticatable
 		return $this->hasMany(\App\Models\CurrentUser\Recapiti::class, 'id_utente');
 	}
     
+	/**
+	 * Ritorna un array con tutte le visite effettuate dall'utente loggato
+	 */
+	public function visiteUser()
+	{
+	    $array = array();
+	    $lista = PazientiVisite::orderBy('visita_data', 'desc')->get();;
+	    switch ($this->getRole()) {
+	        case $this::PATIENT_ID:
+	            foreach ($lista as $la) {
+	                if ($la->id_paziente == $this->data_patient()->first()->id_paziente) {
+	                    array_push($array, $la);
+	                }
+	            }
+	            return $array;
+	            
+	        case $this::CAREPROVIDER_ID:
+	            foreach ($lista as $la) {
+	                if ($la->id_cpp == $this->care_providers()->first()->id_cpp) {
+	                    array_push($array, $la);
+	                }
+	            }
+	            return $array;
+	            
+	        default:
+	            break;
+	    }
+	}
+	
 }
