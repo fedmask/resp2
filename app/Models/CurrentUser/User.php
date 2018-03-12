@@ -10,6 +10,7 @@ use App\Models\UtentiTipologie;
 use App\Models\Domicile\Comuni;
 use App\Models\Patient\StatiMatrimoniali;
 use App\Models\Patient\PazientiVisite;
+use App\Models\Patient\ParametriVitali;
 use DB;
 use Auth;
 
@@ -376,6 +377,36 @@ class User extends Authenticatable
 	        default:
 	            break;
 	    }
+	}
+	
+	
+	/**
+	 * Restituisce un array multidimensionale in cui le chiavi sono le date delle visite e i valori sono
+	 * i parametri vitali
+	 */
+	public function paramVitaliToDate()
+	{
+	    $visite = $this->visiteUser();
+	    $array = array();
+	    $param = ParametriVitali::all();
+	    $data;
+	    foreach ($visite as $v) {
+	        foreach ($param as $p) {
+	            if (($v->id_paziente == $p->id_paziente) && ($v->id_visita == $p->id_parametro_vitale)) {
+	                $data = date('d/m/y', strtotime($v->visita_data));
+	                $array["$data"] = $p;
+	            }
+	        }
+	    }
+	    return $array;
+	}
+	
+	/**
+	 * Restituisce un array con le data delle visite
+	 */
+	public function dateVisite(){
+	    $date = array_keys($this->paramVitaliToDate());
+	    return $date;
 	}
 	
 }

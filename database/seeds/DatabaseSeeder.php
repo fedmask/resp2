@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ContactsTableSeeder::class);
         
         $this->call(VisiteTableSeeder::class);
+        $this->call(ParametriVitaliTableSeeder::class);
         
     }
 }

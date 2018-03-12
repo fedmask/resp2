@@ -373,8 +373,9 @@
 			</div>
 			<!--FINE TAB INFORMAZIONI VISITE PRECEDENTI -->
 
-			<div id="Rilievi" class="accordion-body collapse">
+<div id="Rilievi" class="accordion-body collapse">
 				<div class="row">
+
 					<!--rilievi-->
 					<div class="col-lg-12">
 						<h2>Rilievi Visite Precedenti</h2>
@@ -386,7 +387,7 @@
 									<table class="table">
 										<thead>
 											<tr>
-												<th>Data</th>
+												<th>Data
 												<th>Altezza</th>
 												<th>Peso</th>
 												<th>P.A. Max</th>
@@ -396,16 +397,37 @@
 											</tr>
 										</thead>
 										<tbody>
-										</tbody>
+										<!-- INIZIO FOR RILIEVI PRECEDENTI -->
+										@foreach($current_user->dateVisite() as $data)
+										<tr>
+											<td><!-- Data       -->{{Form::label($data)}}</td>
+											<td><!-- Altezza    -->{{Form::label($current_user->paramVitaliToDate()["$data"]->parametro_altezza)}}</td>
+											<td><!-- Peso       -->{{Form::label($current_user->paramVitaliToDate()["$data"]->parametro_peso)}}</td>
+											<td><!-- P.A. Max   -->{{Form::label($current_user->paramVitaliToDate()["$data"]->parametro_pressione_massima)}}</td>
+											<td><!-- P.A. Min   -->{{Form::label($current_user->paramVitaliToDate()["$data"]->parametro_pressione_minima)}}</td>
+											<td><!-- Freq. Card.-->{{Form::label($current_user->paramVitaliToDate()["$data"]->parametro_frequenza_cardiaca)}}</td>
+											<td><!-- Rilevatore -->{{Form::label($current_user->getSurname())}}</td>
+										</tr>
+										@endforeach
+										<!-- FINE FOR -->
+											
+											
+												</tbody>
 									</table>
 								</div>
+
+
 								<!--table responsive-->
 							</div>
 						</div>
 					</div>
 				</div>
+
+
 				<!--row-->
 			</div>
+
+
 			<!--accordion body collapse-->
 		</div>
 		<!--accordion visite-->

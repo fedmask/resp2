@@ -2586,6 +2586,7 @@ return array(
     'PHP_Token_XOR_EQUAL' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD_FROM' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
+    'ParametriVitaliTableSeeder' => $baseDir . '/database/seeds/ParametriVitaliTableSeeder.php',
     'Parsedown' => $vendorDir . '/erusev/parsedown/Parsedown.php',
     'PatientsMarriageTableSeeder' => $baseDir . '/database/seeds/PatientsMarriageTableSeeder.php',
     'PatientsTableSeeder' => $baseDir . '/database/seeds/PatientsTableSeeder.php',

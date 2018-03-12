@@ -2933,6 +2933,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'PHP_Token_XOR_EQUAL' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD_FROM' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'ParametriVitaliTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ParametriVitaliTableSeeder.php',
         'Parsedown' => __DIR__ . '/..' . '/erusev/parsedown/Parsedown.php',
         'PatientsMarriageTableSeeder' => __DIR__ . '/../..' . '/database/seeds/PatientsMarriageTableSeeder.php',
         'PatientsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/PatientsTableSeeder.php',
