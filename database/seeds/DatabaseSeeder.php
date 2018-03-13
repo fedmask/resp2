@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder {
 		$this->call ( ContactsTableSeeder::class );
 		$this->call ( CppUsers::class );
 		$this->call ( CareProviderPeopleTableSeeder::class );
+		$this->call ( MapsTableSeeder::class );
 	}
 }
