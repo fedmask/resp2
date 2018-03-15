@@ -12,8 +12,8 @@ use App\Models\Patient\StatiMatrimoniali;
 use App\Models\CurrentUser\Recapiti;
 use DB;
 use App\Models\CareProviders\CareProvider;
-use App\Models\Maps;
 use Auth;
+use App\Models\CareProviders\CppPaziente;
 
 class User extends Authenticatable {
 	use Notifiable;
@@ -368,17 +368,6 @@ class User extends Authenticatable {
 		return $r;
 	}
 	
-	
-	public function trovaConfidenzialita() {
-		$array = array ();
-		$array = CareProvider::all ();
-		// il collegamento dovrebbe essere in questa tabella
-		// 2017_12_27_000044_create_tbl_cpp_paziente_table
-		
-		// il tipo di confidenza è in questa tabella
-		// LevelConfTableSeeder
-	}
-	
 	/**
 	 * Ritorna un array contenente i numeri di telefono di tutti i car provider inseriti nel Registro Elettronico Sanitario Personale Multimediale
 	 */
@@ -427,15 +416,152 @@ class User extends Authenticatable {
 	 * Ritorna il numero di care provider inseriti nel Registro Elettronico Sanitario Personale Multimediale
 	 */
 	public function numero() {
-			$array = array ();
-			$array = CareProvider::all ();
-			$i=0;
-			
-			$r = array ();
-			foreach ( $array as $a ) {
-				array_push ( $r, $a->cpp_localita_iscrizione);
-				$i=$i+1;
-			}
-			return $i;
+		$array = array ();
+		$array = CareProvider::all ();
+		$i = 0;
+		
+		$r = array ();
+		foreach ( $array as $a ) {
+			$i = $i + 1;
 		}
+		return $i;
+	}
+	
+	/**
+	 * Ritorna un array contenente tutti i nomi dei car provider associati all'utente loggato
+	 */
+	public function nomeCppAssociato() {
+		$arrayCpp = array ();
+		$arrayCpp = CareProvider::all ();
+		$arrayPazienti = array ();
+		$arrayPazienti = CppPaziente::all ();
+		$all = array ();
+		$info = array ();
+		
+		foreach ( $arrayCpp as $c ) {
+			foreach ( $arrayPazienti as $r ) {
+				if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+					array_push ( $info, $c->cpp_nome );
+				}
+			}
+		}
+		
+		return $info;
+	}
+	
+	/**
+	 * Ritorna un array contenente tutti i cognomi dei car provider associati all'utente loggato
+	 */
+	public function cognomeCppAssociato() {
+		$arrayCpp = array ();
+		$arrayCpp = CareProvider::all ();
+		$arrayPazienti = array ();
+		$arrayPazienti = CppPaziente::all ();
+		$all = array ();
+		$info = array ();
+		
+		foreach ( $arrayCpp as $c ) {
+			foreach ( $arrayPazienti as $r ) {
+				if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+					array_push ( $info, $c->cpp_cognome );
+				}
+			}
+		}
+		
+		return $info;
+	}
+	
+	/**
+	 * Ritorna un array contenente tutti i ruoli dei car provider associati all'utente loggato
+	 */
+	public function ruoloCppAssociato() {
+		$arrayCpp = array ();
+		$arrayCpp = CareProvider::all ();
+		$arrayPazienti = array ();
+		$arrayPazienti = CppPaziente::all ();
+		$info = array ();
+		$ruolo = array ();
+		
+		$ruolo = User::all ();
+		
+		foreach ( $arrayCpp as $c ) {
+			foreach ( $arrayPazienti as $r ) {
+				if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+					foreach ( $ruolo as $ruol ) {
+						if ($c->id_utente == $ruol->id_utente) {
+							array_push ( $info, $ruol->id_tipologia );
+						}
+					}
+				}
+			}
+		}
+		return $info;
+	}
+	
+	/**
+	 * Ritorna un array contenente tutti i numeri di telofono dei car provider associati all'utente loggato
+	 */
+	public function telefonoCppAssociato() {
+		$arrayCpp = array ();
+		$arrayCpp = CareProvider::all ();
+		$arrayPazienti = array ();
+		$arrayPazienti = CppPaziente::all ();
+		$info = array ();
+		$rec = array ();
+		
+		$rec = Recapiti::all ();
+		
+		foreach ( $arrayCpp as $c ) {
+			foreach ( $arrayPazienti as $r ) {
+				if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+					foreach ( $rec as $re ) {
+						if ($c->id_utente == $re->id_utente) {
+							array_push ( $info, $re->contatto_telefono );
+						}
+					}
+				}
+			}
+		}
+		return $info;
+	}
+	
+	/**
+	 * Ritorna un array contenente tutte le città dei car provider associati all'utente loggato
+	 */
+	public function cittaCppAssociato() {
+		$arrayCpp = array ();
+		$arrayCpp = CareProvider::all ();
+		$arrayPazienti = array ();
+		$arrayPazienti = CppPaziente::all ();
+		$info = array ();
+		
+		foreach ( $arrayCpp as $c ) {
+			foreach ( $arrayPazienti as $r ) {
+				if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+					array_push ( $info, $c->cpp_localita_iscrizione );
+				}
+			}
+		}
+		return $info;
+	}
+	
+	/**
+	 * Ritorna il numero dei car provider associati all'utente loggato
+	 */
+	public function trovaCppAssociati() {
+		$arrayCpp = array ();
+		$arrayCpp = CareProvider::all ();
+		$arrayPazienti = array ();
+		$arrayPazienti = CppPaziente::all ();
+		$i = 0;
+		
+		foreach ( $arrayCpp as $c ) {
+			foreach ( $arrayPazienti as $r ) {
+				if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+					$i = $i + 1;
+				}
+			}
+		}
+		return $i;
+	}
 }
