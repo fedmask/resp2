@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
         
         $this->call(VisiteTableSeeder::class);
         $this->call(ParametriVitaliTableSeeder::class);
+        $this->call(CppPazienteTableSeeder::class);
         
     }
 }

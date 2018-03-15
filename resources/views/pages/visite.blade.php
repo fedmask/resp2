@@ -1,36 +1,90 @@
 @extends('layouts.app') @extends('includes.template_head')
 
 @section('pageTitle', 'Visite') @section('content')
-<!--PAGE CONTENT -->
 
+<!--PAGE CONTENT -->
 
 <div id="content">
 	<div class="inner" style="min-height: 1200px;">
 		<div class="row">
 			<div class="col-lg-12">
 				<h2>Visite</h2>
-				<br>
+						
+                        <?php
+                        /*
+                         * include_once ($_SERVER['DOCUMENT_ROOT'].'/sections/algoritmoDiagnostico.php');
+                         * //session_start();
+                         * //$_SESSION['cp_Id'] = getMyID();
+                         * $myRole = getRole(getMyID());
+                         * //$_SESSION['pz_Id'] = $this->get_var("pz_Id");
+                         *
+                         * $pz_id = $_SESSION['pz_Id'];
+                         * if ( isset ( $_SESSION['cp_Id'])){
+                         * $cp_id = $_SESSION['cp_Id'];
+                         * $id_prop = $cp_id;
+                         * }
+                         * else
+                         * $id_prop = getMyID();
+                         * $maxConfidentiality = 0;
+                         * $defaultPermissions = false;
+                         * if($myRole == 'ass' or $myRole == 'emg' or getInfo('idcpp', 'careproviderpaziente', 'idutente = ' . $pz_id ) == getMyID())
+                         * {
+                         * $response = 'Permit';
+                         * $maxConfidentiality = INF;
+                         * $defaultPermissions = true;
+                         * }
+                         * else
+                         * $response = getResponse('Diario visite', 'Lettura');
+                         * if ($response == 'Permit')
+                         * {
+                         * setAuditAction(getMyID(), 'Accesso a Visite');
+                         * if ($maxConfidentiality == 0)
+                         * $maxConfidentiality = policyInfo('Visite', 'Confidenzialità');
+                         * if (!$defaultPermissions)
+                         * {
+                         * $obligations = policyInfo('Diario visite', 'Obblighi');
+                         * if ($obligations == 'In presenza del titolare' && $myRole != 'ass')
+                         * echo "Questa sezione può essere consultata solo in presenza del titolare" .
+                         * "<br>";
+                         * }
+                         * }
+                         * else echo "<h5>Permesso negato<h5>";
+                         */
+                        // $today = date('Y-m-d');
+                        ?>
+		<br>
 			</div>
 		</div>
 
 		<hr />
+		<form class="form-horizontal" 
+					action="{{action('VisiteController@addVisita')}}" method="POST">
+					{{ Form::open(array('url' => '/visite/addVisita')) }}
+					{{ csrf_field() }}
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="btn-group">
-					<!--bottoni per la gestione della visita-->
-					<button class="btn btn-primary" id="btn_nuovavisita" onclick="onClickNuovaVisita()">
-						<i class="icon-stethoscope"></i> Inizia Nuova Visita
+					<!--bottoni per la gestione della visita -->
+					<button class="btn btn-primary" id="btn_nuovavisita"
+						onclick="onClickNuovaVisita()">
+						Inizia Nuova Visita
 					</button>
-					<button class="btn btn-primary" id="btn_concludivisita" disabled onclick="onClickConcludiVisita()">
+					<!--  <button type="submit" class="btn btn-primary" id="btn_concludivisita" disabled
+						onclick="onClickConcludiVisita() ">
 						<i class="icon-ok-sign"></i> Concludi visita
-					</button>
+						</button>-->
+						{{ Form::submit('Concludi visita', ['id'=>"btn_concludivisita",
+						'onclick'=>"onClickConcludiVisita()", 'class' => 'btn btn-primary', 'disabled'=>true])}}
+					
 					<!--<button class="btn btn-primary" id="btn_salvavisita" disabled><i class="icon-save"></i> Salva visita</button>-->
-					<button class="btn btn-primary" id="btn_annullavisita" disabled onclick="onClickAnnullaVisita()">
-						<i class="icon-trash"></i> Annulla visita
+					<button class="btn btn-primary" id="btn_annullavisita" disabled
+						onclick="onClickAnnullaVisita()">
+						Annulla visita
 					</button>
 				</div>
 			</div>
 		</div>
+
 		
 		<!-- FUNZIONI PER GESTIRE I BUTTON "INIZIA NUOVA VISITA", "CONCLUDI VISITA" E "ANNULLA VISITA" -->
 					<script>
@@ -52,7 +106,7 @@
                         function onClickAnnullaVisita() {
                         	document.getElementById("btn_nuovavisita").innerHTML = "Inizia Nuova Visita";
                         	document.getElementById("avviso_no_visite").hidden = false;
-                        	document.getElementById("btn_nuovavisita").disabled = false;                        	
+                        	document.getElementById("btn_nuovavisita").disabled = false;   
                         	                        	
                         	document.getElementById("btn_concludivisita").disabled = true;
                         	document.getElementById("btn_concludivisita").style.backgroundColor = "";
@@ -60,9 +114,9 @@
                         	document.getElementById("btn_annullavisita").disabled = true;
                         	document.getElementById("btn_annullavisita").style.backgroundColor = ""; 
 
+                        	document.getElementById("display_visita").hidden = true;
                         	document.getElementById("form_visita").hidden = true;
                         	document.getElementById("tabs_nuovavisita").hidden = true;
-
                      }
                         function onClickConcludiVisita(){
                         	//window.open("http://www.html.it", "myWindow");
@@ -85,13 +139,14 @@
                         }                
                         </script>
 		
+		
 		<br />
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="btn-group">
 					<!--bottoni per la gestione della visita-->
 					<button class="btn btn-warning" id="btn_avviaAlgo"
-					data-toggle="modal" data-target="#modCodeAlgo">
+						data-toggle="modal" data-target="#modCodeAlgo">
 						<i class="icon-list"></i> Avvia algoritmo diagnostico
 					</button>
 					<button class="btn btn-warning" id="btn_annullaAlgo" disabled>
@@ -106,6 +161,8 @@
 				<h3>Non ci sono visite in corso.</h3>
 			</div>
 		</div>
+
+		<!-- INIZIA NUOVA VISITA -->
 		<div class="row" id="display_visita" hidden>
 			<div class="col-lg-12">
 				<ul class="nav nav-tabs" id="tabs_nuovavisita">
@@ -114,44 +171,48 @@
 					<li><a href="#tab_rilevazioni" data-toggle="tab">Rilevazioni</a></li>
 				</ul>
 
+
 				<!-- INIZIO CONTENUTO TAB -->
 
-				<form class="form-horizontal" id="form_visita"
-					action="formscripts/modvisita.php" method="POST">
 					<div class="tab-content">
 						<!--TAB INFO GENERALI-->
 						<div class="tab-pane fade in active" id="tab_info">
 							<div class="row">
 								<div class="col-lg-12">
 									<div class="form-group">
-										<label class="control-label col-lg-4" for="datavisita">Data:</label>
+										<label class="control-label col-lg-4" for="add_visita_data">Data:</label>
 										<div class="col-lg-4">
-											<input type="date" id="datavisita" name="datavisita"
-												class="form-control" value="  ">
+											<!--  <input type="date" id="add_visita_data" name="add_visita_data"
+												class="form-control" value=$today=date('Y-m-d') ;  >-->
+												{{Form::date('date','', ['id'=>"add_visita_data", 'name'=>"add_visita_data", 'class' => 'form-control col-lg-6'])}}
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-lg-4" for="motivovisita">Motivo
+										<label class="control-label col-lg-4" for="add_visita_motivazione">Motivo
 											visita:</label>
 										<div class="col-lg-8">
-											<input type="text" name="motivovisita" id="motivovisita"
-												class="form-control col-lg-6" />
+											<!--  <input type="text" name="add_visita_motivazione" id="add_visita_motivazione"
+												class="form-control col-lg-6" />-->
+												{{Form::text('motivazioni','', ['id'=>"add_visita_motivazione", 'name'=>"add_visita_motivazione", 'class'=>'form-control col-lg-6'])}}
+												
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="visita_osservazioni"
+										<label for="add_visita_osservazioni"
 											class="control-label col-lg-4">Osservazioni:</label>
 										<div class="col-lg-8">
-											<textarea id="visita_osservazioni" name="visita_osservazioni"
-												class="form-control"></textarea>
+											<!-- <textarea id="add_visita_osservazioni" name="add_visita_osservazioni"
+												class="form-control"></textarea>-->
+												{{Form::text('osservazioni','', ['id'=>"add_visita_osservazioni", 'name'=>"add_visita_osservazioni", 'class'=>'form-control'])}}
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="visita_osservazioni"
+										<label for="add_visita_conclusioni"
 											class="control-label col-lg-4">Conclusioni:</label>
 										<div class="col-lg-8">
-											<textarea id="visita_conclusioni" name="visita_conclusioni"
-												class="form-control"></textarea>
+											<!--  <textarea id="add_visita_conclusioni" name="add_visita_conclusioni"
+												class="form-control"></textarea>-->
+												{{Form::text('conclusioni','', ['id'=>"add_visita_conclusioni", 'name'=>"add_visita_conclusioni", 'class'=>'form-control'])}}
 										</div>
 									</div>
 									<!--
@@ -172,46 +233,51 @@
 							<div class="row">
 								<div class="col-lg-12">
 									<div class="form-group">
-										<label class="control-label col-lg-4" for="visita_altezza">Altezza:</label>
+										<label class="control-label col-lg-4" for="add_parametro_altezza">Altezza(cm):</label>
 										<div class="input-group col-lg-8">
-											<span class="input-group-addon">cm</span> <input
+											<!--  <span class="input-group-addon">cm</span> <input
 												type="number" name="visita_altezza" id="visita_altezza"
-												class="form-control" />
+												class="form-control" />-->
+												{{Form::number('','', ['id'=>"add_parametro_altezza", 'name'=>"add_parametro_altezza", 'class'=>'form-control'])}}
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-lg-4" for="visita_peso">Peso:</label>
+										<label class="control-label col-lg-4" for="add_parametro_peso">Peso(kg):</label>
 										<div class="input-group col-lg-8">
-											<span class="input-group-addon">kg</span> <input
+											<!-- <span class="input-group-addon">kg</span> <input
 												type="number" name="visita_peso" id="visita_peso"
-												class="form-control" />
+												class="form-control" />-->
+												{{Form::number('','', ['id'=>"add_parametro_peso", 'name'=>"add_parametro_peso", 'class'=>'form-control'])}}
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-lg-4" for="visita_PAmax">Pressione
-											sistolica:</label>
+										<label class="control-label col-lg-4" for="add_parametro_pressione_minima">Pressione
+											sistolica(mmHg):</label>
 										<div class="input-group col-lg-8">
-											<span class="input-group-addon">mmHg</span> <input
+											<!-- <span class="input-group-addon">mmHg</span> <input
 												type="number" name="visita_PAmax" id="visita_PAmax"
-												class="form-control" />
+												class="form-control" />-->
+												{{Form::number('','', ['id'=>"add_parametro_pressione_minima", 'name'=>"add_parametro_pressione_minima", 'class'=>'form-control'])}}
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-lg-4" for="visita_PAmin">Pressione
-											diastolica:</label>
+										<label class="control-label col-lg-4" for="add_parametro_pressione_massima">Pressione
+											diastolica(mmHg):</label>
 										<div class="input-group col-lg-8">
-											<span class="input-group-addon">mmHg</span> <input
+											<!-- <span class="input-group-addon">mmHg</span> <input
 												type="number" name="visita_PAmin" id="visita_PAmin"
-												class="form-control" />
+												class="form-control" />-->
+												{{Form::number('','', ['id'=>"add_parametro_pressione_massima", 'name'=>"add_parametro_pressione_massima", 'class'=>'form-control'])}}
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-lg-4" for="visita_FC">Frequenza
+										<label class="control-label col-lg-4" for="add_parametro_frequenza_cardiaca">Frequenza
 											cardiaca:</label>
 										<div class="input-group col-lg-8">
-											<span class="input-group-addon">bpm</span> <input
+											<!-- <span class="input-group-addon">bpm</span> <input
 												type="number" name="visita_FC" id="visita_FC"
-												class="form-control" />
+												class="form-control" />-->
+												{{Form::number('','', ['id'=>"add_parametro_frequenza_cardiaca", 'name'=>"add_parametro_frequenza_cardiaca", 'class'=>'form-control'])}}
 										</div>
 									</div>
 								</div>
@@ -219,6 +285,7 @@
 						</div>
 						<!--fineTAB MISURAZIONI-->
 					</div>
+					{{ Form::close() }}
 				</form>
 				<!-- FINE CONTENUTO TAB -->
 			</div>
@@ -236,8 +303,23 @@
 						<option>10</option>
 						<option>All</option>
 					</select>
-				</div>
-				</label> <label class="control-label col-lg-12"></label>
+				</div>     
+                        	<?php
+                        /*
+                         * if($myRole=="mmg"){
+                         * echo '<label class="control-label col-lg-2"></label>
+                         * <label class="control-label col-lg-5">';
+                         * echo '<o style="color: red;font:bold;font-size: 20px;"> ! </o>';
+                         * echo " = patologia a rapida avoluzione";
+                         * }else{
+                         * echo '<label class="control-label col-lg-1"></label>
+                         * <label class="control-label col-lg-6">';
+                         * echo '<o style="color: red;font:bold;font-size: 20px;"> ! </o>';
+                         * echo " = contattare urgentemente il Care Provider";
+                         * }
+                         */
+                        ?>
+                        </label> <label class="control-label col-lg-12"></label>
 			</div>
 
 			<div class="col-lg-12">
@@ -270,7 +352,53 @@
 												</tr>
 											</thead>
 											<tbody>
-											</tbody>
+        											<?php
+                // Query per prendere la descrizione relativa li algoritmi diagnostici
+                /*
+                 * for($l = 0; $l < $numPatologie; $l++){
+                 * $arrAlgDescr[$l] = getInfo('descrizione', 'icd9diagcode', 'code = ' . $matricePatologiePunteggi['PATOLOGIE'][$l]);
+                 * $arrAlgCode[$l] = $matricePatologiePunteggi['PATOLOGIE'][$l];
+                 * for($m = 0; $m < $numPatologie; $m++){
+                 * if($arrAlgCode[$l] == $arrayPatologie[$m]){
+                 * $arrayEvoluzionePat[$l] = $patologieIncidenza['EVOLUZIONE'][$m];
+                 * }
+                 * }
+                 * }
+                 */
+                // $num = $conf;
+                
+                /*
+                 * for($i=0; $i<$numPatologie; $i++){
+                 * echo '<tr id="'.$i.'" class="righe" hidden>';
+                 * echo '<td align="center">';
+                 * echo '<a id="'.$arrAlgCode[$i].'z" name="btn_salvaDiagnosi" class="btn btn-warning btn-sm"><i class="icon-save"></i></a>
+                 *
+                 * </td>';
+                 * if($arrayEvoluzionePat[$i]=="si"){
+                 * $varEvolu = "!";
+                 * }else
+                 * $varEvolu = "";
+                 * echo '<td style="color: red;font:bold;font-size: 20px;"> '. $varEvolu .'</td>';
+                 * echo '<td>'.$arrAlgDescr[$i].'</td>';
+                 * echo '<td> </td>';
+                 * echo '<td></td>';
+                 * echo '<td></td>';
+                 * echo '<td align="center">';
+                 * echo '<button id="'.$arrAlgCode[$i].'a" name="btn_algoritmo" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modCodeAlgo"><i class="icon-search"></i></button>
+                 *
+                 * </td>';
+                 * echo '<td></td>';
+                 * echo '<td align="center">';
+                 * echo '<button id="'.$arrAlgCode[$i].'b" name="btn_algoritmo" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modCodeAlgo"><i class="icon-search"></i></button>
+                 * </td>';
+                 * echo '<td align="center">';
+                 * echo '<button id="'.$arrAlgCode[$i].'c" name="btn_algoritmo" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modCodeAlgo"><i class="icon-search"></i></button>
+                 * </td>';
+                 * echo '</tr>';
+                 * }
+                 */
+                ?>
+                                                </tbody>
 										</table>
 									</div>
 									<!--table responsive-->
@@ -372,8 +500,42 @@
 				</div>
 			</div>
 			<!--FINE TAB INFORMAZIONI VISITE PRECEDENTI -->
+							
+								<?php
+        // $numVisite = $this->get_var("numVisite");
+        /*
+         * for ( $i = 0; (($i < $numVisite) and ($i < 5)) ; $i++){
+         * $cognome = $this->get_var("cognomeV".$i);
+         * $dataVisita = italianFormat( $this->get_var("datavisita".$i) );
+         * $motivo = $this->get_var("motivo".$i);
+         * $osservazioni = $this->get_var("osservazioni".$i);
+         * $conclusioni = $this->get_var("conclusioni".$i);
+         * $idp = $this->get_var("idp".$i);
+         * $idpro = $this->get_var("bool".$i);
+         *
+         * if ( $idpro == true ){
+         * echo '<div class="panel panel-warning"><div class="panel-heading">';
+         * echo 'Visita del '.$dataVisita.' inserita dal paziente';
+         * echo'</div><div class="panel-body">';
+         * echo '<strong>Motivo : </strong>'.$motivo.'<br>';
+         * echo '<strong>Osservazioni : </strong>'.$osservazioni.'<br>';
+         * echo '<strong>Conclusioni: </strong>'.$conclusioni.'<br>';
+         * echo '</div></div>';
+         * }else{
+         * echo '<div class="panel panel-danger"><div class="panel-heading">';
+         * echo 'Visita del '.$dataVisita.' inserita da '.$cognome.'';
+         * echo'</div><div class="panel-body">';
+         * echo '<strong>Motivo : </strong>'.$motivo.'<br>';
+         * echo '<strong>Osservazioni : </strong>'.$osservazioni.'<br>';
+         * echo '<strong>Conclusioni: </strong>'.$conclusioni.'<br>';
+         * echo '</div></div>';
+         * }
+         * }
+         */
+        ?>
 
-<div id="Rilievi" class="accordion-body collapse">
+
+			<div id="Rilievi" class="accordion-body collapse">
 				<div class="row">
 
 					<!--rilievi-->
@@ -411,7 +573,34 @@
 										@endforeach
 										<!-- FINE FOR -->
 											
-											
+												<?php
+            // $numParVit = $this->get_var("numParVit");
+            /*
+             * for ( $i = 0; (($i < $numParVit) and ($i < 5)) ; $i++){
+             * $data = italianFormat($this->get_var("data".$i) );
+             * $altezza = $this->get_var("paramaltezza".$i);
+             * $peso = $this->get_var("parampeso".$i);
+             * $paMax = $this->get_var("parampamax".$i);
+             * $paMax = ( $paMax == 0) ? ' ------ ' : $paMax;
+             * $paMin = $this->get_var("parampamin".$i);
+             * $paMin = ( $paMin == 0) ? ' ------ ' : $paMin;
+             * $fc = $this->get_var("paramfc".$i);
+             * $fc = ( $fc == 0) ? ' ------ ' : $fc;
+             * $prop = $this->get_var("propParam".$i);
+             * $rilevatore = $this->get_var("rilevatore".$i);
+             * echo'
+             * <tr>
+             * <td>'.$data. '</td>
+             * <td>'. $altezza . '</td>
+             * <td>'. $peso .'</td>
+             * <td>'.$paMax .'</td>
+             * <td>'. $paMin .'</td>
+             * <td>'.$fc.'</td>
+             * <td>'.$rilevatore.'</td>
+             * </tr>';
+             * }
+             */
+            ?>
 												</tbody>
 									</table>
 								</div>
@@ -426,10 +615,10 @@
 
 				<!--row-->
 			</div>
-
-
 			<!--accordion body collapse-->
 		</div>
+
+
 		<!--accordion visite-->
 
 		<!--MODAL DIAGNOSI -->
@@ -521,10 +710,8 @@
 																	<tr>
 																		<th>Farmaco</th>
 																		<th>Status</th>
-																		<th>Data inizio<br />
-																		<small class="text-muted">(aaaa-mm-gg)</small></th>
-																		<th>Data fine<br />
-																		<small class="text-muted">(aaaa-mm-gg)</small></th>
+																		<th>Data inizio<br /> <small class="text-muted">(aaaa-mm-gg)</small></th>
+																		<th>Data fine<br /> <small class="text-muted">(aaaa-mm-gg)</small></th>
 																		<th>Forma Farm.</th>
 																		<th>Sommin.</th>
 																		<th>Freq.</th>
@@ -541,6 +728,8 @@
 											<div class="col-lg-12" id="box_dettagliterfarm"></div>
 										</div>
 									</div>
+
+
 									<!--FINE TAB TERAPIE FARMACOLOGICHE-->
 								</div>
 							</div>
@@ -554,6 +743,8 @@
 				</div>
 			</div>
 		</div>
+
+
 		<!-- FINE MODAL DIAGNOSI-->
 	</div>
 
@@ -589,7 +780,6 @@
 	</div>
 
 </div>
-
-
 <!--END PAGE CONTENT -->
+
 @endsection

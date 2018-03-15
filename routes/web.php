@@ -180,4 +180,7 @@ Route::group( ['prefix' => 'fhir' ], function () {
         // Get a ValueSet resource
         Route::get('ValueSet/{id}', '\LibreEHR\FHIR\Http\Controllers\ValuesetController@show');
     });
+
+
+    Route::post('/visite/addVisita', 'VisiteController@addVisita');
         
