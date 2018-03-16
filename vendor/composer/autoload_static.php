@@ -445,6 +445,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'Collective\\Html\\HtmlBuilder' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlBuilder.php',
         'Collective\\Html\\HtmlFacade' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlFacade.php',
         'Collective\\Html\\HtmlServiceProvider' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlServiceProvider.php',
+        'ConfidenzialitaSeeder' => __DIR__ . '/../..' . '/database/seeds/ConfidenzialitaSeeder.php',
         'ContactsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ContactsTableSeeder.php',
         'ContactsTypesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ContactsTypesTableSeeder.php',
         'CppUsers' => __DIR__ . '/../..' . '/database/seeds/CppUsers.php',

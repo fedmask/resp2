@@ -98,6 +98,7 @@ return array(
     'Collective\\Html\\HtmlBuilder' => $vendorDir . '/laravelcollective/html/src/HtmlBuilder.php',
     'Collective\\Html\\HtmlFacade' => $vendorDir . '/laravelcollective/html/src/HtmlFacade.php',
     'Collective\\Html\\HtmlServiceProvider' => $vendorDir . '/laravelcollective/html/src/HtmlServiceProvider.php',
+    'ConfidenzialitaSeeder' => $baseDir . '/database/seeds/ConfidenzialitaSeeder.php',
     'ContactsTableSeeder' => $baseDir . '/database/seeds/ContactsTableSeeder.php',
     'ContactsTypesTableSeeder' => $baseDir . '/database/seeds/ContactsTypesTableSeeder.php',
     'CppUsers' => $baseDir . '/database/seeds/CppUsers.php',
