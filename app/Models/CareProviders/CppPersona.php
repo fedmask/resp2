@@ -53,6 +53,21 @@ class CppPersona extends Eloquent
 		'persona_attivo'
 	];
 
+	public function getPhoneType(){
+	    
+	    $phone_type = "mobile";
+	    
+	    if($this->persona_telefono[0] == 0){
+	        $phone_type = "home";
+	    }
+	    
+	    return $phone_type;
+	}
+	
+	public function getTown(){
+	    return $this->tbl_comuni()->first()->getTown();
+	}
+	
 	public function tbl_comuni()
 	{
 		return $this->belongsTo(\App\Models\Domicile\Comuni::class, 'id_comune');

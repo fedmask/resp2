@@ -56,4 +56,17 @@ class Recapiti extends Eloquent
 	{
 		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_utente');
 	}
+	
+	
+	//Funzione necessaria per il FHIR
+	public function get_phone_type(){
+	    
+	    $phone_type = "home";
+	    
+	    if($this->contatto_telefono[0]=="3"){
+	        $phone_type = "mobile";
+	    }
+	    
+	    return $phone_type;
+	}
 }

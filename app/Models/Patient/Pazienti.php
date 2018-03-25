@@ -83,11 +83,66 @@ class Pazienti extends Eloquent
 	const BLOODRH_POS = "POS";
 	const BLOODRH_NEG = "NEG";
 	
+	/** FHIR FUNCTIONS **/
+	
+	public function getTown(){
+	    return $this->tbl_comuni()->first()->getTown();
+	}
+	
+	public function getPhone(){
+	    return $this->user()->first()->contacts()->first()->contatto_telefono;
+	}
+	
+	public function getPhoneType(){
+	    return $this->user()->first()->contacts()->first()->get_phone_type();
+	}
+	
+	public function isDeceased(){
+	    
+	    $deceased = "false";
+	    
+	    if($this->tbl_pazienti_decessi()->first()){
+	        $deceased = $paziente->tbl_pazienti_decessi()->first()->paziente_data_decesso;
+	    }
+	    
+	    return $deceased;
+	}
+	
+	public function getLine(){
+	    return $this->user()->first()->getAddress();
+	}
+	
+	public function getCity(){
+	    return $this->user()->first()->getLivingTown();
+	}
+	
+	public function getPostalCode(){
+	    return $this->user()->first()->getCapLivingTown();
+	}
+	
+	public function getCountryName(){
+	    return $this->user()->first()->contacts()->first()->town()->first()->tbl_nazioni()->first()->getCountryName();
+	}
+	
+	public function getStatusWedding(){
+	    return $this->statusWedding()->first()->stato_matrimoniale_nome;
+	}
+	
+	public function getStatusWeddingCode(){
+	    return $this->id_stato_matrimoniale;
+	}
+	/** END FHIR **/
+	
 	public function user()
 	{
 		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_utente');
 	}
 
+	public function statusWedding()
+	{
+	    return $this->belongsTo(\App\Models\Patient\StatiMatrimoniali::class, 'id_stato_matrimoniale');
+	}
+	
 	public function patient_contacts()
 	{
 		return $this->hasMany(\App\Models\Patient\PazientiContatti::class, 'id_paziente');

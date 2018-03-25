@@ -8,7 +8,7 @@
 namespace App\Models\InvestigationCenter;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+use DateTime;
 /**
  * Class Indagini
  * 
@@ -60,6 +60,7 @@ class Indagini extends Eloquent
 		'id_centro_indagine',
 		'id_diagnosi',
 		'id_paziente',
+	    'id_cpp',
 		'id_audit_log',
 		'indagine_codice_icd',
 		'indagine_codice_loinc',
@@ -72,6 +73,83 @@ class Indagini extends Eloquent
 		'indagine_allegato'
 	];
 
+	
+	public function getStatus(){
+	    
+	    $result_status = "final";
+	    
+	    if($this->indagine_stato == "richiesta"){
+	        $result_status = "registered";
+	    }elseif($this->indagine_stato == "programmata"){
+	       $result_status = "preliminary";
+	    }
+	    
+	    return $result_status;
+	}
+	
+	public function getStatusFromFHIR($status_format_fhir){
+	    
+	    $result_status = "conclusa";
+	    
+	    if($status_format_fhir == "registered"){
+	        $result_status = "richiesta";
+	    }elseif($status_format_fhir == "preliminary"){
+	        $result_status = "programmata";
+	    }
+	    
+	    return $result_status;
+	}
+	
+	public function getLoincDescription(){
+	    return $this->tbl_loinc()->first()["loinc_classe"];
+	}
+	
+	public function getDateATOM(){
+	    $date = new DateTime($this->indagine_data);
+	    return $date->format(DateTime::ATOM);
+	}
+	
+	public function getStatusObservation(){
+	    $status = "POS";
+	    
+	    if($this->indagine_stato == "1"){
+	        $status = "IE";
+	    }elseif($this->indagine_stato == "2"){
+	        $status = "NEG";
+	    }
+	
+	    return $status;
+	}
+	
+	public function getStatusDescriptionObservation(){
+	    
+	    $status_description = "Confermata";
+	    
+	    if($this->indagine_stato == "1"){
+	        $status_description = "Sospetta";
+	    }elseif($this->indagine_stato == "2"){
+	        $status_description = "Esclusa";
+	    }
+	    
+	    return $status_description;
+	}
+	
+	public function getResponse(){
+	    
+	    $response = "unknown";
+	    
+	    if($this->indagine_referto != ""){
+	        $response = $this->indagine_referto;
+	    }
+	    
+	    return $response;
+	}
+	
+	public function tbl_cpp()
+	{
+	    return $this->belongsTo(\App\Models\Log\CareProvider::class, 'id_cpp');
+	}
+	
 	public function tbl_auditlog_log()
 	{
 		return $this->belongsTo(\App\Models\Log\AuditlogLog::class, 'id_audit_log');

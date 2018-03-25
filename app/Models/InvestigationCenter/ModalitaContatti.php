@@ -24,7 +24,10 @@ class ModalitaContatti extends Eloquent
 	protected $table = 'tbl_modalita_contatti';
 	protected $primaryKey = 'id_modalita';
 	public $timestamps = false;
-
+	
+	public static $PHONE_TYPE = 1;
+	public static $EMAIL_TYPE = 2;
+	
 	protected $fillable = [
 		'modalita_nome'
 	];

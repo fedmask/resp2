@@ -24,11 +24,12 @@ class CreateTblIndaginiTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id_indagine');
-            $table->integer('id_centro_indagine')->unsigned();
-            $table->integer('id_diagnosi')->unsigned();
+            $table->integer('id_centro_indagine')->unsigned()->nullable();
+            $table->integer('id_diagnosi')->unsigned()->nullable();
             $table->integer('id_paziente')->unsigned();
-            $table->integer('id_audit_log')->unsigned();
-            $table->string('indagine_codice_icd', 7);
+            $table->integer('id_cpp')->unsigned();
+            $table->integer('id_audit_log')->unsigned()->nullable();
+            $table->string('indagine_codice_icd', 7)->nullable();
             $table->string('indagine_codice_loinc', 10);
             $table->date('indagine_data');
             $table->date('indagine_aggiornamento');
@@ -48,6 +49,8 @@ class CreateTblIndaginiTable extends Migration
 
             $table->index(["id_paziente"], 'fk_tbl_indagini_tbl_pazienti1_idx');
 
+            $table->index(["id_cpp"], 'fk_tbl_indagini_tbl_cpp1_idx');
+            
             $table->index(["indagine_codice_icd"], 'fk_tbl_indagini_tbl_icd9_esami_strumenti_codici1_idx');
 
 
@@ -65,7 +68,12 @@ class CreateTblIndaginiTable extends Migration
                 ->references('id_paziente')->on('tbl_pazienti')
                 ->onDelete('no action')
                 ->onUpdate('no action');
-
+            
+            $table->foreign('id_cpp', 'fk_tbl_indagini_tbl_cpp1_idx')
+                ->references('id_cpp')->on('tbl_care_provider')
+                ->onDelete('no action')
+                ->onUpdate('no action');
+                
             $table->foreign('id_audit_log', 'fk_tbl_indagini_tbl_auditlog_log1_idx')
                 ->references('id_audit')->on('tbl_auditlog_log')
                 ->onDelete('no action')

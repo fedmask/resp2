@@ -16,3 +16,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group( ['prefix' => 'fhir' /*, 'middleware' => ['App\Http\Middleware\CareProviderMiddleware'] */ ], function () {
+    Route::resource('Patient', 'Fhir\Modules\FHIRPatient');
+    Route::resource('Practitioner', 'Fhir\Modules\FHIRPractitioner');
+    Route::resource('Organization', 'Fhir\Modules\FHIROrganization');
+    Route::resource('Observation', 'Fhir\Modules\FHIRObservation');
+});

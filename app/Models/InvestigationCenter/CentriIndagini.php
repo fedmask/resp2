@@ -50,6 +50,38 @@ class CentriIndagini extends Eloquent
 		'centro_resp'
 	];
 
+	public function getCareProviderName(){
+	    return $this->tbl_cpp_persona()->first()->persona_nome;
+	}
+	
+	public function getCareProviderSurname(){
+	    return $this->tbl_cpp_persona()->first()->persona_cognome;
+	}
+	
+	public function getCareProvider(){
+	    return  $this->getCareProviderSurname() . " " . $this->getCareProviderName();
+	}
+	
+	public function getContactPhone(){
+	   return $this->tbl_centri_contattis()->select('contatto_valore')->where("id_modalita_contatto", ModalitaContatti::$PHONE_TYPE)->first()["contatto_valore"];
+	}
+	
+	public function getAllContactPhone(){
+	    return $this->tbl_centri_contattis()->select('contatto_valore')->where("id_modalita_contatto", ModalitaContatti::$PHONE_TYPE)->get();
+	}
+	
+	public function getContactEmail(){
+	    return $this->tbl_centri_contattis()->select('contatto_valore')->where("id_modalita_contatto", ModalitaContatti::$EMAIL_TYPE)->first()["contatto_valore"];
+	}
+	
+	public function getCenterTipology(){
+	    return $this->tbl_centri_tipologie()->first()["tipologia_nome"];
+	}
+	
+	public function getTown(){
+	    return $this->tbl_comuni()->first()->getTown();
+	}
+	
 	public function tbl_centri_tipologie()
 	{
 		return $this->belongsTo(\App\Models\InvestigationCenter\CentriTipologie::class, 'id_tipologia');
@@ -62,7 +94,7 @@ class CentriIndagini extends Eloquent
 
 	public function tbl_cpp_persona()
 	{
-		return $this->belongsTo(\App\Models\CareProvider\CppPersona::class, 'id_ccp_persona');
+		return $this->belongsTo(\App\Models\CareProviders\CppPersona::class, 'id_ccp_persona');
 	}
 
 	public function tbl_centri_contattis()

@@ -42,6 +42,11 @@ class Comuni extends Eloquent
 		'comune_cap'
 	];
 
+	
+	public function getTown(){
+	    return $this->comune_nominativo;
+	}
+	
 	public function tbl_nazioni()
 	{
 		return $this->belongsTo(\App\Models\Domicile\Nazioni::class, 'id_comune_nazione');

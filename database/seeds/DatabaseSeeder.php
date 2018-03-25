@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(icd9CodesStrum::class);
         $this->call(TypesUsersTableSeeder::class);
         $this->call(StateSeeder::class);
 		//Tabelle con dati statici
@@ -33,5 +34,13 @@ class DatabaseSeeder extends Seeder
         $this->call(CareProviderPeopleTableSeeder::class); //Va dopo l'inserimento dei comuni
         $this->call(ContactsTableSeeder::class);
         
+        $this->call(CppTipologyCenter::class);
+        $this->call(CppContactsCenter::class);
+        $this->call(CppCenter::class);
+        $this->call(CenterContacts::class);
+
+        $this->call(AuditLogTest::class);
+        $this->call(Diagnosis::class);
+        $this->call(Observation::class);
     }
 }
