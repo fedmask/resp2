@@ -10,17 +10,29 @@ use App\Models\InvestigationCenter\Indagini;
 use App\Models\Domicile\Comuni;
 use Illuminate\Http\Request;
 
+/**
+ * Implementazione dei servizi REST:
+ * show     -> GET
+ * destroy  -> DELETE
+ * store    -> POST
+ * update   -> PUT
+ *
+ * I metodi lavorano con il file XML secondo lo standard FHIR
+ */
+
 class FHIROrganization  {
 
-    function delete($id) {
+    public function destroy($id) {
         
-        if (!CentriIndagini::find($id)->exists()) {
+        $oranization = CentriIndagini::find($id);
+        
+        if (!$oranization) {
             throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
-        # ELIMINO I DATI DAL DATABASE
         CentriContatti::where("id_centro", $id)->delete();
-        CentriIndagini::find($id)->delete();
+        
+        $oranization->delete();
     }
 
     function update(Request $request, $id_organization) {
@@ -64,25 +76,29 @@ class FHIROrganization  {
         
         /** VALIDAZIONE ANDATA A BUON FINE - CREO IL PAZIENTE E L'UTENTE ASSOCIATO **/
 
-        $organization_data->centro_nome       = $datafrom_name;
-        $organization_data->centro_indirizzo  = $datafrom_address;
-        $organization_data->id_ccp_persona    = $datafrom_idcpp;
-        $organization_data->id_tipologia      = 0; //Valore di "Non specificato"
-        $organization_data->id_comune         = 0; //Valore di "Non specificato"
+        $organization_data->setName($datafrom_name);
+        $organization_data->setAddress($datafrom_address);
+        $organization_data->setIDCpp($datafrom_idcpp);
+        $organization_data->setIDTown(0);       //Valore di "Non specificato"
+        $organization_data->setIDTipology(0);   //Valore di "Non specificato"
+        
+        //Ottengo gli id secondo il RESP per la tipologia del centro e la città
         
         $centro_tipologia = CentriTipologie::where('tipologia_nome', $datafrom_tipology)->first();
         
         if($centro_tipologia){
-            $organization_data->id_tipologia = $centro_tipologia->id_centro_tipologia;
+            $organization_data->setIDTipology($centro_tipologia->getID());
         }
         
         $centro_citta     = Comuni::where('comune_nominativo', $datafrom_city)->first();
         
         if($centro_citta){
-            $organization_data->id_comune = $centro_citta->id_comune;
+            $organization_data->setIDTown($centro_citta->getID());
         }
         
         $organization_data->save();
+        
+        //Aggiorno i recapiti presenti (al momento telefono e emai)
         
         if(!empty($datafrom_phone)){
             CentriContatti::where("id_centro", $id_organization)
@@ -97,7 +113,7 @@ class FHIROrganization  {
         } 
     }
 
-    function store(Request $request) {
+    public function store(Request $request) {
         
         $doc = new \SimpleXMLElement($request->getContent());
         
@@ -133,70 +149,73 @@ class FHIROrganization  {
 
         /** VALIDAZIONE ANDATA A BUON FINE - CREO IL PAZIENTE E L'UTENTE ASSOCIATO **/
         
-        $organization_data                    = new CentriIndagini();
-        $organization_data->centro_nome       = $datafrom_name;
-        $organization_data->centro_indirizzo  = $datafrom_address;
-        $organization_data->id_ccp_persona    = $datafrom_idcpp;
-        $organization_data->id_tipologia      = 0; //Valore di "Non specificato"
-        $organization_data->id_comune         = 0; //Valore di "Non specificato"
+        $organization_data = new CentriIndagini();
+        $organization_data->setName($datafrom_name);
+        $organization_data->setAddress($datafrom_address);
+        $organization_data->setIDCpp($datafrom_idcpp);
+        $organization_data->setIDTown(0);       //Valore di "Non specificato"
+        $organization_data->setIDTipology(0);   //Valore di "Non specificato"
         
         $centro_tipologia = CentriTipologie::where('tipologia_nome', $datafrom_tipology)->first();
         
         if($centro_tipologia){
-            $organization_data->id_tipologia = $centro_tipologia->id_centro_tipologia;
+            $organization_data->setIDTipology($centro_tipologia->getID());
         }
         
         $centro_citta     = Comuni::where('comune_nominativo', $datafrom_city)->first();
         
         if($centro_citta){
-            $organization_data->id_comune = $centro_citta->id_comune;
+            $organization_data->setIDTown($centro_citta->getID());
         }
         
         $organization_data->save();
         
+        //Aggiorno i recapiti presenti (al momento telefono e emai)
+        
         if(!empty($datafrom_phone)){
             $oraginzation_contact = new CentriContatti();
-            $oraginzation_contact->id_centro            = $organization_data->id_centro;
-            $oraginzation_contact->id_modalita_contatto = ModalitaContatti::$PHONE_TYPE;
-            $oraginzation_contact->contatto_valore      = $datafrom_phone;
+            $oraginzation_contact->setIDCenter($organization_data->getIDCenter());
+            $oraginzation_contact->setIDModContact(ModalitaContatti::$PHONE_TYPE);
+            $oraginzation_contact->setValueContact($datafrom_phone);
             
             $oraginzation_contact->save();
         }
         
         if(!empty($datafrom_email)){
             $oraginzation_contact = new CentriContatti();
-            $oraginzation_contact->id_centro            = $organization_data->id_centro;
-            $oraginzation_contact->id_modalita_contatto = ModalitaContatti::$EMAIL_TYPE;
-            $oraginzation_contact->contatto_valore      = $datafrom_email;
+            $oraginzation_contact->setIDCenter($organization_data->getIDCenter());
+            $oraginzation_contact->setIDModContact(ModalitaContatti::$EMAIL_TYPE);
+            $oraginzation_contact->setValueContact($datafrom_email);
             
             $oraginzation_contact->save();
         } 
     }
 
-    function show($id_organization) {
+    public function show($id_organization) {
 
-        $centro_indagine = CentriIndagini::find($id_organization);
+        $organization = CentriIndagini::find($id_organization);
         
-        if (!$centro_indagine) {
+        //Verifico l'esistenza del centro indagine
+        if (!$organization) {
             throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         $values_in_narrative = array(
-            'Nome studio'   => $centro_indagine->centro_nome,
-            'Via'           => $centro_indagine->centro_indirizzo,
-            'Citta\''       => $centro_indagine->getTown(),
-            'Tipo centro'   => $centro_indagine->getCenterTipology(),
-            'Telefono'      => $centro_indagine->getContactPhone(),
-            'Email'         => $centro_indagine->getContactEmail(),
+            'Nome studio'   => $organization->getName(),
+            'Via'           => $organization->getAddress(),
+            'Citta\''       => $organization->getTown(),
+            'Tipo centro'   => $organization->getCenterTipology(),
+            'Telefono'      => $organization->getContactPhone(),
+            'Email'         => $organization->getContactEmail(),
         );
         
-        if(!empty($centro_indagine->getCareProvider())){
-            $values_in_narrative["Care provider"] = "Dott. " . $centro_indagine->getCareProvider();
+        if(!empty($organization->getCareProvider())){
+            $values_in_narrative["Care provider"] = $organization->getCareProvider();
         }
 
         $data_xml["narrative"]      = $values_in_narrative;
-        $data_xml["organization"]   = $centro_indagine;
-        $data_xml["phone"]          = $centro_indagine->getAllContactPhone();
+        $data_xml["organization"]   = $organization;
+        $data_xml["phone"]          = $organization->getAllContactPhone();
         
         return view("fhir.organization", ["data_output" => $data_xml]);
     }

@@ -28,6 +28,15 @@ class CentriTipologie extends Eloquent
 	protected $fillable = [
 		'tipologia_nome'
 	];
+	
+	
+	public function getID(){
+	    return $this->$primaryKey;
+	}
+	
+	public function getName(){
+	    return $this->tipologia_nome;
+	}
 
 	public function tbl_centri_indaginis()
 	{

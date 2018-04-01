@@ -1,12 +1,20 @@
+<?php 
+//To simplify and reduce the dependence of the following code
+//Data are passed by FHIRController
+$narrative  = $data_output["narrative"];
+$patient    = $data_output["patient"];
+$contacts   = $data_output['contacts'];
+$all_cpp    = $data_output['careproviders'];
+?>
 <?xml version="1.0" encoding="utf-8"?>
 <Patient xmlns="http://hl7.org/fhir">
-  <id value="{{$data_output['patient']->id_paziente}}"/>
+  <id value="{{$patient->getID()}}"/>
   <text>
     <status value="generated"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
       <table border="2">
         <tbody>
-        @foreach($data_output["narrative"] as $key => $value)
+        @foreach($narrative as $key => $value)
 		<tr>
 			<td>{{$key}}</td>
 			<td>{{$value}}</td></tr>
@@ -15,12 +23,9 @@
       </table>
     </div>
   </text>
-  <extension url="http://resp.local/resources/extensions/blood-type.xml">
-    <valueString value=""/>
-  </extension>
   <extension url="http://resp.local/resources/extensions/user-fields.xml">
-	@foreach($data_output["extensions"] as $i => $value) 
-	<extension url="{{$i}}">
+	@foreach($data_output["extensions"] as $type => $value) 
+	<extension url="{{$type}}">
 		<valueString value="{{$value}}"/>
 	</extension>
 	@endforeach
@@ -28,59 +33,58 @@
   <identifier>
     <use value="usual"/>
     <system value="urn:ietf:rfc:3986"/>
-    <value value="../fhir/Patient/{{$data_output['patient']->id_paziente}}"/>
+    <value value="../fhir/Patient/{{$patient->getID()}}"/>
   </identifier>
   <active value="true"/>
   <name>
     <use value="usual"/>
-    <family value="{{$data_output['patient']->paziente_cognome}}"/>
-    <given value="{{$data_output['patient']->paziente_nome}}"/>
+    <family value="{{$patient->getName()}}"/>
+    <given value="{{$patient->getSurname()}}"/>
   </name>
   <telecom>
     <system value="phone"/>
-    <value value="{{$data_output['patient']->getPhone()}}"/>
-    <use value="{{$data_output['patient']->getPhoneType()}}"/>
+    <value value="{{$patient->getPhone()}}"/>
+    <use value="{{$patient->getPhoneType()}}"/>
   </telecom>
-  <gender value="{{$data_output['patient']->paziente_sesso}}"/>
-  <birthDate value="{{$data_output['patient']->paziente_nascita}}"/>
-  <deceasedBoolean value="{{$data_output['patient']->isDeceased()}}"/>
+  <gender value="{{$patient->getSex()}}"/>
+  <birthDate value="{{$patient->getBirth()}}"/>
+  <deceasedBoolean value="{{$patient->isDeceased()}}"/>
   <address>
     <use value="home"/>
-    <line value="{{$data_output['patient']->getLine()}}"/>
-    <city value="{{$data_output['patient']->getCity()}}"/>
-    <postalCode value="{{$data_output['patient']->getPostalCode()}}"/>
-    <country value="{{$data_output['patient']->getCountryName()}}"/>
+    <line value="{{$patient->getLine()}}"/>
+    <city value="{{$patient->getCity()}}"/>
+    <postalCode value="{{$patient->getPostalCode()}}"/>
+    <country value="{{$patient->getCountryName()}}"/>
   </address>
   <maritalStatus>
     <coding>
       <system value="http://hl7.org/fhir/v3/MaritalStatus"/>
-      <code value="{{$data_output['patient']->getStatusWeddingCode()}}"/>
-      <display value="{{$data_output['patient']->getStatusWedding()}}"/>
+      <code value="{{$patient->getStatusWeddingCode()}}"/>
+      <display value="{{$patient->getStatusWedding()}}"/>
     </coding>
   </maritalStatus>
     <contact>
-  @foreach($data_output['contacts'] as $contatto)
-
+  @foreach($contacts as $contact)
   	<relationship>
   	  <coding>
   	  	<system value="http://hl7.org/fhir/patient-contact-relationship" />
-  	  	<code value="{{$contatto->getTypeContact()}}"
+  	  	<code value="{{$contact->getTypeContact()}}"
   	  </coding>
   	</relationship>
 	<name>
 		<use value="usual" />
-		<text value="{{$contatto->contatto_nominativo}}" />
+		<text value="{{$contact->getFullName()}}" />
 	</name>
 	<telecom>
 		<system value="phone" />
-		<value value="{{$contatto->contatto_telefono}}" />
-		<use value="{{$contatto->getPhoneType()}}" />
+		<value value="{{$contact->getPhone()}}" />
+		<use value="{{$contact->getPhoneType()}}" />
 	</telecom>
   @endforeach
     </contact>
-  @foreach ($data_output['careproviders'] as $cpp)
+  @foreach ($all_cpp as $cpp)
   <careProvider>
-      <reference value="./fhir/Practitioner/{{$cpp->id_cpp}}" />
+      <reference value="./fhir/Practitioner/{{$cpp->getID()}}" />
   </careProvider>
   @endforeach
   <communication>

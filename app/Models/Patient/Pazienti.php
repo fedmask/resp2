@@ -85,10 +85,6 @@ class Pazienti extends Eloquent
 	
 	/** FHIR FUNCTIONS **/
 	
-	public function getTown(){
-	    return $this->tbl_comuni()->first()->getTown();
-	}
-	
 	public function getPhone(){
 	    return $this->user()->first()->contacts()->first()->contatto_telefono;
 	}
@@ -131,7 +127,61 @@ class Pazienti extends Eloquent
 	public function getStatusWeddingCode(){
 	    return $this->id_stato_matrimoniale;
 	}
+	
+	public function getName(){
+	    return $this->paziente_nome;
+	}
+	
+	public function getSurname(){
+	    return $this->paziente_cognome;
+	}
+	
+	public function getFullName(){
+	    return $this->getName() . " " . $this->getSurname();
+	}
+	
+	public function getID(){
+	    return $this->id_utente;
+	}
+	
+	public function getSex(){
+	    return $this->paziente_sesso;
+	}
+	
+	public function getBirth(){
+	    return $this->paziente_nascita;
+	}
+	
+	public function getFiscalCode(){
+	    return $this->paziente_codfiscale;
+	}
+	
+	public function setBirth($date){
+	    $this->paziente_nascita = $date;
+	}
+	
+	public function setFiscalCode($fiscalCode){
+	    $this->paziente_codfiscale = $fiscalCode;
+	}
+	
+	public function setSex($sex){
+	    $this->paziente_sesso = $sex;
+	}
+	
+	public function setID($id){
+	    $this->id_utente = $id;
+	}
+	
+	public function setSurname($surname){
+	    $this->paziente_cognome = $surname;
+	}
+	
+	public function setName($name){
+	    $this->paziente_nome = $name;
+	}
+	
 	/** END FHIR **/
+
 	
 	public function user()
 	{

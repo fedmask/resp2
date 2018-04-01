@@ -1,12 +1,18 @@
+<?php
+//To simplify and reduce the dependence of the following code
+//Data are passed by FHIRController
+$narrative      = $data_output['narrative'];
+$observation    = $data_output['observation'];
+?>
 <?xml version="1.0" encoding="utf-8"?>
 <Observation xmlns="http://hl7.org/fhir">
-  <id value="{{$data_output['observation']->id_indagine}}"/>
+  <id value="{{$observation->getID()}}"/>
   <text>
     <status value="generated"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
       <table border="2">
         <tbody>
-        @foreach($data_output["narrative"] as $key => $value)
+        @foreach($narrative as $key => $value)
 		<tr>
 			<td>{{$key}}</td>
 			<td>{{$value}}</td></tr>
@@ -16,17 +22,17 @@
     </div>
   </text>
   <extension url="http://resp.local/resources/extensions/observation-type.xml">
-  	<valueString value="{{$data_output['observation']->indagine_tipologia}}" />
+  	<valueString value="{{$observation->getTipology()}}" />
   </extension>
   <extension url="http://resp.local/resources/extensions/observation-reason.xml">
-  	<valueString value="{{$data_output['observation']->indagine_motivo}}" />
+  	<valueString value="{{$observation->getReason()}}" />
   </extension>
   <identifier>
     <use value="usual"/>
     <system value="urn:ietf:rfc:3986"/>
-    <value value="../fhir/DiagnosticReport/{{$data_output['observation']->id_indagine}}"/>
+    <value value="../fhir/DiagnosticReport/{{$observation->getID()}}"/>
   </identifier>
-  <status value="{{$data_output['observation']->getStatus()}}" />
+  <status value="{{$observation->getStatus()}}" />
   <category>
   	<coding>
   		<system value="http://hl7.org/fhir/observation-category" />
@@ -34,31 +40,31 @@
   		<display value="Exam" />
   	</coding>
   </category>
-  @if($data_output['observation']->indagine_codice_loinc)
+  @if($observation->getCodeLoinc())
   <code>
   	<coding>
   		<system value="http://loinc.org" />
-  		<code value="{{$data_output['observation']->indagine_codice_loinc}}" />
-  		<display value="{{$data_output['observation']->getLoincDescription()}}" />
+  		<code value="{{$observation->getCodeLoinc()}}" />
+  		<display value="{{$observation->getLoincDescription()}}" />
   	</coding>
   </code>
   @endif
   <subject>
-  	<reference value="../fhir/Patient/{{$data_output['observation']->id_paziente}}" />
+  	<reference value="../fhir/Patient/{{$observation->getID()}}" />
   </subject>
-  <effectiveDateTime value="{{$data_output['observation']->indagine_data}}" />
-  <issued value="{{$data_output['observation']->getDateATOM()}}" />
+  <effectiveDateTime value="{{$observation->getDate()}}" />
+  <issued value="{{$observation->getDateATOM()}}" />
   <performer>
-  	<reference value="../fhir/Practitioner/{{$data_output['observation']->id_cpp}}" />
+  	<reference value="../fhir/Practitioner/{{$observation->getCppID()}}" />
   </performer>
   <interpretation>
   	<coding>
   		<system value="http://hl7.org/fhir/v2/0078" />
-  		<code value="{{$data_output['observation']->getStatusObservation()}}" />
-  		<display value="{{$data_output['observation']->getStatusDescriptionObservation()}}" />
+  		<code value="{{$observation->getStatusObservation()}}" />
+  		<display value="{{$observation->getStatusDescriptionObservation()}}" />
   	</coding>
   </interpretation>
-  @if($data_output['observation']->indagine_stato =="richiesta" || $data_output['observation']->indagine_stato =="programmata")
+  @if(!$observation->isClosed())
   <dataAbsentReason>
   	<coding>
   		<system value="http://hl7.org/fhir/data-absent-reason" />
@@ -66,13 +72,12 @@
   		<display value="Temp" />
   	</coding>
   </dataAbsentReason>
-  @endif
-  @if($data_output['observation']->indagine_stato =="conclusa")
+  @else
   <dataAbsentReason>
   	<coding>
   		<system value="http://hl7.org/fhir/data-absent-reason" />
-  		<code value="{{$data_output['observation']->getResponse()}}" />
-  		<display value="{{$data_output['observation']->getResponse()}}" />
+  		<code value="{{$observation->getResponse()}}" />
+  		<display value="{{$observation->getResponse()}}" />
   	</coding>
   </dataAbsentReason>  
   @endif

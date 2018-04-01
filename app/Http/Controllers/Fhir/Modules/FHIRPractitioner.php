@@ -10,12 +10,23 @@ use Illuminate\Http\Request;
 use App;
 use Redirect;
 
+/**
+ * Implementazione dei servizi REST:
+ * show     -> GET
+ * destroy  -> DELETE
+ * store    -> POST
+ * update   -> PUT
+ *
+ * I metodi lavorano con il file XML secondo lo standard FHIR
+ */
+
 class FHIRPractitioner {
    
-    function destroy($id_cpp) {
+    public function destroy($id_cpp) {
         
         $cpp = CppPersona::find($id_cpp);
         
+        //Verifico l'esistenza del care provider
         if (!$cpp->exists()) {
             throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
@@ -23,7 +34,7 @@ class FHIRPractitioner {
         $cpp->delete();
     }
 
-    function store(Request $request) {
+    public function store(Request $request) {
 
         $doc = new \SimpleXMLElement($request->getContent());
         
@@ -55,17 +66,17 @@ class FHIRPractitioner {
         
         $comune_nascita = Comuni::where('comune_nominativo', $doc->extension[0]->valueString["value"])->first();
         
-        $cpp_data                       = new CppPersona();
-        $cpp_data->id_comune            = $comune_nascita->id_comune;
-        $cpp_data->persona_nome         = $datafrom_name;
-        $cpp_data->persona_cognome      = $datafrom_surname;
-        $cpp_data->persona_telefono     = $datafrom_phone;
-        $cpp_data->persona_attivo       = $datafrom_active;
+        $cpp_data = new CppPersona();
+        $cpp_data->setIDTown($comune_nascita->id_comune);
+        $cpp_data->setName($datafrom_name);
+        $cpp_data->setSurname($datafrom_surname);
+        $cpp_data->setPhone($datafrom_phone);
+        $cpp_data->setActive($datafrom_active);
         
         $cpp_data->save();
     }
     
-    function update(Request $request, $id) {
+    public function update(Request $request, $id) {
         
         $doc = new \SimpleXMLElement($request->getContent());
 
@@ -97,27 +108,27 @@ class FHIRPractitioner {
         
         $comune_nascita = Comuni::where('comune_nominativo', $doc->extension[0]->valueString["value"])->first();
 
-        $cpp_data->id_comune            = $comune_nascita->id_comune;
-        $cpp_data->persona_nome         = $datafrom_name;
-        $cpp_data->persona_cognome      = $datafrom_surname;
-        $cpp_data->persona_telefono     = $datafrom_phone;
-        $cpp_data->persona_attivo       = $datafrom_active;
+        $cpp_data->setIDTown($comune_nascita->id_comune);
+        $cpp_data->setName($datafrom_name);
+        $cpp_data->setSurname($datafrom_surname);
+        $cpp_data->setPhone($datafrom_phone);
+        $cpp_data->setActive($datafrom_active);
         
         $cpp_data->save();
-      
     }
 
-    function show($id_cpp){
+    public function show($id_cpp){
         
         $data_cpp = CppPersona::find($id_cpp);
         
-        if (!$data_cpp) {
+        //Verifico l'esistenza del care provider
+        if (!$data_cpp->exists()) {
             throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
         $values_in_narrative = array(
-            "Name"       => $data_cpp->persona_nome . " " . $data_cpp->persona_cognome,
-            "Contact"    => $data_cpp->persona_telefono,
+            "Name"       => $data_cpp->getName() . " " . $data_cpp->getSurname(),
+            "Contact"    => $data_cpp->getPhone(),
             "City"       => $data_cpp->getTown()
         );
         

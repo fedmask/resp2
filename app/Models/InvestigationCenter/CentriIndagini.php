@@ -106,4 +106,42 @@ class CentriIndagini extends Eloquent
 	{
 		return $this->hasMany(\App\Models\InvestigationCenter\Indagini::class, 'id_centro_indagine');
 	}
+	
+	/** FHIR **/ 
+	
+	public function getID(){
+	    return $this->id_centro;
+	}
+	
+	public function getIDCpp(){
+	    return $this->id_ccp_persona;
+	}
+	
+	public function getName(){
+	    return $this->centro_nome;
+	}
+	
+	public function getAddress(){
+	    return $this->centro_indirizzo;
+	}
+	
+	public function setName($name){
+	    $this->centro_nome = $name;
+	}
+	
+	public function setAddress($address){
+	    $this->centro_indirizzo = $address;
+	}
+	
+	public function setIDCpp($idCpp){
+	    $this->id_ccp_persona = $idCpp;
+	}
+	
+	public function setIDTown($idTown){
+	    $this->id_comune = $idTown;
+	}
+	
+	public function setIDTipology($idTipology){
+	    $this->id_tipologia = $idTipology;
+	}
 }

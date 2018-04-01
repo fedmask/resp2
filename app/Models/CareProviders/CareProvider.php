@@ -95,4 +95,6 @@ class CareProvider extends Eloquent
 	{
 		return $this->hasMany(\App\Models\CurrentUser\Recapiti::class, 'id_utente');
 	}
+	
+
 }

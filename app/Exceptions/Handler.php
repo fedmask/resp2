@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         
-        $error_message = OperationOutcome::getXML($exception->getMessage());
+        $error_message = $exception->getMessage();
         
         if ($exception instanceof FHIR\IdNotFoundInDatabaseException) {
             return response()->view('errors.FHIR', ["errorMessage" => $error_message], 404);//->withHeaders(['Content-Type' => 'application/xml']);

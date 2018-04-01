@@ -10,16 +10,19 @@ use Illuminate\Http\Request;
 
 class FHIRObservation {
 
-    function delete($id_observation) {
+    public function destroy($id) {
         
-        if (!Indagini::where($id_observation)->exists()) {
+        $observation = CentriIndagini::find($id);
+        
+        //Verifico l'esistenza del centro indagine
+        if (!$observation->exists()) {
             throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
 
-        CentriIndagini::find($id_observation)->delete();
+        $observation->delete();
     }
 
-    function update(Request $request, $id_observation) {
+    public function update(Request $request, $id) {
         
         $doc = new \SimpleXMLElement($request->getContent());
         
@@ -73,7 +76,7 @@ class FHIRObservation {
         
         /** VALIDAZIONE ANDATA A BUON FINE - CREO IL PAZIENTE E L'UTENTE ASSOCIATO **/
         
-        $observation = Indagini::find($id_observation);
+        $observation = Indagini::find($id);
         
         $observation->id_diagnosi           = $datafrom_observation_id;
         $observation->id_paziente           = $datafrom_patient_id;
@@ -87,7 +90,7 @@ class FHIRObservation {
         $observation->save();
     }
 
-    function store(Request $request) {
+    public function store(Request $request) {
 
         $doc = new \SimpleXMLElement($request->getContent());
         
@@ -155,9 +158,11 @@ class FHIRObservation {
         $observation->save();
     }
     
-    function show($id_observation)
+    public function show($id)
     {
-        $dati_indagine = Indagini::find($id_observation);
+        $dati_indagine = Indagini::find($id);
+        
+        //Verifico l'esistenza del centro indagine prima di mostrarlo
         
         if (!$dati_indagine->exists()) {
             throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");

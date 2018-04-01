@@ -41,6 +41,18 @@ class CentriContatti extends Eloquent
 		'contatto_valore'
 	];
 
+	public function setIDCenter($id){
+	    $this->id_centro = $id;
+	}
+	
+	public function setIDModContact($idModContact){
+	    $this->id_modalita_contatto = $idModContact;
+	}
+	    
+	public function setValueContact($value){
+	    $this->contatto_valore = $value;
+	}
+	    
 	public function tbl_centri_indagini()
 	{
 		return $this->belongsTo(\App\Models\InvestigationCenter\CentriIndagini::class, 'id_centro');

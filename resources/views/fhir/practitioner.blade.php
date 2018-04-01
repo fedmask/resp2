@@ -1,12 +1,18 @@
+<?php
+//To simplify and reduce the dependence of the following code
+//Data are passed by FHIRController
+$narrative       = $data_output['narrative'];
+$careprovider    = $data_output['careprovider'];
+?>
 <?xml version="1.0" encoding="utf-8"?>
 <Practitioner xmlns="http://hl7.org/fhir">
-  <id value="{{$data_output['careprovider']->id_utente}}"/>
+  <id value="{{$careprovider->getUserID()}}"/>
   <text>
     <status value="generated"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
       <table border="2">
         <tbody>
-        @foreach($data_output["narrative"] as $key => $value)
+        @foreach($narrative as $key => $value)
 		<tr>
 			<td>{{$key}}</td>
 			<td>{{$value}}</td></tr>
@@ -18,24 +24,24 @@
   <identifier>
     <use value="usual"/>
     <system value="urn:ietf:rfc:3986"/>
-    <value value="../fhir/Practitioner/{{$data_output['careprovider']->id_utente}}"/>
+    <value value="../fhir/Practitioner/{{$careprovider->getUserID()}}"/>
   </identifier>
-  <active value="{{$data_output['careprovider']->persona_attivo == 1 ? 'true' : 'false'}}"/>
+  <active value="{{$careprovider->isActive() ? 'true' : 'false'}}"/>
   <extension url="http://resp.local/resources/extensions/practitioner-comune.xml">
-    <valueString value="{{$data_output['careprovider']->getTown()}}"/>
+    <valueString value="{{$careprovider->getTown()}}"/>
   </extension>
   <extension url="http://resp.local/resources/extensions/user-id.xml">
-    <valueString value="{{$data_output['careprovider']->id_utente}}"/>
+    <valueString value="{{$careprovider->getUserID()}}"/>
   </extension>
   <name>
     <use value="usual"/>
-    <family value="{{$data_output['careprovider']->persona_cognome}}"/>
-    <given value="{{$data_output['careprovider']->persona_nome}}"/>
-  </name>
+    <family value="{{$careprovider->getName()}}"/>
+    <given value="{{$careprovider->getSurname()}}"/>
+  </name> 
   <telecom>
     <system value="phone"/>
-    <value value="{{$data_output['careprovider']->persona_telefono}}"/>
-    <use value="{{$data_output['careprovider']->getPhoneType()}}"/>
+    <value value="{{$careprovider->getPhone()}}"/>
+    <use value="{{$careprovider->getPhoneType()}}"/>
   </telecom>
   <communication>
     <coding>

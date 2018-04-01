@@ -82,4 +82,50 @@ class CppPersona extends Eloquent
 	{
 		return $this->hasMany(\App\Models\InvestigationCenter\CentriIndagini::class, 'id_ccp_persona');
 	}
+	
+	/** FHIR **/
+	
+	public function getUserID(){
+	    return $this->id_utente;
+	}
+	
+	public function getName(){
+	    return $this->persona_nome;
+	}
+	
+	public function getSurname(){
+	    return $this->persona_cognome;
+	}
+	
+	public function getPhone(){
+	    return $this->persona_telefono;
+	}
+	
+	public function isActive(){
+	    return $this->persona_attivo == 1;
+	}
+	
+	public function setUserID($id){
+	    $this->id_utente = $id;
+	}
+
+	public function setName($name){
+	    $this->persona_nome = $name;
+	}
+	
+	public function setSurname($surname){
+	    $this->persona_cognome = $surname;
+	}
+	
+	public function setPhone($phone){
+	    $this->persona_telefono = $phone;
+	}
+	
+	public function setActive($active){
+	    $this->persona_attivo = $active;
+	}
+	
+	public function setIDTown($id){
+	    $this->id_comune = $id;
+	}
 }

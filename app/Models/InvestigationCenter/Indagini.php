@@ -74,6 +74,40 @@ class Indagini extends Eloquent
 	];
 
 	
+	/** FHIR **/
+	
+	public function getID(){
+	    return $this->id_indagine;
+	}
+	
+	public function getID(){
+	    return $this->$primaryKey;
+	}
+	
+	public function getTipology(){
+	    return $this->indagine_tipologia;
+	}
+	
+	public function getReason(){
+	    return $this->indagine_motivo;
+	}
+	
+	public function getCodeLoinc(){
+	    return $this->indagine_codice_loinc;
+	}
+	
+	public function getDate(){
+	    return $this->indagine_data;
+	}
+	
+	public function getCppID(){
+	    return $this->id_cpp;
+	}
+	
+	public function isClosed(){
+	    return $this->getStatus() == "conclusa" ? true : false;
+	}
+	
 	public function getStatus(){
 	    
 	    $result_status = "final";

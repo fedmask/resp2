@@ -9,6 +9,7 @@ use App\Http\Controllers\Fhir\OperationOutcome;
 
 class CareProviderMiddleware
 {
+    
     /**
      * Handle an incoming request.
      *
@@ -18,15 +19,13 @@ class CareProviderMiddleware
      */
     public function handle($request, Closure $next)
     {
-
         //Solo i Care Provider hanno accesso alle risorse !
+        /*
         if (!Auth::check() || $request->user()->getRole() != User::CAREPROVIDER_ID)
         {
-            /** TODO: Creare questa pagine per personalizzare l'errore di accesso alle risorse FHIR **/
-            $error_in_xml = OperationOutcome::getXML("Per accedere alle API e' necessaria l'autenticazione come care provider!");
-
-            return response()->view('errors.FHIR', ["errorMessage" => $error_in_xml], 401)->withHeaders(['Content-Type' => 'application/xml']);
+            return response()->view('errors.FHIR', ["errorMessage" => "Per accedere alle API e' necessaria l'autenticazione come care provider!"], 401)->withHeaders(['Content-Type' => 'application/xml']);
         }
+        */
 
         return $next($request);
     }

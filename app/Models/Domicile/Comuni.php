@@ -43,6 +43,10 @@ class Comuni extends Eloquent
 	];
 
 	
+	public function getID(){
+	    return $this->$primaryKey;
+	}
+	
 	public function getTown(){
 	    return $this->comune_nominativo;
 	}

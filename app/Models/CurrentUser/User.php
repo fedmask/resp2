@@ -96,7 +96,64 @@ class User extends Authenticatable
     public function getEmailForPasswordReset(){
         return $this->utente_email;
     }
+    
+    /**
+     * Restituisce la scadenza di validità per questo utente
+     */
+    
+    public function getExpireDate(){
+        return $this->utente_scadenza;
+    }
+    
+    public function setIDTipology($idTp){
+        $this->id_tipologia = $idTp;
+    }
+    
+    public function setUsername($username){
+        $this->utente_nome = $username;
+    }
+    
+    public function setPassword($password){
+        $this->utente_password = $password;
+    }
+    
+    public function setStatus($status){
+        $this->utente_stato = $status;
+    }
+    
+    public function setEmail($email){
+        $this->utente_email = $email;
+    }
+    
+    
+    /**
+     * Restituisce lo stato (1 o 0) boolean
+     */
+    
+    public function getStatus(){
+        return $this->utente_stato;
+    }
+    
+    public function getID(){
+        return $this->id_utente;
+    }
+    
+    /**
+     * Restituisce l'username
+     */
 	
+    public function getUsername(){
+        return $this->utente_nome;
+    }
+    
+    /**
+     * Restituisce la password
+     */
+    
+    public function getPassword(){
+        return $this->utente_password;
+    }
+    
 	/**
 	* Ritorna il nome dell'utente loggato
 	*/
@@ -180,7 +237,7 @@ class User extends Authenticatable
 	* Ritorna la mail dell'utente loggato
 	*/
  	public function getEmail(){
-			return $this->utente_email;
+		return $this->utente_email;
     }
 	
 	/**

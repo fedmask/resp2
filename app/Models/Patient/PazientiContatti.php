@@ -63,5 +63,14 @@ class PazientiContatti extends Eloquent
 	{
 		return $this->belongsTo(\App\Models\TipologieContatti::class, 'id_contatto_tipologia');
 	}
-
+	
+	/** FHIR **/
+	
+	public function getPhone(){
+	    return $this->contatto_telefono;
+	}
+	
+	public function getFullName(){
+	    return $this->contatto_nominativo;
+	}
 }
