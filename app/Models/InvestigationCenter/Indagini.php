@@ -76,8 +76,36 @@ class Indagini extends Eloquent
 	
 	/** FHIR **/
 	
-	public function getID(){
-	    return $this->id_indagine;
+	public function setID($id){
+	    $this->$primaryKey = $id;
+	}
+	
+	public function setIDPatient($id){
+	    $this->id_paziente = $id;
+	}
+	
+	public function setTipology($tipology){
+	    $this->indagine_tipologia = $tipology;
+	}
+	
+	public function setReason($reason){
+	    $this->indagine_motivo = $reason;
+	}
+	
+	public function setCodeLoinc($codeLoinc){
+	    $this->indagine_codice_loinc = $codeLoinc;
+	}
+	
+	public function setDate($date){
+	    $this->indagine_data = $date;
+	}
+	
+	public function setCppID($idCpp){
+	    $this->id_cpp = $idCpp;
+	}
+
+	public function setIDiagnosis($id){
+	    $this->id_diagnosi = $id;
 	}
 	
 	public function getID(){

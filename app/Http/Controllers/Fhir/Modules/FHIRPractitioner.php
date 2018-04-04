@@ -74,6 +74,8 @@ class FHIRPractitioner {
         $cpp_data->setActive($datafrom_active);
         
         $cpp_data->save();
+        
+        return response('', 201);
     }
     
     public function update(Request $request, $id) {

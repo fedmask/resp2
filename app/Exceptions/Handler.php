@@ -54,18 +54,16 @@ class Handler extends ExceptionHandler
         
         $error_message = $exception->getMessage();
         
-        if ($exception instanceof FHIR\IdNotFoundInDatabaseException) {
+        if ($exception instanceof FHIR\IdNotFoundInDatabaseException || $exception instanceof FHIR\ResourceNotFoundException) {
             return response()->view('errors.FHIR', ["errorMessage" => $error_message], 404);//->withHeaders(['Content-Type' => 'application/xml']);
         }
         
-        if ($exception instanceof FHIR\ResourceNotFoundException) {
-            return response()->view('errors.FHIR', ["errorMessage" => $error_message], 404);//->withHeaders(['Content-Type' => 'application/xml']);
+        if ($exception instanceof FHIR\InvalidResourceFieldException) {
+            return response()->view('errors.FHIR', ["errorMessage" => $error_message], 400);//->withHeaders(['Content-Type' => 'application/xml']);
         }
         
-        if ($exception instanceof FHIR\UnsupportedOperationException) {
-            return response()->view('errors.FHIR', ["errorMessage" => $error_message], 422);//->withHeaders(['Content-Type' => 'application/xml']);
-        }
-
+        
+        
         return parent::render($request, $exception);
     }
 

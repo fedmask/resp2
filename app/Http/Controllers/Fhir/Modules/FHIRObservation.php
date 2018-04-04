@@ -78,14 +78,14 @@ class FHIRObservation {
         
         $observation = Indagini::find($id);
         
-        $observation->id_diagnosi           = $datafrom_observation_id;
-        $observation->id_paziente           = $datafrom_patient_id;
-        $observation->id_cpp                = $datafrom_cpp_id;
-        $observation->indagine_codice_loinc = $datafrom_observation_loinc;
-        $observation->indagine_data         = $datafrom_observation_data;
-        $observation->indagine_stato        = $observation->getStatusFromFHIR($datafrom_observation_status);
-        $observation->indagine_tipologia    = $datafrom_observation_type;
-        $observation->indagine_motivo       = $datafrom_observation_reason;
+        $observation->setIDiagnosis($datafrom_observation_id);
+        $observation->setIDPatient($datafrom_patient_id);
+        $observation->setIDCpp($datafrom_cpp_id);
+        $observation->setCodeLoinc($datafrom_observation_loinc);
+        $observation->setDate($datafrom_observation_data);
+        $observation->setStatus($observation->getStatusFromFHIR($datafrom_observation_status));
+        $observation->setTipology($datafrom_observation_type);
+        $observation->setReason($datafrom_observation_reason);
         
         $observation->save();
     }
@@ -146,16 +146,18 @@ class FHIRObservation {
 
         $observation = new Indagini();
 
-        $observation->id_diagnosi           = $datafrom_observation_id;
-        $observation->id_paziente           = $datafrom_patient_id;
-        $observation->id_cpp                = $datafrom_cpp_id;
-        $observation->indagine_codice_loinc = $datafrom_observation_loinc;
-        $observation->indagine_data         = $datafrom_observation_data;
-        $observation->indagine_stato        = $observation->getStatusFromFHIR($datafrom_observation_status);
-        $observation->indagine_tipologia    = $datafrom_observation_type;
-        $observation->indagine_motivo       = $datafrom_observation_reason;
+        $observation->setIDiagnosis($datafrom_observation_id);
+        $observation->setIDPatient($datafrom_patient_id);
+        $observation->setIDCpp($datafrom_cpp_id);
+        $observation->setCodeLoinc($datafrom_observation_loinc);
+        $observation->setDate($datafrom_observation_data);
+        $observation->setStatus($observation->getStatusFromFHIR($datafrom_observation_status));
+        $observation->setTipology($datafrom_observation_type);
+        $observation->setReason($datafrom_observation_reason);
 
         $observation->save();
+        
+        return response('', 201);
     }
     
     public function show($id)

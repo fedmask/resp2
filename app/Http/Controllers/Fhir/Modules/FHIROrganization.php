@@ -189,6 +189,8 @@ class FHIROrganization  {
             
             $oraginzation_contact->save();
         } 
+        
+        return response('', 201);
     }
 
     public function show($id_organization) {

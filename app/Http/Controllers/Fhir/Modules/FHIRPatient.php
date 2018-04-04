@@ -69,7 +69,7 @@ class FHIRPatient {
         return view("fhir.patient", ["data_output" => $data_xml]);
 	}
 	
-	function destroy($id_patient) {
+	public function destroy($id_patient) {
 
 	    $patient = Pazienti::find($id_patient);
 
@@ -82,7 +82,7 @@ class FHIRPatient {
     }
 
 
-    function store(Request $request) {
+    public function store(Request $request) {
 
         $doc = new \SimpleXMLElement($request->getContent());
         
@@ -127,12 +127,14 @@ class FHIRPatient {
         $patient->setSurname($doc->name->family["value"]);
         $patient->setBirth($doc->birthDate["value"]);
         $patient->setSex($doc->gender["value"]);
-        $patient->setFiscalCode($doc->extension[1]->extension[3]->valueString["value"]);
+        $patient->setFiscalCode($doc->extension[1]->extension[2]->valueString["value"]);
 
         $patient->save();
+        
+        return response('', 201);
     }
 
-    function update(Request $request, $id) {
+    public function update(Request $request, $id) {
 
         $doc = new \SimpleXMLElement($request->getContent());
 
