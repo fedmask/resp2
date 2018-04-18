@@ -18,6 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $id_ccp_persona
  * @property string $centro_nome
  * @property string $centro_indirizzo
+ * @property string $centro_mail
  * @property bool $centro_resp
  * 
  * @property \App\Models\CentriTipologie $tbl_centri_tipologie
@@ -47,6 +48,7 @@ class CentriIndagini extends Eloquent
 		'id_ccp_persona',
 		'centro_nome',
 		'centro_indirizzo',
+	    'centro_mail',
 		'centro_resp'
 	];
 

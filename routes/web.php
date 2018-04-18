@@ -143,6 +143,10 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/files', 'PazienteController@showFiles')->name('files');
 
 	Route::get('/visits', 'PazienteController@showVisits')->name('visite');
+	
+	Route::get('/diagnosi', 'PazienteController@showDiagnosi')->name('diagnosi');
+	
+	Route::get('/indagini', 'PazienteController@showIndagini')->name('indagini');
 
 	Route::get('/impostazioniSicurezza', 'PazienteController@showSecuritySettings')->name('securitySettings');
 
@@ -182,5 +186,63 @@ Route::group( ['prefix' => 'fhir' ], function () {
     });
 
 
+    /**
+     * Route per l'inserimeno di una nuova visita da parte del paziente
+     */
     Route::post('/visite/addVisita', 'VisiteController@addVisita');
-        
+    
+    /**
+     * Route per l'eliminazione di una diagnosi da parte del paziente
+     */    
+    Route::get('/del/{getIdDiagnosi}/{idPaziente}','DiagnosiController@eliminaDiagnosi');
+    
+    /**
+     * Route per l'inserimeno di una nuova diagnosi da parte del paziente
+     */
+    Route::get('/addDiagn/{stato}/{cpp}/{idPaz}/{conf}/{patol}','DiagnosiController@aggiungiDiagnosi');
+    
+    /**
+     * Route per la modifica di una diagnosi da parte del paziente
+     */
+    Route::get('/modDiagn/{idDiagnosi}/{stato}/{cpp}/{conf}','DiagnosiController@modificaDiagnosi');
+    
+    /**
+     * Route per l'invio di una mail ad un centro indagini da parte del paziente
+     */
+    Route::get('/mail/{cpp}/{paz}/{ogg}/{testo}', 'MailController@mail');
+    
+    /**
+     * Route per l'eliminazione di una indagine da parte del paziente
+     */
+    Route::get('/delInd/{getIdIndagine}/{idUtente}','IndaginiController@eliminaIndagine');
+    
+    /**
+     * Route per l'inserimeno di una nuova indagine richiesta da parte del paziente
+     */
+    Route::get('/addIndRichiesta/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}','IndaginiController@addIndagineRichiesta');
+    
+    /**
+     * Route per l'inserimeno di una nuova indagine programmata da parte del paziente
+     */
+    Route::get('/addIndProgrammata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}', 'IndaginiController@addIndagineProgrammata');
+    
+    /**
+     * Route per l'inserimeno di una nuova indagine completata da parte del paziente
+     */
+    Route::get('/addIndCompletata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@addIndagineCompletata');
+    
+    /**
+     * Route per la modifica di una indagine richiesta da parte del paziente
+     */
+    Route::get('/ModIndRichiesta/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}','IndaginiController@ModIndagineRichiesta');
+    
+    /**
+     * Route per la modifica di una indagine programmata da parte del paziente
+     */
+    Route::get('/ModIndProgrammata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}', 'IndaginiController@ModIndagineProgrammata');
+    
+    /**
+     * Route per la modifica di una indagine programmata da parte del paziente
+     */
+    Route::get('/ModIndCompletata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@ModIndagineCompletata');
+    

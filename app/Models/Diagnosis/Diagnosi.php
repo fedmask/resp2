@@ -38,7 +38,7 @@ class Diagnosi extends Eloquent
 	protected $casts = [
 		'id_paziente' => 'int',
 		'diagnosi_confidenzialita' => 'int',
-		'diagnosi_stato' => 'bool'
+		'diagnosi_stato' => 'int'
 	];
 
 	protected $dates = [

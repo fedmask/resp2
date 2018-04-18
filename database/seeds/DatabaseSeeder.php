@@ -36,6 +36,15 @@ class DatabaseSeeder extends Seeder
         $this->call(VisiteTableSeeder::class);
         $this->call(ParametriVitaliTableSeeder::class);
         $this->call(CppPazienteTableSeeder::class);
+        $this->call(DiagnosiTableSeeder::class);
+        $this->call(CppDiagnosiTableSeeder::class);
+        $this->call(CentriTipologieTableSeeder::class);
+        $this->call(CentriIndaginiTableSeeder::class);
+        $this->call(ModalitaContattiTableSeeder::class);
+        $this->call(CentriContattiTableSeeder::class);
+        $this->call(IndaginiTableSeeder::class);
+        /*$this->call(Icd9EsamiTableSeeder::class);
         
+       */
     }
 }

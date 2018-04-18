@@ -29,6 +29,7 @@ class CreateTblCentriIndaginiTable extends Migration
             $table->integer('id_ccp_persona')->unsigned();
             $table->string('centro_nome', 80);
             $table->string('centro_indirizzo', 100);
+            $table->string('centro_mail', 50);
             $table->tinyInteger('centro_resp');
 
             $table->index(["id_ccp_persona"], 'fk_tbl_centri_indagini_tbl_cpp_persona1_idx');

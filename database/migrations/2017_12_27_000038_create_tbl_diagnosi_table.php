@@ -23,13 +23,13 @@ class CreateTblDiagnosiTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id_diagnosi');
+            $table->increments('id_diagnosi')->unsigned();
             $table->integer('id_paziente')->unsigned();
             $table->smallInteger('diagnosi_confidenzialita');
             $table->date('diagnosi_inserimento_data');
             $table->date('diagnosi_aggiornamento_data');
             $table->text('diagnosi_patologia');
-            $table->tinyInteger('diagnosi_stato');
+            $table->integer('diagnosi_stato');
             $table->date('diagnosi_guarigione_data');
 
             $table->index(["diagnosi_confidenzialita"], 'fk_tbl_diagnosi_tbl_livelli_confidenzialita1_idx');

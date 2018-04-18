@@ -16,9 +16,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $id_centro_indagine
  * @property int $id_diagnosi
  * @property int $id_paziente
- * @property int $id_audit_log
- * @property string $indagine_codice_icd
- * @property string $indagine_codice_loinc
  * @property \Carbon\Carbon $indagine_data
  * @property \Carbon\Carbon $indagine_aggiornamento
  * @property string $indagine_stato
@@ -26,7 +23,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $indagine_motivo
  * @property string $indagine_referto
  * @property string $indagine_allegato
- * 
+ * @property int $id_cpp
  * @property \App\Models\TblAuditlogLog $tbl_auditlog_log
  * @property \App\Models\CentriIndagini $tbl_centri_indagini
  * @property \App\Models\Diagnosi $tbl_diagnosi
@@ -48,7 +45,7 @@ class Indagini extends Eloquent
 		'id_centro_indagine' => 'int',
 		'id_diagnosi' => 'int',
 		'id_paziente' => 'int',
-		'id_audit_log' => 'int'
+	    'id_cpp' => 'int',
 	];
 
 	protected $dates = [
@@ -60,9 +57,8 @@ class Indagini extends Eloquent
 		'id_centro_indagine',
 		'id_diagnosi',
 		'id_paziente',
-		'id_audit_log',
-		'indagine_codice_icd',
-		'indagine_codice_loinc',
+	    'id_cpp',
+	    'careprovider',
 		'indagine_data',
 		'indagine_aggiornamento',
 		'indagine_stato',
@@ -72,10 +68,6 @@ class Indagini extends Eloquent
 		'indagine_allegato'
 	];
 
-	public function tbl_auditlog_log()
-	{
-		return $this->belongsTo(\App\Models\Log\AuditlogLog::class, 'id_audit_log');
-	}
 
 	public function tbl_centri_indagini()
 	{
@@ -87,18 +79,14 @@ class Indagini extends Eloquent
 		return $this->belongsTo(\App\Models\Diagnosis\Diagnosi::class, 'id_diagnosi');
 	}
 
-	public function tbl_icd9_esami_strumenti_codici()
-	{
-		return $this->belongsTo(\App\Models\Icd9\Icd9EsamiStrumentiCodici::class, 'indagine_codice_icd');
-	}
-
-	public function tbl_loinc()
-	{
-		return $this->belongsTo(\App\Models\Loinc\Loinc::class, 'indagine_codice_loinc');
-	}
-
 	public function tbl_pazienti()
 	{
 		return $this->belongsTo(\App\Models\Patient\Pazienti::class, 'id_paziente');
 	}
+	
+	public function tbl_care_provider()
+	{
+	    return $this->belongsTo(App\Models\CareProviders\CareProvider::class, 'id_cpp');
+	}
+	
 }
