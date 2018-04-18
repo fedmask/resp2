@@ -6,67 +6,9 @@
 
 	<div class="inner" style="min-height: 1200px;">
 		<div class="row">
-			<div class="col-lg-12">
-				<!--MODAL EMAIL-->
-				<div class="col-lg-12">
-					<div class="modal fade" id="mailModal" tabindex="-1" role="dialog"
-						aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"
-										aria-hidden="true" id="chiudiformmodalmailCpp">&times;</button>
-									<h4 class="modal-title" id="H2">Nuova Email</h4>
-								</div>
-								<form class="form-horizontal" id="patmailformcpp">
-									<div class="modal-body">
-										<div class="form-group">
-											<label class="control-label col-lg-4">Da :</label>
-											<div class="col-lg-8">
-												@if($current_user->getDescription() ==
-												User::PATIENT_DESCRIPTION) <input type="text"
-													name="username" id="username"
-													value=" {{$current_user->getName()}} " readonly
-													class="form-control" /> @else <input type="text"
-													name="username" id="username"
-													value=" {{$current_user->getName()}} {{$current_user->getSurname()}} "
-													readonly class="form-control" /> @endif
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="control-label col-lg-4">A:</label>
-											<div class="col-lg-8">
-												<input type="text" name="mailCpp" id="mailCpp" value=" "
-													readonly class="form-control" />
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="mailSubject" class="control-label col-lg-4">Oggetto:</label>
-											<div class="col-lg-8">
-												<input type="text" name="mailSubject" id="mailSubject"
-													class="form-control col-lg-6" />
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="contentMail" class="control-label col-lg-4">Testo:</label>
-											<div class="col-lg-8">
-												<textarea name="contentMail" id="contentMail"
-													class="form-control col-lg-6" rows="6"></textarea>
-											</div>
-										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default"
-											data-dismiss="modal">Annulla</button>
-										<button type="submit" class="btn btn-primary">Invia</button>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
 
-				</div>
-				<!--FINE MODAL EMAIL-->
+			<div class="col-lg-12">
+
 				<h2>Care Providers</h2>
 
 				<div class="box dark">
@@ -79,7 +21,6 @@
 										data-parent="#accordion" href="#collapseOne"
 										aria-expanded="true" aria-controls="collapseOne"> <strong>Clicca
 											per aprire la tabella esplicativa dei ruoli :</strong>
-
 									</a>
 								</div>
 								<!--panel-heading-->
@@ -159,21 +100,73 @@
 												<th>Altre informazioni</th>
 												<th>Citta'</th> @if($current_user->getDescription() ==
 												User::PATIENT_DESCRIPTION)
+												<th>Conf.</th>
 												<th>Opzioni</th> @endif
 												<th></th>
 											</tr>
-												@for($i = 0; $i < $current_user->trovaCppAssociati(); $i++)
-												<tr>
-													<td>{{ $current_user->nomeCppAssociato()[$i]}}</td><!-- nome -->
-												    <td>{{ $current_user->cognomeCppAssociato()[$i]}}</td><!-- cognome -->
-													<td>{{ $current_user->ruoloCppAssociato()[$i]}}</td><!-- ruolo -->
-													<td>{{ $current_user->telefonoCppAssociato()[$i]}}</td><!-- telefono -->
-													<td>{{"--"}}</td><!-- info -->
-													<td>{{ $current_user->cittaCppAssociato()[$i]}}</td><!-- citta -->
-													<td>{{"--"}}</td><!-- opzioni -->
-												</tr>
-												
-												@endfor
+											@for($i = 0; $i < $current_user->trovaCppAssociati(); $i++)
+											<tr>
+												<td>{{ $current_user->nomeCppAssociato()[$i]}}</td>
+												<td>{{ $current_user->cognomeCppAssociato()[$i]}}</td>
+												<td>{{ $current_user->ruoloCppAssociato()[$i]}}</td>
+												<td>{{ $current_user->telefonoCppAssociato()[$i]}}</td>
+												<td>{{ $current_user->informazioniCppAssociato()[$i]}}</td>
+												<td>{{ $current_user->cittaCppAssociato()[$i]}}</td>
+												<td>{{
+													$current_user->confidenzialitaCppAssociato($current_user->id_utente,
+													$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i]))}}</td>
+												<td>
+													<table>
+														<tr>
+															<td>
+																<div class="dropdown">
+																	<button href="#"
+																		class="btn btn-info dropdown-toggle dropdown-toggle-unset"
+																		type="button" data-toggle="dropdown"
+																		aria-haspopup="true" aria-expanded="true">
+																		<i class="icon-check"></i> <span class="caret"></span>
+																	</button>
+																	<ul class="dropdown-menu">
+																		<li><a
+																			href="http://localhost:8000/1/{{$current_user->id_utente}}/{{$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i])}}"
+																			id="{{($i)}}">Nessuan restrizione</a></li>
+																		<li><a
+																			href="http://localhost:8000/2/{{$current_user->id_utente}}/{{$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i])}}"
+																			id="{{($i)}}">Basso</a></li>
+																		<li><a
+																			href="http://localhost:8000/3/{{$current_user->id_utente}}/{{$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i])}}"
+																			id="{{($i)}}">Moderato</a></li>
+																		<li><a
+																			href="http://localhost:8000/4/{{$current_user->id_utente}}/{{$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i])}}"
+																			id="{{($i)}}">Normale</a></li>
+																		<li><a
+																			href="http://localhost:8000/5/{{$current_user->id_utente}}/{{$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i])}}"
+																			id="{{($i)}}">Riservato</a></li>
+																		<li><a
+																			href="http://localhost:8000/6/{{$current_user->id_utente}}/{{$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i])}}"
+																			id="{{($i)}}">Strettamente riservato</a></li>
+																	</ul>
+																</div>
+															</td>
+															<td><a
+																href="http://localhost:8000/{{$current_user->confidenzialita($current_user->id_utente,$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i]))}}/{{$current_user->id_utente}}/{{$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i])}}/ok"
+																method="post"><button style="width: 33px; height: 33px;"
+																		id="assegnaValore()" type="submit"
+																		class="icon-remove btn-danger"></button></a></td>
+															<td>
+																<button style="width: 33px; height: 33px;"
+																	id="{{$current_user->trovaMail($current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i]))}}"
+																	onclick="assegnaValore(this.id)"
+																	data-target="#formModal"
+																	class="icon-envelope btn-warning" data-toggle="modal"
+																	aria-hashpopup="true" aria-expanded="true"></button>
+															</td>
+														</tr>
+													</table>
+
+												</td>
+											</tr>
+											@endfor
 										</thead>
 										<tbody>
 										</tbody>
@@ -181,17 +174,23 @@
 								</div>
 								<!--table-responsive-->
 
+								<script>
+//Questa funzione assegna nel form della mail la mail dell'utente loggato 								
+function assegnaValore(num){
+	var a = document.getElementById("mail").value = num;
+	var b = document.getElementById("nomeutente").value= "{{($current_user->getEmail())}}";
+}
+</script>
+
 								<div id="map"></div>
-
-
-<style>
+								<style>
 #map {
 	height: 400px;
 	width: 100%;
 }
 </style>
 
-<script>
+								<script>
 var pos, infoWindow;
 var map = new google.maps.Map(document.getElementById('map'));
 function initMap() {
@@ -215,7 +214,6 @@ function initMap() {
 
 	map = new google.maps.Map(document.getElementById('map'), {zoom: 5});
 
-	 
   //Geolocalizza la posizione dell'utente
     if(navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(function(position) {
@@ -228,7 +226,8 @@ function initMap() {
          position:{
              lat:position.coords.latitude,
              lng:position.coords.longitude},
-         map:map});
+         map:map,
+         icon:'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=IO|FF0000|000000'});
       map.setCenter(pos);
 
     }, function() {
@@ -311,12 +310,14 @@ function codeAddress(address)
 }
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh-s4q4s_Q0OWTWebTHqVvj7ZoDoAJ348&callback=initMap"> 
+								<script async defer
+									src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh-s4q4s_Q0OWTWebTHqVvj7ZoDoAJ348&callback=initMap"> 
 </script>
 								</br>
 								<!-- FINE GESTIONE MAPPA -->
-								Seleziona fino a quanti km vuoi trovare i Care Provider a te piu'
-								vicini <select id="list" onchange="initMap();cancellaRiga();">
+								Seleziona fino a quanti km vuoi trovare i Care Provider a te
+								piu' vicini <select id="list"
+									onchange="initMap();cancellaRiga();">
 									<option value="1">1</option>
 									<option value="5">5</option>
 									<option value="10">10</option>
@@ -339,17 +340,16 @@ function codeAddress(address)
 									<option value="900">900</option>
 								</select> </br> </br>
 								<div class="panel panel-warning">
-									<header>
-									</header>
+									<header> </header>
 									<div class="panel-heading">
-										<strong>I Care Provider del Registro Elettronico Sanitario
-											Personale :</strong>
+										<strong id="prova">I Care Provider del Registro Elettronico
+											Sanitario Personale :</strong>
 									</div>
 									<!--panel-heading-->
 								</div>
 								<!--panel-warning-->
 
-<script type='text/javascript'>
+								<script type='text/javascript'>
 
 //Questa funzione aggiunge un rigo alla tabella con le informazioni del careProvider
 function aggiungiRiga(id_table,citta){	
@@ -385,7 +385,7 @@ function aggiungiRiga(id_table,citta){
 		tr.appendChild(td);
 		//Aggiungo altre informazioni
 		var td = document.createElement('td');
-		var tx=document.createTextNode("--");
+		var tx=document.createTextNode("{{($current_user->trovaInformazioni()[$i])}}");
 		td.appendChild(tx);
 		tr.appendChild(td);
 		//Aggiungo citta
@@ -393,16 +393,52 @@ function aggiungiRiga(id_table,citta){
 		var tx=document.createTextNode("{{($current_user->trovaLocalita()[$i])}}");
 		td.appendChild(tx);
 		tr.appendChild(td);
+
 		//Aggiungo opzioni
+		//aggiungo +
 		var td = document.createElement('td');
-		var tx=document.createTextNode("--");
+		var tx = document.createElement('span');
+		tx.innerHTML = '<button id="{{($i)}}" type="button" value="{{($current_user->cpp()[$i]->id_cpp)}}" class="icon-plus btn-success" onclick="aggiungiCpp(this.id)"/>';
 		td.appendChild(tx);
 		tr.appendChild(td);
-		
-		tbody.appendChild(tr);
-		}
-	@endfor
-	
+
+	//aggiungo check
+	/*	var td = document.createElement('td');
+		var tx = document.createElement('span');
+		tx.innerHTML="<div class=dropdown>";
+		tx.innerHTML='<button href="#" class="btn btn-info dropdown-toggle dropdown-toggle-unset" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">';
+
+		tx.innerHTML='<i class=icon-check />';
+		tx.innerHTML='<span class=caret />';
+		tx.innerHTML='</>';
+		tx.innerHTML='<ul class="dropdown-menu">';
+		tx.innerHTML='<li/><a href="http://localhost:8000/1/{{$current_user->id_utente}}/"id="{{($i)}}"/>Nessuan restrizione';
+		tx.innerHTML='<li/><a href="http://localhost:8000/2/{{$current_user->id_utente}}/"id="{{($i)}}"/>Basso';
+		tx.innerHTML='<li/><a href="http://localhost:8000/3/{{$current_user->id_utente}}/"id="{{($i)}}"/>Moderato';
+		tx.innerHTML='<li/><a href="http://localhost:8000/4/{{$current_user->id_utente}}/"id="{{($i)}}"/>Normale';
+		tx.innerHTML='<li/><a href="http://localhost:8000/5/{{$current_user->id_utente}}/"id="{{($i)}}"/>Riservato';
+		tx.innerHTML='<li/><a href="http://localhost:8000/6/{{$current_user->id_utente}}/"id="{{($i)}}"/>Strettamente riservato';		
+		tx.innerHTML='</>';
+
+		td.appendChild(tx);
+		tr.appendChild(td);*/
+
+	    //aggiungo mail
+		var tx = document.createElement('span');
+		tx.innerHTML = '<button id="{{$current_user->trovaMail($current_user->cpp()[$i]->id_cpp)}}" onclick="assegnaValore(this.id)" data-target="#formModal" class="icon-envelope btn-warning" data-toggle="modal" aria-hashpopup="true" aria-expanded="true" />';				
+		td.appendChild(tx);
+		tr.appendChild(td);
+
+			
+tbody.appendChild(tr);
+}
+	@endfor	
+}
+
+//Questa funzione prende l'id_cpp del Care Provider selezionato
+function aggiungiCpp(num){
+	var a = document.getElementById(num).value;
+	window.location.href="http://localhost:8000/careproviders/"+a;
 }
 
 //Elimina le righe dalla tabella contenente tutti i care Provider registrati nel Resp
@@ -415,7 +451,7 @@ function cancellaRiga(){
 }
 </script>
 
-<div id="toSetTable" class="table-responsive">
+								<div id="toSetTable" class="table-responsive">
 
 									<body>
 										<table id='my_table' class='table'>
@@ -429,13 +465,12 @@ function cancellaRiga(){
 													<th>Citta'</th>
 													<th>Opzioni</th>
 												</tr>
-
 											</thead>
 											<tbody>
 
 											</tbody>
 										</table>
-										<br/>
+										<br />
 									</body>
 
 								</div>
@@ -459,6 +494,12 @@ function cancellaRiga(){
 	<!--inner-->
 
 </div>
+
+<link href="assets/plugins/bootstrap_slider/css/bootstrap-slider.css"
+	rel="stylesheet">
+
+<script src="assets/plugins/bootstrap_slider/js/bootstrap-slider.js"></script>
+
 {{-- @php(include "careProvidersScript.php") --}}
 <!--END PAGE CONTENT -->
 @endsection

@@ -63,6 +63,17 @@
 			@endif
 		</div>
 		<!--FINE ANAGRAFICA RIDOTTA-->
+		
+<script>
+//Questa funzione prende i valori nel form della mail
+function prendeValori(){
+	var paz = document.getElementById("mail").value ;
+	var cpp = document.getElementById("nomeutente").value ;
+	var ogg = document.getElementById("oggettomail").value ;
+	var testo = document.getElementById("contenuto").value ;
+	window.location.href = "http://localhost:8000/mail/"+cpp+"/"+paz+"/"+ogg+"/"+testo;
+	}
+</script>
 		<!--MODAL EMAIL-->
 		<div class="col-lg-12">
 			<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -76,16 +87,16 @@
 							<div class="modal-body">
 								<div class="form-group">
 									<!--il getvar deve prendere nome e cognome del medico-->
-									<label class="control-label col-lg-4">Da COGNOME-CP NOME-CP :</label>
+									<label class="control-label col-lg-4">Da:</label>
 								
 									<div class="col-lg-8">
-										<input type="text" name="nomeutente" id="nomeutente" value="EMAIL-CP" readonly class="form-control"/>
+										<input type="text" name="nomeutente" id="nomeutente" readonly class="form-control"/>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="control-label col-lg-4">A PAZ-COGNOME PAZ-NOME:</label>
+									<label class="control-label col-lg-4">A:</label>
 									<div class="col-lg-8">
-										<input type="text" name="mail" id="mail" value="PAZIENTE-EMAIL" readonly class="form-control"/>
+										<input type="text" name="mail" id="mail" readonly class="form-control"/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -103,7 +114,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-								<button type="submit" class="btn btn-primary">Invia</button>
+								<button type="submit" onclick="prendeValori()" class="btn btn-primary">Invia</button>
 							</div>
 						</form>
 					</div>

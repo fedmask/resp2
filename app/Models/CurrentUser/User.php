@@ -14,6 +14,7 @@ use DB;
 use App\Models\CareProviders\CareProvider;
 use Auth;
 use App\Models\CareProviders\CppPaziente;
+use App\Models\CareProviders\CppPersona;
 
 class User extends Authenticatable {
 	use Notifiable;
@@ -481,9 +482,7 @@ class User extends Authenticatable {
 		$arrayPazienti = CppPaziente::all ();
 		$info = array ();
 		$ruolo = array ();
-		
 		$ruolo = User::all ();
-		
 		foreach ( $arrayCpp as $c ) {
 			foreach ( $arrayPazienti as $r ) {
 				if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
@@ -564,4 +563,134 @@ class User extends Authenticatable {
 		}
 		return $i;
 	}
+	
+	/**
+	 * Ritorna un array contenente tutti gli id_cpp dei car provider associati all'utente loggato
+	 */
+	public function idCppAssociato($tel) {
+		$arrayRecapiti = array ();
+		$arrayRecapiti = Recapiti::all ();
+		$id_utente;
+		$arrayCpp = array ();
+		$arrayCpp = CareProvider::all ();
+		$id_cpp;
+		
+		foreach ( $arrayRecapiti as $pers ) {
+			if ($pers->contatto_telefono == $tel) {
+				$id_utente = $pers->id_utente;
+			}
+		}
+		
+		foreach ( $arrayCpp as $cpp ) {
+			if ($cpp->id_utente == $id_utente) {
+				$id_cpp = $cpp->id_cpp;
+			}
+		}
+		
+		return $id_cpp;
+	}
+	
+	/**
+	 * Ritorna la confidenzialità tra il paziente e il Care Provider passati in ingresso alla funzione
+	 */
+	public function confidenzialitaCppAssociato($id_utente, $id_cpp) {
+		$arrayCppPaziente = array ();
+		$arrayCppPaziente = CppPaziente::all ();
+		$arrayPazienti = array ();
+		$arrayPazienti = Pazienti::all ();
+		$id;
+		$conf;
+		
+		foreach ( $arrayPazienti as $p ) {
+			if ($p->id_paziente == $id_utente) {
+				$id = $p->id_paziente;
+			}
+		}
+		foreach ( $arrayCppPaziente as $a ) {
+			if (($a->id_cpp == $id_cpp) && ($a->id_paziente == $id)) {
+				$conf = $a->assegnazione_confidenzialita;
+			}
+		}
+		return $conf;
+	}
+	
+	/**
+	 * Ritorna la mail di un Care Provider passato come parametro della funzione
+	 */
+	public function trovaMail($id_cpp) {
+		$arrayCpp = array ();
+		$arrayCpp = CareProvider::all ();
+		$arrayUser = array ();
+		$arrayUser = User::all ();
+		$mail;
+		$id;
+		
+		foreach ( $arrayCpp as $cpp ) {
+			if ($cpp->id_cpp == $id_cpp) {
+				$id = $cpp->id_utente;
+				
+				foreach ( $arrayUser as $user ) {
+					if ($user->id_utente == $id) {
+						$mail = $user->utente_email;
+					}
+				}
+			}
+		}
+		
+		return $mail;
+	}
+	
+	/**
+	 * Ritorna le "Altre informazioni" di tutti i Care Provider associati all'utente
+	 */
+	public function informazioniCppAssociato() {
+		$arrayCpp = array ();
+		$arrayCpp = CareProvider::all ();
+		$arrayPazienti = array ();
+		$arrayPazienti = CppPaziente::all ();
+		$info = array ();
+		$arrayPersona = array ();
+		$arrayPersona = CppPersona::all ();
+		
+		foreach ( $arrayCpp as $c ) {
+			foreach ( $arrayPazienti as $r ) {
+				if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+					foreach ( $arrayPersona as $arr ) {
+						if ($c->id_utente = $arr->id_utente) {
+							if ($arr->persona_reperibilita != " ") {
+								array_push ( $info, $arr->persona_reperibilita );
+							} else {
+								array_push ( $info, "--" );
+							}
+						}
+					}
+				}
+			}
+		}
+		return $info;
+	}
+	
+	/**
+	 * Ritorna le "Altre informazioni" di tutti i Care Provider
+	 */
+	public function trovaInformazioni() {
+		$persona = CppPersona::all ();
+		$cpp = CareProvider::all ();
+		$all = array ();
+		$i=0;
+		
+		foreach ( $cpp as $c ) {
+			foreach ( $persona as $r ) {
+				if ($c->id_utente == $r->id_utente) {
+					if ($r->persona_reperibilita != " ") {
+						array_push ( $all, $r->persona_reperibilita );
+					} else {
+						array_push ( $all, "--" );
+					}
+				}
+			}
+		}
+		return $all;
+	}
+	
 }
