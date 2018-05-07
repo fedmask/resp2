@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Seeder;
@@ -9,7 +10,7 @@ class CppUsers extends Seeder
      *
      * @return void
      */
-    public function run()
+public function run()
     {
         DB::table('tbl_care_provider')->insert([
             'id_cpp' => '1',
@@ -48,3 +49,4 @@ class CppUsers extends Seeder
         ]);
     }
 }
+

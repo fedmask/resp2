@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\SendMail;
 use App\Mail\SuggestionsMailer;
 use App\Mail\SendMail;
 use Mail;
@@ -37,10 +38,15 @@ class MailController extends Controller
         return Redirect::back();
     }
     
-    public function mail($cpp, $paz, $ogg, $testo){
-        
-        Mail::to($cpp)->send(new sendMail($paz, $ogg, $testo));
 
-        return Redirect::back();
+    /**
+     * Gestisce l'invio di una mail da parte dell'utente loggato ad un Care Provider
+     *
+     */
+    public function mail($cpp,$paz,$ogg,$testo){
+		Mail::to($cpp)->send(new SendMail($paz,$ogg,$testo));
+		return Redirect::back();
     }
+
 }
+

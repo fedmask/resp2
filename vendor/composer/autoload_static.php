@@ -395,11 +395,9 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Mail\\SuggestionsMailer' => __DIR__ . '/../..' . '/app/Mail/SuggestionsMailer.php',
-<<<<<<< HEAD
-        'App\\Models\\CareProvider\\CppDiagnosi' => __DIR__ . '/../..' . '/app/Models/CareProviders/CppDiagnosi.php',
-=======
+
         'App\\Mail\\sendMail' => __DIR__ . '/../..' . '/app/Mail/sendMail.php',
->>>>>>> Pennella
+
         'App\\Models\\CareProviders\\CareProvider' => __DIR__ . '/../..' . '/app/Models/CareProviders/CareProvider.php',
         'App\\Models\\CareProviders\\CppDiagnosi' => __DIR__ . '/../..' . '/app/Models/CareProviders/CppDiagnosi.php',
         'App\\Models\\CareProviders\\CppPaziente' => __DIR__ . '/../..' . '/app/Models/CareProviders/CppPaziente.php',
@@ -466,13 +464,8 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
         'CareProviderPeopleTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CareProviderPeopleTableSeeder.php',
-<<<<<<< HEAD
-        'CenterContacts' => __DIR__ . '/../..' . '/database/seeds/CenterContacts.php',
-=======
-        'CentriContattiTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CentriContattiTableSeeder.php',
-        'CentriIndaginiTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CentriIndaginiTableSeeder.php',
-        'CentriTipologieTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CentriTipologieTableSeeder.php',
->>>>>>> Pennella
+
+
         'Collective\\Html\\Componentable' => __DIR__ . '/..' . '/laravelcollective/html/src/Componentable.php',
         'Collective\\Html\\Eloquent\\FormAccessible' => __DIR__ . '/..' . '/laravelcollective/html/src/Eloquent/FormAccessible.php',
         'Collective\\Html\\FormBuilder' => __DIR__ . '/..' . '/laravelcollective/html/src/FormBuilder.php',
@@ -480,16 +473,11 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'Collective\\Html\\HtmlBuilder' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlBuilder.php',
         'Collective\\Html\\HtmlFacade' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlFacade.php',
         'Collective\\Html\\HtmlServiceProvider' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlServiceProvider.php',
+        'ConfidenzialitaSeeder' => __DIR__ . '/../..' . '/database/seeds/ConfidenzialitaSeeder.php',
         'ContactsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ContactsTableSeeder.php',
         'ContactsTypesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ContactsTypesTableSeeder.php',
-<<<<<<< HEAD
-        'CppCenter' => __DIR__ . '/../..' . '/database/seeds/CppCenter.php',
-        'CppContactsCenter' => __DIR__ . '/../..' . '/database/seeds/CppContactsCenter.php',
-        'CppTipologyCenter' => __DIR__ . '/../..' . '/database/seeds/CppTipologyCenter.php',
-=======
-        'CppDiagnosiTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CppDiagnosiTableSeeder.php',
-        'CppPazienteTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CppPazienteTableSeeder.php',
->>>>>>> Pennella
+
+
         'CppUsers' => __DIR__ . '/../..' . '/database/seeds/CppUsers.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
@@ -525,11 +513,9 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'DeepCopy\\TypeFilter\\Spl\\SplDoublyLinkedListFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/Spl/SplDoublyLinkedListFilter.php',
         'DeepCopy\\TypeFilter\\TypeFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/TypeFilter.php',
         'DeepCopy\\TypeMatcher\\TypeMatcher' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeMatcher/TypeMatcher.php',
-<<<<<<< HEAD
-        'Diagnosis' => __DIR__ . '/../..' . '/database/seeds/Diagnosis.php',
-=======
+
         'DiagnosiTableSeeder' => __DIR__ . '/../..' . '/database/seeds/DiagnosiTableSeeder.php',
->>>>>>> Pennella
+
         'Doctrine\\Common\\Annotations\\Annotation' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/Annotation.php',
         'Doctrine\\Common\\Annotations\\AnnotationException' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationException.php',
         'Doctrine\\Common\\Annotations\\AnnotationReader' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationReader.php',

@@ -48,11 +48,9 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Mail\\SuggestionsMailer' => $baseDir . '/app/Mail/SuggestionsMailer.php',
-<<<<<<< HEAD
-    'App\\Models\\CareProvider\\CppDiagnosi' => $baseDir . '/app/Models/CareProviders/CppDiagnosi.php',
-=======
+
     'App\\Mail\\sendMail' => $baseDir . '/app/Mail/sendMail.php',
->>>>>>> Pennella
+
     'App\\Models\\CareProviders\\CareProvider' => $baseDir . '/app/Models/CareProviders/CareProvider.php',
     'App\\Models\\CareProviders\\CppDiagnosi' => $baseDir . '/app/Models/CareProviders/CppDiagnosi.php',
     'App\\Models\\CareProviders\\CppPaziente' => $baseDir . '/app/Models/CareProviders/CppPaziente.php',
@@ -119,13 +117,7 @@ return array(
     'Carbon\\CarbonInterval' => $vendorDir . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
     'Carbon\\Exceptions\\InvalidDateException' => $vendorDir . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
     'CareProviderPeopleTableSeeder' => $baseDir . '/database/seeds/CareProviderPeopleTableSeeder.php',
-<<<<<<< HEAD
-    'CenterContacts' => $baseDir . '/database/seeds/CenterContacts.php',
-=======
-    'CentriContattiTableSeeder' => $baseDir . '/database/seeds/CentriContattiTableSeeder.php',
-    'CentriIndaginiTableSeeder' => $baseDir . '/database/seeds/CentriIndaginiTableSeeder.php',
-    'CentriTipologieTableSeeder' => $baseDir . '/database/seeds/CentriTipologieTableSeeder.php',
->>>>>>> Pennella
+
     'Collective\\Html\\Componentable' => $vendorDir . '/laravelcollective/html/src/Componentable.php',
     'Collective\\Html\\Eloquent\\FormAccessible' => $vendorDir . '/laravelcollective/html/src/Eloquent/FormAccessible.php',
     'Collective\\Html\\FormBuilder' => $vendorDir . '/laravelcollective/html/src/FormBuilder.php',
@@ -133,16 +125,11 @@ return array(
     'Collective\\Html\\HtmlBuilder' => $vendorDir . '/laravelcollective/html/src/HtmlBuilder.php',
     'Collective\\Html\\HtmlFacade' => $vendorDir . '/laravelcollective/html/src/HtmlFacade.php',
     'Collective\\Html\\HtmlServiceProvider' => $vendorDir . '/laravelcollective/html/src/HtmlServiceProvider.php',
+    'ConfidenzialitaSeeder' => $baseDir . '/database/seeds/ConfidenzialitaSeeder.php',
     'ContactsTableSeeder' => $baseDir . '/database/seeds/ContactsTableSeeder.php',
     'ContactsTypesTableSeeder' => $baseDir . '/database/seeds/ContactsTypesTableSeeder.php',
-<<<<<<< HEAD
-    'CppCenter' => $baseDir . '/database/seeds/CppCenter.php',
-    'CppContactsCenter' => $baseDir . '/database/seeds/CppContactsCenter.php',
-    'CppTipologyCenter' => $baseDir . '/database/seeds/CppTipologyCenter.php',
-=======
-    'CppDiagnosiTableSeeder' => $baseDir . '/database/seeds/CppDiagnosiTableSeeder.php',
-    'CppPazienteTableSeeder' => $baseDir . '/database/seeds/CppPazienteTableSeeder.php',
->>>>>>> Pennella
+
+
     'CppUsers' => $baseDir . '/database/seeds/CppUsers.php',
     'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
     'Cron\\CronExpression' => $vendorDir . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
@@ -178,11 +165,9 @@ return array(
     'DeepCopy\\TypeFilter\\Spl\\SplDoublyLinkedListFilter' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/Spl/SplDoublyLinkedListFilter.php',
     'DeepCopy\\TypeFilter\\TypeFilter' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/TypeFilter.php',
     'DeepCopy\\TypeMatcher\\TypeMatcher' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/TypeMatcher/TypeMatcher.php',
-<<<<<<< HEAD
-    'Diagnosis' => $baseDir . '/database/seeds/Diagnosis.php',
-=======
+
     'DiagnosiTableSeeder' => $baseDir . '/database/seeds/DiagnosiTableSeeder.php',
->>>>>>> Pennella
+
     'Doctrine\\Common\\Annotations\\Annotation' => $vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations/Annotation.php',
     'Doctrine\\Common\\Annotations\\AnnotationException' => $vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationException.php',
     'Doctrine\\Common\\Annotations\\AnnotationReader' => $vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationReader.php',
