@@ -41,7 +41,7 @@ class DiagnosiEliminate extends Eloquent
 
 	public function diagnosi()
 	{
-		return $this->belongsTo(\App\ModelsDiagnosis\\Diagnosi::class, 'id_diagnosi');
+		return $this->belongsTo(\App\ModelsDiagnosis\Diagnosi::class, 'id_diagnosi');
 	}
 
 	public function pazienti()

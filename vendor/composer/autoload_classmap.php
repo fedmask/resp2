@@ -23,6 +23,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\CareProviderController' => $baseDir . '/app/Http/Controllers/CareProviderController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\DiagnosiController' => $baseDir . '/app/Http/Controllers/DiagnosiController.php',
     'App\\Http\\Controllers\\FHIRController' => $baseDir . '/app/Http/Controllers/FHIRController.php',
     'App\\Http\\Controllers\\Fhir\\Modules\\FHIRDiagnosticReport' => $baseDir . '/app/Http/Controllers/Fhir/Modules/FHIRDiagnosticReport.php',
     'App\\Http\\Controllers\\Fhir\\Modules\\FHIRObservation' => $baseDir . '/app/Http/Controllers/Fhir/Modules/FHIRObservation.php',
@@ -33,10 +34,12 @@ return array(
     'App\\Http\\Controllers\\Fhir\\OperationOutcome' => $baseDir . '/app/Http/Controllers/Fhir/OperationOutcome.php',
     'App\\Http\\Controllers\\FilesController' => $baseDir . '/app/Http/Controllers/FilesController.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
+    'App\\Http\\Controllers\\IndaginiController' => $baseDir . '/app/Http/Controllers/IndaginiController.php',
     'App\\Http\\Controllers\\MailController' => $baseDir . '/app/Http/Controllers/MailController.php',
     'App\\Http\\Controllers\\PazienteController' => $baseDir . '/app/Http/Controllers/PazienteController.php',
     'App\\Http\\Controllers\\TaccuinoController' => $baseDir . '/app/Http/Controllers/TaccuinoController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
+    'App\\Http\\Controllers\\VisiteController' => $baseDir . '/app/Http/Controllers/VisiteController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\CareProviderMiddleware' => $baseDir . '/app/Http/Middleware/CareProviderMiddleware.php',
     'App\\Http\\Middleware\\EncryptCookies' => $baseDir . '/app/Http/Middleware/EncryptCookies.php',
@@ -45,8 +48,13 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Mail\\SuggestionsMailer' => $baseDir . '/app/Mail/SuggestionsMailer.php',
+<<<<<<< HEAD
     'App\\Models\\CareProvider\\CppDiagnosi' => $baseDir . '/app/Models/CareProviders/CppDiagnosi.php',
+=======
+    'App\\Mail\\sendMail' => $baseDir . '/app/Mail/sendMail.php',
+>>>>>>> Pennella
     'App\\Models\\CareProviders\\CareProvider' => $baseDir . '/app/Models/CareProviders/CareProvider.php',
+    'App\\Models\\CareProviders\\CppDiagnosi' => $baseDir . '/app/Models/CareProviders/CppDiagnosi.php',
     'App\\Models\\CareProviders\\CppPaziente' => $baseDir . '/app/Models/CareProviders/CppPaziente.php',
     'App\\Models\\CareProviders\\CppPersona' => $baseDir . '/app/Models/CareProviders/CppPersona.php',
     'App\\Models\\CareProviders\\CppTipologie' => $baseDir . '/app/Models/CareProviders/CppTipologie.php',
@@ -111,7 +119,13 @@ return array(
     'Carbon\\CarbonInterval' => $vendorDir . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
     'Carbon\\Exceptions\\InvalidDateException' => $vendorDir . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
     'CareProviderPeopleTableSeeder' => $baseDir . '/database/seeds/CareProviderPeopleTableSeeder.php',
+<<<<<<< HEAD
     'CenterContacts' => $baseDir . '/database/seeds/CenterContacts.php',
+=======
+    'CentriContattiTableSeeder' => $baseDir . '/database/seeds/CentriContattiTableSeeder.php',
+    'CentriIndaginiTableSeeder' => $baseDir . '/database/seeds/CentriIndaginiTableSeeder.php',
+    'CentriTipologieTableSeeder' => $baseDir . '/database/seeds/CentriTipologieTableSeeder.php',
+>>>>>>> Pennella
     'Collective\\Html\\Componentable' => $vendorDir . '/laravelcollective/html/src/Componentable.php',
     'Collective\\Html\\Eloquent\\FormAccessible' => $vendorDir . '/laravelcollective/html/src/Eloquent/FormAccessible.php',
     'Collective\\Html\\FormBuilder' => $vendorDir . '/laravelcollective/html/src/FormBuilder.php',
@@ -121,9 +135,14 @@ return array(
     'Collective\\Html\\HtmlServiceProvider' => $vendorDir . '/laravelcollective/html/src/HtmlServiceProvider.php',
     'ContactsTableSeeder' => $baseDir . '/database/seeds/ContactsTableSeeder.php',
     'ContactsTypesTableSeeder' => $baseDir . '/database/seeds/ContactsTypesTableSeeder.php',
+<<<<<<< HEAD
     'CppCenter' => $baseDir . '/database/seeds/CppCenter.php',
     'CppContactsCenter' => $baseDir . '/database/seeds/CppContactsCenter.php',
     'CppTipologyCenter' => $baseDir . '/database/seeds/CppTipologyCenter.php',
+=======
+    'CppDiagnosiTableSeeder' => $baseDir . '/database/seeds/CppDiagnosiTableSeeder.php',
+    'CppPazienteTableSeeder' => $baseDir . '/database/seeds/CppPazienteTableSeeder.php',
+>>>>>>> Pennella
     'CppUsers' => $baseDir . '/database/seeds/CppUsers.php',
     'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
     'Cron\\CronExpression' => $vendorDir . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
@@ -159,7 +178,11 @@ return array(
     'DeepCopy\\TypeFilter\\Spl\\SplDoublyLinkedListFilter' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/Spl/SplDoublyLinkedListFilter.php',
     'DeepCopy\\TypeFilter\\TypeFilter' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/TypeFilter.php',
     'DeepCopy\\TypeMatcher\\TypeMatcher' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/TypeMatcher/TypeMatcher.php',
+<<<<<<< HEAD
     'Diagnosis' => $baseDir . '/database/seeds/Diagnosis.php',
+=======
+    'DiagnosiTableSeeder' => $baseDir . '/database/seeds/DiagnosiTableSeeder.php',
+>>>>>>> Pennella
     'Doctrine\\Common\\Annotations\\Annotation' => $vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations/Annotation.php',
     'Doctrine\\Common\\Annotations\\AnnotationException' => $vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationException.php',
     'Doctrine\\Common\\Annotations\\AnnotationReader' => $vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationReader.php',
@@ -1124,6 +1147,7 @@ return array(
     'Hamcrest\\Type\\IsString' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Type/IsString.php',
     'Hamcrest\\Util' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
     'Hamcrest\\Xml\\HasXPath' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
+    'Icd9EsamiTableSeeder' => $baseDir . '/database/seeds/Icd9EsamiTableSeeder.php',
     'Illuminate\\Auth\\Access\\AuthorizationException' => $vendorDir . '/laravel/framework/src/Illuminate/Auth/Access/AuthorizationException.php',
     'Illuminate\\Auth\\Access\\Gate' => $vendorDir . '/laravel/framework/src/Illuminate/Auth/Access/Gate.php',
     'Illuminate\\Auth\\Access\\HandlesAuthorization' => $vendorDir . '/laravel/framework/src/Illuminate/Auth/Access/HandlesAuthorization.php',
@@ -1889,6 +1913,7 @@ return array(
     'Illuminate\\View\\ViewFinderInterface' => $vendorDir . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
     'Illuminate\\View\\ViewName' => $vendorDir . '/laravel/framework/src/Illuminate/View/ViewName.php',
     'Illuminate\\View\\ViewServiceProvider' => $vendorDir . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
+    'IndaginiTableSeeder' => $baseDir . '/database/seeds/IndaginiTableSeeder.php',
     'Intervention\\Image\\AbstractColor' => $vendorDir . '/intervention/image/src/Intervention/Image/AbstractColor.php',
     'Intervention\\Image\\AbstractDecoder' => $vendorDir . '/intervention/image/src/Intervention/Image/AbstractDecoder.php',
     'Intervention\\Image\\AbstractDriver' => $vendorDir . '/intervention/image/src/Intervention/Image/AbstractDriver.php',
@@ -2149,6 +2174,7 @@ return array(
     'Mockery\\Undefined' => $vendorDir . '/mockery/mockery/library/Mockery/Undefined.php',
     'Mockery\\VerificationDirector' => $vendorDir . '/mockery/mockery/library/Mockery/VerificationDirector.php',
     'Mockery\\VerificationExpectation' => $vendorDir . '/mockery/mockery/library/Mockery/VerificationExpectation.php',
+    'ModalitaContattiTableSeeder' => $baseDir . '/database/seeds/ModalitaContattiTableSeeder.php',
     'Monolog\\ErrorHandler' => $vendorDir . '/monolog/monolog/src/Monolog/ErrorHandler.php',
     'Monolog\\Formatter\\ChromePHPFormatter' => $vendorDir . '/monolog/monolog/src/Monolog/Formatter/ChromePHPFormatter.php',
     'Monolog\\Formatter\\ElasticaFormatter' => $vendorDir . '/monolog/monolog/src/Monolog/Formatter/ElasticaFormatter.php',
@@ -2608,6 +2634,7 @@ return array(
     'PHP_Token_XOR_EQUAL' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD_FROM' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
+    'ParametriVitaliTableSeeder' => $baseDir . '/database/seeds/ParametriVitaliTableSeeder.php',
     'Parsedown' => $vendorDir . '/erusev/parsedown/Parsedown.php',
     'PatientsMarriageTableSeeder' => $baseDir . '/database/seeds/PatientsMarriageTableSeeder.php',
     'PatientsTableSeeder' => $baseDir . '/database/seeds/PatientsTableSeeder.php',
@@ -3834,6 +3861,7 @@ return array(
     'TownTableSeeder' => $baseDir . '/database/seeds/TownTableSeeder.php',
     'TypesUsersTableSeeder' => $baseDir . '/database/seeds/TypesUsersTableSeeder.php',
     'UsersTableSeeder' => $baseDir . '/database/seeds/UsersTableSeeder.php',
+    'VisiteTableSeeder' => $baseDir . '/database/seeds/VisiteTableSeeder.php',
     'Webmozart\\Assert\\Assert' => $vendorDir . '/webmozart/assert/src/Assert.php',
     'Whoops\\Exception\\ErrorException' => $vendorDir . '/filp/whoops/src/Whoops/Exception/ErrorException.php',
     'Whoops\\Exception\\Formatter' => $vendorDir . '/filp/whoops/src/Whoops/Exception/Formatter.php',

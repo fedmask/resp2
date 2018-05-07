@@ -63,6 +63,25 @@
 			@endif
 		</div>
 		<!--FINE ANAGRAFICA RIDOTTA-->
+		
+		<script>
+
+		//permette di inviare una mail tramite il modal mail
+		function send1(){
+			
+			var paz = document.getElementById("mail").value ;
+			var cpp = document.getElementById("nomeutente").value ;
+			var ogg = document.getElementById("oggettomail").value ;
+			var testo = document.getElementById("contenuto").value ;
+
+			
+			window.location.href = "http://localhost:8000/mail/"+cpp+"/"+paz+"/"+ogg+"/"+testo;
+			
+			}
+
+
+		</script>
+		
 		<!--MODAL EMAIL-->
 		<div class="col-lg-12">
 			<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -76,16 +95,16 @@
 							<div class="modal-body">
 								<div class="form-group">
 									<!--il getvar deve prendere nome e cognome del medico-->
-									<label class="control-label col-lg-4">Da COGNOME-CP NOME-CP :</label>
+									<label class="control-label col-lg-4">A:</label>
 								
-									<div class="col-lg-8">
-										<input type="text" name="nomeutente" id="nomeutente" value="EMAIL-CP" readonly class="form-control"/>
+									<div class="col-lg-8"><!-- readonly -->
+										<input type="text" name="nomeutente" id="nomeutente" readonly value="EMAIL-CP"  class="form-control"/>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="control-label col-lg-4">A PAZ-COGNOME PAZ-NOME:</label>
-									<div class="col-lg-8">
-										<input type="text" name="mail" id="mail" value="PAZIENTE-EMAIL" readonly class="form-control"/>
+									<label class="control-label col-lg-4">Da:</label>
+									<div class="col-lg-8"><!-- readonly -->
+										<input type="text" name="mail" id="mail" readonly value="PAZIENTE-EMAIL" class="form-control"/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -103,7 +122,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-								<button type="submit" class="btn btn-primary">Invia</button>
+								<button type="submit" onclick="send1()" class="btn btn-primary">Invia</button>
 							</div>
 						</form>
 					</div>
@@ -116,7 +135,10 @@
 		@if($current_user->getRole() == $current_user::PATIENT_ID)
 		<div class="row">
 			<div class="well well-sm">
-				<a href="{{ url('visite') }}" class="btn btn-primary btn-block" id="btn_menu_nuovavisita"><i class="icon-stethoscope"></i>  Visite</a>
+
+				<!-- TODO: aggiungere controllo se vi è già una visita in corso -->
+				<a href="visits" class="btn btn-primary btn-block" id="btn_menu_nuovavisita"><i class="icon-stethoscope"></i>  Visite</a>
+
 			</div>
 		</div>
 
@@ -144,13 +166,13 @@
 			
 
 				<ul class="collapse" id="form-nav">
-					<li class="diagnostic"><a href="LINK-INDAGINI"><i class="icon-angle-right"></i> Diario Indagini Diagnostiche </a>
+					<li class="panel"><a href="/indagini"><em class="icon-file-text-alt"></em> Diario Indagini Diagnostiche </a>
 					</li>
 					<li class="diagnostic"><a href="LINK-RICHIESTE"><i class="icon-angle-right"></i> Richiesta Indagini Diagnostiche </a>
 					</li>
 				</ul>
 			</li>
-			<li class="panel"> <a href="LINK-DIAGNOSI"> <em class="icon-file-text-alt"></em> Diagnosi </a>
+			<li class="panel"> <a href="/diagnosi"> <em class="icon-file-text-alt"></em> Diagnosi </a>
 			</li>
 			<li class="panel {{Request::path() === 'files' ? 'active' : ''}}"> <a href="/files"> <em class="icon-file"></em> Files </a>
 			</li>

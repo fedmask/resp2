@@ -45,12 +45,10 @@ $(document).ready(function(){
 		var nomeCp = $('#nomeCpD').val();
 		
 		if((dia.trim())=='' || nomeCp.trim()==''){
-			alert('Tutti i campi sono obbligatori.');
-		}else
-		
-		
-{
-$("#formD").hide(200);
+			alert('Tutti i campi sono obbligatori');
+		}else{
+			
+		$("#formD").hide(200);
 		$('#nuovaD').prop('disabled',false);
 		$('#concludiD').prop('disabled',true);
 		$('#annullaD').prop('disabled',true);
@@ -114,14 +112,6 @@ $("#formD").hide(200);
 			}
 				$('#formD')[0].reset();
   			});
-			
-			
-			
-					
-			
-				
-			
-		
 		
 }
         

@@ -34,13 +34,20 @@ class DatabaseSeeder extends Seeder
         $this->call(CareProviderPeopleTableSeeder::class); //Va dopo l'inserimento dei comuni
         $this->call(ContactsTableSeeder::class);
         
-        $this->call(CppTipologyCenter::class);
-        $this->call(CppContactsCenter::class);
-        $this->call(CppCenter::class);
-        $this->call(CenterContacts::class);
 
-        $this->call(AuditLogTest::class);
-        $this->call(Diagnosis::class);
-        $this->call(Observation::class);
+        $this->call(VisiteTableSeeder::class);
+        $this->call(ParametriVitaliTableSeeder::class);
+        $this->call(CppPazienteTableSeeder::class);
+        $this->call(DiagnosiTableSeeder::class);
+        $this->call(CppDiagnosiTableSeeder::class);
+        $this->call(CentriTipologieTableSeeder::class);
+        $this->call(CentriIndaginiTableSeeder::class);
+        $this->call(ModalitaContattiTableSeeder::class);
+        $this->call(CentriContattiTableSeeder::class);
+        $this->call(IndaginiTableSeeder::class);
+        /*$this->call(Icd9EsamiTableSeeder::class);
+        
+       */
+
     }
 }

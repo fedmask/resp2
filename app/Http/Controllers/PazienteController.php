@@ -345,4 +345,40 @@ class PazienteController extends Controller
 		return $log;
 	}
 
+	/**
+	 * mostra la pagina Diagnosi
+	 */
+	public function showDiagnosi(Request $request){
+	    if ($request->has('id_visiting')) {
+	        $id_visiting = request()->input('id_visiting');
+	    } else {
+	        $id_visiting = Auth::user()->id_utente;
+	    }
+	    
+	    $this->buildLog('Diagnosi', $request->ip(), $id_visiting);
+	    
+	    $logs = AuditlogLog::where('id_visitato', $id_visiting)->orderBy('id_audit', 'desc')->get();
+	    
+	    return view('pages.diagnosi')->with('logs', $logs);
+	}
+	
+	
+	
+	/**
+	 * mostra la pagina Indagini
+	 */
+	public function showIndagini(Request $request){
+	    if ($request->has('id_visiting')) {
+	        $id_visiting = request()->input('id_visiting');
+	    } else {
+	        $id_visiting = Auth::user()->id_utente;
+	    }
+	    
+	    $this->buildLog('Indagini', $request->ip(), $id_visiting);
+	    
+	    $logs = AuditlogLog::where('id_visitato', $id_visiting)->orderBy('id_audit', 'desc')->get();
+	    
+	    return view('pages.indagini')->with('logs', $logs);
+	}
+	
 }

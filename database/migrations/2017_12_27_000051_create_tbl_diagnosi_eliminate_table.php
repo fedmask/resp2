@@ -23,7 +23,7 @@ class CreateTblDiagnosiEliminateTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id_diagnosi_eliminata');
+            $table->increments('id_diagnosi_eliminata')->unsigned();
             $table->integer('id_utente')->unsigned();
             $table->integer('id_diagnosi')->unsigned();
 
