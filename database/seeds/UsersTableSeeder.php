@@ -22,6 +22,7 @@ class UsersTableSeeder extends Seeder
             'utente_stato' => '1',
             'utente_scadenza' => '2030-01-01',
             'utente_email' => 'bobkelso@gmail.com',
+        	
             'utente_dati_condivisione' => '1',
             'utente_token_accesso' => ''
         ]);

@@ -35,6 +35,8 @@ class CppPaziente extends Eloquent
 	];
 
 	protected $fillable = [
+	    'id_cpp',
+        'id_paziente',
 		'assegnazione_confidenzialita'
 	];
 

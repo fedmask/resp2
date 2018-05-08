@@ -158,93 +158,23 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 
-
-Route::group( ['prefix' => 'fhir' ], function () {
-        
-        Route::get('Patient/{id?}', 'Fhir\Modules\FHIRPatient@getResource');
-        Route::post('Patient', 'Fhir\Modules\FHIRPatient@createResource');
-        Route::put('Patient/{id}', 'Fhir\Modules\FHIRPatient@update');
-        Route::delete('Patient/{id}', 'Fhir\Modules\FHIRPatient@destroy');
-        
-        Route::get('Practitioner/{id?}','Fhir\Modules\FHIRPractitioner@getResource');
-        
-        Route::get('Appointments', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@showGroup');
-        // Appointment?patient=1&date=lt2016-09-30&dat=gt2016-08-30 Gets all appointments for September 2016 where patient ID == 1
-        // - if no patient is specified, we return the appointments of the current logged-in user
-        Route::get('Appointment', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@index');
-        // Create an Appointment by posting an Appointment Resource
-        Route::post('Appointment', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@post');
-        // Update an Appointment by PUTing an Appointment Resource
-        Route::put('Appointment{id?}', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@put');
-        // DELETE and appointment
-        Route::delete('Appointment/{id}', '\LibreEHR\FHIR\Http\Controllers\AppointmentController@destroy');
-        // Get Slots for a provider Slot?provider=1&date=lt2020-09-30&date=gt2014-08-30
-        Route::get('Slot/{slotDate?}', '\LibreEHR\FHIR\Http\Controllers\SlotController@index');
-        // Post a Blundle of Resources to the base to create a bunch of resources
-        Route::post('/', '\LibreEHR\FHIR\Http\Controllers\BundleController@store');
-        // Get a ValueSet resource
-        Route::get('ValueSet/{id}', '\LibreEHR\FHIR\Http\Controllers\ValuesetController@show');
-    });
-
-
+	/**
+	 * Route per prendere l'id_cpp e associarlo all'utente loggato
+	 */
+    Route::get('/careproviders/{getvalue}','CareProvidersController@associaCpp');
+    
     /**
-     * Route per l'inserimeno di una nuova visita da parte del paziente
+	* Route per modificare la confidenzialità di un utente con un Care Provider
+	*/
+    Route::get('/{getValue}/{getIdUser}/{getIdCpp}','CareProvidersController@modificaConfidenzialita');
+    
+    /**
+     * Route per eliminare la confidenzialità di un utente con un Care Provider
      */
-    Route::post('/visite/addVisita', 'VisiteController@addVisita');
+    Route::get('/{getConf}/{getIdUser}/{getIdCpp}/ok','CareProvidersController@rimuoviConfidenzialita');
     
     /**
-     * Route per l'eliminazione di una diagnosi da parte del paziente
-     */    
-    Route::get('/del/{getIdDiagnosi}/{idPaziente}','DiagnosiController@eliminaDiagnosi');
-    
-    /**
-     * Route per l'inserimeno di una nuova diagnosi da parte del paziente
-     */
-    Route::get('/addDiagn/{stato}/{cpp}/{idPaz}/{conf}/{patol}','DiagnosiController@aggiungiDiagnosi');
-    
-    /**
-     * Route per la modifica di una diagnosi da parte del paziente
-     */
-    Route::get('/modDiagn/{idDiagnosi}/{stato}/{cpp}/{conf}','DiagnosiController@modificaDiagnosi');
-    
-    /**
-     * Route per l'invio di una mail ad un centro indagini da parte del paziente
+     * Route per prendere i dati per inviare una mail
      */
     Route::get('/mail/{cpp}/{paz}/{ogg}/{testo}', 'MailController@mail');
-    
-    /**
-     * Route per l'eliminazione di una indagine da parte del paziente
-     */
-    Route::get('/delInd/{getIdIndagine}/{idUtente}','IndaginiController@eliminaIndagine');
-    
-    /**
-     * Route per l'inserimeno di una nuova indagine richiesta da parte del paziente
-     */
-    Route::get('/addIndRichiesta/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}','IndaginiController@addIndagineRichiesta');
-    
-    /**
-     * Route per l'inserimeno di una nuova indagine programmata da parte del paziente
-     */
-    Route::get('/addIndProgrammata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}', 'IndaginiController@addIndagineProgrammata');
-    
-    /**
-     * Route per l'inserimeno di una nuova indagine completata da parte del paziente
-     */
-    Route::get('/addIndCompletata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@addIndagineCompletata');
-    
-    /**
-     * Route per la modifica di una indagine richiesta da parte del paziente
-     */
-    Route::get('/ModIndRichiesta/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}','IndaginiController@ModIndagineRichiesta');
-    
-    /**
-     * Route per la modifica di una indagine programmata da parte del paziente
-     */
-    Route::get('/ModIndProgrammata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}', 'IndaginiController@ModIndagineProgrammata');
-    
-    /**
-     * Route per la modifica di una indagine programmata da parte del paziente
-     */
-    Route::get('/ModIndCompletata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@ModIndagineCompletata');
-    
 

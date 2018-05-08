@@ -5,7 +5,6 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Input;
 
 class SuggestionsMailer extends Mailable
@@ -44,8 +43,8 @@ class SuggestionsMailer extends Mailable
     public function __construct()
     {
         $this->name = Input::get('nome');
-        $this->mail = Input::get('mail');
-        $this->bodyMessage = Input::get('messaggio');
+        $this->mail = Input::get('mail'); 
+        $this->bodyMessage = Input::get('contentMail');
     }
 
     /**
