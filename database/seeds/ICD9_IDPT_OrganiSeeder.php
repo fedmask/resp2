@@ -13,7 +13,7 @@ class ICD9_IDPT_OrganiSeeder extends Seeder
     {
     	
     	DB::table('tbl_ICD9_IDPT_Organi')->insert([
-    			[   'IDPT_Organo' => '00',
+    			[   'id_IDPT_Organo' => '00',
     					'descrizione' => 'Cuore'
     			]
     	]);

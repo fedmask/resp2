@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProcedureTerapeutiche extends Model
+class ProcedureTerapeutiche extends Eloquent
 {
     protected $table = 'tbl_proc_terapeutiche';
     protected $primaryKey = 'id_Procedure_Terapeutiche';
@@ -57,11 +57,10 @@ class ProcedureTerapeutiche extends Model
     public function getDiagnosisID(){
         return $this->diagnosi->first()->getID();
     }
-    /*
+    
     public function getIcd9ID(){
-        return $this->icd9->first()->getID();
+        return $this->icd9()->first()->getID();
     }
-    */
     
     
     public function setData($data){
@@ -88,10 +87,10 @@ class ProcedureTerapeutiche extends Model
         return $this->belongsTo(\App\Models\Diagnosis\Diangosi::class, 'id_diagnosi'); // aggiungere relazione hasMany in Diagnosi.php
     }
     
-    /*
+    
     public function icd9()
     {
-        return $this->belongsTo(\App\Models\icd9::class, 'id_icd9'); // aggiungere relazione hasMany in Icd9
+    	return $this->belongsTo(\App\Models\ICD9_ICPT::class, 'Codice_ICD9'); // aggiungere relazione hasMany in Icd9
     }
-    */
+    
 }

@@ -19,9 +19,8 @@ class CreateTblIDPTOrganiTable extends Migration
     	if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->char('id_IDPT_Organo', 2)->unique();
-            $table->engine = 'InnoDB';
             $table->string('descrizione', 20);
-            
+            $table->engine = 'InnoDB';
             $table->primary('id_IDPT_Organo');
         });
     }

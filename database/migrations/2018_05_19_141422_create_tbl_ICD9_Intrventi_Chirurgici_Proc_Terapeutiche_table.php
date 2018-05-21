@@ -34,7 +34,7 @@ class TblICD9IntrventiChirurgiciProcTerapeuticheTable extends Migration {
 		
 			
 			$table->foreign('IDPT_Sede_TipoIntervento')
-			->references('IDPT_Sede_TipoIntervento')->on('tbl_ICD9_IDPT_Sede_Tipo_Intervento')
+			->references('id_IDPT_Sede_TipoIntervento')->on('tbl_ICD9_IDPT_Sede_Tipo_Intervento')
 			->onDelete('no action')
 			->onUpdate('no action');
 			

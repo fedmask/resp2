@@ -9,9 +9,10 @@ class ICD9_IDPT_Sede_Tipo_Intervento extends Seeder {
 	public function run() {
 		DB::table ( 'tbl_ICD9_IDPT_Sede_Tipo_Intervento' )->insert ( [ 
 				[ 
-						'IDPT_Sede' => '0',
-						'IDPT_TipoIntervento' => '2',
-						'descrizione' => 'TERAPIA AD ULTRASUONI' 
+						'id_IDPT_Sede_TipoIntervento' => '02',
+						'descrizione_sede' => '""', 
+						'descrizione_tipo_intervento' => 'TERAPIA AD ULTRASUONI' 
+						
 				] 
 		] );
 		//

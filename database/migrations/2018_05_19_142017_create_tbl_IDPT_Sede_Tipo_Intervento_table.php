@@ -19,7 +19,7 @@ class CreateTblIDPTSedeTipoInterventoTable extends Migration
             $table->engine = 'InnoDB';
      
           
-            $table->string('IDPT_Sede_TipoIntervento', 2)->unique();
+            $table->string('id_IDPT_Sede_TipoIntervento', 2)->unique();
             $table->string ( 'descrizione_sede', 45 );
             $table->string ( 'descrizione_tipo_intervento', 45);
             $table->primary('IDPT_Sede_TipoIntervento');
