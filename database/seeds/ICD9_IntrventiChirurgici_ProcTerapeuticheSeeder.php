@@ -13,10 +13,10 @@ class ICD9_IntrventiChirurgici_ProcTerapeutiche extends Seeder
     {
     	
     	DB::table('Tbl_ICD9_IntrventiChirurgici_ProcTerapeutiche')->insert([
-    			[   'id_IDPT_Organo' => '00',
-    					'IDPT_Sede' => '0',
-    					'IDPT_TipoIntervento' => '2',
-    					'descrizione'=> 'TERAPIA AD ULTRASUONI DEL CUORE'
+    			[   'Codice_ICD9' => '00.02',
+    			    'IDPT_Organo' => '00',
+    					'IDPT_Sede_TipoIntervento' => '02',
+    					'Descizione_ICD9'=> 'TERAPIA AD ULTRASUONI DEL CUORE'
     			]
     	]);
         //

@@ -16,26 +16,25 @@ class TblICD9IntrventiChirurgiciProcTerapeuticheTable extends Migration {
 			return;
 		Schema::create ($this->set_schema_table, function (Blueprint $table) {
 			
-			$table->increments('id_ICD9_IntrventiChirurgici_ProcTerapeutiche');
+			//$table->increments('id_ICD9_IntrventiChirurgici_ProcTerapeutiche');
+			$table->string('Codice_ICD9',5)->unique();
 			$table->char('IDPT_Organo', 2 )->nullable(false);
-			$table->char('IDPT_Sede', 1)->nullable(false);
-			$table->char('IDPT_TipoIntervento', 1)->nullable(true);
+			$table->string('IDPT_Sede_TipoIntervento', 2)->nullable(false);
+			$table->string('Descizione_ICD9',45);
 			$table->engine = 'InnoDB';
-			$table->string ( 'descrizione', 45 );
+			$table->primary('Codice_ICD9');
+			
 		
+			
 			
 			$table->foreign('IDPT_Organo')
 			->references('id_IDPT_Organo')->on('tbl_ICD9_IDPT_Organi')
 			->onDelete('no action')
 			->onUpdate('no action');
+		
 			
-			$table->foreign('IDPT_Sede')
-			->references('IDPT_Sede')->on('tbl_ICD9_IDPT_Sede_Tipo_Intervento')
-			->onDelete('no action')
-			->onUpdate('no action');
-			
-			$table->foreign('IDPT_TipoIntervento')
-			->references('IDPT_TipoIntervento')->on('tbl_ICD9_IDPT_Sede_Tipo_Intervento')
+			$table->foreign('IDPT_Sede_TipoIntervento')
+			->references('IDPT_Sede_TipoIntervento')->on('tbl_ICD9_IDPT_Sede_Tipo_Intervento')
 			->onDelete('no action')
 			->onUpdate('no action');
 			

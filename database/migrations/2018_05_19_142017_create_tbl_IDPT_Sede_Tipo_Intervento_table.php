@@ -17,12 +17,12 @@ class CreateTblIDPTSedeTipoInterventoTable extends Migration
     {
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->char('IDPT_Sede', 1)->nullable(false);
-            $table->char('IDPT_TipoIntervento', 1)->nullable(true);
-			
-            $table->string('descrizione', 20);
-            
-            $table->primary(['IDPT_Sede', 'IDPT_TipoIntervento']);
+     
+          
+            $table->string('IDPT_Sede_TipoIntervento', 2)->unique();
+            $table->string ( 'descrizione_sede', 45 );
+            $table->string ( 'descrizione_tipo_intervento', 45);
+            $table->primary('IDPT_Sede_TipoIntervento');
         });
     }
 
