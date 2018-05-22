@@ -96,5 +96,8 @@ class CareProvider extends Eloquent
 		return $this->hasMany(\App\Models\CurrentUser\Recapiti::class, 'id_utente');
 	}
 	
-
+	public function tbl_proc_ter()
+	{
+		return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche');
+	}
 }

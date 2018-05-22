@@ -37,9 +37,7 @@ class ProcedureTerapeutiche extends Eloquent
     ];
     
     
-    /* Metodi per risorse Fhir */
-    //@todo da verificare se esistono i metodi get nei rispettivi modelli delle entità considerate, implementa!!
-    public function getID(){
+     public function getID(){
         return $this->id_Procedure_Terapeutiche;
     }
     public function getData(){
@@ -71,26 +69,25 @@ class ProcedureTerapeutiche extends Eloquent
     }
     
     
-    // da controllare !!!! (belongsTO = realzione uno a uno)
-    public function pazienti()
+   
+    public function tbl_pazienti()
     {
-        return $this->belongsTo(\App\Models\Patient\Pazienti::class, 'id_paziente'); // aggiungere relazione hasMany in Pazienti.php
+        return $this->belongsTo(\App\Models\Patient\Pazienti::class, 'id_paziente'); 
     }
     
-    public function cpp()
+    public function tbl_cpp()
     {
-        return $this->belongsTo(\App\Models\CareProviders\CareProvider::class, 'id_cpp'); // aggiungere relazione hasMany in CareProvider.php
+        return $this->belongsTo(\App\Models\CareProviders\CareProvider::class, 'id_cpp'); 
     }
     
-    public function diagnosi()
+    public function tbl_diagnosi()
     {
-        return $this->belongsTo(\App\Models\Diagnosis\Diangosi::class, 'id_diagnosi'); // aggiungere relazione hasMany in Diagnosi.php
+        return $this->belongsTo(\App\Models\Diagnosis\Diangosi::class, 'id_diagnosi'); 
     }
     
-    
-    public function icd9()
+    public function tbl_icd9()
     {
-    	return $this->belongsTo(\App\Models\ICD9_ICPT::class, 'Codice_ICD9'); // aggiungere relazione hasMany in Icd9
+    	return $this->belongsTo(\App\Models\ICD9_ICPT::class, 'Codice_ICD9'); 
     }
     
 }

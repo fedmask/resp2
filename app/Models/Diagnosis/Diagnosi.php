@@ -81,4 +81,9 @@ class Diagnosi extends Eloquent
 	{
 		return $this->hasMany(\App\Models\InvestigationCenter\Indagini::class, 'id_diagnosi');
 	}
+	
+	public function tbl_proc_ter()
+	{
+		return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche');
+	}
 }

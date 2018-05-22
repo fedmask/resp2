@@ -29,9 +29,7 @@ class IDPTOrgani extends Eloquent
 	];
 	
 	
-	/* Metodi per risorse Fhir */
-	//@todo da verificare se esistono i metodi get nei rispettivi modelli delle entità considerate, implementa!!
-	public function getID(){
+		public function getID(){
 		return $this->id_IDPT_Organo;
 	}
 	
@@ -47,8 +45,8 @@ class IDPTOrgani extends Eloquent
 	}
 	
 	
-	// @TODO Continuare con la scrittura del metodo
-	public function ICD9_ICPT()
+	
+	public function tbl_ICD9_ICPT()
 	{
 		return $this->hasMany(\App\Models\ICD9_ICPT::class, 'id_IDPT_Organo'); 
 	}
