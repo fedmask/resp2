@@ -45,7 +45,7 @@ class SuggestionsMailer extends Mailable
     {
         $this->name = Input::get('nome');
         $this->mail = Input::get('mail');
-        $this->bodyMessage = Input::get('messaggio');
+        $this->bodyMessage = Input::get('contentMail');
     }
 
     /**

@@ -45,6 +45,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ModalitaContattiTableSeeder::class);
         $this->call(CentriContattiTableSeeder::class);
         $this->call(IndaginiTableSeeder::class);
+        $this->call ( CareProviderPeopleTableSeeder::class );
+        //$this->call ( MapsTableSeeder::class );
+        $this->call ( ConfidenzialitaSeeder::class );
+        
+        
         /*$this->call(Icd9EsamiTableSeeder::class);
         
        */

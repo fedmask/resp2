@@ -82,6 +82,18 @@
 
 		</script>
 		
+		<script>
+//Questa funzione prende i valori nel form della mail
+function prendeValori(){
+	var paz = document.getElementById("mail").value ;
+	var cpp = document.getElementById("nomeutente").value ;
+	var ogg = document.getElementById("oggettomail").value ;
+	var testo = document.getElementById("contenuto").value ;
+	window.location.href = "http://localhost:8000/mail/"+cpp+"/"+paz+"/"+ogg+"/"+testo;
+	}
+</script>
+		
+		
 		<!--MODAL EMAIL-->
 		<div class="col-lg-12">
 			<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

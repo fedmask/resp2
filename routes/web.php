@@ -149,6 +149,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/indagini', 'PazienteController@showIndagini')->name('indagini');
 
 	Route::get('/impostazioniSicurezza', 'PazienteController@showSecuritySettings')->name('securitySettings');
+	
+	
 
 	// Inizio Routes Care Provider
 	Route::get('/patients-list', 'CareProviderController@showPatientsList')->name('patients-list');
@@ -157,6 +159,27 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
 
+
+    /**
+     * Route per prendere l'id_cpp e associarlo all'utente loggato
+     */
+    Route::get('/careproviders/{getvalue}','CareProvidersController@associaCpp');
+    
+    /**
+     * Route per modificare la confidenzialit di un utente con un Care Provider
+     */
+    Route::get('/{getValue}/{getIdUser}/{getIdCpp}','CareProvidersController@modificaConfidenzialita');
+    
+    /**
+     * Route per eliminare la confidenzialit di un utente con un Care Provider
+     */
+    Route::get('/{getConf}/{getIdUser}/{getIdCpp}/ok','CareProvidersController@rimuoviConfidenzialita');
+    
+    /**
+     * Route per prendere i dati per inviare una mail
+     */
+    Route::get('/mail/{cpp}/{paz}/{ogg}/{testo}', 'MailController@mail');
+    
 
 
 Route::group( ['prefix' => 'fhir' ], function () {
