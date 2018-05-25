@@ -12,13 +12,13 @@ class ProcTerapSeeder extends Seeder
     public function run()
     {
         DB::table('tbl_proc_terapeutiche')->insert([
-            'id_Procedure_Terapeutiche'-> 1,
-            'descrizione' -> 'Descrizione',
-            'Data_Esecuzione'->'2018-05-19',
-            'Pazinte'-> 1,
-            'Diagnosi'-> 1,
-            'CareProvider'-> 1,
-            'Codice_icd9'-> '00.02'
+        		
+            'descrizione' => 'Descrizione',
+            'Data_Esecuzione'=>'2018-05-19',
+            'Paziente'=> 1,
+            'Diagnosi'=> 1,
+            'CareProvider'=> 1,
+            'Codice_icd9'=> '00.02'
             
         ]);
         

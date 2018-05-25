@@ -18,14 +18,14 @@ class CreateTblICD9IntrventiChirurgiciProcTerapeuticheTable extends Migration {
 			// $table->increments('id_ICD9_IntrventiChirurgici_ProcTerapeutiche');
 			$table->string ( 'Codice_ICD9', 5 )->unique ();
 			$table->char ( 'IDPT_Organo', 2 )->nullable ( false );
-			$table->string ( 'IDPT_Sede_TipoIntervento', 2 )->nullable ( false );
+			$table->string ( 'IDPT_ST', 2 )->nullable ( false );
 			$table->string ( 'Descizione_ICD9', 45 );
 			$table->engine = 'InnoDB';
 			$table->primary ( 'Codice_ICD9' );
 			
 			$table->foreign ( 'IDPT_Organo' )->references ( 'id_IDPT_Organo' )->on ( 'tbl_ICD9_IDPT_Organi' )->onDelete ( 'no action' )->onUpdate ( 'no action' );
 			
-			$table->foreign ( 'IDPT_ST )->references ( 'id_IDPT_ST' )->on ( 'tbl_ICD9_IDPT_ST' )->onDelete ( 'no action' )->onUpdate ( 'no action' );
+			$table->foreign ( 'IDPT_ST' )->references('id_IDPT_ST')->on ( 'tbl_ICD9_IDPT_ST' )->onDelete ( 'no action' )->onUpdate ( 'no action' );
 		} );
 		//
 	}

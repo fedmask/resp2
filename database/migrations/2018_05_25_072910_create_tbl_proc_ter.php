@@ -22,9 +22,9 @@ class CreateTblProcTer extends Migration
             $table->increments('id_Procedure_Terapeutiche');
             $table->string('descrizione',45);
             $table->date('Data_Esecuzione');
-            $table->integer('Paziente');
-            $table->integer('Diagnosi');
-            $table->integer('CareProvider');
+            $table->integer('Paziente')->unsigned();
+            $table->integer('Diagnosi')->unsigned();
+            $table->integer('CareProvider')->unsigned();
             $table->string('Codice_icd9');
             
             
@@ -35,7 +35,7 @@ class CreateTblProcTer extends Migration
             ->onUpdate('no action');
             
             $table->foreign('Diagnosi', 'fk_tb_diagnosi_tb_procedure_treapeutiche')
-            ->references('id_diagnosi')->on('tbl_diangosi')
+            ->references('id_diagnosi')->on('tbl_diagnosi')
             ->onDelete('no action')
             ->onUpdate('no action');
             

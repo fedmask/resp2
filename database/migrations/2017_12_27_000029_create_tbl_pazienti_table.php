@@ -23,7 +23,7 @@ class CreateTblPazientiTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id_paziente')->unsigned();
+            $table->increments('id_paziente');
             $table->integer('id_utente')->unsigned();
             $table->smallInteger('id_stato_matrimoniale');
             $table->string('paziente_nome', 45);
