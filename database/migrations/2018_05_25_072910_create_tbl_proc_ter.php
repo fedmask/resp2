@@ -22,7 +22,7 @@ class CreateTblProcTer extends Migration
             $table->increments('id_Procedure_Terapeutiche');
             $table->string('descrizione',45);
             $table->date('Data_Esecuzione');
-            $table->integer('Pazinte');
+            $table->integer('Paziente');
             $table->integer('Diagnosi');
             $table->integer('CareProvider');
             $table->string('Codice_icd9');
@@ -45,7 +45,7 @@ class CreateTblProcTer extends Migration
             ->onUpdate('no action');
             
             $table->foreign('Codice_icd9', 'fk_tb_icd9_tb_procedure_treapeutiche')
-            ->references('Codice_ICD9')->on('Tbl_ICD9_IntrventiChirurgici_ProcTerapeutiche') // da verificarare la tabella giusta!!!!
+            ->references('Codice_ICD9')->on('Tbl_ICD9_ICPT') // da verificarare la tabella giusta!!!!
             ->onDelete('no action')
             ->onUpdate('no action');
             

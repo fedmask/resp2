@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTblIDPTSedeTipoInterventoTable extends Migration
 {
-	public $set_schema_table = 'tbl_ICD9_IDPT_Sede_Tipo_Intervento';
+	public $set_schema_table = 'tbl_ICD9_IDPT_ST';
 	/**
 	 * Run the migrations.
 	 *
@@ -18,10 +18,10 @@ class CreateTblIDPTSedeTipoInterventoTable extends Migration
 			$table->engine = 'InnoDB';
 			
 			
-			$table->string('id_IDPT_Sede_TipoIntervento', 2)->unique();
+			$table->string('id_IDPT_ST', 2)->unique();
 			$table->string ( 'descrizione_sede', 45 );
 			$table->string ( 'descrizione_tipo_intervento', 45);
-			$table->primary('IDPT_Sede_TipoIntervento');
+			$table->primary('id_IDPT_ST');
 		});
 	}
 	
@@ -32,7 +32,7 @@ class CreateTblIDPTSedeTipoInterventoTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('tbl_ICD9_IDPT_Sede_Tipo_Intervento');
+		Schema::dropIfExists('tbl_ICD9_IDPT_ST');
 	}
 	
 }

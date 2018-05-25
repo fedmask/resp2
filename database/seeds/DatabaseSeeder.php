@@ -49,6 +49,11 @@ class DatabaseSeeder extends Seeder
         //$this->call ( MapsTableSeeder::class );
         $this->call ( ConfidenzialitaSeeder::class );
         
+        $this->call ( ICD9_IDPT_OrganiSeeder::class );
+        $this->call ( ICD9_IDPT_Sede_Tipo_InterventoSeeder::class );
+        $this->call ( ICD9_IntrventiChirurgici_ProcTerapeuticheSeeder::class );
+        $this->call ( ProcTerapSeeder::class );
+        
         
         /*$this->call(Icd9EsamiTableSeeder::class);
         

@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 class CreateTblICD9IntrventiChirurgiciProcTerapeuticheTable extends Migration {
-	public $set_schema_table = 'Tbl_ICD9_IntrventiChirurgici_ProcTerapeutiche';
+	public $set_schema_table = 'Tbl_ICD9_ICPT';
 	
 	/**
 	 * Run the migrations.
@@ -25,7 +25,7 @@ class CreateTblICD9IntrventiChirurgiciProcTerapeuticheTable extends Migration {
 			
 			$table->foreign ( 'IDPT_Organo' )->references ( 'id_IDPT_Organo' )->on ( 'tbl_ICD9_IDPT_Organi' )->onDelete ( 'no action' )->onUpdate ( 'no action' );
 			
-			$table->foreign ( 'IDPT_Sede_TipoIntervento' )->references ( 'id_IDPT_Sede_TipoIntervento' )->on ( 'tbl_ICD9_IDPT_Sede_Tipo_Intervento' )->onDelete ( 'no action' )->onUpdate ( 'no action' );
+			$table->foreign ( 'IDPT_ST )->references ( 'id_IDPT_ST' )->on ( 'tbl_ICD9_IDPT_ST' )->onDelete ( 'no action' )->onUpdate ( 'no action' );
 		} );
 		//
 	}
@@ -36,7 +36,7 @@ class CreateTblICD9IntrventiChirurgiciProcTerapeuticheTable extends Migration {
 	 * @return void
 	 */
 	public function down() {
-		Schema::dropIfExists ( 'Tbl_ICD9_IntrventiChirurgici_ProcTerapeutiche' );
+		Schema::dropIfExists ( 'Tbl_ICD9_ICPT' );
 		//
 	}
 }
