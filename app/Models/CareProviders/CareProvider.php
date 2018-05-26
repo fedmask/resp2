@@ -133,11 +133,20 @@ class CareProvider extends Eloquent {
 		$this->cpp_localita_iscrizione = $Località;
 	}
 	
+<<<<<<< HEAD
 	// @TODO Effettuare antri controlli
 	public static function checkCF($CF) {
 		if ($length ( CF ) == 16) {
 			return true;
 		}
 	}
+=======
+	public function tbl_proc_ter()
+	{
+	    return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche');
+	}
+	
+
+>>>>>>> 86804395382bb422ac0bf3d6c318cb56d9dd9580
 }
 

@@ -211,4 +211,10 @@ class Pazienti extends Eloquent {
 	public function tbl_vaccinaziones() {
 		return $this->hasMany ( \App\Models\Vaccine\Vaccinazione::class, 'id_paziente' );
 	}
+	
+	public function tbl_proc_ter()
+	{
+	    return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche');
+	}
+	
 }
