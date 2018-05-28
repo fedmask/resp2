@@ -42,7 +42,11 @@ class PazientiVisite extends Eloquent {
 			'visita_data',
 			'visita_motivazione',
 			'visita_osservazioni',
-			'visita_conclusioni' 
+			'visita_conclusioni',
+			'stato_visita',
+			'codice_priorità',
+			'richiesta',
+			'status' 
 	];
 	public function getID() {
 		return $this->id_visita;
@@ -58,6 +62,60 @@ class PazientiVisite extends Eloquent {
 	}
 	public function getConclusioni() {
 		return $this->visita_data;
+	}
+	public function getStato() {
+		return $this->stato_visita;
+	}
+	public function getCodiceP() {
+		return $this->codice_priorità;
+	}
+	public function setStato($stato_visita) {
+		$possibleStato = array (
+				'booked',
+				'arrived',
+				'proposed',
+				'pending',
+				'cancelled',
+				'noshow',
+				'entered-in-error' 
+		);
+		
+		foreach ( $possibleStato as $status ) {
+			if (strtolower ( $stato_visita ) == $status) {
+				$this->stato_visita = $status;
+				break;
+			}
+		}
+	}
+	public function setRichiesta($request) {
+		$possibleRequest = array (
+				'required',
+				'optional',
+				'information-only' 
+		
+		);
+		
+		foreach ( $possibleRequest as $req ) {
+			if (strtolower ( $request ) == $req) {
+				$this->richiesta = $req;
+				break;
+			}
+		}
+	}
+	public function setStatus($status) {
+		$possibleStatus = array (
+				'accepted',
+				'declined',
+				'tentative',
+				'needs-action' 
+		);
+		
+		foreach ( $possibleStatus as $st ) {
+			if (strtolower ( $status ) == $st) {
+				$this->status = $st;
+				break;
+			}
+		}
 	}
 	public function tbl_care_provider() {
 		return $this->belongsTo ( \App\Models\CareProviders\CareProvider::class, 'id_cpp' );

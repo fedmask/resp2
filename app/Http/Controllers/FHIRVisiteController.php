@@ -30,62 +30,60 @@ class FHIRVisite extends Controller {
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param \Illuminate\Http\Request $request
+	 * @param \Illuminate\Http\Request $request        	
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
 		//
+		
+		
+		
+		
+		
 	}
 	
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param int $id
+	 * @param int $id        	
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id_visita) {
-		$data_ = CppPersona::find($id_cpp);
+		$data_Visita = PazientiVisite::find ( $id_visita );
 		
-		//Verifico l'esistenza del care provider
-		if (!$data_cpp->exists()) {
-			throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
-		}
-		
-		$values_in_narrative = array(
-				"Name"       => $data_cpp->getName() . " " . $data_cpp->getSurname(),
-				"Contact"    => $data_cpp->getPhone(),
-				"City"       => $data_cpp->getTown()
-		);
-		
-		$data_xml["narrative"]     = $values_in_narrative;
-		$data_xml["careprovider"]  = $data_cpp;
-		
-		return view("fhir.practitioner", ["data_output" => $data_xml]);
-		
-		
-		$data_Visita = PazientiVisite::find($id_visita);
-		
-		//Check the existance
-		if(!$data_Visita->exists()){
+		// Check the existance
+		if (! $data_Visita->exists ()) {
 			
-			throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
-	
+			throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided doesn't exist in database" );
 		}
 		
-		$values_in_narrative = array(
-				"Data"       => $data_Visita->getName() . " " . $data_cpp->getSurname(),
-				"Motivazione"    => $data_Visita->getPhone(),
-				"Osservazione"       => $data_Visita->getTown(),
-				"Conclusione"       => $data_Visita->getTown()
+		$careproviders = CppPaziente::where('id_paziente', $data_Visita->getID_Paziente())->get();
+		$patient = Pazienti::where('id_utente', $data_Visita->getID_CareProvider())->get();
+		
+		$values_in_narrative = array (
+				"PazienteNome" => $patient ->getNameFullName(),
+				"CppNome"=> $careproviders->getCpp_FullName(),
+				"Data" => $data_Visita->getData (),
+				"Motivazione" => $data_Visita->getMotivazione (),
+				"Osservazione" => $data_Visita->getOsservazione (),
+				"Conclusione" => $data_Visita->getConclusione ()
 		);
 		
+		$data_xml ["narrative"] = $values_in_narrative;
+		$data_xml ["Visita"] = $data_Visita;
+		$data_xml ["paziente"] = $patient;
+		$data_xml ["careproviders"] = $careproviders;
 		
+		//@TODO Implementare vista
+		return view ( "fhir.appointment", [ 
+				"data_output" => $data_xml 
+		] );
 	}
 	
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param int $id
+	 * @param int $id        	
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
@@ -95,8 +93,8 @@ class FHIRVisite extends Controller {
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @param int $id
+	 * @param \Illuminate\Http\Request $request        	
+	 * @param int $id        	
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(Request $request, $id) {
@@ -107,7 +105,7 @@ class FHIRVisite extends Controller {
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param int $id
+	 * @param int $id        	
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy($id) {
@@ -120,5 +118,4 @@ class FHIRVisite extends Controller {
 		$Visita->delete ();
 		//
 	}
-	
 }

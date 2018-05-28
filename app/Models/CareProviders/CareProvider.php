@@ -88,6 +88,14 @@ class CareProvider extends Eloquent {
 	public function getCpp_cognome() {
 		return $this->cpp_cognome;
 	}
+	
+	//@TODO Completare il metdodo
+	public function getCpp_type() {
+		return $this->careprovider_types()->first();
+	}
+	public function getCpp_FullName() {
+		return getCpp_nome () . " " . getCpp_cognome ();
+	}
 	public function getCpp_nascita_data() {
 		return $this->cpp_nascita_data;
 	}
@@ -133,20 +141,14 @@ class CareProvider extends Eloquent {
 		$this->cpp_localita_iscrizione = $Località;
 	}
 	
-
 	// @TODO Effettuare antri controlli
 	public static function checkCF($CF) {
 		if ($length ( CF ) == 16) {
 			return true;
 		}
 	}
-
-	public function tbl_proc_ter()
-	{
-	    return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche');
+	public function tbl_proc_ter() {
+		return $this->hasMany ( \App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche' );
 	}
-	
-
-
 }
 

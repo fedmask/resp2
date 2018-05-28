@@ -13,8 +13,8 @@ $careprovider    = $data_output['careprovider'];
       <table border="2">
         <tbody>
         @foreach($narrative as $key => $value)
-		<tr>
-			<td>{{$key}}</td>
+		<tr> <!-- Crea nuova row -->
+			<td>{{$key}}</td>  <!-- Crea nuova cella -->
 			<td>{{$value}}</td></tr>
         @endforeach
         </tbody>
