@@ -156,5 +156,9 @@ class CareProvider extends Eloquent {
 	public function tbl_proc_ter() {
 		return $this->hasMany ( \App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche' );
 	}
+	
+	public function Specialization_Cpp(){
+	    return $this->hasMany(\App\Models\CppSpecialization::class, 'id_cpp');
+	}
 }
 
