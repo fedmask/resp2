@@ -485,6 +485,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'CppPazienteTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CppPazienteTableSeeder.php',
         'CppTipologyCenter' => __DIR__ . '/../..' . '/database/seeds/CppTipologyCenter.php',
         'CppUsers' => __DIR__ . '/../..' . '/database/seeds/CppUsers.php',
+        'Cpp_SpecializationSeeder' => __DIR__ . '/../..' . '/database/seeds/Cpp_SpecializationSeeder.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
         'Cron\\DayOfMonthField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/DayOfMonthField.php',

@@ -138,6 +138,7 @@ return array(
     'CppPazienteTableSeeder' => $baseDir . '/database/seeds/CppPazienteTableSeeder.php',
     'CppTipologyCenter' => $baseDir . '/database/seeds/CppTipologyCenter.php',
     'CppUsers' => $baseDir . '/database/seeds/CppUsers.php',
+    'Cpp_SpecializationSeeder' => $baseDir . '/database/seeds/Cpp_SpecializationSeeder.php',
     'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
     'Cron\\CronExpression' => $vendorDir . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
     'Cron\\DayOfMonthField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/DayOfMonthField.php',

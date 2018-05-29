@@ -14,7 +14,7 @@ class CreateSpecializationTable extends Migration
      */
     public function up()
     {
-        Schema::create('specialization', function (Blueprint $table) {
+        Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->increments('id_spec');
             $table->string('desc_specialization',45);
             
@@ -28,6 +28,6 @@ class CreateSpecializationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('specialization');
+        Schema::dropIfExists($this->set_schema_table);
     }
 }
