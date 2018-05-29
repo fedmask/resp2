@@ -40,6 +40,12 @@ class Specialization extends Model
         return $this->hasMany(\App\Models\CppSpecialization::class, 'id_specialization');
     }
     
+    public function Visita_Spec(){
+        return $this->hasMany(\App\Models\VisitaSpecialization::class, 'id_specialization');
+    }
+    
+    
+    
     
     
     

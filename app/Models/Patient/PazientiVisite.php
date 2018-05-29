@@ -151,4 +151,8 @@ class PazientiVisite extends Eloquent {
 	public function getID_Paziente() {
 		return $this->tbl_pazienti ()->first ()->getID_Paziente ();
 	}
+	
+	public function Visita_Specialization(){
+	    return $this->hasMany(\App\Models\VisitaSpecialization::class, 'id_visita');
+	}
 }
