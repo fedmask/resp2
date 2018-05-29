@@ -32,6 +32,7 @@ class CreateTblCareProviderTable extends Migration
             $table->char('cpp_sesso', 1);
             $table->string('cpp_n_iscrizione', 7);
             $table->string('cpp_localita_iscrizione', 50);
+            $table ->string('specializzation',45);
 
             $table->index(["id_utente"], 'FOREIGN_CPP_UTENTE_idx');
 

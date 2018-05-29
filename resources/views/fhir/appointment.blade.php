@@ -31,7 +31,7 @@ $cpp = $data_output['careproviders'];
     <coding> 
       <system value="http://example.org/specialty"/> 
       <code value="gp"/> 
-      <display value="General Practice"/> 
+      <display value="{{$cpp->getSpecializzation()}}"/> 
     </coding> 
   </specialty> 
   <!-- COMPLETARE -->
@@ -42,52 +42,35 @@ $cpp = $data_output['careproviders'];
       <code value="{{$narrative->getMotivazione()}}"/> 
     </coding> 
   </reason> 
-  <priority value="{{visita->getCodiceP()}}"/> 
-  <start value="{{narrative ->getData()}}"/> 
+  <priority value="{{$visita->getCodiceP()}}"/> 
+  <start value="{{$narrative ->getData()}}"/> 
   <extension url="http://resp.local/resources/extensions/appointment_observation.xml">
-  	<valueString value="{{narrative->getOsservazione()}}" />
+  	<valueString value="{{$narrative->getOsservazione()}}" />
   </extension>
-  <comment value="{{narrative->getConclusione()}}"/> 
- 
-
+  <comment value="{{$narrative->getConclusione()}}"/> 
   <participant>
-  @foreach($paziente as $paz){ 
+  @foreach($paziente as $paz)
     <actor> 
       <reference value="Patient/$paz->getID_Paziente()"/> 
       <display value="$paz->getFullName()"/> 
     </actor>
-    <required value="required"/> <?php //@TODO Continuare l'implementazione?>
-    <status value="accepted"/> 
+    <required value="{{$visita->getRichiesta()}}"/> 
+    <status value="{{$visita->getStatus()}}"/> 
   @endforeach 
-  @foreach($cpp as $cpp){ 
+  @foreach($cpp as $cpp) 
     <actor> 
       <reference value="CareProvider/$cpp->getID()"/> 
       <display value="$paz->getCpp_FullName()"/> 
     </actor>
-    <required value="required"/> 
-    <status value="accepted"/> 
+    <required value="{{$visita->getRichiesta()}}"/> 
+    <status value="{{$visita->getStatus()}}"/> 
   @endforeach 
   </participant> 
-  <participant> 
-    <type> 
-      <coding> 
-        <system value="http://hl7.org/fhir/v3/ParticipationType"/> 
-        <code value="ATND"/> 
-      </coding> 
-    </type> 
-    <actor> 
-      <reference value="Practitioner/example"/> 
-      <display value="Dr Adam Careful"/> 
-    </actor> 
-    <required value="required"/> 
-    <status value="accepted"/> 
-  </participant> 
-  <participant> 
-    <actor> 
-      <reference value="Location/1"/> 
-      <display value="South Wing, second floor"/> 
-    </actor> 
-    <required value="required"/> 
-    <status value="accepted"/> 
-  </participant> 
+  @if($visita->getRichiestaVI()!=null)
+  <requestedPeriod> 
+    <start value="{{$visita->getRichiestaVI()}}"/> 
+    <end value="{{$visita->getRichiestaVF()}}"/> 
+  </requestedPeriod> 
+  @endif
+  
 </Appointment> 

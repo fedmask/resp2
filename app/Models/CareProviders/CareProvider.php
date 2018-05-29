@@ -53,7 +53,8 @@ class CareProvider extends Eloquent {
 			'cpp_codfiscale',
 			'cpp_sesso',
 			'cpp_n_iscrizione',
-			'cpp_localita_iscrizione' 
+			'cpp_localita_iscrizione',
+			'specializzation' 
 	];
 	public function users() {
 		return $this->belongsTo ( \App\Models\CurrentUser\User::class, 'id_utente' );
@@ -88,10 +89,12 @@ class CareProvider extends Eloquent {
 	public function getCpp_cognome() {
 		return $this->cpp_cognome;
 	}
-	
-	//@TODO Completare il metdodo
+	public function getSpecializzation() {
+		return $this->specializzation;
+	}
+	// @TODO Completare il metdodo
 	public function getCpp_type() {
-		return $this->careprovider_types()->first();
+		return $this->careprovider_types ()->first ();
 	}
 	public function getCpp_FullName() {
 		return getCpp_nome () . " " . getCpp_cognome ();
@@ -139,6 +142,9 @@ class CareProvider extends Eloquent {
 	}
 	public function setCpp_localita_iscrizione($Località) {
 		$this->cpp_localita_iscrizione = $Località;
+	}
+	public function setSpecializzation($Special) {
+		$this->specializzation = $Special;
 	}
 	
 	// @TODO Effettuare antri controlli

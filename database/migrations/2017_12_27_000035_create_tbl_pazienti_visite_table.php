@@ -32,8 +32,10 @@ class CreateTblPazientiVisiteTable extends Migration
             $table->text('visita_conclusioni');
             $table ->text('stato_visita');
             $table ->integer('codice_priorità')->unsigned();
-            $table ->text('richiesta');
+            $table ->text('tipo_richiesta');
             $table ->text('status');
+            $table->date('richiesta_visita_inizio')->nullable($value = true);
+            $table->date('richiesta_visita_fine')->nullable($value = true);
             
             $table->index(["id_paziente"], 'fk_tbl_pazienti_visite_tbl_pazienti1_idx');
 

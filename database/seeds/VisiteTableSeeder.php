@@ -16,8 +16,10 @@ class VisiteTableSeeder extends Seeder {
 				'visita_conclusioni' => 'Conclusioni 1',
 				'stato_visita' => 'booked',
 				'codice_priorità' => '1',
-				'richiesta'=>'required',
-				'status'=>'accepted'
+				'tipo_richiesta'=>'required',
+				'status'=>'accepted',
+				'richiesta_visita_inizio'=>'2016-06-02',
+				'richiesta_visita_fine'=>'2016-06-02',
 		] );
 		
 		DB::table ( 'tbl_pazienti_visite' )->insert ( [ 
@@ -29,8 +31,10 @@ class VisiteTableSeeder extends Seeder {
 				'visita_conclusioni' => 'Conclusioni 2',
 				'stato_visita' => 'arrived',
 				'codice_priorità' => '2',
-				'richiesta'=>'optional',
-				'status'=>'declined'
+				'tipo_richiesta'=>'optional',
+				'status'=>'declined',
+				'richiesta_visita_inizio'=>null,
+				'richiesta_visita_fine'=>null,
 		] );
 	}
 }

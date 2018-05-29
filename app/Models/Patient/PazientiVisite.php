@@ -45,8 +45,11 @@ class PazientiVisite extends Eloquent {
 			'visita_conclusioni',
 			'stato_visita',
 			'codice_priorità',
-			'richiesta',
-			'status' 
+			'tipo_richiesta',
+			'status',
+			'richiesta_visita_inizio',
+			'richiesta_visita_fine' 
+	
 	];
 	public function getID() {
 		return $this->id_visita;
@@ -69,6 +72,25 @@ class PazientiVisite extends Eloquent {
 	public function getCodiceP() {
 		return $this->codice_priorità;
 	}
+	public function getStatus() {
+		return $this->status;
+	}
+	public function getTRichiesta() {
+		return $this->richiesta;
+	}
+	public function getRichiestaVI() {
+		return $this->richiesta_visita_inizio;
+	}
+	public function getRichiestaVF() {
+		return $this->richiesta_visita_fine;
+	}
+	public function setRichiestaVI($data) {
+		$this->richiesta_visita_inizio = $data;
+	}
+	
+	public function setRichiestaVF($data) {
+		$this->richiesta_visita_fine = $data;
+	}
 	public function setStato($stato_visita) {
 		$possibleStato = array (
 				'booked',
@@ -87,7 +109,7 @@ class PazientiVisite extends Eloquent {
 			}
 		}
 	}
-	public function setRichiesta($request) {
+	public function setTRichiesta($request) {
 		$possibleRequest = array (
 				'required',
 				'optional',
@@ -97,7 +119,7 @@ class PazientiVisite extends Eloquent {
 		
 		foreach ( $possibleRequest as $req ) {
 			if (strtolower ( $request ) == $req) {
-				$this->richiesta = $req;
+				$this->tipo_richiesta = $req;
 				break;
 			}
 		}
