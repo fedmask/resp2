@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\CppSpecialization' => $baseDir . '/app/Models/CppSpecialization.php',
     'App\\Exceptions\\FHIREXceptions' => $baseDir . '/app/Exceptions/FHIRExceptions.php',
     'App\\Exceptions\\FHIR\\DeleteRequestRefusedException' => $baseDir . '/app/Exceptions/FHIR/DeleteRequestRefusedException.php',
     'App\\Exceptions\\FHIR\\IdFoundInCreateException' => $baseDir . '/app/Exceptions/FHIR/IdFoundInCreateException.php',
@@ -113,7 +114,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
-    'App\\Specialization' => $baseDir . '/app/Specialization.php',
+    'App\\Specialization' => $baseDir . '/app/Models/Specialization.php',
     'AuditLogTest' => $baseDir . '/database/seeds/AuditLogTest.php',
     'Carbon\\Carbon' => $vendorDir . '/nesbot/carbon/src/Carbon/Carbon.php',
     'Carbon\\CarbonInterval' => $vendorDir . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
@@ -3859,6 +3860,7 @@ return array(
     'TownTableSeeder' => $baseDir . '/database/seeds/TownTableSeeder.php',
     'TypesUsersTableSeeder' => $baseDir . '/database/seeds/TypesUsersTableSeeder.php',
     'UsersTableSeeder' => $baseDir . '/database/seeds/UsersTableSeeder.php',
+    'Visita_SpecializationSeeder' => $baseDir . '/database/seeds/Visita_SpecializationSeeder.php',
     'VisiteTableSeeder' => $baseDir . '/database/seeds/VisiteTableSeeder.php',
     'Webmozart\\Assert\\Assert' => $vendorDir . '/webmozart/assert/src/Assert.php',
     'Whoops\\Exception\\ErrorException' => $vendorDir . '/filp/whoops/src/Whoops/Exception/ErrorException.php',

@@ -354,6 +354,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
 
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\CppSpecialization' => __DIR__ . '/../..' . '/app/Models/CppSpecialization.php',
         'App\\Exceptions\\FHIREXceptions' => __DIR__ . '/../..' . '/app/Exceptions/FHIRExceptions.php',
         'App\\Exceptions\\FHIR\\DeleteRequestRefusedException' => __DIR__ . '/../..' . '/app/Exceptions/FHIR/DeleteRequestRefusedException.php',
         'App\\Exceptions\\FHIR\\IdFoundInCreateException' => __DIR__ . '/../..' . '/app/Exceptions/FHIR/IdFoundInCreateException.php',
@@ -460,7 +461,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
-        'App\\Specialization' => __DIR__ . '/../..' . '/app/Specialization.php',
+        'App\\Specialization' => __DIR__ . '/../..' . '/app/Models/Specialization.php',
         'AuditLogTest' => __DIR__ . '/../..' . '/database/seeds/AuditLogTest.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
@@ -4206,6 +4207,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'TownTableSeeder' => __DIR__ . '/../..' . '/database/seeds/TownTableSeeder.php',
         'TypesUsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/TypesUsersTableSeeder.php',
         'UsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/UsersTableSeeder.php',
+        'Visita_SpecializationSeeder' => __DIR__ . '/../..' . '/database/seeds/Visita_SpecializationSeeder.php',
         'VisiteTableSeeder' => __DIR__ . '/../..' . '/database/seeds/VisiteTableSeeder.php',
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'Whoops\\Exception\\ErrorException' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/ErrorException.php',
