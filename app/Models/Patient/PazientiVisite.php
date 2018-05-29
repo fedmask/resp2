@@ -87,7 +87,6 @@ class PazientiVisite extends Eloquent {
 	public function setRichiestaVI($data) {
 		$this->richiesta_visita_inizio = $data;
 	}
-	
 	public function setRichiestaVF($data) {
 		$this->richiesta_visita_fine = $data;
 	}
@@ -151,8 +150,10 @@ class PazientiVisite extends Eloquent {
 	public function getID_Paziente() {
 		return $this->tbl_pazienti ()->first ()->getID_Paziente ();
 	}
-	
-	public function Visita_Specialization(){
-	    return $this->hasMany(\App\Models\VisitaSpecialization::class, 'id_visita');
+	public function getSpecializzation() {
+		return $this->Visita_Specialization ()->first ()->getSpecializzation ();
+	}
+	public function Visita_Specialization() {
+		return $this->hasMany ( \App\Models\VisitaSpecialization::class, 'id_visita' );
 	}
 }

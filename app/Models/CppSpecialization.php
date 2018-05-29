@@ -41,6 +41,12 @@ class CppSpecialization extends Model
         $this->id_cpp = $cpp;
     }
     
+    public function getSpecializzation() {
+    	return $this->Specialization ()->first ()->getDesc ();
+    }
+    public function getCpp() {
+    	return $this->CareProvider()->first ()->getID ();
+    }
     
     public function Specialization(){
         return $this->belongsTo(\App\Models\Specialization::class, 'id_spec');

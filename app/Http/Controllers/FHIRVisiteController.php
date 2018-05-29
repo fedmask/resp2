@@ -35,11 +35,6 @@ class FHIRVisite extends Controller {
 	 */
 	public function store(Request $request) {
 		//
-		
-		
-		
-		
-		
 	}
 	
 	/**
@@ -57,24 +52,36 @@ class FHIRVisite extends Controller {
 			throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided doesn't exist in database" );
 		}
 		
-		$careproviders = CppPaziente::where('id_paziente', $data_Visita->getID_Paziente())->get();
-		$patient = Pazienti::where('id_utente', $data_Visita->getID_CareProvider())->get();
+		$careproviders = CppPaziente::where ( 'id_paziente', $data_Visita->getID_Paziente () )->get ();
+		$patient = Pazienti::where ( 'id_utente', $data_Visita->getID_CareProvider () )->get ();
+		
+		// Recupero record da tabella intermedia tra Specialization e Visita
+		$visita_spec = VisitaSpecialization::where ( 'id_visita', $data_Visita->getID () );
+		// Recupero record da tabella Specialization
+		$specialization = Specialization::where ( 'id_spec', $visita_spec->getIdSpec () );
+		
+		/*
+		$cpp_spec = CppSpecialization::where ( 'id_cpp', $careproviders->getID () );
+		$SpecializationCpp = Specialization::where ( 'id_spec', $cpp_spec->getIdSpec () );
+		*/
+		
 		
 		$values_in_narrative = array (
-				"PazienteNome" => $patient ->getNameFullName(),
-				"CppNome"=> $careproviders->getCpp_FullName(),
+				"PazienteNome" => $patient->getNameFullName (),
+				"CppNome" => $careproviders->getCpp_FullName (),
 				"Data" => $data_Visita->getData (),
 				"Motivazione" => $data_Visita->getMotivazione (),
 				"Osservazione" => $data_Visita->getOsservazione (),
-				"Conclusione" => $data_Visita->getConclusione ()
+				"Conclusione" => $data_Visita->getConclusione () 
 		);
 		
 		$data_xml ["narrative"] = $values_in_narrative;
 		$data_xml ["Visita"] = $data_Visita;
 		$data_xml ["paziente"] = $patient;
 		$data_xml ["careproviders"] = $careproviders;
-		
-		//@TODO Implementare vista
+		$data_xml ["specialization"] = $specialization;
+	
+		// @TODO Implementare vista
 		return view ( "fhir.appointment", [ 
 				"data_output" => $data_xml 
 		] );

@@ -5,8 +5,10 @@ $narrative       = $data_output['narrative'];
 $visita    = 	$data_output['Visita'];
 $paziente = $data_output['paziente'];
 $cpp = $data_output['careproviders'];
-
+$specialization = $data_output ["specialization"];
 ?>
+
+
 <?xml version="1.0" encoding="utf-8"?>
 <Appointment xmlns="http://hl7.org/fhir">
   <id value="{{$visita->getID()}}"/> 
@@ -25,17 +27,15 @@ $cpp = $data_output['careproviders'];
     </div> 
   </text> 
   <status value="{{$narrative->getStato()}}"/> 
-  
-  <!-- COMPLETARE -->
+  @foreach($specialization as $spec)
   <specialty>  <!--  -->
     <coding> 
       <system value="http://example.org/specialty"/> 
       <code value="gp"/> 
-      <display value="{{$cpp->getSpecializzation()}}"/> 
+      <display value="{{$spec->getDesc()}}"/> 
     </coding> 
   </specialty> 
-  <!-- COMPLETARE -->
- 
+  @endforeach
   <reason> 
     <coding> 
       <system value="reason"/> 
@@ -66,11 +66,10 @@ $cpp = $data_output['careproviders'];
     <status value="{{$visita->getStatus()}}"/> 
   @endforeach 
   </participant> 
-  @if($visita->getRichiestaVI()!=null)
+  @if(!($visita->getRichiestaVI()==null))
   <requestedPeriod> 
     <start value="{{$visita->getRichiestaVI()}}"/> 
     <end value="{{$visita->getRichiestaVF()}}"/> 
   </requestedPeriod> 
-  @endif
-  
+  @endif 
 </Appointment> 
