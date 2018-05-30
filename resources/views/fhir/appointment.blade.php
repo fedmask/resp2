@@ -4,7 +4,7 @@
 $narrative       = $data_output['narrative'];
 $visita    = 	$data_output['Visita'];
 $paziente = $data_output['paziente'];
-$cpp = $data_output['careproviders'];
+$cpp = $data_output['careprovider'];
 $specialization = $data_output ["specialization"];
 ?>
 
@@ -49,22 +49,18 @@ $specialization = $data_output ["specialization"];
   </extension>
   <comment value="{{$narrative->getConclusione()}}"/> 
   <participant>
-  @foreach($paziente as $paz)
     <actor> 
       <reference value="Patient/$paz->getID_Paziente()"/> 
       <display value="$paz->getFullName()"/> 
     </actor>
-    <required value="{{$visita->getRichiesta()}}"/> 
+    <required value="{{$visita->getTRichiesta()}}"/> 
     <status value="{{$visita->getStatus()}}"/> 
-  @endforeach 
-  @foreach($cpp as $cpp) 
     <actor> 
       <reference value="CareProvider/$cpp->getID()"/> 
-      <display value="$paz->getCpp_FullName()"/> 
+      <display value="$cpp->getCpp_FullName()"/> 
     </actor>
-    <required value="{{$visita->getRichiesta()}}"/> 
+    <required value="{{$visita->getTRichiesta()}}"/> 
     <status value="{{$visita->getStatus()}}"/> 
-  @endforeach 
   </participant> 
   @if(!($visita->getRichiestaVI()==null))
   <requestedPeriod> 

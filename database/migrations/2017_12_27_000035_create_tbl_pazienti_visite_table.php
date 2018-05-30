@@ -28,8 +28,8 @@ class CreateTblPazientiVisiteTable extends Migration
             $table->integer('id_paziente')->unsigned();
             $table->date('visita_data');
             $table->string('visita_motivazione', 100);
-            $table->text('visita_osservazioni');
-            $table->text('visita_conclusioni');
+            $table->text('visita_osservazioni')->nullable($value = true);
+            $table->text('visita_conclusioni')->nullable($value = true);
             $table ->text('stato_visita');
             $table ->integer('codice_priorità')->unsigned();
             $table ->text('tipo_richiesta');

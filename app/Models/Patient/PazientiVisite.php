@@ -84,6 +84,30 @@ class PazientiVisite extends Eloquent {
 	public function getRichiestaVF() {
 		return $this->richiesta_visita_fine;
 	}
+	public function setID($id) {
+		$this->id_visita = $id;
+	}
+	public function setIdCpp($id) {
+		$this->id_cpp = $id;
+	}
+	public function setIdPazienti($id) {
+		$this->id_Paziente = $id;
+	}
+	public function setVisitaData($data) {
+		$this->visita_data = $data;
+	}
+	public function setVisitaMotivazione($motivazione) {
+		$this->visita_motivazione = $motivazione;
+	}
+	public function setConclusioni($conclusioni) {
+		$this->visita_conclusioni = $conclusioni;
+	}
+	public function setVisitaOsservazioni($osservazioni) {
+		$this->visita_osservazioni = $osservazioni;
+	}
+	public function setCodiceP($codice) {
+		$this->codice_priorità = $codice;
+	}
 	public function setRichiestaVI($data) {
 		$this->richiesta_visita_inizio = $data;
 	}
