@@ -92,7 +92,6 @@ class CareProvider extends Eloquent {
 	public function getSpecializzation() {
 		return $this->specializzation;
 	}
-	// @TODO Completare il metdodo
 	public function getCpp_type() {
 		return $this->careprovider_types ()->first ();
 	}
@@ -147,7 +146,7 @@ class CareProvider extends Eloquent {
 		$this->specializzation = $Special;
 	}
 	
-	// @TODO Effettuare antri controlli
+	
 	public static function checkCF($CF) {
 		if ($length ( CF ) == 16) {
 			return true;

@@ -141,7 +141,7 @@ class FHIRVisite extends Controller {
 		$data_xml ["careprovider"] = $careprovider;
 		$data_xml ["specialization"] = $specialization;
 		
-		// @TODO Implementare vista
+		
 		return view ( "fhir.appointment", [ 
 				"data_output" => $data_xml 
 		] );

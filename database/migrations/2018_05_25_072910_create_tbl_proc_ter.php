@@ -25,7 +25,14 @@ class CreateTblProcTer extends Migration
             $table->integer('Paziente')->unsigned();
             $table->integer('Diagnosi')->unsigned();
             $table->integer('CareProvider')->unsigned();
-            $table->string('Codice_icd9');
+            $table->string('Codice_icd9',7);
+            $table->string('Status',20);
+            $table->boolean('notDone');
+            $table->integer('Category')->unsigned();
+            // Chiedere delucidazioni sulla risorsa fhir encounter
+            $table->integer('outCome')->unsigned();
+            $table->text('note');
+            
             
             
             //creo le chiavi esterne
@@ -45,10 +52,25 @@ class CreateTblProcTer extends Migration
             ->onUpdate('no action');
             
             $table->foreign('Codice_icd9', 'fk_tb_icd9_tb_procedure_treapeutiche')
-            ->references('Codice_ICD9')->on('Tbl_ICD9_ICPT') // da verificarare la tabella giusta!!!!
+            ->references('Codice_ICD9')->on('Tbl_ICD9_ICPT')
             ->onDelete('no action')
             ->onUpdate('no action');
             
+            
+            $table->foreign('Category', 'fk_tb_proc_category')
+            ->references('codice')->on('tbl_proc_cat')
+            ->onDelete('no action')
+            ->onUpdate('no action');
+            
+            $table->foreign('outCome', 'fk_tb_proc_outcome')
+            ->references('codice')->on('tbl_proc_outcome')
+            ->onDelete('no action')
+            ->onUpdate('no action');
+            
+            $table->foreign('Status', 'fk_tb_proc_status')
+            ->references('codice')->on('tbl_proc_status')
+            ->onDelete('no action')
+            ->onUpdate('no action');
             
         });
     }

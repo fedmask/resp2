@@ -52,8 +52,19 @@ class DatabaseSeeder extends Seeder
         $this->call ( ICD9_IDPT_OrganiSeeder::class );
         $this->call ( ICD9_IDPT_Sede_Tipo_InterventoSeeder::class );
         $this->call ( ICD9_IntrventiChirurgici_ProcTerapeuticheSeeder::class );
-        $this->call ( ProcTerapSeeder::class );
+       
+        $this->call ( SpecializationSeeder::class );
+        $this->call ( Visita_SpecializationSeeder::class );
+        $this->call ( VisiteTableSeeder::class );
+        $this->call ( RolesTableSeeder::class );
         
+        
+        $this->call ( ProcedureCategorySeeder::class );
+        $this->call ( ProcedureOutcomeSeeder::class );
+        $this->call ( ProcedureStatusSeeder::class );
+        $this->call ( ProcTerapSeeder::class );
+    
+        $this->call ( Cpp_SpecializationSeeder::class );
         
         /*$this->call(Icd9EsamiTableSeeder::class);
         

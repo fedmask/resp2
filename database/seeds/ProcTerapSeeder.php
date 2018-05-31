@@ -18,7 +18,12 @@ class ProcTerapSeeder extends Seeder
             'Paziente'=> 1,
             'Diagnosi'=> 1,
             'CareProvider'=> 1,
-            'Codice_icd9'=> '00.02'
+            'Codice_icd9'=> '00.02',
+            'Status' => 'preparation',
+            'notDone'=> true,
+            'Category'=>'409063005',
+            'outCome'=>'385671000',
+            'note'=> 'Note'
             
         ]);
         
