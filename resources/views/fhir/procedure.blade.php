@@ -14,6 +14,9 @@ $out = $data_output ["OutCome"];
 
 <Procedure xmlns="http://hl7.org/fhir">
   <id value="{{$procedure->getID()}}"/> 
+  <extension url="http://resp.local/resources/extensions/procedure_doc.xml">
+  	<valueString value="{{$procedure->getDesc()}}" />
+  </extension>
   <text> 
     <status value="generated"/> 
     <div xmlns="http://www.w3.org/1999/xhtml">Routine Appendectomy</div> 

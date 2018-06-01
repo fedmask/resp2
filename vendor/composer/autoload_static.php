@@ -527,7 +527,6 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'DeepCopy\\TypeFilter\\Spl\\SplDoublyLinkedListFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/Spl/SplDoublyLinkedListFilter.php',
         'DeepCopy\\TypeFilter\\TypeFilter' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeFilter/TypeFilter.php',
         'DeepCopy\\TypeMatcher\\TypeMatcher' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/TypeMatcher/TypeMatcher.php',
-        'DiagProcTSeeder' => __DIR__ . '/../..' . '/database/seeds/DiagProcTSeeder.php',
         'DiagnosiTableSeeder' => __DIR__ . '/../..' . '/database/seeds/DiagnosiTableSeeder.php',
         'Diagnosis' => __DIR__ . '/../..' . '/database/seeds/Diagnosis.php',
         'Doctrine\\Common\\Annotations\\Annotation' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/Annotation.php',
