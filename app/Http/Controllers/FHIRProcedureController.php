@@ -23,16 +23,40 @@ class FHIRProcedureController extends Controller
             throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
         
+        // Acquisizione pazienti
+        $paz = Pazienti::where('id_paziente', $procedure -> getPatientID())->get();
+        // Acquisizione Caraprovider
+        $cpp = CareProvider::where('id_cpp', $procedure -> getCppID())->get();
+        // Acquisizione Diagnosi
+        $dia = Diagnosi::where('id_diagnosi', $procedure ->getDiagnosisID())->get();
+        // Acquisizione codici Icd9
+        $icd = ICD9_ICPT::where('Codice_ICD9', $procedure ->getIcd9ID())->get();
+        // Acquisizione status per risorsa fhir
+        $status = ProcedureStatus::where('codice', $procedure ->getStatus())->get();
+        // Acquisizione categoria per risorsa fhir
+        $cat = ProcedureCategory::where('codice', $procedure ->getCategory())->get();
+        // Acquisizione outcome per risorsa fhir
+        $out = ProcedureOutCome::where('codice', $procedure ->getOutcome())->get();
+        
+        
         $value_in_narrative = array (
             "ID_Procedure" => $procedure->id_Procedure_Terapeutiche,
             "Descrizione" => $procedure->descrizione,
             "Data Esecuzione" => $procedure->Data_Esecuzione,
-            "Paziente" => $procedure->paziente->getID(),
-            "Diagnosi" => $peocedure->diagnosi_getId()
+            "notDone" => $procedure->notDone,
+            "Note" => $procedure->note
         );
         
         $data_xml["narrative"] = $value_in_narrative;
         $data_xml["procedure"] = $procedure;
+        $data_xml["pazienti"] = $paz;
+        $data_xml["careprovider"] = $cpp;
+        $data_xml["diagnosi"] = $dia;
+        $data_xml["icd9"] = $icd;
+        $data_xml["status"] = $status;
+        $data_xml["categoria"] = $cat;
+        $data_xml["OutCome"] = $out;
+        
         
     }
     

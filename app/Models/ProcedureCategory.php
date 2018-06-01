@@ -42,7 +42,7 @@ class ProcedureCategory extends Model
     
     
     public function Categoria(){
-        return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'Category'');
+        return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'Category');
     }
     
     

@@ -116,6 +116,10 @@ class CareProvider extends Eloquent {
 	public function getUser() {
 		return $this->id_utente;
 	}
+
+	public function getSpecializationDesc() {
+	    return $this->Specialization_Cpp()->first()->getSpecializzation();
+	}
 	public function setID($ID) {
 		$this->id_cpp = $ID;
 	}

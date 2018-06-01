@@ -23,7 +23,7 @@ class ProcedureTerapeutiche extends Eloquent
         'notDone' => 'boolean',
         'Category' => 'int',
         'outCome' => 'int',
-        'note' => 'string',
+        'note' => 'string'
         
     ];
     
