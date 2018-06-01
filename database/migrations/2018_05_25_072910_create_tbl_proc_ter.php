@@ -20,18 +20,18 @@ class CreateTblProcTer extends Migration
             
             $table->engine = 'InnoDB';
             $table->increments('id_Procedure_Terapeutiche');
-            $table->string('descrizione',45);
-            $table->date('Data_Esecuzione');
+            $table->string('descrizione',45)->nullable(true);
+            $table->date('Data_Esecuzione')->nullable(false);
             $table->integer('Paziente')->unsigned();
             $table->integer('Diagnosi')->unsigned();
             $table->integer('CareProvider')->unsigned();
-            $table->string('Codice_icd9',7);
+            $table->string('Codice_icd9',7)->nullable(false);
             $table->string('Status',20);
-            $table->boolean('notDone');
+            $table->boolean('notDone')->default(true);
             $table->integer('Category')->unsigned();
             // Chiedere delucidazioni sulla risorsa fhir encounter
             $table->integer('outCome')->unsigned();
-            $table->text('note');
+            $table->text('note')->nullable(true);
             
             
             

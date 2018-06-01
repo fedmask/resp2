@@ -14,9 +14,12 @@ $out = $data_output ["OutCome"];
 
 <Procedure xmlns="http://hl7.org/fhir">
   <id value="{{$procedure->getID()}}"/> 
+  
+  @if(!($procedure->getDesc()==null))
   <extension url="http://resp.local/resources/extensions/procedure_doc.xml">
   	<valueString value="{{$procedure->getDesc()}}" />
   </extension>
+  @endif 
   <text> 
     <status value="generated"/> 
     <div xmlns="http://www.w3.org/1999/xhtml">Routine Appendectomy</div> 
@@ -58,7 +61,9 @@ $out = $data_output ["OutCome"];
   <extension url="http://resp.local/resources/extensions/procedure_outcome.xml">
   	<valueString value="{{$procedure->getOutcome()}}" />
   </extension>
+  @if(!($procedure->getNote()==null))
   <note> 
     <text value="{{$procedure->getNote()}}"/> 
   </note> 
+  @endif
 </Procedure> 
