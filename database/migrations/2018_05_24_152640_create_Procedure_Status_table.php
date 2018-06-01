@@ -17,6 +17,7 @@ class CreateProcedureStatusTable extends Migration
     {
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->string('codice',20)->unique();
+            $table->text('descrizione');
             $table->primary('codice');
             
         });

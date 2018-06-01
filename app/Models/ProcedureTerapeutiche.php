@@ -18,7 +18,13 @@ class ProcedureTerapeutiche extends Eloquent
         'Pazinte' => 'int',
         'Diagnosi' => 'int',
         'CareProvider' => 'int',
-        'Codice_icd9' => 'string'
+        'Codice_icd9' => 'string',
+        'Status' => 'string',
+        'notDone' => 'boolean',
+        'Category' => 'int',
+        'outCome' => 'int',
+        'note' => 'string',
+        
     ];
     
     //$date permette di prendere in considerazione le date che cambiano nel tempo
@@ -34,6 +40,11 @@ class ProcedureTerapeutiche extends Eloquent
         'CareProvider',
         'Data_esecuzione',
         'descrizione'
+        'Status',
+        'notDone',
+        'Category',
+        'outCome',
+        'note'
     ];
     
     
@@ -59,6 +70,26 @@ class ProcedureTerapeutiche extends Eloquent
     public function getIcd9ID(){
         return $this->icd9()->first()->getID();
     }
+    public function getStatus(){
+        return $this->ProcStatus()->first()->getID();
+    }
+    public function getnotDone(){
+        return $this->notDone;
+    }
+    public function getCategory(){
+        return $this->ProcCat()->first()->getID();
+    }
+    public function getOutcome(){
+        return $this->ProcOutcome()->first()->getID();
+    }
+    public function getNote(){
+        return $this->note;
+    }
+    
+    
+    
+    
+    
     
     
     public function setData($data){
@@ -67,6 +98,27 @@ class ProcedureTerapeutiche extends Eloquent
     public function setDesc($desc){
         $this->Descrizione = $desc;
     }
+    public function setPaziene($paz){
+        $this->Paziente = $paz;
+    }
+    public function setCpp($cpp){
+        $this->CareProvider = $cpp;
+    }
+    public function setDiagnosi($dia){
+        $this->Diagnosi = $dia;
+    }
+    public function setICD9($icd){
+        $this->Codice_icd9 = $icd;
+    }
+    public function setNote($note){
+        $this->note = $note;
+    }
+    public function setNotDone($nd){
+        $this->notDone = $nd;
+    }
+   
+    
+    
     
     
     
@@ -89,5 +141,23 @@ class ProcedureTerapeutiche extends Eloquent
     {
         return $this->belongsTo(\App\Models\ICD9_ICPT::class, 'Codice_ICD9');
     }
+    
+    
+    public function ProcCat()
+    {
+        return $this->belongsTo(\App\Models\ProcedureCategory::class, 'codice');
+    }
+    
+    public function ProcOutcome()
+    {
+        return $this->belongsTo(\App\Models\ProcedureOutCome::class, 'codice');
+    }
+    
+    public function ProcStatus()
+    {
+        return $this->belongsTo(\App\Models\ProcedureStatus::class, 'codice');
+    }
+    
+    
     
 }
