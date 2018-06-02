@@ -31,6 +31,11 @@ class CreateTblVaccinazioneTable extends Migration
             $table->date('vaccinazione_data');
             $table->string('vaccinazione_aggiornamento', 45);
             $table->string('vaccinazione_reazioni', 45);
+            $table->boolean('vaccinazione_stato');
+            $table->boolean('vaccinazione_notGiven');
+            $table->integer('vaccinazione_quantity');
+            $table->string('vaccinazione_note', 45);
+            $table->text('vaccinazione_explanation');
 
             $table->index(["vaccinazione_confidenzialita"], 'fk_tbl_vaccinazione_tbl_livelli_confidenzialita1_idx');
 
