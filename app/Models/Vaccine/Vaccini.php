@@ -57,6 +57,9 @@ class TblVaccini extends Eloquent {
 	public function getExpDate() {
 		return $this->vaccino_expirationDate;
 	}
+	public function getManufactured() {
+		return $this->vaccino_manufactured;
+	}
 	public function setCodice($Codice) {
 		$this->vaccino_codice = $Codice;
 	}

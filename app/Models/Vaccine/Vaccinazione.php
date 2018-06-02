@@ -94,10 +94,6 @@ class Vaccinazione extends Eloquent {
 		return $this->vaccinazione_explanation;
 	}
 	
-	
-	
-	
-	
 	// @TODO Note,
 	public function tbl_care_provider() {
 		return $this->belongsTo ( \App\Models\CareProviders\CareProvider::class, 'id_cpp' );

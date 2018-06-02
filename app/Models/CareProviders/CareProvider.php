@@ -163,5 +163,11 @@ class CareProvider extends Eloquent {
 	public function Specialization_Cpp(){
 	    return $this->hasMany(\App\Models\CppSpecialization::class, 'id_cpp');
 	}
+	
+	public function VaccinazioneCpp(){
+		return $this->hasMany(\App\Models\Vaccinazione::class, 'id_cpp');
+	}
+	
+	
 }
 
