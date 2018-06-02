@@ -109,6 +109,11 @@ class CentriIndagini extends Eloquent
 		return $this->hasMany(\App\Models\InvestigationCenter\Indagini::class, 'id_centro_indagine');
 	}
 	
+	public function tbl_vaccinazioni()
+	{
+		return $this->hasOne(\App\Models\Vaccine::class, 'id_centro');
+	}
+	
 	/** FHIR **/ 
 	
 	public function getID(){

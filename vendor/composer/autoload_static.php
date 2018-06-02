@@ -373,6 +373,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DiagnosiController' => __DIR__ . '/../..' . '/app/Http/Controllers/DiagnosiController.php',
         'App\\Http\\Controllers\\FHIRController' => __DIR__ . '/../..' . '/app/Http/Controllers/FHIRController.php',
+        'App\\Http\\Controllers\\FHIRImmunizationController' => __DIR__ . '/../..' . '/app/Http/Controllers/FHIRImmunizationController.php',
         'App\\Http\\Controllers\\FHIRProcedureController' => __DIR__ . '/../..' . '/app/Http/Controllers/FHIRProcedureController.php',
         'App\\Http\\Controllers\\FHIRVisite' => __DIR__ . '/../..' . '/app/Http/Controllers/FHIRVisiteController.php',
         'App\\Http\\Controllers\\Fhir\\Modules\\FHIRObservation' => __DIR__ . '/../..' . '/app/Http/Controllers/Fhir/Modules/FHIRObservation.php',

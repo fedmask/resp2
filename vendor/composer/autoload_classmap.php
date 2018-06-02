@@ -26,6 +26,7 @@ return array(
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\DiagnosiController' => $baseDir . '/app/Http/Controllers/DiagnosiController.php',
     'App\\Http\\Controllers\\FHIRController' => $baseDir . '/app/Http/Controllers/FHIRController.php',
+    'App\\Http\\Controllers\\FHIRImmunizationController' => $baseDir . '/app/Http/Controllers/FHIRImmunizationController.php',
     'App\\Http\\Controllers\\FHIRProcedureController' => $baseDir . '/app/Http/Controllers/FHIRProcedureController.php',
     'App\\Http\\Controllers\\FHIRVisite' => $baseDir . '/app/Http/Controllers/FHIRVisiteController.php',
     'App\\Http\\Controllers\\Fhir\\Modules\\FHIRObservation' => $baseDir . '/app/Http/Controllers/Fhir/Modules/FHIRObservation.php',

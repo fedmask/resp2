@@ -30,16 +30,15 @@ class FHIRImmunizationController extends Controller {
 			throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided doesn't exist in database" );
 		}
 		
-		/*// Recupero i contatti di emergenza del paziente
-		$contacts = PazientiContatti::where ( 'id_paziente', $id )->get ();*/
+		/*
+		 * // Recupero i contatti di emergenza del paziente
+		 * $contacts = PazientiContatti::where ( 'id_paziente', $id )->get ();
+		 */
 		
-		
-		$vaccini = Vaccini::where('id_vaccino', $vaccinazione->getIDVacc());
-		$pazienti = Pazienti::where('id_paziente', $vaccinazione->getIDPaz());
-		$careprovider = CareProvider::where('id_cpp',  $vaccinazione->getIDCpp());
-	
-		
-		
+		$vaccini = Vaccini::where ( 'id_vaccino', $vaccinazione->getIDVacc () );
+		$pazienti = Pazienti::where ( 'id_paziente', $vaccinazione->getIDPaz () );
+		$careprovider = CareProvider::where ( 'id_cpp', $vaccinazione->getIDCpp () );
+		$reactions = VaccinazioniReaction::where ( 'id_vaccinazione', $vaccinazione->getID () );
 		
 		$values_in_narrative = array (
 				
@@ -49,7 +48,7 @@ class FHIRImmunizationController extends Controller {
 				"Vaccinazione Quantity" => $vaccinazione->getQuantity (),
 				"Vaccinazione Note" => $vaccinazione->getNote (),
 				"Vaccinazione Explanation" => $vaccinazione->getExplanation (),
-				"Vaccinazione Data" => $vaccinazione->getData()
+				"Vaccinazione Data" => $vaccinazione->getData () 
 		
 		);
 		
@@ -59,16 +58,17 @@ class FHIRImmunizationController extends Controller {
 		
 		);
 		
-		$data_xml["immunization"]= $vaccinazione;
+		$data_xml ["immunization"] = $vaccinazione;
 		$data_xml ["narrative"] = $values_in_narrative;
 		$data_xml ["extensions"] = $custom_extensions;
 		$data_xml ["pazienti"] = $pazienti;
 		$data_xml ["careprovider"] = $careprovider;
-		$data_xml ["vaccini"]= $vaccini;
+		$data_xml ["vaccini"] = $vaccini;
+		$data_xml["reactions"]=$reactions;
 		
-		return view ( "fhir.immunization", [
-				"data_output" => $data_xml
+		
+		return view ( "fhir.immunization", [ 
+				"data_output" => $data_xml 
 		] );
-		
 	}
 }

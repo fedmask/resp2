@@ -7,7 +7,7 @@ $pazienti   = $data_output["pazienti"];
 $extensions   = $data_output['extensions'];
 $all_cpp    = $data_output['careprovider'];
 $vaccini= $data_output['vaccini'];
-
+$reactions = $data_output['reactions'];
 ?>
 
 <?xml version="1.0" encoding="utf-8"?>
@@ -72,22 +72,16 @@ $vaccini= $data_output['vaccini'];
   </practitioner> 
   <note> 
     <text value="{{$vaccinazione->getNote()}}"/> 
-  </note> 
-  <explanation> 
-    <reason> 
-      <coding> 
-        <system value="http://snomed.info/sct"/> 
-        <code value="429060002"/> 
-      </coding> 
-    </reason> 
-  </explanation> 
+  </note>  
+  @foreach($reactions as $reaction)
   <reaction> 
-    <date value="2013-01-10"/> 
+    <date value="{{$reaction->getDate()}}"/> 
     <detail> 
-      <reference value="Observation/example"/> 
+      <reference value="Observation/{{$reaction->getIDCentro()}}"/> 
     </detail> 
-    <reported value="true"/> 
-  </reaction> 
+    <reported value="{{$reaction->getReported()}}"/> 
+  </reaction>
+  @endforeach
   <vaccinationProtocol> 
     <doseSequence value="1"/> 
     <description value="Vaccination Protocol Sequence 1"/> 
