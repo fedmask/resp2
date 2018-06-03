@@ -16,7 +16,8 @@ class CreateATCGruppoTerapeuticoPTable extends Migration
     public function up()
     {
     	Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->char('Codice_Gruppo_Teraputico',2)->primary();
+            $table->char('Codice_Gruppo_Teraputico',3)->primary();
+            $table->char('Codice_GTP',2);
             $table->timestamps();
             $table->string('Descrizione',45);
             $table->char('ID_Gruppo_Anatomico',1)->nullable(false);
