@@ -27,7 +27,7 @@ class TblVaccini extends Eloquent {
 	public $timestamps = false;
 	protected $casts = [ 
 			'vaccino_durata' => 'int',
-			'id_vaccinazione'=>'int'
+			'id_vaccinazione' => 'int' 
 	];
 	protected $fillable = [ 
 			'vaccino_codice',
@@ -42,6 +42,9 @@ class TblVaccini extends Eloquent {
 	}
 	public function getCodice() {
 		return $this->vaccino_codice;
+	}
+	public function getIDVAcc() {
+		return $this->id_vaccinazione;
 	}
 	public function getDescrizione() {
 		return $this->vaccino_descrizione;
@@ -63,6 +66,9 @@ class TblVaccini extends Eloquent {
 	}
 	public function setCodice($Codice) {
 		$this->vaccino_codice = $Codice;
+	}
+	public function setIDVaccinazione($ID) {
+		$this->id_vaccinazione = $ID;
 	}
 	public function setDescrizione($Descrizione) {
 		$this->vaccino_descrizione = $Descrizione;

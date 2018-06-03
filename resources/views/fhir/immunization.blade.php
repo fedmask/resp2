@@ -37,8 +37,7 @@ $reactions = $data_output['reactions'];
       <system value="urn:oid:1.2.36.1.2001.1005.17"/> 
       <code value="FLUVAX"/> 
     </coding>
-    
-    <text value="Fluvax (Influenza)"/> 
+    <text value="{{$vaccini[seq]->getNome()}}"/> 
   </vaccineCode> 
   <?php ?>
   <patient> 
@@ -81,34 +80,18 @@ $reactions = $data_output['reactions'];
     </detail> 
     <reported value="{{$reaction->getReported()}}"/> 
   </reaction>
-  @endforeach
+  @endforeach 
+  @for($seq=1; $seq<=count($vaccini);$seq++)
   <vaccinationProtocol> 
-    <doseSequence value="1"/> 
-    <description value="Vaccination Protocol Sequence 1"/> 
+    <doseSequence value="{{$seq}}"/> 
+    <description value="Vaccination Protocol Sequence {{$seq}}"/> 
     <authority> 
       <reference value="Organization/hl7"/> 
     </authority> 
-    <series value="Vaccination Series 1"/> 
-    <seriesDoses value="2"/> 
-    <targetDisease> 
-      <coding> 
-        <system value="http://snomed.info/sct"/> 
-        <code value="1857005"/> 
-      </coding> 
-    </targetDisease> 
-    <doseStatus> 
-      <coding> 
-        <system value="http://hl7.org/fhir/vaccination-protocol-dose-status"/> 
-        <code value="count"/> 
-        <display value="Counts"/> 
-      </coding> 
-    </doseStatus> 
-    <doseStatusReason> 
-      <coding> 
-        <system value="http://hl7.org/fhir/vaccination-protocol-dose-status-reason"/> 
-        <code value="coldchbrk"/> 
-        <display value="Cold chain break"/> 
-      </coding> 
-    </doseStatusReason> 
-  </vaccinationProtocol> 
+    <series value="Vaccination {{$vaccini[seq]->getNome()}}"/> 
+  </vaccinationProtocol>
+  @endfor
+  <extension url="http://resp.local/resources/extensions/immunization_update.xml">
+  	<valueString value="{{$extensions['Vaccinazione Aggiornamento']}}" />
+  </extension>
 </Immunization> 

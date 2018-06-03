@@ -34,7 +34,6 @@ class Vaccinazione extends Eloquent {
 	public $timestamps = false;
 	protected $casts = [ 
 			'id_vaccinazione' => 'int',
-			'id_vaccino' => 'int',
 			'id_paziente' => 'int',
 			'id_cpp' => 'int',
 			'vaccinazione_confidenzialita' => 'int' 
@@ -53,9 +52,6 @@ class Vaccinazione extends Eloquent {
 	];
 	public function getID() {
 		return $this->id_vaccinazione;
-	}
-	public function getIDVacc() {
-		return $this->id_vaccino;
 	}
 	public function getIDPaz() {
 		return $this->id_paziente;
@@ -93,8 +89,7 @@ class Vaccinazione extends Eloquent {
 	public function getExplanation() {
 		return $this->vaccinazione_explanation;
 	}
-	
-	// @TODO Note,
+
 	public function tbl_care_provider() {
 		return $this->belongsTo ( \App\Models\CareProviders\CareProvider::class, 'id_cpp' );
 	}

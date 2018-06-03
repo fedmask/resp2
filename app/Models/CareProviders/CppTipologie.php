@@ -33,7 +33,7 @@ class CppTipologie extends Eloquent {
 		return $this->hasMany ( \App\Models\CareProviders\CareProvider::class, 'id_cpp_tipologia' );
 	}
 	
-	//@TODO Completare il metodo creando la tabella nel DB
+	
 	public function getTipologia() {
 		return $this->tbl_care_providers()->first();
 	}
