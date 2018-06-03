@@ -6,6 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'ATCGruppoAnatomicoPSeeder' => $baseDir . '/database/seeds/ATCGruppoAnatomicoPSeeder.php',
+    'ATCGruppoTerapeuticoPSeeder' => $baseDir . '/database/seeds/ATCGruppoTerapeuticoPSeeder.php',
+    'ATCSottogruppoChimicoSeeder' => $baseDir . '/database/seeds/ATCSottogruppoChimicoSeeder.php',
+    'ATCSottogruppoChimicoTFSeeder' => $baseDir . '/database/seeds/ATCSottogruppoChimicoTFSeeder.php',
+    'ATCSottogruppoTerapeuticoFSeeder' => $baseDir . '/database/seeds/ATCSottogruppoTerapeuticoFSeeder.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\CppSpecialization' => $baseDir . '/app/Models/CppSpecialization.php',
     'App\\Exceptions\\FHIREXceptions' => $baseDir . '/app/Exceptions/FHIRExceptions.php',

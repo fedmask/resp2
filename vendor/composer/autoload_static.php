@@ -353,6 +353,11 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
     );
 
     public static $classMap = array (
+        'ATCGruppoAnatomicoPSeeder' => __DIR__ . '/../..' . '/database/seeds/ATCGruppoAnatomicoPSeeder.php',
+        'ATCGruppoTerapeuticoPSeeder' => __DIR__ . '/../..' . '/database/seeds/ATCGruppoTerapeuticoPSeeder.php',
+        'ATCSottogruppoChimicoSeeder' => __DIR__ . '/../..' . '/database/seeds/ATCSottogruppoChimicoSeeder.php',
+        'ATCSottogruppoChimicoTFSeeder' => __DIR__ . '/../..' . '/database/seeds/ATCSottogruppoChimicoTFSeeder.php',
+        'ATCSottogruppoTerapeuticoFSeeder' => __DIR__ . '/../..' . '/database/seeds/ATCSottogruppoTerapeuticoFSeeder.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\CppSpecialization' => __DIR__ . '/../..' . '/app/Models/CppSpecialization.php',
         'App\\Exceptions\\FHIREXceptions' => __DIR__ . '/../..' . '/app/Exceptions/FHIRExceptions.php',

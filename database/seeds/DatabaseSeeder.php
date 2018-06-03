@@ -66,6 +66,15 @@ class DatabaseSeeder extends Seeder
     
         $this->call ( Cpp_SpecializationSeeder::class );
         
+        
+        
+        $this->call ( ATCGruppoAnatomicoPSeeder::class );
+        $this->call (ATCGruppoTerapeuticoPSeeder::class );
+        $this->call ( ATCSottogruppoTerapeuticoFSeeder::class );
+        $this->call ( ATCSottogruppoChimicoTFSeeder::class );
+        $this->call ( ATCSottogruppoChimicoSeeder::class );
+        
+        
         /*$this->call(Icd9EsamiTableSeeder::class);
         
        */
