@@ -105,10 +105,10 @@ class Vaccinazione extends Eloquent {
 		return $this->belongsTo ( \App\Models\Patient\Pazienti::class, 'id_paziente' );
 	}
 	public function tbl_vaccini() {
-		return $this->belongsTo ( \App\Models\Vaccine\Vaccini::class, 'id_vaccino' );
+		return $this->hasMany ( \App\Models\Vaccine\Vaccini::class, 'id_vaccinazione' );
 	}
 	
-	public function tbl_vaccini() {
+	public function tbl_vaccinazioneReaction() {
 		return $this->hasMany ( \App\Models\VaccinazioniReaction::class, 'id_vaccinazione' );
 	}
 }

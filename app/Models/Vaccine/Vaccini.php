@@ -26,7 +26,8 @@ class TblVaccini extends Eloquent {
 	protected $primaryKey = 'id_vaccino';
 	public $timestamps = false;
 	protected $casts = [ 
-			'vaccino_durata' => 'int' 
+			'vaccino_durata' => 'int',
+			'id_vaccinazione'=>'int'
 	];
 	protected $fillable = [ 
 			'vaccino_codice',
@@ -79,6 +80,6 @@ class TblVaccini extends Eloquent {
 		return $this->vaccino_expirationDate = $Date;
 	}
 	public function tbl_vaccinaziones() {
-		return $this->hasMany ( \App\Models\Vaccine\Vaccinazione::class, 'id_vaccino' );
+		return $this->belongsTo ( \App\Models\Vaccine\Vaccinazione::class, 'id_vaccinazione' );
 	}
 }

@@ -120,6 +120,7 @@ return array(
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Specialization' => $baseDir . '/app/Models/Specialization.php',
+    'App\\VaccinazioniReaction' => $baseDir . '/app/Models/VaccinazioniReaction.php',
     'App\\VisitaSpecialization' => $baseDir . '/app/Models/VisitaSpecialization.php',
     'AuditLogTest' => $baseDir . '/database/seeds/AuditLogTest.php',
     'Carbon\\Carbon' => $vendorDir . '/nesbot/carbon/src/Carbon/Carbon.php',

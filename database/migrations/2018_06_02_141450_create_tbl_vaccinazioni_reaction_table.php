@@ -22,7 +22,7 @@ class CreateTblVaccinazioniReactionTable extends Migration {
 			$table->boolean ( 'reported' )->default ( true );
 			
 			$table->foreign ( 'id_centro', 'fk_tbl_centri_indagini_tbl_reazioni' )->references ( 'id_centro' )->on ( 'tbl_centri_indagini' )->onDelete ( 'no action' )->onUpdate ( 'no action' );
-			$table->foreign ( 'id_vaccinazione', 'fk_tbl_reazioni_tbl_vaccinazione' )->references ( 'id_vaccinazione' )->on ( 'tbl_vaccinazioni_reaction' )->onDelete ( 'no action' )->onUpdate ( 'no action' );
+			$table->foreign ( 'id_vaccinazione', 'fk_tbl_reazioni_tbl_vaccinazione' )->references ( 'id_vaccinazione' )->on ( 'tbl_vaccinazione' )->onDelete ( 'no action' )->onUpdate ( 'no action' );
 		} );
 	}
 	

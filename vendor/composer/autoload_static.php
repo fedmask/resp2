@@ -467,6 +467,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Specialization' => __DIR__ . '/../..' . '/app/Models/Specialization.php',
+        'App\\VaccinazioniReaction' => __DIR__ . '/../..' . '/app/Models/VaccinazioniReaction.php',
         'App\\VisitaSpecialization' => __DIR__ . '/../..' . '/app/Models/VisitaSpecialization.php',
         'AuditLogTest' => __DIR__ . '/../..' . '/database/seeds/AuditLogTest.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',

@@ -51,7 +51,7 @@ class VaccinazioniReaction extends Model {
 	public function tbl_CentroIndagini() {
 		return $this->belongsTo ( \App\Models\CareProviders\CentriIndagini::class, 'id_centro' );
 	}
-	public function tbl_CentroIndagini() {
+	public function tbl_Vaccinazione() {
 		return $this->belongsTo ( \App\Models\Vaccine\Vaccinazione::class, 'id_vaccinazione' );
 	}
 }

@@ -24,7 +24,6 @@ class CreateTblVaccinazioneTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id_vaccinazione')->unsigned();
-            $table->integer('id_vaccino')->unsigned();
             $table->integer('id_paziente')->unsigned();
             $table->integer('id_cpp')->unsigned();
             $table->smallInteger('vaccinazione_confidenzialita');
@@ -39,17 +38,12 @@ class CreateTblVaccinazioneTable extends Migration
 
             $table->index(["vaccinazione_confidenzialita"], 'fk_tbl_vaccinazione_tbl_livelli_confidenzialita1_idx');
 
-            $table->index(["id_vaccino"], 'fk_tbl_vaccinazione_tbl_vaccini1_idx');
 
             $table->index(["id_cpp"], 'fk_tbl_vaccinazione_tbl_care_provider1_idx');
 
             $table->index(["id_paziente"], 'fk_tbl_vaccinazione_tbl_pazienti1_idx');
 
 
-            $table->foreign('id_vaccino', 'fk_tbl_vaccinazione_tbl_vaccini1_idx')
-                ->references('id_vaccino')->on('tbl_vaccini')
-                ->onDelete('no action')
-                ->onUpdate('no action');
 
             $table->foreign('id_paziente', 'fk_tbl_vaccinazione_tbl_pazienti1_idx')
                 ->references('id_paziente')->on('tbl_pazienti')
