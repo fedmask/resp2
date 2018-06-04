@@ -155,7 +155,7 @@ class FHIRImmunizationController extends Controller {
 	public function update(Request $request, $id) {
 		$doc = new \SimpleXMLElement ( $request->getContent () );
 		
-		$vaccinazione = Vaccinazione::find ( $doc->id ["value"] );
+		$vaccinazione = Vaccinazione::find ( $doc->id ["value"] )->first ();
 		$vaccinazione_id = $doc->id ["value"];
 		$vaccinazione_status = $doc->status ["value"];
 		$vaccinazione_notGiven = $doc->notGiven ["value"];
@@ -217,17 +217,5 @@ class FHIRImmunizationController extends Controller {
 		}
 		$vaccinazione->save ();
 		
-		// Aggiorno le Reazioni solo se queste hanno id 4
-		VaccinazioniReaction::find ( '4' );
-		
-		for($i = 0; $i < count ( $vaccinazioneReactionData ); $i ++) {
-			
-			$VaccinazioniReaction->setIDCentro ( $vaccinazioneReactionIDCentro [$i] );
-			$VaccinazioniReaction->setDate ( $vaccinazioneReactionData [$i] );
-			$VaccinazioniReaction->setReport ( true );
-			$VaccinazioniReaction->setIDVaccinazione ( $vaccinazione_id );
-		}
-		
-		$VaccinazioniReaction->save ();
 	}
 }
