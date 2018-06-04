@@ -58,6 +58,10 @@ class FHIRProcedureController extends Controller {
 		$data_xml ["status"] = $status;
 		$data_xml ["categoria"] = $cat;
 		$data_xml ["OutCome"] = $out;
+		
+		return view ( "fhir.procedure", [
+		    "data_output" => $data_xml
+		] );
 	}
 	
 	/* Implementazione del Servizio REST: DELETE */
@@ -76,22 +80,22 @@ class FHIRProcedureController extends Controller {
 		
 		$procedure = ProcedureTerapeutiche::find ( $doc->id ["value"] );
 		$procedure_id = $doc->id ["value"];
-		$proc_desc = $doc->extension [1]->valueString ["value"];
-		$proc_status = $doc->status [1]->value ["value"];
-		$proc_not = $doc->notDone [1]->value ["value"];
-		$proc_cat = $doc->extension [2]->valueString ["value"];
-		$proc_icd9 = $doc->code [1]->coding [1]->code ["value"];
-		$proc_icd_des = $doc->code [1]->coding [1]->display ["value"];
-		$proc_sub = $doc->subject [1]->reference ["value"];
+		$proc_desc = $doc->extension [0]->valueString ["value"];
+		$proc_status = $doc->status->value ["value"];
+		$proc_not = $doc->notDone ->value ["value"];
+		$proc_cat = $doc->extension [1]->valueString ["value"];
+		$proc_icd9 = $doc->code->coding->code ["value"];
+		$proc_icd_des = $doc->code->coding->display ["value"];
+		$proc_sub = substr ($doc->subject->reference ["value"], 8 );
 		$proc_data = $doc->performedDateTime ["value"];
 		$proc_dia = $doc->extension [2]->valueString ["value"];
-		$proc_cpp_spec = $doc->performer [1]->role [1]->coding [1]->system ["value"];
-		$proc_cpp_id = $doc->performer [1]->actor [1]->reference ["value"];
-		$proc_cpp = $doc->performer [1]->actor [1]->display ["value"];
-		$proc_paz_id = $doc->performer [1]->actor [2]->reference ["value"];
-		$proc_paz = $doc->performer [1]->actor [2]->display ["value"];
+		$proc_cpp_spec = $doc->performer->role->coding->system ["value"];
+		$proc_cpp_id = $doc->performer->actor [0]->reference ["value"];
+		$proc_cpp = $doc->performer->actor [0]->display ["value"];
+		$proc_paz_id = $doc->performer->actor [1]->reference ["value"];
+		$proc_paz = $doc->performer ->actor [1]->display ["value"];
 		$proc_out = $doc->extension [3]->valueString ["value"];
-		$proc_note = $doc->note [1]->text ["value"];
+		$proc_note = $doc->note->text ["value"];
 		
 		if ($visita_id) {
 			throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided exists in database !" );
@@ -169,22 +173,22 @@ class FHIRProcedureController extends Controller {
 		
 		$procedure = ProcedureTerapeutiche::find ( $doc->id ["value"] );
 		$procedure_id = $doc->id ["value"];
-		$proc_desc = $doc->extension [1]->valueString ["value"];
-		$proc_status = $doc->status [1]->value ["value"];
-		$proc_not = $doc->notDone [1]->value ["value"];
-		$proc_cat = $doc->extension [2]->valueString ["value"];
-		$proc_icd9 = $doc->code [1]->coding [1]->code ["value"];
-		$proc_icd_des = $doc->code [1]->coding [1]->display ["value"];
-		$proc_sub = $doc->subject [1]->reference ["value"];
+		$proc_desc = $doc->extension [0]->valueString ["value"];
+		$proc_status = $doc->status->value ["value"];
+		$proc_not = $doc->notDone ->value ["value"];
+		$proc_cat = $doc->extension [1]->valueString ["value"];
+		$proc_icd9 = $doc->code->coding->code ["value"];
+		$proc_icd_des = $doc->code->coding->display ["value"];
+		$proc_sub = substr ($doc->subject->reference ["value"], 8 );
 		$proc_data = $doc->performedDateTime ["value"];
 		$proc_dia = $doc->extension [2]->valueString ["value"];
-		$proc_cpp_spec = $doc->performer [1]->role [1]->coding [1]->system ["value"];
-		$proc_cpp_id = $doc->performer [1]->actor [1]->reference ["value"];
-		$proc_cpp = $doc->performer [1]->actor [1]->display ["value"];
-		$proc_paz_id = $doc->performer [1]->actor [2]->reference ["value"];
-		$proc_paz = $doc->performer [1]->actor [2]->display ["value"];
+		$proc_cpp_spec = $doc->performer->role->coding->system ["value"];
+		$proc_cpp_id = $doc->performer->actor [0]->reference ["value"];
+		$proc_cpp = $doc->performer->actor [0]->display ["value"];
+		$proc_paz_id = $doc->performer->actor [1]->reference ["value"];
+		$proc_paz = $doc->performer ->actor [1]->display ["value"];
 		$proc_out = $doc->extension [3]->valueString ["value"];
-		$proc_note = $doc->note [1]->text ["value"];
+		$proc_note = $doc->note->text ["value"];
 		
 		if ($visita_id) {
 			throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided exists in database !" );
