@@ -29,12 +29,15 @@ class CreateTblVacciniTable extends Migration {
 			$table->integer ( 'vaccino_durata' );
 			$table->string ( 'vaccino_manufactured', 45 );
 			$table->date ( 'vaccino_expirationDate' );
+			$table->char('Codice_ATC',7)->nullable(false);
 			
 			
 			$table->foreign('id_vaccinazione', 'fk_tbl_vaccino_tbl_vaccinazione1_idx')
 			->references('id_vaccinazione')->on('tbl_vaccinazione')
 			->onDelete('no action')
 			->onUpdate('no action');
+			
+			
 		} );
 	}
 	

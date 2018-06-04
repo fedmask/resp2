@@ -33,7 +33,7 @@ class VaccinazioniReaction extends Model {
 	public function getReported() {
 		return $this->reported;
 	}
-	public function getIDVAccinazione() {
+	public function getIDVaccinazione() {
 		return $this->id_vaccinazione;
 	}
 	public function setIDCentro($ID) {
@@ -42,10 +42,10 @@ class VaccinazioniReaction extends Model {
 	public function setDate($Date) {
 		$this->date = $Date;
 	}
-	public function setDate($Report) {
+	public function setReport($Report) {
 		$this->reported = $Report;
 	}
-	public function setIDVAccinazione($ID) {
+	public function setIDVaccinazione($ID) {
 		$this->id_vaccinazione = $ID;
 	}
 	public function tbl_CentroIndagini() {

@@ -35,7 +35,7 @@ class FHIRImmunizationController extends Controller {
 		 * $contacts = PazientiContatti::where ( 'id_paziente', $id )->get ();
 		 */
 		
-		$vaccini = Vaccini::where ( 'id_vaccinazione', $vaccinazione->getID() );
+		$vaccini = Vaccini::where ( 'id_vaccinazione', $vaccinazione->getID () );
 		$pazienti = Pazienti::where ( 'id_paziente', $vaccinazione->getIDPaz () );
 		$careprovider = CareProvider::where ( 'id_cpp', $vaccinazione->getIDCpp () );
 		$reactions = VaccinazioniReaction::where ( 'id_vaccinazione', $vaccinazione->getID () );
@@ -64,11 +64,170 @@ class FHIRImmunizationController extends Controller {
 		$data_xml ["pazienti"] = $pazienti;
 		$data_xml ["careprovider"] = $careprovider;
 		$data_xml ["vaccini"] = $vaccini;
-		$data_xml["reactions"]=$reactions;
-		
+		$data_xml ["reactions"] = $reactions;
 		
 		return view ( "fhir.immunization", [ 
 				"data_output" => $data_xml 
 		] );
+	}
+	public function store(Request $request) {
+		$doc = new \SimpleXMLElement ( $request->getContent () );
+		
+		$vaccinazione = Vaccinazione::find ( $doc->id ["value"] );
+		$vaccinazione_id = $doc->id ["value"];
+		$vaccinazione_status = $doc->status ["value"];
+		$vaccinazione_notGiven = $doc->notGiven ["value"];
+		$vaccinazione_Pazienteid = $doc->patient->reference ["value"];
+		$vaccinazione_Date = $doc->date ["value"];
+		$vaccinazione_Quantity = $doc->doseQuantity->value ["value"];
+		$vaccinazione_Cpp = $doc->practitioner->actor->reference ["value"];
+		$vaccinazione_Note = $doc->note->text ["value"];
+		$vaccinazioneReactionData = array ();
+		$vaccinazioneReactionIDCentro = array ();
+		$vaccinazioneReactionReported = array ();
+		foreach ( $doc->reaction as $rec ) {
+			array_push ( $vaccinazioneReactionData, $rec->date ["value"] );
+			array_push ( $vaccinazioneReactionIDCentro, substr ( $rec->detail->reference ["value"], 12 ) );
+			array_push ( $vaccinazioneReactionReported, $rec->reported ["value"] );
+		}
+		$vaccinazione_Aggiornamento = $doc->extension->valueString ["value"];
+		
+		// Verifico l'integrità dei dati
+		
+		if ($vaccinazione) {
+			throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided exists in database !" );
+		}
+		
+		if (empty ( $vaccinazione_status )) {
+			throw new FHIR\InvalidResourceFieldException ( "Status cannot be empty !" );
+		}
+		
+		if (empty ( $vaccinazione_Pazienteid )) {
+			throw new FHIR\InvalidResourceFieldException ( "IdPaziente cannot be empty !" );
+		}
+		
+		if (empty ( $vaccinazione_Date )) {
+			throw new FHIR\InvalidResourceFieldException ( "Data cannot be empty !" );
+		}
+		
+		if (empty ( $vaccinazione_Quantity )) {
+			throw new FHIR\InvalidResourceFieldException ( "Quantity cannot be empty !" );
+		}
+		
+		if (empty ( $vaccinazione_Cpp )) {
+			throw new FHIR\InvalidResourceFieldException ( "Practitioner cannot be empty !" );
+		}
+		
+		/**
+		 * VALIDAZIONE ANDATA A BUON FINE *
+		 */
+		
+		$vacc = new Vaccinazione ();
+		
+		$vacc->setStatus ( $vaccinazione_status );
+		$vacc->setNotGiven ( true );
+		$vacc->setIDPaz ( substr ( $vaccinazione_Pazienteid, 8 ) );
+		$vacc->setData ( $vaccinazione_Date );
+		$vacc->setAggiornamento ( $vaccinazione_Aggiornamento );
+		$vacc->setQuantity ( $vaccinazione_Quantity );
+		$vacc->setIDCpp ( substr ( $vaccinazione_Cpp, 13 ) );
+		$vacc->setVaccConf ( '4' );
+		if (! empty ( $vaccinazione_Note )) {
+			$vacc->setNote ( $vaccinazione_Note );
+		}
+		$vacc->save ();
+		
+		// Creo le Reazioni
+		for($i = 0; $i < count ( $vaccinazioneReactionData ); $i ++) {
+			
+			$VR = new VaccinazioniReaction ();
+			
+			$VR->setIDCentro ( $vaccinazioneReactionIDCentro [$i] );
+			$VR->setDate ( $vaccinazioneReactionData [$i] );
+			$VR->setReport ( true );
+			$VR->setIDVaccinazione ( $vaccinazione_id );
+		}
+		
+		$VR->save ();
+		
+		return response ( '', 201 );
+	}
+	public function update(Request $request, $id) {
+		$doc = new \SimpleXMLElement ( $request->getContent () );
+		
+		$vaccinazione = Vaccinazione::find ( $doc->id ["value"] );
+		$vaccinazione_id = $doc->id ["value"];
+		$vaccinazione_status = $doc->status ["value"];
+		$vaccinazione_notGiven = $doc->notGiven ["value"];
+		$vaccinazione_Pazienteid = $doc->patient->reference ["value"];
+		$vaccinazione_Date = $doc->date ["value"];
+		$vaccinazione_Quantity = $doc->doseQuantity->value ["value"];
+		$vaccinazione_Cpp = $doc->practitioner->actor->reference ["value"];
+		$vaccinazione_Note = $doc->note->text ["value"];
+		$vaccinazioneReactionData = array ();
+		$vaccinazioneReactionIDCentro = array ();
+		$vaccinazioneReactionReported = array ();
+		foreach ( $doc->reaction as $rec ) {
+			array_push ( $vaccinazioneReactionData, $rec->date ["value"] );
+			array_push ( $vaccinazioneReactionIDCentro, substr ( $rec->detail->reference ["value"], 12 ) );
+			array_push ( $vaccinazioneReactionReported, $rec->reported ["value"] );
+		}
+		$vaccinazione_Aggiornamento = $doc->extension->valueString ["value"];
+		
+		// Verifico l'integrità dei dati
+		
+		if ($vaccinazione) {
+			throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided exists in database !" );
+		}
+		
+		if (empty ( $vaccinazione_status )) {
+			throw new FHIR\InvalidResourceFieldException ( "Status cannot be empty !" );
+		}
+		
+		if (empty ( $vaccinazione_Pazienteid )) {
+			throw new FHIR\InvalidResourceFieldException ( "IdPaziente cannot be empty !" );
+		}
+		
+		if (empty ( $vaccinazione_Date )) {
+			throw new FHIR\InvalidResourceFieldException ( "Data cannot be empty !" );
+		}
+		
+		if (empty ( $vaccinazione_Quantity )) {
+			throw new FHIR\InvalidResourceFieldException ( "Quantity cannot be empty !" );
+		}
+		
+		if (empty ( $vaccinazione_Cpp )) {
+			throw new FHIR\InvalidResourceFieldException ( "Practitioner cannot be empty !" );
+		}
+		
+		/**
+		 * VALIDAZIONE ANDATA A BUON FINE *
+		 */
+		
+		$vaccinazione->setStatus ( $vaccinazione_status );
+		$vaccinazione->setNotGiven ( true );
+		$vaccinazione->setIDPaz ( substr ( $vaccinazione_Pazienteid, 8 ) );
+		$vaccinazione->setData ( $vaccinazione_Date );
+		$vaccinazione->setAggiornamento ( $vaccinazione_Aggiornamento );
+		$vaccinazione->setQuantity ( $vaccinazione_Quantity );
+		$vaccinazione->setIDCpp ( substr ( $vaccinazione_Cpp, 13 ) );
+		$vaccinazione->setVaccConf ( '4' );
+		if (! empty ( $vaccinazione_Note )) {
+			$vaccinazione->setNote ( $vaccinazione_Note );
+		}
+		$vaccinazione->save ();
+		
+		// Aggiorno le Reazioni solo se queste hanno id 4
+		VaccinazioniReaction::find ( '4' );
+		
+		for($i = 0; $i < count ( $vaccinazioneReactionData ); $i ++) {
+			
+			$VaccinazioniReaction->setIDCentro ( $vaccinazioneReactionIDCentro [$i] );
+			$VaccinazioniReaction->setDate ( $vaccinazioneReactionData [$i] );
+			$VaccinazioniReaction->setReport ( true );
+			$VaccinazioniReaction->setIDVaccinazione ( $vaccinazione_id );
+		}
+		
+		$VaccinazioniReaction->save ();
 	}
 }

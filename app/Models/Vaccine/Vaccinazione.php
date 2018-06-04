@@ -30,7 +30,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class Vaccinazione extends Eloquent {
 	protected $table = 'tbl_vaccinazione';
 	protected $primaryKey = 'id_vaccinazione';
-	public $incrementing = false;
+	public $incrementing = true;
 	public $timestamps = false;
 	protected $casts = [ 
 			'id_vaccinazione' => 'int',
@@ -44,7 +44,6 @@ class Vaccinazione extends Eloquent {
 	protected $fillable = [ 
 			'vaccinazione_confidenzialita',
 			'vaccinazione_aggiornamento',
-			'vaccinazione_reazioni',
 			'vaccinazione_stato',
 			'vaccinazione_quantity',
 			'vaccinazione_note',
@@ -89,7 +88,44 @@ class Vaccinazione extends Eloquent {
 	public function getExplanation() {
 		return $this->vaccinazione_explanation;
 	}
-
+	
+	// ///
+	public function setID($ID) {
+		$this->id_vaccinazione = $ID;
+	}
+	public function setIDPaz($ID) {
+		$this->id_paziente = $ID;
+	}
+	public function setIDCpp($ID) {
+		$this->id_cpp = $ID;
+	}
+	public function setVaccConf($conf) {
+		$this->vaccinazione_confidenzialita = $conf;
+	}
+	public function setData($Data) {
+		$this->vaccinazione_data = $Data;
+	}
+	public function setAggiornamento($Aggiornamento) {
+		$this->vaccinazione_aggiornamento = $Aggiornamento;
+	}
+	public function setReazioni($Reazioni) {
+		$this->vaccinazione_reazioni = $Reazioni;
+	}
+	public function setStatus($Status) {
+		$this->vaccinazione_stato = $Status;
+	}
+	public function setNotGiven($NG) {
+		$this->notGiven = $NG;
+	}
+	public function setQuantity($Quantity) {
+		$this->vaccinazione_quantity = $Quantity;
+	}
+	public function setNote($Note) {
+		$this->vaccinazione_note = $Note;
+	}
+	public function setExplanation($Explanation) {
+		$this->vaccinazione_explanation = $Explanation;
+	}
 	public function tbl_care_provider() {
 		return $this->belongsTo ( \App\Models\CareProviders\CareProvider::class, 'id_cpp' );
 	}
@@ -102,7 +138,6 @@ class Vaccinazione extends Eloquent {
 	public function tbl_vaccini() {
 		return $this->hasMany ( \App\Models\Vaccine\Vaccini::class, 'id_vaccinazione' );
 	}
-	
 	public function tbl_vaccinazioneReaction() {
 		return $this->hasMany ( \App\Models\VaccinazioniReaction::class, 'id_vaccinazione' );
 	}

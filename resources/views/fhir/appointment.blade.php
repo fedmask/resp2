@@ -53,7 +53,7 @@ $specialization = $data_output ["specialization"];
       <reference value="Patient/$paz->getID_Paziente()"/> 
       <display value="$paz->getFullName()"/> 
     </actor>
-    <required value="{{$visita->getTRichiesta()}}"/> 
+    <required value="{{$visita->get0esta()}}"/> 
     <status value="{{$visita->getStatus()}}"/> 
     <actor> 
       <reference value="CareProvider/$cpp->getID()"/> 

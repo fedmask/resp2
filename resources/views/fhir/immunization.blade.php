@@ -14,7 +14,6 @@ $reactions = $data_output['reactions'];
 
 <Immunization xmlns="http://hl7.org/fhir">
   <id value="{{$vaccinazione->getID()}}"/> 
-  
   <text> 
     <status value="generated"/> 
     <div xmlns="http://www.w3.org/1999/xhtml">
@@ -31,24 +30,19 @@ $reactions = $data_output['reactions'];
   </text> 
   <status value="{{$narrative['Vaccinazione Stato']}}"/> 
   <notGiven value="false"/> 
-  <?php //@TODO Implementare i codici ATC ?>
+  <?php //@TODO si intende che una vaccinazione possa comprendere una serie di vaccini tutti con lo stesso codice ATC?>
   <vaccineCode> 
     <coding> 
-      <system value="urn:oid:1.2.36.1.2001.1005.17"/> 
-      <code value="FLUVAX"/> 
+      <code value="{{$vaccini[seq]->getCodiceATC()}}"/> 
     </coding>
-    <text value="{{$vaccini[seq]->getNome()}}"/> 
+    <text value="{{$vaccini[seq]->getDescrizioneCATC()}}"/> 
   </vaccineCode> 
-  <?php ?>
   <patient> 
     <reference value="Patient/$pazienti->getID()"/> 
   </patient> 
   <date value="$narrative['Vaccinazione Data']"/> 
   <primarySource value="true"/> 
  <?php //@TODO Possibile implementazione della location?>
-  <location> 
-    <reference value="Location/1"/> 
-  </location> 
   <manufacturer> 
     <reference value="$vaccini->getManufactured()"/> 
   </manufacturer> 
@@ -81,7 +75,7 @@ $reactions = $data_output['reactions'];
     <reported value="{{$reaction->getReported()}}"/> 
   </reaction>
   @endforeach 
-  @for($seq=1; $seq<=count($vaccini);$seq++)
+  @for($seq=0; $seq < count($vaccini);$seq++)
   <vaccinationProtocol> 
     <doseSequence value="{{$seq}}"/> 
     <description value="Vaccination Protocol Sequence {{$seq}}"/> 

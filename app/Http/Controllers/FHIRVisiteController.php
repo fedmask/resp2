@@ -20,20 +20,20 @@ class FHIRVisite extends Controller {
 		
 		$visita = PazientiVisite::find ( $doc->id ["value"] );
 		$visita_id = $doc->id ["value"];
-		$visita_stato_visita = $doc->status [2]->value ["value"];
-		$visita_motivazione = $doc->reason [1]->code [1]->value ["value"];
-		$visita_cod_priorità = $doc->priority [1]->value ["value"];
+		$visita_stato_visita = $doc->status->value ["value"];
+		$visita_motivazione = $doc->reason->code->value ["value"];
+		$visita_cod_priorità = $doc->priority->value ["value"];
 		$visita_data = $doc->start->value ["value"];
-		$visita_osservazioni = $doc->extension [1]->valueString ["value"];
-		$visita_conclusioni = $doc->comment [1]->value ["value"];
-		$paziente_id = $doc->partecipant [1]->actor [1]->reference [1]->value ["value"];
-		$paziente_fullname = $doc->partecipant [1]->actor [1]->display [1]->value ["value"];
-		$visita_t_richiesta = $doc->partecipant [1]->required [1]->value ["value"];
-		$visita_status = $doc->partecipant [1]->status [1]->value ["value"];
-		$cpp_id = $doc->partecipant [1]->actor [2]->reference [1]->value ["value"];
-		$cpp_fullname = $doc->partecipant [1]->actor [2]->display [1]->value ["value"];
-		$visita_Inizio = $doc->requestedPeriod [1]->start [1]->value ["value"];
-		$visita_Fine = $doc->requestedPeriod [1]->end [1]->value ["value"];
+		$visita_osservazioni = $doc->extension->valueString ["value"];
+		$visita_conclusioni = $doc->comment->value ["value"];
+		$paziente_id = substr ($doc->partecipant ->actor [0]->reference ->value ["value"],8);
+		$paziente_fullname = $doc->partecipant ->actor [0]->display ->value ["value"];
+		$visita_t_richiesta = $doc->partecipant ->required [0]->value ["value"];
+		$visita_status = $doc->partecipant ->status [0]->value ["value"];
+		$cpp_id = substr ($doc->partecipant ->actor [1]->reference->value ["value"],13);
+		$cpp_fullname = $doc->partecipant ->actor [1]->display->value ["value"];
+		$visita_Inizio = $doc->requestedPeriod ->start ->value ["value"];
+		$visita_Fine = $doc->requestedPeriod ->end ->value ["value"];
 		
 		if ($visita_id) {
 			throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided exists in database !" );
@@ -159,22 +159,22 @@ class FHIRVisite extends Controller {
 		//		
 		$doc = new \SimpleXMLElement ( $request->getContent () );
 		
-		$visita = PazientiVisite::find ( $doc->id ["value"] )->first();
+		$visita = PazientiVisite::find ( $doc->id ["value"] );
 		$visita_id = $doc->id ["value"];
-		$visita_stato_visita = $doc->status [2]->value ["value"];
-		$visita_motivazione = $doc->reason [1]->code [1]->value ["value"];
-		$visita_cod_priorità = $doc->priority [1]->value ["value"];
+		$visita_stato_visita = $doc->status->value ["value"];
+		$visita_motivazione = $doc->reason->code->value ["value"];
+		$visita_cod_priorità = $doc->priority->value ["value"];
 		$visita_data = $doc->start->value ["value"];
-		$visita_osservazioni = $doc->extension [1]->valueString ["value"];
-		$visita_conclusioni = $doc->comment [1]->value ["value"];
-		$paziente_id = $doc->partecipant [1]->actor [1]->reference [1]->value ["value"];
-		$paziente_fullname = $doc->partecipant [1]->actor [1]->display [1]->value ["value"];
-		$visita_t_richiesta = $doc->partecipant [1]->required [1]->value ["value"];
-		$visita_status = $doc->partecipant [1]->status [1]->value ["value"];
-		$cpp_id = $doc->partecipant [1]->actor [2]->reference [1]->value ["value"];
-		$cpp_fullname = $doc->partecipant [1]->actor [2]->display [1]->value ["value"];
-		$visita_Inizio = $doc->requestedPeriod [1]->start [1]->value ["value"];
-		$visita_Fine = $doc->requestedPeriod [1]->end [1]->value ["value"];
+		$visita_osservazioni = $doc->extension->valueString ["value"];
+		$visita_conclusioni = $doc->comment->value ["value"];
+		$paziente_id = substr ($doc->partecipant ->actor [0]->reference ->value ["value"],8);
+		$paziente_fullname = $doc->partecipant ->actor [0]->display ->value ["value"];
+		$visita_t_richiesta = $doc->partecipant ->required [0]->value ["value"];
+		$visita_status = $doc->partecipant ->status [0]->value ["value"];
+		$cpp_id = substr ($doc->partecipant ->actor [1]->reference->value ["value"],13);
+		$cpp_fullname = $doc->partecipant ->actor [1]->display->value ["value"];
+		$visita_Inizio = $doc->requestedPeriod ->start ->value ["value"];
+		$visita_Fine = $doc->requestedPeriod ->end ->value ["value"];
 		
 		if ($visita_id) {
 			throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided does not exists in database !" );

@@ -38,6 +38,8 @@ class ATCSottogruppoChimico extends Model
         return $this->Descrizione;
     }
     
+  
+    
     
     public function setID($id){
         $this->Codice_ATC = $id;
@@ -54,6 +56,10 @@ class ATCSottogruppoChimico extends Model
     
     public function sottogruppoChimicoTF() {
         return $this->belongsTo (\App\Models\ATCSottogruppoTerapeuticoF::class, 'ID_Sottogruppo_CTF' );
+    }
+    
+    public function vaccino() {
+    	return $this->hasMany (\App\Models\Vaccine\Vaccini::class, 'Codice_ATC' );
     }
     
 }

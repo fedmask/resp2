@@ -21,7 +21,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class TblVaccini extends Eloquent {
+class Vaccini extends Eloquent {
 	protected $table = 'tbl_vaccini';
 	protected $primaryKey = 'id_vaccino';
 	public $timestamps = false;
@@ -35,7 +35,8 @@ class TblVaccini extends Eloquent {
 			'vaccino_nome',
 			'vaccino_durata',
 			'vaccino_manufactured',
-			'vaccino_expirationDate' 
+			'vaccino_expirationDate',
+			'Codice_ATC' 
 	];
 	public function getId() {
 		return $this->id_vaccino;
@@ -64,6 +65,15 @@ class TblVaccini extends Eloquent {
 	public function getManufactured() {
 		return $this->vaccino_manufactured;
 	}
+	public function getCodiceATC() {
+		return $this->Codice_ATC;
+	}
+	public function getDescrizioneCATC() {
+		return $this->codiceATC ()->first ()->getDesc ();
+	}
+	public function setCodiceATC($Codice) {
+		$this->Codice_ATC = $Codice;
+	}
 	public function setCodice($Codice) {
 		$this->vaccino_codice = $Codice;
 	}
@@ -87,5 +97,8 @@ class TblVaccini extends Eloquent {
 	}
 	public function tbl_vaccinaziones() {
 		return $this->belongsTo ( \App\Models\Vaccine\Vaccinazione::class, 'id_vaccinazione' );
+	}
+	public function codiceATC() {
+		return $this->belongsTo ( \App\Models\ATCSottogruppoChimico::class, 'Codice_ATC' );
 	}
 }
