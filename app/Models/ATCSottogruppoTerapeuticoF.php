@@ -52,5 +52,13 @@ class ATCSottogruppoTerapeuticoF extends Model
         $this->Descrizione = $desc;
     }
     
+    public function gruppoTerapeutico() {
+        return $this->belongsTo (\App\Models\ATCGruppoTerapeuticoP::class, 'ID_Gruppo_Terapeutico' );
+    }
+    
+    public function sottogruppoChimicoTF() {
+        return $this->hasMany (\App\Models\ATCSottogruppoChimicoTF::class, 'id_sottogruppoTF' );
+    }
+    
     
 }

@@ -36,4 +36,9 @@ class ATCGruppoAnatomicoP extends Model
     }
     
     
+    public function gruppoTerapeutico() {
+        return $this->hasMany (\App\Models\ATCGruppoTerapeuticoP::class, 'ID_Gruppo_Anatomico' );
+    }
+    
+    
 }

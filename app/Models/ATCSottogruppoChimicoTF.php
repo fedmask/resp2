@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ATCSottogruppoChimicoTF extends Model
 {
     protected $table = 'ATC_Sottogruppo_Chimico_TF';
-    protected $primaryKey = 'id_sottogruppoTF';
+    protected $primaryKey = 'id_sottogruppoCTF';
     public $timestamps = false;
     
     protected $casts = [
@@ -50,5 +50,13 @@ class ATCSottogruppoChimicoTF extends Model
     }
     public function getDesc($desc){
         $this->Descrizione = $desc;
+    }
+    
+    public function sottogruppoTerapeutico() {
+        return $this->belongsTo (\App\Models\ATCSottogruppoTerapeuticoF::class, 'ID_Sottogruppo_Terapeutico' );
+    }
+    
+    public function sottogruppoChimico() {
+        return $this->hasMany (\App\Models\ATCSottogruppoChimico::class, 'id_sottogruppoCTF' );
     }
 }

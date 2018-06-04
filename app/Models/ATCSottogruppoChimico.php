@@ -52,6 +52,8 @@ class ATCSottogruppoChimico extends Model
         $this->Descrizione = $desc;
     }
     
-    
+    public function sottogruppoChimicoTF() {
+        return $this->belongsTo (\App\Models\ATCSottogruppoTerapeuticoF::class, 'ID_Sottogruppo_CTF' );
+    }
     
 }

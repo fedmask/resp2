@@ -52,4 +52,13 @@ class ATCGruppoTerapeuticoP extends Model
         $this->Descrizione = $desc;
     }
     
+    
+    public function gruppoAnatomico() {
+        return $this->belongsTo (\App\Models\ATCGruppoAnatomicoP::class, 'ID_Gruppo_Anatomico' );
+    }
+    
+    public function sottogruppoTerapeutico() {
+        return $this->hasMany (\App\Models\ATCSottogruppoTerapeuticoF::class, 'Codice_Gruppo_Teraputico' );
+    }
+    
 }
