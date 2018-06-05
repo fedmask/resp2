@@ -19,7 +19,7 @@ class CreateFamilyCondictionTable extends Migration
             $table->increments('id');
             $table->string('Codice_ICD9', 5)->nullable(false);
             $table->string('outCome', 45)->nullable(false);
-            $table->string('id_anamnesi_familiare')->nullable(false);
+            $table->integer('id_anamnesi_familiare')->nullable(false);
             $table->boolean('onSetAge')->default(true);
             $table->integer('onSetAgeRange_low');
             $table->integer('onSetAgeRange_hight');
