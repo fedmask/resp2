@@ -94,6 +94,11 @@ class FamilyCondiction extends Model
     }
     
     
+    public function anamnesiFamigliare()
+    {
+        return $this->hasMany(\App\Models\History\AnamnesiFamiliare::class, 'id');
+    }
+    
     
     
     

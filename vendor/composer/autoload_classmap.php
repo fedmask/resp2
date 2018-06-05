@@ -28,6 +28,8 @@ return array(
     'App\\Exceptions\\FHIR\\UnsupportedOperationException' => $baseDir . '/app/Exceptions/FHIR/UnsupportedOperationException.php',
     'App\\Exceptions\\FHIR\\UserAlreadyExistsException' => $baseDir . '/app/Exceptions/FHIR/UserAlreadyExistsException.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\FamilyCondiction' => $baseDir . '/app/Models/FamilyCondiction.php',
+    'App\\FamilyRelationship' => $baseDir . '/app/Models/FamilyRelationship.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',

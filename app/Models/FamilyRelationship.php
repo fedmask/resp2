@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class FamilyRelationship extends Model
 {
     protected $table = 'tbl_famely_relationship';
-    protected $primaryKey = 'Codice_ICD9';
+    protected $primaryKey = 'codice';
     public $incrementing = false;
     public $timestamps = false;
     
@@ -45,5 +45,9 @@ class FamilyRelationship extends Model
         $this->descrizione = $desc;
     }
     
+    public function anamnesiFamigliare()
+    {
+        return $this->hasMany(\App\Models\History\AnamnesiFamiliare::class, 'codice');
+    }
     
 }

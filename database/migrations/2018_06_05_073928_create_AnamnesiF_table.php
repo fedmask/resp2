@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFamelyRelationshipTable extends Migration
+class CreateAnamnesiFTable extends Migration
 {
     
     public $set_schema_table = 'tbl_famely_relationship';
@@ -19,6 +19,10 @@ class CreateFamelyRelationshipTable extends Migration
             $table->string('codice', 15)->primary();
             $table->string('codice_descrizione', 25);
             $table->text('descrizione');
+            $table->integer('id_paziente');
+            $table->integer('id_parente');
+            $table->string('status',10)->nullable(false);
+            $table->string('notDoneReason',10);
             $table->timestamps();
         });
         

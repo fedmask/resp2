@@ -375,6 +375,8 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\Exceptions\\FHIR\\UnsupportedOperationException' => __DIR__ . '/../..' . '/app/Exceptions/FHIR/UnsupportedOperationException.php',
         'App\\Exceptions\\FHIR\\UserAlreadyExistsException' => __DIR__ . '/../..' . '/app/Exceptions/FHIR/UserAlreadyExistsException.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\FamilyCondiction' => __DIR__ . '/../..' . '/app/Models/FamilyCondiction.php',
+        'App\\FamilyRelationship' => __DIR__ . '/../..' . '/app/Models/FamilyRelationship.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
