@@ -24,9 +24,26 @@ class CreateTblAnamnesiFamiliareTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id_anamnesi_familiare');
+            $table->string('status',10)->nullable(false);
+            $table->string('notDoneReason',10);
+            $table->string('codice_relazione',15)->nullable(false);
             $table->integer('id_paziente');
             $table->integer('id_anamnesi_log');
             $table->text('anamnesi_contenuto');
+            $table->string('genere',8)->nullable(false);
+            
+            $table->date('data_nascita')->nullable(false);
+            $table->integer('età')->nullable(false);
+            $table->boolean('decesso');
+            $table->integer('età_decesso');
+            $table->date('data_decesso');
+            $table->integer('condizione')->unsigned();
+            
+           
+           
+            
+            
+            
         });
     }
 
