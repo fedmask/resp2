@@ -30,6 +30,8 @@ class CreateTblAnamnesiFamiliareTable extends Migration
             $table->integer('id_anamnesi_log');
             $table->text('anamnesi_contenuto');
             $table->primary('id_paziente');
+            
+          
        
             
         });

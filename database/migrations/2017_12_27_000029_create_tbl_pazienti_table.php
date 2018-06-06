@@ -52,6 +52,11 @@ class CreateTblPazientiTable extends Migration
                 ->onDelete('no action')
                 ->onUpdate('no action');
         });
+        
+        	Schema::table ( 'tbl_anamnesi_familiare', function (Blueprint $table) {
+        		
+        		DB::statement ( 'ALTER TABLE tbl_anamnesi_familiare ADD FOREIGN KEY (id_paziente) REFERENCES tbl_pazienti(id_paziente);' );
+        	} );
     }
 
     /**
