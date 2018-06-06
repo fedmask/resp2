@@ -6,11 +6,13 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTblAnamnesiFamiliareTable extends Migration
 {
+    
+    public $set_schema_table = 'tbl_anamnesi_familiare';
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'tbl_anamnesi_familiare';
+   
 
     /**
      * Run the migrations.
@@ -25,17 +27,10 @@ class CreateTblAnamnesiFamiliareTable extends Migration
             $table->engine = 'InnoDB';
             $table->integer('id_paziente')->unsigned();
             
-            $table->string('codice_relazione',15)->nullable(false);
-            
             $table->integer('id_anamnesi_log');
             $table->text('anamnesi_contenuto');
             $table->primary('id_paziente');
-          
-            
-           
-           
-            
-            
+       
             
         });
     }

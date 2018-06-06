@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFamilyCondictionTable extends Migration
+class CreateTblFamilyCondictionTable extends Migration
 {
     
-    public $set_schema_table = 'tbl_family_condiction';
+    public $set_schema_table = 'tbl_Family_Condiction';
     /**
      * Run the migrations.
      *
@@ -19,11 +19,10 @@ class CreateFamilyCondictionTable extends Migration
             $table->increments('id');
             $table->string('Codice_ICD9', 5)->nullable(false);
             $table->string('outCome', 45)->nullable(false);
-            $table->integer('id_anamnesi_familiare')->nullable(false);
+            $table->integer('id_parente');
             $table->boolean('onSetAge')->default(true);
             $table->integer('onSetAgeRange_low');
             $table->integer('onSetAgeRange_hight');
-            $table->integer('onSetAgeUnit');
             $table->integer('onSetAgeValue');
             $table->timestamps();
             
@@ -32,15 +31,19 @@ class CreateFamilyCondictionTable extends Migration
             ->onDelete('no action')
             ->onUpdate('no action');
             
-    
+            $table->foreign('id_parente', 'FOREIGN_parente_condiction')
+            ->references('id_parente')->on('tbl_Parente')
+            ->onDelete('no action')
+            ->onUpdate('no action');
+            
+           
+            
             
         });
-        
-        
-            Schema::table ( 'tbl_anamnesi_familiare', function (Blueprint $table) {
-                
-                DB::statement ( 'ALTER TABLE tbl_anamnesi_familiare ADD FOREIGN KEY (condizione) REFERENCES tbl_family_condiction(id);' );
-            } );
+            
+            
+         
+            
     }
 
     /**
