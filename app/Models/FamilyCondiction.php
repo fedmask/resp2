@@ -6,19 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class FamilyCondiction extends Model
 {
-    protected $table = 'tbl_family_condiction';
+    protected $table = 'tbl_FamilyCondiction';
     protected $primaryKey = 'id';
     public $timestamps = false;
     
     protected $casts = [
-        'id' => 'int',
+        'id_Condition' => 'int',
         'Codice_ICD9' => 'String',
         'outCome' => 'String',
-        'id_anamnesi_familiare'=>'int',
+        'id_parente'=>'int',
         'onSetAge'=>'boolean',
         'onSetAgeRange_low'=>'int',
         'onSetAgeRange_hight'=>'int',
-        'onSetAgeUnit'=>'int',
         'onSetAgeValue'=>'int'
     ];
     
@@ -26,11 +25,10 @@ class FamilyCondiction extends Model
     protected $fillable = [
         'Codice_ICD9',
         'outCome',
-        'id_anamnesi_familiare',
+        'id_parente',
         'onSetAge',
         'onSetAgeRange_low',
         'onSetAgeRange_hight',
-        'onSetAgeUnit',
         'onSetAgeValue'
 
     ];
@@ -44,8 +42,8 @@ class FamilyCondiction extends Model
     public function getoutCome(){
         return $this->outCome;
     }
-    public function getIDAnamnesi(){
-        return $this->id_anamnesi_familiare;
+    public function getIDParente(){
+        return $this->id_parente;
     }
     public function getAge(){
         return $this->onSetAge;
@@ -55,9 +53,6 @@ class FamilyCondiction extends Model
     }
     public function getAgeRangeHight(){
         return $this->onSetAgeRange_hight;
-    }
-    public function getAgeUnit(){
-        return $this->onSetAgeUnit;
     }
     public function getAgeValue(){
         return $this->onSetAgeValue;
@@ -74,8 +69,8 @@ class FamilyCondiction extends Model
     public function setoutCome($out){
           $this->outCome = $out;
     }
-    public function setIDAnamnesi($id_A){
-          $this->id_anamnesi_familiare = $id_A;
+    public function setIDParente($id){
+        $this->id_parente = $id;
     }
     public function setAge($age){
           $this->onSetAge = $age;
@@ -86,9 +81,7 @@ class FamilyCondiction extends Model
     public function setAgeRangeHight($rh){
           $this->onSetAgeRange_hight = $rh;
     }
-    public function setAgeUnit($unit){
-          $this->onSetAgeUnit = $unit;
-    }
+ 
     public function setAgeValue($value){
           $this->onSetAgeValue = $value;
     }
