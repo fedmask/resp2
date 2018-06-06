@@ -26,13 +26,7 @@ class CreateTblParenteTable extends Migration
             $table->boolean('decesso');
             $table->integer('età_decesso');
             $table->date('data_decesso');
-            
-            $table->timestamps();
-    });
-        
-        
-           
-        
+        });
     }
 
     /**

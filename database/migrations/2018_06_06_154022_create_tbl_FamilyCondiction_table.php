@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateTblFamilyCondictionTable extends Migration
 {
     
-    public $set_schema_table = 'tbl_Family_Condiction';
+    public $set_schema_table = 'tbl_FamilyCondiction';
     /**
      * Run the migrations.
      *
@@ -15,7 +15,8 @@ class CreateTblFamilyCondictionTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->set_schema_table, function (Blueprint $table) {
+        Schema::create( $this->set_schema_table, function (Blueprint $table) {
+           
             $table->increments('id');
             $table->string('Codice_ICD9', 5)->nullable(false);
             $table->string('outCome', 45)->nullable(false);
@@ -30,20 +31,7 @@ class CreateTblFamilyCondictionTable extends Migration
             ->references('Codice_ICD9')->on('Tbl_ICD9_ICPT')
             ->onDelete('no action')
             ->onUpdate('no action');
-            
-            $table->foreign('id_parente', 'FOREIGN_parente_condiction')
-            ->references('id_parente')->on('tbl_Parente')
-            ->onDelete('no action')
-            ->onUpdate('no action');
-            
-           
-            
-            
         });
-            
-            
-         
-            
     }
 
     /**
