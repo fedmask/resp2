@@ -95,4 +95,9 @@ class Parente extends Model {
 	{
 		return $this->hasMany(\App\Models\AnamnesiF::class, 'id_parente');
 	}
+	
+	public function	FamilyCondition()
+	{
+		return $this->hasOne(\App\Models\History\FamilyCondiction::class, 'id_parente');
+	}
 }

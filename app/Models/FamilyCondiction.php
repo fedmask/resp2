@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class FamilyCondiction extends Model
 {
     protected $table = 'tbl_FamilyCondiction';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_Condition';
     public $timestamps = false;
     
     protected $casts = [
@@ -87,12 +87,15 @@ class FamilyCondiction extends Model
     }
     
     
-    public function anamnesiFamigliare()
+    public function Parente()
     {
-        return $this->hasMany(\App\Models\History\AnamnesiFamiliare::class, 'id');
+        return $this->belongsTo(\App\Models\History\Parente::class, 'id_parente');
     }
-    
-    
+  
+    public function Parente()
+    {
+    	return $this->belongsTo(\App\Models\History\ICD9_ICPT::class, 'Codice_ICD9');
+    }
     
     
 }

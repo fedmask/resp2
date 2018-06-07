@@ -68,4 +68,10 @@ class ICD9_ICPT extends Eloquent {
 		return $this->hasMany ( \App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche' );
 	}
 	
+	public function Parente()
+	{
+		return $this->belongsTo(\App\Models\History\FamilyCondiction::class, 'Codice_ICD9');
+	}
+	
+	
 }
