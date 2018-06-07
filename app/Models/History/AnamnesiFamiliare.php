@@ -62,10 +62,8 @@ class AnamnesiFamiliare extends Eloquent
 	
 	
 	
+	
 	public function getID(){
-	    return $this->id_anamnesi_familiare;
-	}
-	public function getIDPaziente(){
 	    return $this->id_paziente;
 	}
 	public function getStatus(){

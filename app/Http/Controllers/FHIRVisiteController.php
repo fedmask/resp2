@@ -116,9 +116,9 @@ class FHIRVisite extends Controller {
 		$patient = Pazienti::where ( 'id_utente', $data_Visita->getID_Paziente () )->get ();
 		
 		// Recupero record da tabella intermedia tra Specialization e Visita
-		$visita_spec = VisitaSpecialization::where ( 'id_visita', $data_Visita->getID () );
+		$visita_spec = VisitaSpecialization::where ( 'id_visita', $data_Visita->getID () )->get();
 		// Recupero record da tabella Specialization
-		$specialization = Specialization::where ( 'id_spec', $visita_spec->getIdSpec () );
+		$specialization = Specialization::where ( 'id_spec', $visita_spec->getIdSpec () )->get();
 		
 		/*
 		 * $cpp_spec = CppSpecialization::where ( 'id_cpp', $careproviders->getID () );

@@ -35,10 +35,10 @@ class FHIRImmunizationController extends Controller {
 		 * $contacts = PazientiContatti::where ( 'id_paziente', $id )->get ();
 		 */
 		
-		$vaccini = Vaccini::where ( 'id_vaccinazione', $vaccinazione->getID () );
-		$pazienti = Pazienti::where ( 'id_paziente', $vaccinazione->getIDPaz () );
-		$careprovider = CareProvider::where ( 'id_cpp', $vaccinazione->getIDCpp () );
-		$reactions = VaccinazioniReaction::where ( 'id_vaccinazione', $vaccinazione->getID () );
+		$vaccini = Vaccini::where ( 'id_vaccinazione', $vaccinazione->getID () )->get();
+		$pazienti = Pazienti::where ( 'id_paziente', $vaccinazione->getIDPaz () )->get();
+		$careprovider = CareProvider::where ( 'id_cpp', $vaccinazione->getIDCpp () )->get();
+		$reactions = VaccinazioniReaction::where ( 'id_vaccinazione', $vaccinazione->getID () )->get();
 		
 		$values_in_narrative = array (
 				

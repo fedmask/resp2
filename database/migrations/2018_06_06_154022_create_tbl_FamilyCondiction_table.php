@@ -25,6 +25,7 @@ class CreateTblFamilyCondictionTable extends Migration
             $table->integer('onSetAgeRange_low');
             $table->integer('onSetAgeRange_hight');
             $table->integer('onSetAgeValue');
+            $table->text('Note');
             $table->timestamps();
             
             $table->foreign('Codice_ICD9', 'FOREIGN_Diagn_Condition')

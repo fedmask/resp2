@@ -11,7 +11,6 @@ class AnamnesiF extends Model {
 	public $incrementing = true;
 	public $timestamps = false;
 	protected $casts = [ 
-			'id_anamnesiF' => 'int',
 			'id_paziente' => 'int',
 			'id_parente' => 'int',
 			'descrizione' => 'string',
@@ -26,7 +25,8 @@ class AnamnesiF extends Model {
 			'codice_descrizione',
 			'descrizione',
 			'status',
-			'notDoneReason' 
+			'notDoneReason',
+			'id_parentela' 
 	
 	];
 	
@@ -61,8 +61,14 @@ class AnamnesiF extends Model {
 	public function getData() {
 		return $this->data;
 	}
+	public function getIDParentela() {
+		return $this->id_parentela;
+	}
 	
 	// Set Methods
+	public function setCodice($IDP) {
+		$this->id_parentela = $IDP;
+	}
 	public function setCodice($Codice) {
 		$this->codice = $Codice;
 	}

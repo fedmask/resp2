@@ -17,6 +17,7 @@ class CreateTblAnamnesiFTable extends Migration
     {
         Schema::create($this->set_schema_table , function (Blueprint $table) {
             $table->increments('id_anamnesiF');
+            $table->string('id_parentela'); //Es. Mother, ecc.
             $table->string('codice', 15);
             $table->string('codice_descrizione', 25);
             $table->text('descrizione');
