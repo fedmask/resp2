@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProcedureOutCome extends Model
 {
     
-    protected $table = 'tbl_proc_outcomee';
+    protected $table = 'tbl_proc_outcome';
     protected $primaryKey = 'codice';
     public $incrementing = true;
     public $timestamps = false;

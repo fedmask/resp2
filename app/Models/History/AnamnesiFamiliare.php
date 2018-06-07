@@ -22,20 +22,20 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class AnamnesiFamiliare extends Eloquent
 {
 	protected $table = 'tbl_anamnesi_familiare';
-	protected $primaryKey = 'id_anamnesi_familiare';
+	protected $primaryKey = 'id_paziente';
 	public $timestamps = false;
 
 	protected $casts = [
 		'id_paziente' => 'int',
 		'id_anamnesi_log' => 'int',
 	    'status'  => 'String',
-	    'notDoneReason'  => 'String'
+	    'notDoneReason'  => 'String',
         'codice_relazione'  => 'String',
         'genere'  => 'String',
         'età'  => 'int',
         'decesso'  => 'boolean',
         'condizione'  => 'int',
-	    'età_decesso'=> 'int'
+	    'età_decesso'=> 'int',
 	    'data_nascita'=>'date',
 	    'data_decesso'=>'date'
 	];
@@ -156,7 +156,10 @@ class AnamnesiFamiliare extends Eloquent
 	    return $this->belongsTo(\App\Models\FamilyCondiction::class, 'condizione');
 	}
 	
-	
+	public function codiceCondizione()
+	{
+		return $this->hasMany(\App\Models\AnamnesiF::class, 'id_paziente');
+	}
 	
 	
 }
