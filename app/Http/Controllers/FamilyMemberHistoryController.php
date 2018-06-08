@@ -18,7 +18,102 @@ class FamilyMemberHistoryController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		//
+		
+	    $doc = new \SimpleXMLElement ( $request->getContent () );
+	    
+	    $anamnesiF = AnamnesiF::find ( $doc->id ["value"] );
+	    $anamnesi = $doc->id ["value"];
+	    $anamnesi_id = $doc->identifier->value ["value"];
+	    $anamnesi_status = $doc->status->value ["value"];
+	    $anamnesi_notDone = $doc->notDone->value ["value"];
+	    $patient_id = $doc->patient->reference->value ["value"];
+	    $patient_name = $doc->patient->display->value ["value"];
+	    $patient_relation = $doc->relationship[0]->reference->value ["value"];
+	    $anamnesi_data = $doc->data->value ["value"];
+	    $relazione_codice = $doc->relationship[1]->coding->code->value ["value"];
+	    $relazione_desc = $doc->relationship[1]->coding->display->value ["value"];
+	    $parent_gender = $doc->gender->value ["value"];
+	    
+	    $parent_eta = $doc->age->Age->value ["value"];
+	    $parent_born = $doc->born->date->value ["value"];
+	    
+	    $codiction_id = array ();
+	    $codiction_desc = array ();
+	    $codiction_age = array ();
+	    $codiction_note = array ();
+	    
+	    foreach ( $doc->condiction as $cond ) {
+	        array_push ( $codiction_id, $cond->code->coding->code->value ["value"] );
+	        array_push ( $codiction_desc, $cond->code->coding->display->value ["value"] );
+	        array_push ( $codiction_age, $cond->onsetAge->value->value ["value"] );
+	        array_push ( $vaccinazioneReactionReported, $cond->>note->text->value ["value"] );
+	    }
+	    
+	    // Verifico l'integrità dei dati
+	    if ($anamnesiF) {
+	        throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided exists in database !" );
+	    }
+	    
+	    if (empty ( $anamnesi_status)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Status cannot be empty !" );
+	    }
+	    
+	    if (empty ( $patient_id )) {
+	        throw new FHIR\InvalidResourceFieldException ( "Patient code cannot be empty !" );
+	    }
+	    
+	    if (empty ( $patient_name )) {
+	        throw new FHIR\InvalidResourceFieldException ( "Patient name  cannot be empty !" );
+	    }
+	    if (empty ( $patient_relation)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Relationship  cannot be empty !" );
+	    }
+	    if (empty ( $anamnesi_data)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Data cannot be empty !" );
+	    }
+	    
+	    
+	    if (empty ( $codiction_id)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Id Condiction  cannot be empty !" );
+	    }
+	    
+	    if (empty ( $codiction_desc)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Descrizione condiction  cannot be empty !" );
+	    }
+	    
+	    if (empty ( $codiction_age)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Age condiction  cannot be empty !" );
+	    }
+	    
+	    
+	    /**
+	     * VALIDAZIONE ANDATA A BUON FINE *
+	     */
+	    
+	    $anamn = new AnamnesiF();
+	    
+	    $anamn->setStatus($anamnesi_status);
+	    $anamn->setIDPaziente($patient_id);
+	    $anamn->setCodice($patient_relation);
+	    $anamn->setNDR($anamnesi_notDone);
+	    $anamn->setCodice(relazione_codice);
+	    $anamn->setCDescrizione($relazione_desc);
+	    $anamn->setData($anamnesi_data);
+	    $anamn->save ();
+	    
+	    
+	    for($i = 0; $i < count ( $vaccinazioneReactionData ); $i ++) {
+	        
+	        $cond = new FamilyCondition();
+	        
+	        $cond->setID(codiction_id);
+	        $cond->setoutCome($codiction_desc);
+	        $cond->setAgeValue($codiction_age);
+	        $cond->setNote($codiction_note);
+	    }
+	    $cond->save ();
+	    
+	    return response ( '', 201 );
 	}
 	
 	/**
@@ -95,7 +190,99 @@ class FamilyMemberHistoryController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(Request $request, $id) {
-		//
+	    $doc = new \SimpleXMLElement ( $request->getContent () );
+	    
+	    $anamnesiF = AnamnesiF::find ( $doc->id ["value"] );
+	    $anamnesi = $doc->id ["value"];
+	    $anamnesi_id = $doc->identifier->value ["value"];
+	    $anamnesi_status = $doc->status->value ["value"];
+	    $anamnesi_notDone = $doc->notDone->value ["value"];
+	    $patient_id = $doc->patient->reference->value ["value"];
+	    $patient_name = $doc->patient->display->value ["value"];
+	    $patient_relation = $doc->relationship[0]->reference->value ["value"];
+	    $anamnesi_data = $doc->data->value ["value"];
+	    $relazione_codice = $doc->relationship[1]->coding->code->value ["value"];
+	    $relazione_desc = $doc->relationship[1]->coding->display->value ["value"];
+	    $parent_gender = $doc->gender->value ["value"];
+	    
+	    $parent_eta = $doc->age->Age->value ["value"];
+	    $parent_born = $doc->born->date->value ["value"];
+	    
+	    $codiction_id = array ();
+	    $codiction_desc = array ();
+	    $codiction_age = array ();
+	    $codiction_note = array ();
+	    
+	    foreach ( $doc->condiction as $cond ) {
+	        array_push ( $codiction_id, $cond->code->coding->code->value ["value"] );
+	        array_push ( $codiction_desc, $cond->code->coding->display->value ["value"] );
+	        array_push ( $codiction_age, $cond->onsetAge->value->value ["value"] );
+	        array_push ( $vaccinazioneReactionReported, $cond->>note->text->value ["value"] );
+	    }
+	    
+	    // Verifico l'integrità dei dati
+	    if ($anamnesiF) {
+	        throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided exists in database !" );
+	    }
+	    
+	    if (empty ( $anamnesi_status)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Status cannot be empty !" );
+	    }
+	    
+	    if (empty ( $patient_id )) {
+	        throw new FHIR\InvalidResourceFieldException ( "Patient code cannot be empty !" );
+	    }
+	    
+	    if (empty ( $patient_name )) {
+	        throw new FHIR\InvalidResourceFieldException ( "Patient name  cannot be empty !" );
+	    }
+	    if (empty ( $patient_relation)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Relationship  cannot be empty !" );
+	    }
+	    if (empty ( $anamnesi_data)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Data cannot be empty !" );
+	    }
+	    
+	    
+	    if (empty ( $codiction_id)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Id Condiction  cannot be empty !" );
+	    }
+	    
+	    if (empty ( $codiction_desc)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Descrizione condiction  cannot be empty !" );
+	    }
+	    
+	    if (empty ( $codiction_age)) {
+	        throw new FHIR\InvalidResourceFieldException ( "Age condiction  cannot be empty !" );
+	    }
+	    
+	    
+	    /**
+	     * VALIDAZIONE ANDATA A BUON FINE *
+	     */
+	    
+	    $anamn = new AnamnesiF();
+	    
+	    $anamn->setStatus($anamnesi_status);
+	    $anamn->setIDPaziente($patient_id);
+	    $anamn->setCodice($patient_relation);
+	    $anamn->setNDR($anamnesi_notDone);
+	    $anamn->setCodice(relazione_codice);
+	    $anamn->setCDescrizione($relazione_desc);
+	    $anamn->setData($anamnesi_data);
+	    $anamn->save ();
+	    
+	    
+	    for($i = 0; $i < count ( $vaccinazioneReactionData ); $i ++) {
+	        
+	        $cond = new FamilyCondition();
+	        
+	        $cond->setID(codiction_id);
+	        $cond->setoutCome($codiction_desc);
+	        $cond->setAgeValue($codiction_age);
+	        $cond->setNote($codiction_note);
+	    }
+	    $cond->save ();
 	}
 	
 	/**
@@ -108,7 +295,7 @@ class FamilyMemberHistoryController extends Controller {
 		//
 		$AnamnesiFamiliare = AnamnesiFamiliare::find ( $id_paziente );
 		
-		// Lancio dell'eccezione per verificare che la vaccinazione sia prensente nel sistema
+		// Lancio dell'eccezione per verificare che l' anamnesi sia prensente nel sistema
 		if (! $AnamnesiFamiliare->exists ()) {
 			throw new FHIR\IdNotFoundInDatabaseException ( "resource with the id provided doesn't exist in database" );
 		}

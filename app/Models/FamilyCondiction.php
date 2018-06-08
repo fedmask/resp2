@@ -84,6 +84,8 @@ class FamilyCondiction extends Model {
 	public function setAgeValue($value) {
 		$this->onSetAgeValue = $value;
 	}
+	
+	
 	public function Parente() {
 		return $this->belongsTo ( \App\Models\History\Parente::class, 'id_parente' );
 	}

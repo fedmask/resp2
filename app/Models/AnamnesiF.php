@@ -96,6 +96,9 @@ class AnamnesiF extends Model {
 	public function setData($Data) {
 		$this->data = $Data;
 	}
+	
+	
+	
 	public function tbl_Parente() {
 		return $this->belongTo ( \App\Models\Parente::class, 'id_parente' );
 	}
