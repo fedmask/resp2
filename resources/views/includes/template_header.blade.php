@@ -115,8 +115,8 @@
 					@endif
 
 					<!-- se l'utente e' un paziente visualizzo il pulsante per l'esportazione del profilo -->
-					@if( $current_user->getDescription() === 'paziente')
-					<li><a href="/formscripts/exportPatient.php?patientid=' . $pz_id . '"><i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
+					@if( $current_user->getDescription() == User::PATIENT_DESCRIPTION)
+					<li><a href="EXPORT PATIENT"><i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
 					</li>
 					@endif
 					<!--Logout  -->

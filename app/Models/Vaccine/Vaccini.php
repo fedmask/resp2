@@ -56,9 +56,6 @@ class Vaccini extends Eloquent {
 	public function getDurata() {
 		return $this->vaccino_durata;
 	}
-	public function getId() {
-		return $this->vaccino_manufactured;
-	}
 	public function getExpDate() {
 		return $this->vaccino_expirationDate;
 	}

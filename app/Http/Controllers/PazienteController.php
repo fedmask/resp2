@@ -381,4 +381,21 @@ class PazienteController extends Controller
 	    return view('pages.indagini')->with('logs', $logs);
 	}
 	
+	
+	/**
+	 * mostra la pagina Vaccinazioni
+	 */
+	public function showVaccinazioni(Request $request){
+	    if($request->has('id_visiting')) {
+	        $id_visiting = request()->input('id_visiting');
+	    } else {
+	        $id_visiting = Auth::user()->id_utente;
+	    }
+	    
+	    $this->buildLog('Vaccinazioni', $request->ip(), $id_visiting);
+	    
+	    $logs = AuditlogLog::where('id_visitato', $id_visiting)->orderBy('id_audit', 'desc')->get();
+	    
+	    return view('pages.vaccinazioni')->with('logs', $logs);
+	}
 }

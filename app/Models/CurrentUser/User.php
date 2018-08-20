@@ -21,6 +21,7 @@ use App\Models\InvestigationCenter\CentriIndagini;
 use App\Models\InvestigationCenter\CentriContatti;
 use DB;
 use Auth;
+use App\Models\Vaccine\Vaccinazione;
 
 class User extends Authenticatable
 {
@@ -1070,6 +1071,34 @@ class User extends Authenticatable
         return $all;
     }
     
+    
+    /**
+     * restituisce un array con tutte le vaccinazioni del'utente loggato
+     */
+    public function vaccinazioni(){
+        $arrayPazienti = array();
+        $arrayPazienti = Pazienti::all();
+        $idPaziente;
+        $vaccinazioni = array();
+        $vaccinazioni = Vaccinazione::all();
+        
+        
+        $ret = array();
+        
+        foreach ($arrayPazienti as $paz) {
+            if ($paz->id_utente == $this->id_utente) {
+                $idPaziente = $paz->id_paziente;
+            }
+        }
+        
+        foreach ($vaccinazioni as $v) {
+            if ($idPaziente == $v->id_paziente) {
+                array_push($ret, $v);
+            }
+        }
+        
+        return $ret;
+    }
     
     
 }

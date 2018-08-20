@@ -98,11 +98,13 @@
 												<th>Cognome</th>
 												<th>Ruolo</th>
 												<th>Telefono</th>
-												<th>Altre informazioni</th>
+												<th>Note</th>
 												<th>Citta'</th> @if($current_user->getDescription() ==
 												User::PATIENT_DESCRIPTION)
-												<th>Opzioni</th> @endif
-												<th></th>
+												<th>Opzioni</th>
+												<th>Export</th> 
+												@endif
+											
 											</tr>
 												@for($i = 0; $i < $current_user->trovaCppAssociati(); $i++)
 												<tr>
@@ -114,9 +116,6 @@
 												<td>{{ $current_user->telefonoCppAssociato()[$i]}}</td>
 												<td>{{ $current_user->informazioniCppAssociato()[$i]}}</td>
 												<td>{{ $current_user->cittaCppAssociato()[$i]}}</td>
-												<td>{{
-													$current_user->confidenzialitaCppAssociato($current_user->id_utente,
-													$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i]))}}</td>
 												<td>
 													<table>
 														<tr>
@@ -151,7 +150,7 @@
 																</div>
 															</td>
 															<td><a
-																href="http://localhost:8000/{{$current_user->confidenzialita($current_user->id_utente,$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i]))}}/{{$current_user->id_utente}}/{{$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i])}}/ok"
+																href="http://localhost:8000/{{$current_user->confidenzialitaCppAssociato($current_user->id_utente,$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i]))}}/{{$current_user->id_utente}}/{{$current_user->idCppAssociato($current_user->telefonoCppAssociato()[$i])}}/ok"
 																method="post"><button style="width: 33px; height: 33px;"
 																		id="assegnaValore()" type="submit"
 																		class="icon-remove btn-danger"></button></a></td>
@@ -165,7 +164,7 @@
 															</td>
 														</tr>
 													</table>
-
+                                                 <td><button class="button export" onClick="location.href='EXPORT CPP'"></button></td>
 												</td>
 											</tr>
 											@endfor
@@ -177,7 +176,17 @@
 									</table>
 								</div>
 								<!--table-responsive-->
+<style>
+.export {
+    background-color: white;
+    background-image: url(img/export.png);
+    width: 33px;
+    height: 33px;
+    border: 0px;
+}
 
+
+</style>
 								<script>
 //Questa funzione assegna nel form della mail la mail dell'utente loggato 								
 function assegnaValore(num){
@@ -514,4 +523,4 @@ function cancellaRiga(){
 
 {{-- @php(include "careProvidersScript.php") --}}
 <!--END PAGE CONTENT -->
-@endsection @endsection
+@endsection

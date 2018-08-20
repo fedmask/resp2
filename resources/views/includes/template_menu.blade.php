@@ -165,6 +165,9 @@ function prendeValori(){
 
 
 			<!-- VACCINAZIONE -->
+            <li class="panel"> <a href="/vaccinazioni"> <em class="icon-file-text-alt"></em> Vaccinazioni </a>
+			</li>
+
 
 			<!-- ALLERGIE / INTOLLERANZE -->
 

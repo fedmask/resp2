@@ -144,6 +144,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 	Route::get('/visits', 'PazienteController@showVisits')->name('visite');
 	
+	Route::get('/vaccinazioni', 'PazienteController@showVaccinazioni')->name('vaccinazioni');
+	
 	Route::get('/diagnosi', 'PazienteController@showDiagnosi')->name('diagnosi');
 	
 	Route::get('/indagini', 'PazienteController@showIndagini')->name('indagini');
