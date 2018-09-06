@@ -72,6 +72,7 @@
 					<li>
 						<a class="page-scroll" href="#link">Link</a>
 					</li>
+					<li><a href="/cookies_s">Cookies</a></li>
 				</ul>
 				<!-- LOGIN -->
 				@auth
@@ -573,6 +574,14 @@
 			interval: 3500
 		} )
 	</script>
+
+
+@include('layouts.cookies')
+  
+
+@if(\Illuminate\Support\Facades\Cookie::get('consent') != null)
+        <script>console.log('Google analytics cookies created.')</script>
+    @endif
 
 </body>
 
