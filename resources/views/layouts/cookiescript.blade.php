@@ -26,9 +26,11 @@
         return dd+'/'+mm+'/'+yyyy+' - '+hh+':'+min+':'+sec;
     }
 
-function close(){
+	function close(){
 	let cookies = document.getElementById("cookiescript_in");
+	document.cookie="consent=;";
     cookies.remove();
+    window.location.reload()
 }
 
 </script>

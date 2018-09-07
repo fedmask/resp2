@@ -106,7 +106,7 @@
 			<p>
 				<br>
 			</p>
-			<div align="center">
+			<div align="center" onclick="refresh()">
 				<button class="btn btn-info" onclick="accept()">Consenti l'utilizzo
 					dei cookie.</button>
 
@@ -138,7 +138,7 @@
 				<p>
 					<br>
 				</p>
-				<div align="center">
+				<div align="center" onclick="refresh()">
 					<button class="btn btn-danger" onclick="refuse()">Revoca l'utilizzo
 						dei cookie.</button>
 				</div>

@@ -14,7 +14,7 @@
 
 
 		RESP utilizza i cookie per migliorare la user expirience.
-		Accettando i nosti cookie accetti la nostra <a href="/cookies_s">Cookie
+		Accettando i nosti cookie accetti la nostra <br><a href="/cookies_s">Cookie
 			Policy</a></span> <br>
 		<div style="width: 100%; text-align: left;">
 			<ul>
@@ -36,15 +36,15 @@
 					del sito web.</li>
 			</ul>
 		</div>
-		<div id="cookiescript_buttons" onclick="accept();"
+		<div id="cookiescript_buttons" 
 			style="margin: 5px auto; font-size: 13px; font-weight: normal; text-align: center; font-family: Arial, sans-serif;">
-			<div id="cookiescript_accept"
+			<div id="cookiescript_accept" onclick="accept();"
 				style="border-radius: 5px; border: 0px; padding: 6px 10px; font-weight: bold; font-size: 13px; cursor: pointer; margin: 0px 20px 0px 0px; transition: all 0.25s ease 0s; text-shadow: rgb(0, 0, 0) 0px 0px 2px; display: inline-block; background-color: rgb(91, 183, 91); color: rgb(255, 255, 255);">Accetto
 			</div>
 			<div id="cookiescript_reject" onclick="refuse();"
 				style="border-radius: 5px; border: 0px; padding: 6px 10px; font-weight: bold; font-size: 13px; cursor: pointer; margin: 0px 20px 0px 0px; transition: all 0.25s ease 0s; text-shadow: rgb(0, 0, 0) 0px 0px 2px; display: inline-block; background-color: rgb(183, 91, 91); color: rgb(255, 255, 255);">Non
 				accetto</div>
-			<div id="cookiescript_readmore" onclick="close();"
+			<div id="cookiescript_readmore" onclick="refuse();"
 				style="border-radius: 5px; border: 0px; padding: 6px 10px; font-weight: bold; font-size: 13px; cursor: pointer; margin: 0px 20px 0px 0px; transition: all 0.25s ease 0s; text-shadow: rgb(0, 0, 0) 0px 0px 2px; display: inline-block; background-color: rgb(54, 152, 194); color: rgb(255, 255, 255);">Chiudi
 			</div>
 			<div style="clear: both"></div>
