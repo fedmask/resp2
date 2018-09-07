@@ -11,7 +11,7 @@
 |
 */
 
-/**
+/** 
 * Route per l'index
 */
 Route::get('/', function () { return view('welcome'); });
