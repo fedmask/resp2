@@ -13,10 +13,10 @@
 	<link rel="shortcut icon" href="faviconFSEM.ico">
 
 	<title>Registro Elettronico Sanitario Personale</title>
-    <!-- Bootstrap Core CSS -->
+
 	<!-- Bootstrap Core CSS -->
 	<link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<!-- TEST GIT -->
+
 	<!-- Custom CSS -->
 	<link href="/css/scrolling-nav.css" rel="stylesheet">
 	<link href="/css/yamm.css" rel="stylesheet"/>
@@ -72,6 +72,7 @@
 					<li>
 						<a class="page-scroll" href="#link">Link</a>
 					</li>
+					<li><a href="/cookies_s">Cookies</a></li>
 				</ul>
 				<!-- LOGIN -->
 				@auth
@@ -509,7 +510,6 @@
 	<div id="c">
 		<div class="container">
 			<p>Incaricato e responsabile del trattamento dei dati: dott. Francesco Girardi; C.F. GRRFNC62A06A662W; Bari, Via Amendola, 79; mail: privacy@fsem.eu</p>
-			<p>Proseguendo con la navigazione si intende accettata la <a href="informative/consensoInformatoFsem.eu.html"><b> politica della privacy</b></a> adottata</p>
 
 			<div class="footer-right">
 
@@ -573,6 +573,14 @@
 			interval: 3500
 		} )
 	</script>
+
+
+@include('layouts.cookies')
+  
+
+@if(\Illuminate\Support\Facades\Cookie::get('consent') != null)
+        <script>console.log('Google analytics cookies created.')</script>
+    @endif
 
 </body>
 
