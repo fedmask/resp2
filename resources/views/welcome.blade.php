@@ -13,10 +13,10 @@
 	<link rel="shortcut icon" href="faviconFSEM.ico">
 
 	<title>Registro Elettronico Sanitario Personale</title>
-
+    <!-- Bootstrap Core CSS -->
 	<!-- Bootstrap Core CSS -->
 	<link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+	<!-- TEST GIT -->
 	<!-- Custom CSS -->
 	<link href="/css/scrolling-nav.css" rel="stylesheet">
 	<link href="/css/yamm.css" rel="stylesheet"/>
