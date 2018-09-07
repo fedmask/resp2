@@ -32,6 +32,7 @@ Route::post('/register/careprovider', 'Auth\RegisterController@registerCareprovi
 
 
 
+
 /*
  * 
  * Auth::routes(); chiama e istanzia le seguenti funzioni/url
