@@ -314,9 +314,10 @@
 							<p>
 								I dati raccolti non consentono l'identificazione personale degli
 								utenti, e non sono incrociati con altre informazioni relative
-								alla stessa persone. Sono <strong>anonimizzati</strong> (troncati all'ultimo ottetto). In base
-								ad apposito accordo e' vietato a Google Inc. l'incrocio di tali
-								dati con quelli ricavati da altri servizi.
+								alla stessa persone. Sono <strong>anonimizzati</strong>
+								(troncati all'ultimo ottetto). In base ad apposito accordo e'
+								vietato a Google Inc. l'incrocio di tali dati con quelli
+								ricavati da altri servizi.
 							</p>
 						</div>
 					</div>
@@ -355,15 +356,30 @@
 
 
 		</div>
+
+
+
+		<p>
+			<br>
+		</p>
+		<div align="center"
+			
+			<p>
+				La nostra Cookie Policy e' scaricabile cliccando su: <a
+					href="informative/Cookie Policy.pdf">Cookie Policy</a>
+			</p>
+		</div>
+
+
 	</div>
 
-<p>
-<br>
-</p>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<p>
+		<br>
+	</p>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </body>
 </html>
