@@ -3,7 +3,7 @@
         document.cookie="consent="+today()+";expires="+new Date(new Date().setFullYear(new Date().getFullYear() + 1))+";";
         let cookies = document.getElementById("cookiescript_in");
         cookies.remove();
-       	window.location.reload()
+       	window.location.reload();
         
     }
 
@@ -11,7 +11,7 @@
         let cookies = document.getElementById("cookiescript_in");
         document.cookie="consent=;";
         cookies.remove();
-        window.location.reload()
+       
        
     }
 
@@ -27,10 +27,10 @@
     }
 
 	function close(){
-	let cookies = document.getElementById("cookiescript_in");
-	document.cookie="consent=;";
-    cookies.remove();
-    window.location.reload()
-}
+		let cookies = document.getElementById("cookiescript_in");
+		document.cookie="consent=;";
+   		cookies.remove();
+   
+	}
 
 </script>

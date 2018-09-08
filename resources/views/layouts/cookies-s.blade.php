@@ -84,7 +84,7 @@
 				<hr>
 			</div>
 
-			<h1>Non hai acconsentito all'utilizzo dei cookie</h1>
+			<h2>Non hai acconsentito all'utilizzo dei cookie</h2>
 
 			<h3>Se accetti l'utilizzo dei cookie, saranno memorizzati i seguenti:</h3>
 			<ul>
