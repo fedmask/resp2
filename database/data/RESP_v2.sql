@@ -1,8 +1,9 @@
 
+drop schema if exists resp;
 -- -----------------------------------------------------
 -- Schema resp
 -- -----------------------------------------------------
--- DROPSCHEMA IF EXISTS `resp` ;
+
 
 -- -----------------------------------------------------
 -- Schema resp
@@ -268,6 +269,17 @@ CREATE TABLE IF NOT EXISTS  `tbl_stati_matrimoniali` (
   INDEX `fk_tbl_stati_matrimoniali_tbl_pazienti_idx` (`id_stato_matrimoniale` ASC))
 ENGINE = InnoDB;
 
+CREATE TABLE Gender (
+Codice CHAR(10) PRIMARY KEY
+
+);
+
+CREATE TABLE Languages (
+Codice VARCHAR(5) PRIMARY KEY,
+testo VARCHAR(20) NOT NULL
+
+
+);
 
 -- -----------------------------------------------------
 -- Table  `tbl_pazienti`
@@ -282,10 +294,11 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti` (
   `paziente_cognome` VARCHAR(45)  ,
   `paziente_nascita` DATE NOT NULL,
   `paziente_codfiscale` CHAR(16)  ,
-  `paziente_sesso` CHAR(1)  ,
+  `paziente_sesso` CHAR(10) NOT NULL,
   `paziente_gruppo` TINYINT(4) NOT NULL,
   `paziente_rh` CHAR(3)  ,
   `paziente_donatore_organi` TINYINT(4) NOT NULL,
+  `paziente_lingua` VARCHAR(5) NOT NULL,
   PRIMARY KEY (`id_paziente`),
   UNIQUE INDEX `paziente_codfiscale_UNIQUE` (`paziente_codfiscale` ASC),
   INDEX `FOREIGN_UTENTE_idx` (`id_utente` ASC),
@@ -299,9 +312,19 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti` (
     FOREIGN KEY (`id_stato_matrimoniale`)
     REFERENCES  `tbl_stati_matrimoniali` (`id_stato_matrimoniale`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    
+	FOREIGN KEY (`paziente_sesso`)
+    REFERENCES  `Gender` (`Codice`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`paziente_lingua`)
+    REFERENCES  `Languages` (`Codice`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
+
 
 
 -- -----------------------------------------------------
@@ -312,7 +335,7 @@ AUTO_INCREMENT = 1;
 CREATE TABLE IF NOT EXISTS  `tbl_anamnesi_familiare` (
   `id_paziente` INT(10) UNSIGNED NOT NULL,
   `id_anamnesi_log` INT(11) NOT NULL,
-  `anamnesi_contenuto` TEXT  ,
+  `anamnesi_contenuto` TEXT,
   PRIMARY KEY (`id_paziente`),
   CONSTRAINT `tbl_anamnesi_familiare_ibfk_1`
     FOREIGN KEY (`id_paziente`)
@@ -1667,18 +1690,6 @@ CREATE TABLE IF NOT EXISTS `Ruoli_amministratori` (
 Ruolo VARCHAR(30) PRIMARY KEY)
 ENGINE = InnoDB;
 
--- Documento 
-
-CREATE TABLE IF NOT EXISTS `Documenti` (
-Id_Documento INT UNSIGNED PRIMARY KEY,	
-Tipo VARCHAR(30),
-`Id_Amministratore` INT(10) UNSIGNED NOT NULL,
- FOREIGN KEY (`Id_Amministratore`)
-    REFERENCES  `Utenti_Amministrativi` (`id_utente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-)
-ENGINE = InnoDB;
 
 
 -- Utenti_Amministrativi
@@ -1724,6 +1735,127 @@ CREATE TABLE IF NOT EXISTS  `Utenti_Amministrativi` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- Documento 
+
+CREATE TABLE IF NOT EXISTS `Documenti` (
+Id_Documento INT UNSIGNED PRIMARY KEY,	
+Tipo VARCHAR(30),
+`Id_Amministratore` INT(10) UNSIGNED NOT NULL,
+ FOREIGN KEY (`Id_Amministratore`)
+    REFERENCES  `Utenti_Amministrativi` (`id_utente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)
+ENGINE = InnoDB;
+
+-- Moduli GS
+
+CREATE TABLE IF NOT EXISTS `Moduli_Gruppo_Sanguigno` (
+Id_Modulo INT UNSIGNED PRIMARY KEY,
+Id_Paziente INT(10) UNSIGNED NOT NULL,	
+documento LONGBLOB NOT NULL,
+data_caricamento DATE NOT NULL,
+data_convalida DATE,
+note VARCHAR(255), 
+Stato TINYINT(1) NOT NULL DEFAULT '0', 
+Id_Amministratore INT(10) UNSIGNED,
+FOREIGN KEY (Id_Amministratore)
+    REFERENCES  Utenti_Amministrativi (id_utente)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION, 
+    
+    FOREIGN KEY (`id_Paziente`)
+    REFERENCES  `tbl_pazienti` (`id_paziente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- Trattamenti_Pazienti
+
+CREATE TABLE IF NOT EXISTS `Trattamenti_Pazienti` (
+Id_Trattamento INT UNSIGNED PRIMARY KEY,
+Nome_T VARCHAR(255) NOT NULL,
+Finalità_T VARCHAR(255) NOT NULL,
+Modalità_T VARCHAR(255) NOT NULL,
+Informativa VARCHAR(500) NOT NULL,
+Incaricati VARCHAR(255) NOT NULL)
+ENGINE = InnoDB;
+
+
+-- Trattamenti_CP
+
+CREATE TABLE IF NOT EXISTS `Trattamenti_CP` (
+Id_Trattamento INT UNSIGNED PRIMARY KEY,
+Nome_T VARCHAR(255) NOT NULL,
+Finalità_T VARCHAR(255) NOT NULL,
+Modalità_T VARCHAR(255) NOT NULL,
+Informativa VARCHAR(500) NOT NULL,
+Incaricati VARCHAR(255) NOT NULL)
+ENGINE = InnoDB;
+
+-- Consenso Paziente
+
+CREATE TABLE IF NOT EXISTS `Consenso_Paziente` (
+Id_Trattamento INT UNSIGNED NOT NULL,
+Id_Paziente INT(10) UNSIGNED NOT NULL,	
+Consenso TINYINT(1) NOT NULL DEFAULT '0',
+data_consenso DATE NOT NULL,
+FOREIGN KEY (Id_Trattamento)
+    REFERENCES  Trattamenti_Pazienti (Id_Trattamento)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION, 
+    
+    FOREIGN KEY (`Id_Paziente`)
+    REFERENCES  `tbl_pazienti` (`id_paziente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- Consenso Care Provider
+
+CREATE TABLE IF NOT EXISTS `Consenso_CP` (
+Id_Trattamento INT UNSIGNED NOT NULL,
+Id_Cpp INT(10) UNSIGNED NOT NULL,	
+Consenso TINYINT(1) NOT NULL DEFAULT '0',
+data_consenso DATE NOT NULL,
+FOREIGN KEY (Id_Trattamento)
+    REFERENCES  Trattamenti_CP(Id_Trattamento)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION, 
+    
+    FOREIGN KEY (`Id_Cpp`)
+    REFERENCES  `tbl_care_provider` (`id_cpp`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- --------------------------------------------------------------------FINE
+CREATE TABLE ContactRelationship (
+Codice CHAR(3) PRIMARY KEY,
+Testo VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE PatientContact (
+Id_Patient INT(10) UNSIGNED PRIMARY KEY,
+Relationship CHAR(3) NOT NULL,
+Nome CHAR(30) NOT NULL,
+Surname CHAR(30) NOT NULL,
+Telephone VARCHAR (15) NULL,
+Mail VARCHAR(50) NULL,
+
+
+FOREIGN KEY (`Id_Patient`)
+    REFERENCES  `tbl_pazienti` (`id_paziente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+
+FOREIGN KEY (Relationship)
+    REFERENCES  ContactRelationship(Codice)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
 
 
 
