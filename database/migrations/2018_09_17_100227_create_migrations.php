@@ -15,7 +15,9 @@ class CreateMigrations extends Migration
 	
 	public function up()
 	{
-		$file = realpath('C:/Users/Giuseppe/Desktop/RESP_v2.sql');
+		
+		//$file = File::get("database/data/RESP_v2.sql");
+		$file = realpath('database/data/RESP_v2.sql');
 		DB::unprepared( file_get_contents($file) );
 	}
 	
