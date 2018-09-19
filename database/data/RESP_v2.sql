@@ -270,13 +270,13 @@ CREATE TABLE IF NOT EXISTS  `tbl_stati_matrimoniali` (
 ENGINE = InnoDB;
 
 CREATE TABLE Gender (
-Codice CHAR(10) PRIMARY KEY
+Code CHAR(10) PRIMARY KEY
 
 );
 
 CREATE TABLE Languages (
-Codice VARCHAR(5) PRIMARY KEY,
-testo VARCHAR(20) NOT NULL
+Code VARCHAR(5) PRIMARY KEY,
+Display VARCHAR(20) NOT NULL
 
 
 );
@@ -315,11 +315,11 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti` (
     ON UPDATE NO ACTION,
     
 	FOREIGN KEY (`paziente_sesso`)
-    REFERENCES  `Gender` (`Codice`)
+    REFERENCES  `Gender` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
 	FOREIGN KEY (`paziente_lingua`)
-    REFERENCES  `Languages` (`Codice`)
+    REFERENCES  `Languages` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -343,6 +343,10 @@ CREATE TABLE IF NOT EXISTS  `tbl_anamnesi_familiare` (
 ENGINE = InnoDB;
 
 
+CREATE TABLE FamilyMemberHistoryStatus (
+Code VARCHAR(20) PRIMARY KEY
+);
+
 -- -----------------------------------------------------
 -- Table  `tbl_AnamnesiF`
 -- -----------------------------------------------------
@@ -350,15 +354,14 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS  `tbl_AnamnesiF` (
   `id_anamnesiF` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_parentela` VARCHAR(255)  ,
-  `codice` VARCHAR(15)  ,
-  `codice_descrizione` VARCHAR(25)  ,
+  -- relationship si ricava tramite la codifica "relationship" in contatto, datp che i coontatti contegono anche i parenti
   `descrizione` TEXT  ,
   `id_paziente` INT(10) UNSIGNED NOT NULL,
   `id_parente` INT(10) UNSIGNED NOT NULL,
-  `status` VARCHAR(10)  ,
+  `status` VARCHAR(20)  ,
   `notDoneReason` VARCHAR(10)  ,
   `note` TEXT  ,
+  -- decesso lo vado a prendere in tbl_parente
   `data` DATE NOT NULL,
   PRIMARY KEY (`id_anamnesiF`),
   INDEX `FOREIGN_Anamnesi_Parente_I1` (`id_parente` ASC),
@@ -372,9 +375,23 @@ CREATE TABLE IF NOT EXISTS  `tbl_AnamnesiF` (
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_anamnesi_familiare` (`id_paziente`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`status`)
+    REFERENCES  `FamilyMemberHistoryStatus` (`Code`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+CREATE TABLE ConditionCode (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE FamilyMemberHistoryConditionOutcome (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
 
 -- -----------------------------------------------------
 -- Table  `tbl_FamilyCondiction`
@@ -383,8 +400,9 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS  `tbl_FamilyCondiction` (
   `id_Condition` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `code_fhir` VARCHAR(10) NOT NULL,  
   `Codice_ICD9` VARCHAR(5)  ,
-  `outCome` VARCHAR(45)  ,
+  `outCome` VARCHAR(10)  ,
   `id_parente` INT(10) UNSIGNED NOT NULL,
   `onSetAge` TINYINT(1) NOT NULL DEFAULT '1',
   `onSetAgeRange_low` INT(11) NOT NULL,
@@ -404,6 +422,14 @@ CREATE TABLE IF NOT EXISTS  `tbl_FamilyCondiction` (
   CONSTRAINT `FOREIGN_Parente_Condition`
     FOREIGN KEY (`id_parente`)
     REFERENCES  `tbl_Parente` (`id_parente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	    FOREIGN KEY (`code_fhir`)
+    REFERENCES  `ConditionCode` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+		    FOREIGN KEY (`outCome`)
+    REFERENCES  `FamilyMemberHistoryConditionOutcome` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -493,7 +519,11 @@ CREATE TABLE IF NOT EXISTS  `tbl_auditlog_log` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
 
+CREATE TABLE QualificationCode (
+Code CHAR(10) PRIMARY KEY,
+Display VARCHAR(50) NOT NULL
 
+);
 -- -----------------------------------------------------
 -- Table  `tbl_care_provider`
 -- -----------------------------------------------------
@@ -506,22 +536,61 @@ CREATE TABLE IF NOT EXISTS  `tbl_care_provider` (
   `cpp_cognome` VARCHAR(45)  ,
   `cpp_nascita_data` DATE NOT NULL,
   `cpp_codfiscale` CHAR(16)  ,
-  `cpp_sesso` CHAR(1)  ,
+  `cpp_sesso` CHAR(10) NOT NULL  ,
   `cpp_n_iscrizione` VARCHAR(7)  ,
   `cpp_localita_iscrizione` VARCHAR(50)  ,
   `specializzation` VARCHAR(45)  ,
+  `cpp_lingua` VARCHAR(10)  ,
+  `active` TINYINT(1) DEFAULT '0'  ,
   PRIMARY KEY (`id_cpp`),
   UNIQUE INDEX `cpp_codfiscale_UNIQUE` (`cpp_codfiscale` ASC),
   INDEX `FOREIGN_CPP_UTENTE_idx` (`id_utente` ASC),
+  CHECK (specializzation IN (SELECT QC.Display FROM QualificationCode QC)),
   CONSTRAINT `FOREIGN_CPP_UTENTE_idx`
     FOREIGN KEY (`id_utente`)
     REFERENCES  `tbl_utenti` (`id_utente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	
+	FOREIGN KEY (`cpp_lingua`)
+    REFERENCES  `Languages` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	
+	FOREIGN KEY (`cpp_sesso`)
+    REFERENCES  `Gender` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
 
 
+
+
+CREATE TABLE CppQualification (
+id_cpp INT(10) UNSIGNED NOT NULL,
+Code CHAR(10) NOT NULL,
+Start_Period DATE NOT NULL,
+End_Period DATE NOT NULL,
+Issuer VARCHAR(30) NOT NULL,
+
+FOREIGN KEY(Code) REFERENCES QualificationCode(Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+
+FOREIGN KEY (`id_cpp`)
+    REFERENCES  `tbl_care_provider` (`id_cpp`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+
+);
+
+CREATE TABLE OrganizationType (
+Code CHAR(6) PRIMARY KEY,
+Text VARCHAR(30) NOT NULL,
+
+INDEX code_org_type(Code)
+);
 -- -----------------------------------------------------
 -- Table  `tbl_centri_tipologie`
 -- -----------------------------------------------------
@@ -530,7 +599,12 @@ AUTO_INCREMENT = 1;
 CREATE TABLE IF NOT EXISTS  `tbl_centri_tipologie` (
   `id_centro_tipologia` SMALLINT(6) NOT NULL,
   `tipologia_nome` VARCHAR(60)  ,
-  INDEX `fk_tbl_cpp_persona_tbl_centri_indagini1_idx` (`id_centro_tipologia` ASC))
+  `code_fhir` CHAR(6)  DEFAULT 'other',
+  INDEX `fk_tbl_cpp_persona_tbl_centri_indagini1_idx` (`id_centro_tipologia` ASC),
+  FOREIGN KEY (`code_fhir`)
+    REFERENCES  `OrganizationType` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -786,6 +860,34 @@ CREATE TABLE IF NOT EXISTS  `tbl_cpp_specialization` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
 
+CREATE TABLE ConditionClinicalStatus (
+Code VARCHAR(15) PRIMARY KEY
+);	
+
+CREATE TABLE ConditionVerificationStatus (
+Code VARCHAR(20) PRIMARY KEY
+);	
+
+CREATE TABLE ConditionSeverity (
+Code VARCHAR(30) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);	
+
+
+CREATE TABLE ConditionBodySite (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);	
+
+CREATE TABLE ConditionStageSummary (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);	
+
+CREATE TABLE ConditionEvidenceCode (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);	
 
 -- -----------------------------------------------------
 -- Table  `tbl_diagnosi`
@@ -795,12 +897,19 @@ AUTO_INCREMENT = 1;
 CREATE TABLE IF NOT EXISTS  `tbl_diagnosi` (
   `id_diagnosi` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_paziente` INT(10) UNSIGNED NOT NULL,
+  verificationStatus VARCHAR(20) NOT NULL,
+  severity VARCHAR(30) NOT NULL,
+  code VARCHAR(10) NOT NULL,
+    bodySite VARCHAR(10) NOT NULL,
+	stageSummary VARCHAR(10) NOT NULL,
+	evidenceCode VARCHAR(10) NOT NULL,
   `diagnosi_confidenzialita` SMALLINT(6) NOT NULL,
   `diagnosi_inserimento_data` DATE NOT NULL,
   `diagnosi_aggiornamento_data` DATE NOT NULL,
   `diagnosi_patologia` TEXT  ,
-  `diagnosi_stato` INT(11) NOT NULL,
+  `diagnosi_stato` VARCHAR(15) NOT NULL,
   `diagnosi_guarigione_data` DATE NOT NULL,
+  `note` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_diagnosi`),
   INDEX `fk_tbl_diagnosi_tbl_livelli_confidenzialita1_idx` (`diagnosi_confidenzialita` ASC),
   INDEX `fk_tbl_diagnosi_tbl_pazienti1_idx` (`id_paziente` ASC),
@@ -812,6 +921,38 @@ CREATE TABLE IF NOT EXISTS  `tbl_diagnosi` (
   CONSTRAINT `fk_tbl_diagnosi_tbl_pazienti1_idx`
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`diagnosi_stato`)
+    REFERENCES  `ConditionClinicalStatus` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`verificationStatus`)
+    REFERENCES  `ConditionVerificationStatus` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`verificationStatus`)
+    REFERENCES  `ConditionVerificationStatus` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`severity`)
+    REFERENCES  `ConditionSeverity` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`code`)
+    REFERENCES  `ConditionCode` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`bodySite`)
+    REFERENCES  `ConditionBodySite` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`stageSummary`)
+    REFERENCES  `ConditionStageSummary` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`evidenceCode`)
+    REFERENCES  `ConditionEvidenceCode` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -954,6 +1095,48 @@ CREATE TABLE IF NOT EXISTS  `tbl_farmaci` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+CREATE TABLE MedicationCode (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE MedicationStatus (
+Code VARCHAR(20) PRIMARY KEY
+);
+
+CREATE TABLE MedicationForm (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS  `farmaci_assunti` (
+  `id_farmaco`VARCHAR(10) NOT NULL  ,
+  `id_paziente` INT(10) UNSIGNED NOT NULL ,
+  `status` VARCHAR(20) NOT NULL ,
+  `isOverTheCounter` TINYINT(1),
+  `form` VARCHAR(10) NOT NULL,
+	    FOREIGN KEY (`id_paziente`)
+    REFERENCES  `tbl_pazienti` (`id_paziente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	    FOREIGN KEY (`id_farmaco`)
+    REFERENCES  `MedicationCode` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`status`)
+    REFERENCES  `MedicationStatus` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+		FOREIGN KEY (`form`)
+    REFERENCES  `MedicationForm` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+	
+
+ENGINE = InnoDB;
+
+
 
 
 -- -----------------------------------------------------
@@ -1359,6 +1542,13 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti_familiarita` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE TABLE EncounterReason (
+Code VARCHAR(15) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL, 
+
+INDEX code_encounter_reason(Code)
+);
+
 
 -- -----------------------------------------------------
 -- Table  `tbl_pazienti_visite`
@@ -1367,7 +1557,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS  `tbl_pazienti_visite` (
   `id_visita` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_cpp` INT(10) UNSIGNED NOT NULL,
+  `id_cpp` INT(10) UNSIGNED NOT NULL, -- ABBIAMO IL VINCOLO CHE DEVE PARTECIPARE ALMENO UN CPP ALLA VISITA
   `id_paziente` INT(10) UNSIGNED NOT NULL,
   `visita_data` DATE NOT NULL,
   `visita_motivazione` VARCHAR(100)  ,
@@ -1394,6 +1584,50 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti_visite` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
+
+
+CREATE TABLE Esito (
+Code VARCHAR(15) PRIMARY KEY,
+id_visita INT(10) UNSIGNED NOT NULL, 
+
+FOREIGN KEY (`id_visita`)
+REFERENCES  `tbl_pazienti_visite` (`id_visita`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	
+		FOREIGN KEY (`Code`)
+    REFERENCES  `EncounterReason` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+CREATE TABLE EncounterParticipantType (
+Code CHAR(10) PRIMARY KEY,
+Text VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE VisitaCP (
+id_visita INT(10) UNSIGNED NOT NULL,
+id_cpp INT(10) UNSIGNED NOT NULL,
+Start_Period DATE,
+End_Period DATE ,
+tipo CHAR(10) ,
+
+    FOREIGN KEY (`id_cpp`)
+    REFERENCES  `tbl_care_provider` (`id_cpp`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`id_visita`)
+    REFERENCES  `tbl_pazienti_visite` (`id_visita`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`tipo`)
+    REFERENCES  `EncounterParticipantType` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+
 
 
 -- -----------------------------------------------------
@@ -1438,6 +1672,36 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- -- DROP  IF EXISTS  `tbl_proc_terapeutiche` ;
 
+CREATE TABLE ProcedureCode (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ProcedureReasonCode (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ProcedureNotDoneReason (
+Code VARCHAR(20) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ProcedureBodySite (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ProcedureFollowUp (
+Code VARCHAR(15) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ProcedureComplication (
+Code VARCHAR(20) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS  `tbl_proc_terapeutiche` (
   `id_Procedure_Terapeutiche` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `descrizione` VARCHAR(45) COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL,
@@ -1447,8 +1711,14 @@ CREATE TABLE IF NOT EXISTS  `tbl_proc_terapeutiche` (
   `CareProvider` INT(10) UNSIGNED NOT NULL,
   `Codice_icd9` VARCHAR(7)  ,
   `Status` VARCHAR(20)  ,
-  `notDone` TINYINT(1) NOT NULL DEFAULT '1',
+  `code` VARCHAR(10)  ,
+  `reasonCode` VARCHAR(10)  ,
+  `bodySite` VARCHAR(10)  ,
+  `followUp` VARCHAR(10)  ,
+  `notDoneReason` VARCHAR(20) NOT NULL,
+  `complication` VARCHAR(20) NOT NULL,
   `Category` INT(10) UNSIGNED NOT NULL,
+  `performed` DATE NOT NULL,
   `outCome` INT(10) UNSIGNED NOT NULL,
   `note` TEXT COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL,
   PRIMARY KEY (`id_Procedure_Terapeutiche`),
@@ -1493,7 +1763,32 @@ CREATE TABLE IF NOT EXISTS  `tbl_proc_terapeutiche` (
     FOREIGN KEY (`Status`)
     REFERENCES  `tbl_proc_status` (`codice`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	    FOREIGN KEY (`code`)
+    REFERENCES  `ProcedureCode` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`reasonCode`)
+    REFERENCES  `ProcedureReasonCode` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+		FOREIGN KEY (`bodySite`)
+    REFERENCES  `ProcedureBodySite` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+			FOREIGN KEY (`followUp`)
+    REFERENCES  `ProcedureFollowUp` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+				FOREIGN KEY (`notDoneReason`)
+    REFERENCES  `ProcedureNotDoneReason` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+					FOREIGN KEY (`complication`)
+    REFERENCES  `ProcedureComplication` (`Code`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+
 ENGINE = InnoDB
 AUTO_INCREMENT = 2;
 
@@ -1555,6 +1850,21 @@ CREATE TABLE IF NOT EXISTS  `tbl_taccuino` (
 ENGINE = InnoDB;
 
 
+CREATE TABLE ImmunizationVaccineCode (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+
+);
+
+CREATE TABLE ImmunizationStatus (
+Code VARCHAR(20) PRIMARY KEY
+);
+
+CREATE TABLE ImmunizationRoute (
+Code CHAR(10) PRIMARY KEY,
+Text VARCHAR(30) NOT NULL
+);
+
 -- -----------------------------------------------------
 -- Table  `tbl_vaccinazione`
 -- -----------------------------------------------------
@@ -1564,12 +1874,14 @@ CREATE TABLE IF NOT EXISTS  `tbl_vaccinazione` (
   `id_vaccinazione` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_paziente` INT(10) UNSIGNED NOT NULL,
   `id_cpp` INT(10) UNSIGNED NOT NULL,
+  `vaccineCode` VARCHAR(10) NOT NULL,
   `vaccinazione_confidenzialita` SMALLINT(6) NOT NULL,
   `vaccinazione_data` DATE NOT NULL,
   `vaccinazione_aggiornamento` VARCHAR(45)  ,
-  `vaccinazione_stato` TINYINT(1) NOT NULL,
+  `vaccinazione_stato` VARCHAR(20) NOT NULL,
   `vaccinazione_notGiven` TINYINT(1) NOT NULL,
   `vaccinazione_quantity` INT(11) NOT NULL,
+  `vaccinazione_route` CHAR(10) ,
   `vaccinazione_note` VARCHAR(45)  ,
   `vaccinazione_explanation` TEXT COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL,
   PRIMARY KEY (`id_vaccinazione`),
@@ -1589,6 +1901,21 @@ CREATE TABLE IF NOT EXISTS  `tbl_vaccinazione` (
   CONSTRAINT `fk_tbl_vaccinazione_tbl_pazienti1_idx`
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	
+FOREIGN KEY (`vaccineCode`)
+    REFERENCES  `ImmunizationVaccineCode` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	
+	FOREIGN KEY (`vaccinazione_stato`)
+    REFERENCES  `ImmunizationStatus` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	
+		FOREIGN KEY (`vaccinazione_route`)
+    REFERENCES  `ImmunizationRoute` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -1776,8 +2103,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Trattamenti_Pazienti` (
 Id_Trattamento INT UNSIGNED PRIMARY KEY,
 Nome_T VARCHAR(255) NOT NULL,
-Finalità_T VARCHAR(255) NOT NULL,
-Modalità_T VARCHAR(255) NOT NULL,
+Finalita_T VARCHAR(255) NOT NULL,
+Modalita_T VARCHAR(255) NOT NULL,
 Informativa VARCHAR(500) NOT NULL,
 Incaricati VARCHAR(255) NOT NULL)
 ENGINE = InnoDB;
@@ -1788,8 +2115,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Trattamenti_CP` (
 Id_Trattamento INT UNSIGNED PRIMARY KEY,
 Nome_T VARCHAR(255) NOT NULL,
-Finalità_T VARCHAR(255) NOT NULL,
-Modalità_T VARCHAR(255) NOT NULL,
+Finalita_T VARCHAR(255) NOT NULL,
+Modalita_T VARCHAR(255) NOT NULL,
 Informativa VARCHAR(500) NOT NULL,
 Incaricati VARCHAR(255) NOT NULL)
 ENGINE = InnoDB;
@@ -1833,8 +2160,8 @@ ENGINE = InnoDB;
 
 -- --------------------------------------------------------------------FINE
 CREATE TABLE ContactRelationship (
-Codice CHAR(3) PRIMARY KEY,
-Testo VARCHAR(20) NOT NULL
+Code CHAR(3) PRIMARY KEY,
+Display VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE PatientContact (
@@ -1852,7 +2179,235 @@ FOREIGN KEY (`Id_Patient`)
     ON UPDATE NO ACTION,
 
 FOREIGN KEY (Relationship)
-    REFERENCES  ContactRelationship(Codice)
+    REFERENCES  ContactRelationship(Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+
+CREATE TABLE TipoContatto (
+Code CHAR(15) PRIMARY KEY,
+Text VARCHAR(30) NOT NULL
+);
+
+
+CREATE TABLE Contatto (
+id_contatto INT(10) UNSIGNED PRIMARY KEY,
+attivo TINYINT(1) DEFAULT '0',
+tipo CHAR(15) NOT NULL,
+nome CHAR(30) NOT NULL,
+cognome CHAR(30) NOT NULL,
+sesso CHAR(10) NOT NULL,
+indirizzo_residenza VARCHAR(100) NOT NULL,
+telefono VARCHAR (15) NULL,
+mail VARCHAR(50) NULL,
+data_nascita DATE NOT NULL,
+data_inizio DATE NOT NULL,
+data_fine DATE NOT NULL,
+
+	FOREIGN KEY (`sesso`)
+    REFERENCES  `Gender` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+
+FOREIGN KEY (tipo)
+    REFERENCES  TipoContatto(Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+	
+	);
+
+CREATE TABLE VisitaContatto (
+id_visita INT(10) UNSIGNED NOT NULL,
+id_contatto INT(10) UNSIGNED NOT NULL,
+Start_Period DATE,
+End_Period DATE ,
+tipo CHAR(10) ,
+
+    FOREIGN KEY (`id_contatto`)
+    REFERENCES  `Contatto` (`id_contatto`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`id_visita`)
+    REFERENCES  `tbl_pazienti_visite` (`id_visita`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (`tipo`)
+    REFERENCES  `EncounterParticipantType` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+CREATE TABLE DeviceStatus (
+Code VARCHAR(20) PRIMARY KEY
+);
+
+CREATE TABLE DeviceType (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE DispositivoMedico (
+id_dispositivo INT(10) UNSIGNED PRIMARY KEY,
+tipologia VARCHAR(10) NOT NULL,
+modello VARCHAR(30) NOT NULL,
+fabbricante VARCHAR(30) NOT NULL,
+confidenza SMALLINT(6) NOT NULL,
+note VARCHAR(255),
+	FOREIGN KEY (`tipologia`)
+    REFERENCES  `DeviceType` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+CREATE TABLE DispositivoImpiantabile (
+id_dis INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+id_dispositivo INT(10) UNSIGNED NOT NULL,
+id_paziente INT(10) UNSIGNED NOT NULL,
+id_cpp INT(10) UNSIGNED NOT NULL,
+stato VARCHAR(20) NOT NULL,
+data_impianto DATE NOT NULL,
+	FOREIGN KEY (stato)
+    REFERENCES  DeviceStatus (Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (id_dispositivo)
+    REFERENCES DispositivoMedico (id_dispositivo)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (id_paziente)
+    REFERENCES  tbl_pazienti (id_paziente)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (id_cpp)
+    REFERENCES  tbl_care_provider (id_cpp)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+	
+	
+CREATE TABLE AllergyIntolleranceClinicalStatus (
+Code VARCHAR(10) PRIMARY KEY
+);	
+CREATE TABLE AllergyIntolleranceVerificationStatus (
+Code VARCHAR(20) PRIMARY KEY
+);
+CREATE TABLE AllergyIntolleranceType (
+Code VARCHAR(15) PRIMARY KEY
+);
+CREATE TABLE AllergyIntolleranceCategory (
+Code VARCHAR(15) PRIMARY KEY
+);
+CREATE TABLE AllergyIntolleranceCriticality (
+Code VARCHAR(20) PRIMARY KEY
+);
+CREATE TABLE AllergyIntolleranceCode (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);
+	
+	
+CREATE TABLE AllergyIntollerance (
+id_AI INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+clinicalStatus VARCHAR(10) NOT NULL,
+verificationStatus VARCHAR(20) NOT NULL,
+tipo VARCHAR(15) NOT NULL,
+category VARCHAR(15) NOT NULL,
+criticality VARCHAR(20) NOT NULL,
+id_paziente INT(10) UNSIGNED NOT NULL ,
+assertedDate DATE NOT NULL,
+recorder INT(10) UNSIGNED NOT NULL, 
+lastOccurance DATE NOT NULL,
+note DATE NOT NULL,
+code VARCHAR(10) NOT NULL,
+confidenza SMALLINT(6) NOT NULL,
+
+	FOREIGN KEY (clinicalStatus)
+    REFERENCES  AllergyIntolleranceClinicalStatus (Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (verificationStatus)
+    REFERENCES  AllergyIntolleranceVerificationStatus (Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (tipo)
+    REFERENCES  AllergyIntolleranceType (Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (category)
+    REFERENCES  AllergyIntolleranceCategory (Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (criticality)
+	REFERENCES  AllergyIntolleranceCriticality (Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (id_paziente)
+    REFERENCES  tbl_pazienti (id_paziente)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (recorder) -- id_cpp oppure id_paziente
+    REFERENCES  tbl_care_provider (id_cpp)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (recorder) -- id_cpp oppure id_paziente
+    REFERENCES  tbl_pazienti (id_paziente)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (code)
+    REFERENCES  AllergyIntolleranceCode (Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (confidenza)
+    REFERENCES  tbl_livelli_confidenzialita (id_livello_confidenzialita)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE AllergyIntolleranceReactionSubstance (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);	
+
+CREATE TABLE AllergyIntolleranceReactionManifestation (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);	
+CREATE TABLE AllergyIntolleranceReactionSeverity (
+Code VARCHAR(10) PRIMARY KEY
+);	
+CREATE TABLE AllergyIntolleranceReactionExposureRoute (
+Code VARCHAR(10) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+);	
+	
+CREATE TABLE AllergyIntolleranceReaction (
+id_AI INT(10) UNSIGNED NOT NULL,
+substance VARCHAR(10) NOT NULL,
+manifestation VARCHAR(10) NOT NULL,
+description VARCHAR(255) NOT NULL,
+onset DATE NOT NULL,
+severity VARCHAR(10) NOT NULL,
+exposureRoute VARCHAR(10) NOT NULL ,
+note VARCHAR(255) NOT NULL ,
+
+	FOREIGN KEY (id_AI)
+    REFERENCES  AllergyIntollerance (id_AI)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (substance)
+    REFERENCES  AllergyIntolleranceReactionSubstance (Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (manifestation)
+    REFERENCES  AllergyIntolleranceReactionManifestation (Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (severity)
+    REFERENCES  AllergyIntolleranceReactionSeverity (Code)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+	FOREIGN KEY (exposureRoute)
+    REFERENCES  AllergyIntolleranceReactionExposureRoute (Code)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 );
@@ -1860,6 +2415,9 @@ FOREIGN KEY (Relationship)
 
 
 
-
-
-
+	
+	
+	
+	
+	
+	
