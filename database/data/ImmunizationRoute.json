@@ -1,0 +1,14 @@
+[
+	{
+		"code": "IM",
+		"display": "Injection, intramuscular"
+	},
+	{
+		"code": "PO",
+		"display": "Swallow, oral"
+	},
+	{
+		"code": "NASINHL",
+		"display": "Inhalation, nasal"
+	}
+]

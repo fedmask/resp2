@@ -1602,8 +1602,8 @@ REFERENCES  `tbl_pazienti_visite` (`id_visita`)
 );
 
 CREATE TABLE EncounterParticipantType (
-Code CHAR(10) PRIMARY KEY,
-Text VARCHAR(20) NOT NULL
+Code CHAR(30) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE VisitaCP (
@@ -1611,7 +1611,7 @@ id_visita INT(10) UNSIGNED NOT NULL,
 id_cpp INT(10) UNSIGNED NOT NULL,
 Start_Period DATE,
 End_Period DATE ,
-tipo CHAR(10) ,
+tipo CHAR(30) ,
 
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
