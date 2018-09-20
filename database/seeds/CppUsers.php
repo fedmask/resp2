@@ -14,10 +14,12 @@ class CppUsers extends Seeder {
 				'cpp_cognome' => 'Kelso',
 				'cpp_nascita_data' => '1995-01-01',
 				'cpp_codfiscale' => 'BOBKLS95T91A554D',
-				'cpp_sesso' => 'M',
+				'cpp_sesso' => 'male',
 				'cpp_n_iscrizione' => '00121331',
 				'cpp_localita_iscrizione' => "Firenze",
-				'specializzation' => 'general_practice' 
+				'specializzation' => 'general_practice',
+		        'active' => '0',
+		        'cpp_lingua' => 'it'
 		] );
 		
 		DB::table ( 'tbl_care_provider' )->insert ( [ 
@@ -27,10 +29,12 @@ class CppUsers extends Seeder {
 				'cpp_cognome' => 'Kelso',
 				'cpp_nascita_data' => '1996-01-01',
 				'cpp_codfiscale' => 'BOBKLS96T91H501D',
-				'cpp_sesso' => 'M',
+				'cpp_sesso' => 'male',
 				'cpp_n_iscrizione' => '00121332',
 				'cpp_localita_iscrizione' => "Roma",
-				'specializzation' => 'general_practice' 
+				'specializzation' => 'general_practice',
+		        'active' => '0',
+		        'cpp_lingua' => 'it'
 		] );
 		
 		DB::table ( 'tbl_care_provider' )->insert ( [ 
@@ -40,10 +44,12 @@ class CppUsers extends Seeder {
 				'cpp_cognome' => 'Kelso',
 				'cpp_nascita_data' => '1997-01-01',
 				'cpp_codfiscale' => 'BOBKLS97T91F205D',
-				'cpp_sesso' => 'M',
+				'cpp_sesso' => 'male',
 				'cpp_n_iscrizione' => '00121333',
 				'cpp_localita_iscrizione' => "Milano",
-				'specializzation' => 'general_practice' 
+				'specializzation' => 'general_practice',
+		        'active' => '0',
+		        'cpp_lingua' => 'it'
 		] );
 	}
 }

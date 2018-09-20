@@ -931,10 +931,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_diagnosi` (
     REFERENCES  `ConditionVerificationStatus` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-	FOREIGN KEY (`verificationStatus`)
-    REFERENCES  `ConditionVerificationStatus` (`Code`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
 	FOREIGN KEY (`severity`)
     REFERENCES  `ConditionSeverity` (`Code`)
     ON DELETE NO ACTION
@@ -1718,7 +1714,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_proc_terapeutiche` (
   `notDoneReason` VARCHAR(20) NOT NULL,
   `complication` VARCHAR(20) NOT NULL,
   `Category` INT(10) UNSIGNED NOT NULL,
-  `performed` DATE NOT NULL,
   `outCome` INT(10) UNSIGNED NOT NULL,
   `note` TEXT COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL,
   PRIMARY KEY (`id_Procedure_Terapeutiche`),
