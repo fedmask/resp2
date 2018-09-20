@@ -44,8 +44,32 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoContattoTableSeeder::class);
         $this->call(DeviceStatusTableSeeder::class);
         $this->call(AllergyIntolleranceClinicalStatusTableSeeder::class);
+        $this->call(AllergyIntolleranceCVerificationStatusTableSeeder::class);
+        $this->call(AllergyIntolleranceTypeTableSeeder::class);
+        $this->call(AllergyIntolleranceCategoryTableSeeder::class);
+        $this->call(AllergyIntolleranceCriticalityTableSeeder::class);
+        $this->call(AllergyIntolleranceReactionSeverityTableSeeder::class);
+        $this->call(ConditionCodeTableSeeder::class);
+        $this->call(FamilyMemberHistoryConditionOutcomeTableSeeder::class);
+        $this->call(ConditionBodySiteTableSeeder::class);
+        $this->call(ConditionStageSummaryTableSeeder::class);
+        $this->call(ConditionEvidenceCodeTableSeeder::class);
+        $this->call(AllergyIntolleranceCodeTableSeeder::class);
+        $this->call(AllergyIntolleranceReactionExposureRouteTableSeeder::class);
+        $this->call(AllergyIntolleranceReactionManifestationTableSeeder::class);
+        $this->call(AllergyIntolleranceReactionSubstanceTableSeeder::class);
+        $this->call(DeviceTypeTableSeeder::class);
+        $this->call(EncounterReasonTableSeeder::class);
+        $this->call(ImmunizationVaccineCodeTableSeeder::class);
+        $this->call(MedicationCodeTableSeeder::class);
+        $this->call(MedicationFormTableSeeder::class);
+        $this->call(ProcedureBodySiteTableSeeder::class);
+        $this->call(ProcedureCodeTableSeeder::class);
+        $this->call(ProcedureComplicationTableSeeder::class);
+        $this->call(ProcedureNotDoneReasonTableSeeder::class);
+        $this->call(ProcedureReasonCodeTableSeeder::class);
         
-        //TODO AllergyIntolleranceVerificationStatus
+        //TODO 
         
         
        /* $this->call(PatientsTableSeeder::class);

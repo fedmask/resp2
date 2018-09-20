@@ -1,0 +1,43 @@
+[	
+
+	{
+		"code": "261000",
+		"display": "Codeine phosphate"
+	},
+	{
+		"code": "336001",
+		"display": "Fibrinogen Tokyo II"
+	},
+	{
+		"code": "363000",
+		"display": "Fibrinogen San Juan"
+	},
+	{
+		"code": "519005",
+		"display": "Free protein S"
+	},
+	{
+		"code": "585007",
+		"display": "Substance P"
+	},
+	{
+		"code": "693002",
+		"display": "Trichothecenes"
+	},
+	{
+		"code": "698006",
+		"display": "Erythromycin lactobionate"
+	},
+	{
+		"code": "699003",
+		"display": "Coal tar extract"
+	},
+	{
+		"code": "747006",
+		"display": "Oxamniquine"
+	},
+	{
+		"code": "873008",
+		"display": "Urethan"
+	}
+]

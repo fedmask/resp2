@@ -1,0 +1,42 @@
+[
+	{
+		"code": "104001",
+		"display": "Excision of lesion of patella"
+	},
+	{
+		"code": "115006",
+		"display": "Removable appliance therapy"
+	},
+	{
+		"code": "119000",
+		"display": "Thoracoscopic partial lobectomy of lung"
+	},
+	{
+		"code": "121005",
+		"display": "Retrobulbar injection of therapeutic agent"
+	},
+	{
+		"code": "128004",
+		"display": "Hand microscope examination of skin"
+	},
+	{
+		"code": "135007",
+		"display": "Arthrotomy of wrist joint with exploration and biopsy"
+	},
+	{
+		"code": "142007",
+		"display": "Excision of tumor from shoulder area, deep, intramuscular"
+	},
+	{
+		"code": "146005",
+		"display": "Repair of nonunion of metatarsal with bone graft"
+	},
+	{
+		"code": "153001",
+		"display": "Cystourethroscopy with resection of ureterocele"
+	},
+	{
+		"code": "160007",
+		"display": "Removal of foreign body of tendon and/or tendon sheath"
+	}
+]

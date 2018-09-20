@@ -1,0 +1,42 @@
+[
+	{
+		"code": "6064005",
+		"display": "Topical route"
+	},
+	{
+		"code": "10547007",
+		"display": "Otic route"
+	},
+	{
+		"code": "12130007",
+		"display": "Intra-articular route"
+	},
+	{
+		"code": "16857009",
+		"display": "Per vagina"
+	},
+	{
+		"code": "26643006",
+		"display": "Oral route"
+	},
+	{
+		"code": "34206005",
+		"display": "Subcutaneous route"
+	},
+	{
+		"code": "37161004",
+		"display": "Per rectum"
+	},
+	{
+		"code": "37737002",
+		"display": "Intraluminal route"
+	},
+	{
+		"code": "37839007",
+		"display": "Sublingual route"
+	},
+	{
+		"code": "38239002",
+		"display": "Intraperitoneal route"
+	}
+]
