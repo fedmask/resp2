@@ -1,0 +1,42 @@
+[
+	{
+		"code": "786005",
+		"display": "Clinical stage I B"
+	},
+	{
+		"code": "1523005",
+		"display": "Clinical stage IV B"
+	},
+	{
+		"code": "2640006",
+		"display": "Clinical stage IV"
+	},
+	{
+		"code": "2786004",
+		"display": "Epithelial ovarian tumor, FIGO stage III"
+	},
+	{
+		"code": "5701003",
+		"display": "Lymphoma stage IIe"
+	},
+	{
+		"code": "5856006",
+		"display": "N3 stage"
+	},
+	{
+		"code": "6123003",
+		"display": "pT4 stage"
+	},
+	{
+		"code": "6534007",
+		"display": "Epithelial ovarian tumor, FIGO stage IIA"
+	},
+	{
+		"code": "13104003",
+		"display": "Clinical stage I"
+	},
+	{
+		"code": "14410001",
+		"display": "T3 stage"
+	}
+]

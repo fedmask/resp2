@@ -38,7 +38,6 @@ class Diagnosi extends Eloquent
 	protected $casts = [
 		'id_paziente' => 'int',
 		'diagnosi_confidenzialita' => 'int',
-		'diagnosi_stato' => 'int'
 	];
 
 	protected $dates = [
@@ -49,14 +48,67 @@ class Diagnosi extends Eloquent
 
 	protected $fillable = [
 		'id_paziente',
+	    'verificationStatus',
+	    'severity',
+	    'code',
+	    'bodySite',
+	    'stageSummary',
+	    'evidenceCode',
 		'diagnosi_confidenzialita',
 		'diagnosi_inserimento_data',
 		'diagnosi_aggiornamento_data',
 		'diagnosi_patologia',
 		'diagnosi_stato',
-		'diagnosi_guarigione_data'
+		'diagnosi_guarigione_data',
+	    'note'
 	];
 
+	
+	
+	public function condition_clinical_status()
+	{
+	    return $this->belongsTo(\App\Models\ConditionClinicalStatus::class, 'diagnosi_stato');
+	}
+	
+	public function condition_verification_status()
+	{
+	    return $this->belongsTo(\App\Models\ConditionVerificationStatus::class, 'verificationStatus');
+	}
+	
+	public function condition_severity()
+	{
+	    return $this->belongsTo(\App\Models\ConditionSeverity::class, 'severity');
+	}
+	
+	public function condition_code()
+	{
+	    return $this->belongsTo(\App\Models\ConditionCode::class, 'code');
+	}
+	
+	public function condition_body_site()
+	{
+	    return $this->belongsTo(\App\Models\ConditionBodySite::class, 'bodySite');
+	}
+	
+	public function condition_stage_summary()
+	{
+	    return $this->belongsTo(\App\Models\ConditionStageSummary::class, 'stageSummary');
+	}
+	
+	public function condition_evidence_code()
+	{
+	    return $this->belongsTo(\App\Models\ConditionEvidenceCode::class, 'evidenceCode');
+	}
+	
+	
+	public function tbl_proc_terapeutiches()
+	{
+	    return $this->hasMany(\App\Models\TblProcTerapeutiche::class, 'Diagnosi');
+	}
+	
+	
+	
+	
 	public function tbl_livelli_confidenzialitum()
 	{
 		return $this->belongsTo(\App\Models\LivelliConfidenzialita::class, 'diagnosi_confidenzialita');

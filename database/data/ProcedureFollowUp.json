@@ -1,0 +1,42 @@
+ [
+          {
+            "code": "18949003",
+            "display": "Change of dressing"
+          },
+          {
+            "code": "30549001",
+            "display": "Removal of suture"
+          },
+          {
+            "code": "241031001",
+            "display": "Removal of suture"
+          },
+          {
+            "code": "35963001",
+            "display": "Removal of staples"
+          },
+          {
+            "code": "225164002",
+            "display": "Removal of ligature"
+          },
+          {
+            "code": "447346005",
+            "display": "Cardiopulmonary exercise test"
+          },
+          {
+            "code": "229506003",
+            "display": "Scar tissue massage"
+          },
+          {
+            "code": "274441001",
+            "display": "Suction drainage"
+          },
+          {
+            "code": "394725008",
+            "display": "Diabetes medication review"
+          },
+          {
+            "code": "359825008",
+            "display": "Cytopathology" 
+          }
+        ]

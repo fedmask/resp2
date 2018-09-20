@@ -1,0 +1,42 @@
+[
+	{
+		"code": "7946007",
+		"display": "Drug suspension"
+	},
+	{
+		"code": "11190007",
+		"display": "Drug stick"
+	},
+	{
+		"code": "17519006",
+		"display": "Lotion"
+	},
+	{
+		"code": "30843009",
+		"display": "Drug aerosol foam"
+	},
+	{
+		"code": "36875001",
+		"display": "Drug patch"
+	},
+	{
+		"code": "37937005",
+		"display": "Drug paste"
+	},
+	{
+		"code": "46992007",
+		"display": "Pill"
+	},
+	{
+		"code": "48582000",
+		"display": "Caplet"
+	},
+	{
+		"code": "52262001",
+		"display": "Drug aerosol"
+	},
+	{
+		"code": "63316001",
+		"display": "Liniment"
+	}
+]

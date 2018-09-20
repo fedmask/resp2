@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
         // all'oggetto dell'utente loggato.
         view()->composer('*', function($view) {
             $view->with('current_user', auth()->user());
+            
         });
     }
 

@@ -20,7 +20,6 @@ class ProcedureTerapeutiche extends Eloquent
         'CareProvider' => 'int',
         'Codice_icd9' => 'string',
         'Status' => 'string',
-        'notDone' => 'boolean',
         'Category' => 'int',
         'outCome' => 'int',
         'note' => 'string'
@@ -41,11 +40,82 @@ class ProcedureTerapeutiche extends Eloquent
         'Data_esecuzione',
         'descrizione'
         'Status',
-        'notDone',
+        'code',
+        'reasonCode',
+        'bodySite',
+        'followUp',
+        'notDoneReason',
+        'complication',
         'Category',
         'outCome',
         'note'
     ];
+    
+    
+    public function tbl_care_provider()
+    {
+        return $this->belongsTo(\App\Models\TblCareProvider::class, 'CareProvider');
+    }
+    
+    public function tbl_diagnosi()
+    {
+        return $this->belongsTo(\App\Models\TblDiagnosi::class, 'Diagnosi');
+    }
+    
+    public function tbl_i_c_d9_i_c_p_t()
+    {
+        return $this->belongsTo(\App\Models\TblICD9ICPT::class, 'Codice_icd9');
+    }
+    
+    public function tbl_pazienti()
+    {
+        return $this->belongsTo(\App\Models\TblPazienti::class, 'Paziente');
+    }
+    
+    public function tbl_proc_cat()
+    {
+        return $this->belongsTo(\App\Models\TblProcCat::class, 'Category');
+    }
+    
+    public function tbl_proc_outcome()
+    {
+        return $this->belongsTo(\App\Models\TblProcOutcome::class, 'outCome');
+    }
+    
+    public function tbl_proc_status()
+    {
+        return $this->belongsTo(\App\Models\TblProcStatus::class, 'Status');
+    }
+    
+    public function procedure_code()
+    {
+        return $this->belongsTo(\App\Models\ProcedureCode::class, 'code');
+    }
+    
+    public function procedure_reason_code()
+    {
+        return $this->belongsTo(\App\Models\ProcedureReasonCode::class, 'reasonCode');
+    }
+    
+    public function procedure_body_site()
+    {
+        return $this->belongsTo(\App\Models\ProcedureBodySite::class, 'bodySite');
+    }
+    
+    public function procedure_follow_up()
+    {
+        return $this->belongsTo(\App\Models\ProcedureFollowUp::class, 'followUp');
+    }
+    
+    public function procedure_not_done_reason()
+    {
+        return $this->belongsTo(\App\Models\ProcedureNotDoneReason::class, 'notDoneReason');
+    }
+    
+    public function procedure_complication()
+    {
+        return $this->belongsTo(\App\Models\ProcedureComplication::class, 'complication');
+    }
     
     
     public function getID(){

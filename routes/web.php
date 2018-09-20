@@ -31,7 +31,7 @@ Route::get('/register/careprovider', 'Auth\RegisterController@showCareProviderRe
 Route::post('/register/careprovider', 'Auth\RegisterController@registerCareprovider');
 
 
-
+Route::get('/cookies_s', function() { return view('layouts.cookies-s'); });
 
 /*
  * 

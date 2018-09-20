@@ -1,0 +1,42 @@
+[
+	{
+		"code": "135809002",
+		"display": "Nitrate contraindicated"
+	},
+	{
+		"code": "135811006",
+		"display": "Diuretic contraindicated"
+	},
+	{
+		"code": "135822005",
+		"display": "Lipid lowering therapy contraindicated"
+	},
+	{
+		"code": "135823000",
+		"display": "Calcium channel blocker contraindicated"
+	},
+	{
+		"code": "169551000",
+		"display": "Contraception contraindicated"
+	},
+	{
+		"code": "170954008",
+		"display": "HRT contraindicated"
+	},
+	{
+		"code": "171277005",
+		"display": "Sensitivity C/I - immunization"
+	},
+	{
+		"code": "171284002",
+		"display": "Pertussis vaccine contraindicated"
+	},
+	{
+		"code": "183934000",
+		"display": "Sensitivity C/I to procedure"
+	},
+	{
+		"code": "183936003",
+		"display": "Contraindication to live immunization"
+	}
+]

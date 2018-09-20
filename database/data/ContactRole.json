@@ -1,0 +1,50 @@
+ [
+    {
+      "code": "BP",
+      "display": "Billing contact person"
+    },
+    {
+      "code": "C",
+      "display": "Emergency Contact"
+    },
+    {
+      "code": "CP",
+      "display": "Contact person"
+    },
+    {
+      "code": "E",
+      "display": "Employer"
+    },
+    {
+      "code": "EP",
+      "display": "Emergency contact person"
+    },
+    {
+      "code": "F",
+      "display": "Federal Agency"
+    },
+    {
+      "code": "I",
+      "display": "Insurance Company"
+    },
+    {
+      "code": "N",
+      "display": "Next-of-Kin"
+    },
+    {
+      "code": "O",
+      "display": "Other"
+    },
+    {
+      "code": "PR",
+      "display": "Person preparing referral"
+    },
+    {
+      "code": "S",
+      "display": "State Agency"
+    },
+    {
+      "code": "U",
+      "display": "Unknown"
+    }
+  ]

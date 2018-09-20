@@ -19,11 +19,12 @@ class PatientsTableSeeder extends Seeder
             'paziente_cognome' => 'Kelso',
             'paziente_nascita' => '1987-01-23',
             'paziente_codfiscale' => 'AHSTEG51T61AS522',
-            'paziente_sesso' => 'M',
+            'paziente_sesso' => 'male',
             'paziente_gruppo' => '0',
             'paziente_rh' => 'pos',
             'paziente_donatore_organi' => '1',
-            'id_stato_matrimoniale' => '0'
+            'id_stato_matrimoniale' => '1',
+            'paziente_lingua' => 'it'
         ]);
         
         DB::table('tbl_pazienti')->insert([
@@ -32,11 +33,12 @@ class PatientsTableSeeder extends Seeder
             'paziente_cognome' => 'Jan',
             'paziente_nascita' => '1987-01-23',
             'paziente_codfiscale' => 'XASWEG51T61AS522',
-            'paziente_sesso' => 'M',
+            'paziente_sesso' => 'male',
             'paziente_gruppo' => '0',
             'paziente_rh' => 'neg',
             'paziente_donatore_organi' => '1',
-            'id_stato_matrimoniale' => '5'
+            'id_stato_matrimoniale' => '2',
+            'paziente_lingua' => 'it'
         ]);
         
     }

@@ -39,23 +39,99 @@ class CareProvider extends Eloquent {
 	protected $casts = [ 
 			'id_cpp' => 'int',
 			'id_cpp_tipologia' => 'int',
-			'id_utente' => 'int' 
+			'id_utente' => 'int',
+	        'active' => 'bool'
 	];
-	protected $dates = [ 
-			'cpp_nascita_data' 
+	
+	protected $dates = [
+	    'cpp_nascita_data'
 	];
-	protected $fillable = [ 
-			'id_cpp_tipologia',
-			'id_utente',
-			'cpp_nome',
-			'cpp_cognome',
-			'cpp_nascita_data',
-			'cpp_codfiscale',
-			'cpp_sesso',
-			'cpp_n_iscrizione',
-			'cpp_localita_iscrizione',
-			'specializzation' 
+	
+	protected $fillable = [
+	    'id_utente',
+	    'cpp_nome',
+	    'cpp_cognome',
+	    'cpp_nascita_data',
+	    'cpp_codfiscale',
+	    'cpp_sesso',
+	    'cpp_n_iscrizione',
+	    'cpp_localita_iscrizione',
+	    'specializzation',
+	    'cpp_lingua',
+	    'active'
 	];
+	
+	public function tbl_utenti()
+	{
+	    return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+	}
+	
+	public function language()
+	{
+	    return $this->belongsTo(\App\Models\Language::class, 'cpp_lingua');
+	}
+	
+	public function gender()
+	{
+	    return $this->belongsTo(\App\Models\Gender::class, 'cpp_sesso');
+	}
+	
+	public function allergy_intollerances()
+	{
+	    return $this->hasMany(\App\Models\AllergyIntollerance::class, 'recorder');
+	}
+	
+	public function consenso_c_p()
+	{
+	    return $this->hasOne(\App\Models\ConsensoCP::class, 'Id_Cpp');
+	}
+	
+	public function cpp_qualification()
+	{
+	    return $this->hasOne(\App\Models\CppQualification::class, 'id_cpp');
+	}
+	
+	public function dispositivo_impiantabiles()
+	{
+	    return $this->hasMany(\App\Models\DispositivoImpiantabile::class, 'id_cpp');
+	}
+	
+	public function visita_c_p()
+	{
+	    return $this->hasOne(\App\Models\VisitaCP::class, 'id_cpp');
+	}
+	
+	public function tbl_cpp_paziente()
+	{
+	    return $this->hasOne(\App\Models\TblCppPaziente::class, 'id_cpp');
+	}
+	
+	public function tbl_cpp_specializations()
+	{
+	    return $this->hasMany(\App\Models\TblCppSpecialization::class, 'id_cpp');
+	}
+	
+	public function tbl_indaginis()
+	{
+	    return $this->hasMany(\App\Models\TblIndagini::class, 'id_cpp');
+	}
+	
+	public function tbl_pazienti_visites()
+	{
+	    return $this->hasMany(\App\Models\TblPazientiVisite::class, 'id_cpp');
+	}
+	
+	public function tbl_proc_terapeutiches()
+	{
+	    return $this->hasMany(\App\Models\TblProcTerapeutiche::class, 'CareProvider');
+	}
+	
+	public function tbl_vaccinaziones()
+	{
+	    return $this->hasMany(\App\Models\TblVaccinazione::class, 'id_cpp');
+	}
+	
+	
 	public function users() {
 		return $this->belongsTo ( \App\Models\CurrentUser\User::class, 'id_utente' );
 	}

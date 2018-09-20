@@ -1,0 +1,42 @@
+[
+	{
+		"code": "156009",
+		"display": "Spine board"
+	},
+	{
+		"code": "271003",
+		"display": "Bone plate"
+	},
+	{
+		"code": "287000",
+		"display": "Air receiver"
+	},
+	{
+		"code": "291005",
+		"display": "Atomizer"
+	},
+	{
+		"code": "678001",
+		"display": "Epilator"
+	},
+	{
+		"code": "739006",
+		"display": "Bicycle ergometer"
+	},
+	{
+		"code": "793009",
+		"display": "Mechanical power press"
+	},
+	{
+		"code": "882002",
+		"display": "Diagnostic implant"
+	},
+	{
+		"code": "972002",
+		"display": "Air filter"
+	},
+	{
+		"code": "989005",
+		"display": "Linen cloth"
+	}
+]

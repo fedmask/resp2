@@ -1,0 +1,42 @@
+[
+	{
+		"code": "102002",
+		"display": "Hemoglobin Okaloosa"
+	},
+	{
+		"code": "120006",
+		"display": "Ornithine racemase"
+	},
+	{
+		"code": "125001",
+		"display": "Ferrous sulfate Fe^59^"
+	},
+	{
+		"code": "130002",
+		"display": "Hemoglobin Hopkins-II"
+	},
+	{
+		"code": "131003",
+		"display": "Dolichyl-phosphate mannosyltransferase"
+	},
+	{
+		"code": "159002",
+		"display": "Ferrocyanide salt"
+	},
+	{
+		"code": "186002",
+		"display": "HLA-Cw9 antigen"
+	},
+	{
+		"code": "187006",
+		"display": "Cyanocobalamin Co^57^"
+	},
+	{
+		"code": "200001",
+		"display": "Berberine"
+	},
+	{
+		"code": "217008",
+		"display": "Blood group antigen IH"
+	}
+]

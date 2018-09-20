@@ -1,0 +1,42 @@
+[
+	{
+		"code": "106004",
+		"display": "Posterior carpal region"
+	},
+	{
+		"code": "107008",
+		"display": "Fetal part of placenta"
+	},
+	{
+		"code": "108003",
+		"display": "Condylar emissary vein"
+	},
+	{
+		"code": "110001",
+		"display": "Visceral layer of Bowman's capsule"
+	},
+	{
+		"code": "111002",
+		"display": "Parathyroid gland"
+	},
+	{
+		"code": "116007",
+		"display": "Subcutaneous tissue of medial surface of index finger"
+	},
+	{
+		"code": "124002",
+		"display": "Coronoid process of mandible"
+	},
+	{
+		"code": "155008",
+		"display": "Deep circumflex artery of ilium"
+	},
+	{
+		"code": "167005",
+		"display": "Supraclavicular part of brachial plexus"
+	},
+	{
+		"code": "202009",
+		"display": "Anterior division of renal artery"
+	}
+]

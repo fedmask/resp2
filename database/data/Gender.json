@@ -1,0 +1,42 @@
+[
+        {
+          "code": "male",
+          "target": [
+            {
+              "code": "M",
+              "equivalence": "equal"
+            }
+          ]
+        },
+        {
+          "code": "female",
+          "target": [
+            {
+              "code": "F",
+              "equivalence": "equal"
+            }
+          ]
+        },
+        {
+          "code": "other",
+          "target": [
+            {
+              "code": "A",
+              "equivalence": "wider"
+            },
+            {
+              "code": "O",
+              "equivalence": "wider"
+            }
+          ]
+        },
+        {
+          "code": "unknown",
+          "target": [
+            {
+              "code": "U",
+              "equivalence": "equal"
+            }
+          ]
+        }
+      ]
