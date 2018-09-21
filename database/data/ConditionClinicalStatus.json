@@ -1,0 +1,20 @@
+[
+	{
+		"code": "active"
+
+	},
+	{
+		"code": "recurrence"
+
+	},
+	{
+		"code": "inactive"
+	},
+	{
+		"code": "remission"
+	},
+	{
+		"code": "resolved"
+	}
+]
+    

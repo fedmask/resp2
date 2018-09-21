@@ -6,6 +6,18 @@ use App\Http\Controllers\Fhir\Modules\FHIRResource;
 use App\Models\Patient\Pazienti;
 use App\Models\Patient\PazientiContatti;
 use App\Models\CareProviders\CppPaziente;
+use App\Exceptions\FHIR as FHIR;
+use App\Models\CurrentUser\Recapiti;
+use App\Models\CurrentUser\User;
+use App\Models\Domicile\Comuni;
+use Illuminate\Http\Request;
+use App\Models\FHIR\PatientContact;
+use App\Models\FHIR\ContactRole;
+use App\Models\FHIR\PazienteCommunication;
+use View;
+use Illuminate\Filesystem\Filesystem;
+use File;
+
 /*
 N.B.
 la risorsa Patient utilizza diverse estensioni tra cui blood-type.
@@ -23,6 +35,79 @@ nuovo utente ogni qualvolta si crea un nuovo paziente nel sistema.
 class FHIRPatient extends FHIRResource {
     
 	public function __construct() {}
+	
+	public function getResource($id){
+	    // Recupero i dati del paziente
+	    $patient = Pazienti::where('id_utente', $id)->first();
+	    
+	  /*  if (! $patient) {
+	        throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+	    }
+	    */
+	    //Recupero i contatti del paziente
+	  //  $patient_contacts = PatientContact::where('id_patient', $id)->get();
+	    
+	    //Recupero le lingue del paziente
+	   // $patient_languages = PazienteCommunication::where('id_paziente', $patient->getID_Paziente())->get();
+	    
+	    // Recupero gli operatori sanitari del paziente
+	  //  $careproviders = CppPaziente::where('id_paziente', $id)->get();
+	    
+	  // Sono i valori che verranno riportati nella parte descrittiva del documento
+	  $values_in_narrative = array(
+	      "Prova" => "OK",
+	     /*   "Identifier" => "RESP-PATIENT"."-".$patient->getID_Paziente(),
+	        "Active" => $patient->isActive(),
+	        "Name" => $patient->getFullName(),
+	        "Telecom" => $patient->getTelecom(),
+	        "Gender" => $patient->getGender(),
+	        "BirthDate" => $patient->getBirth(),
+	        "Deceased" => $patient->isDeceased(),
+	        "Address" => $patient->getAddress(),
+	        "MaritalStatus" => $patient->getMaritalStatusDisplay(),
+	        */
+	   );
+	   
+	  //Patient.Contact
+	/*  $narrative_patient_contact = array();
+	    $count = 0;
+	    foreach($patient->getContact() as $pc){
+	        $count++;
+	        $narrative_patient_contact["ContactName"." ".$count] = $pc->getName()." ".$pc->getSurname();
+	        $narrative_patient_contact["ContactRelationship" ." ".$count] = $pc->getRelationshipDisplay();
+	        $narrative_patient_contact["ContactTelecom"." ".$count] = $pc->getTelephone()." - ".$pc->getMail();   
+	    }
+	    
+	    //Patient.Communication.language
+	    $narrative_patient_language = array();
+	    $count = 0;
+	    foreach($patient->getCommunication() as $d){
+	        $count++;
+	        $narrative_patient_language["Language"." ".$count] = $d;
+	    }
+	    
+	    
+	    
+	    // prelevo i dati dell'utente da mostrare come estensione
+	    $custom_extensions = array(
+	        'codicefiscale' => $patient->paziente_codfiscale,
+	        'grupposanguigno' => $patient->paziente_gruppo." ".$patient->paziente_rh,
+	        'donatoreorgani' => $patient->isDonatoreOrgani()
+	    );
+	  */  
+	    $data_xml["narrative"] = $values_in_narrative;
+	 /*   $data_xml["narrative_patient_contact"] = $narrative_patient_contact;
+	    $data_xml["narrative_patient_language"] = $narrative_patient_language;
+	    $data_xml["extensions"] = $custom_extensions;
+	    $data_xml["patient"] = $patient;
+	    //$data_xml["careproviders"] = $careproviders;
+	    $data_xml["patient_contacts"] = $patient_contacts;
+	    $data_xml["patient_languages"] = $patient_languages;
+	   */ 
+	    return view("pages.fhir.patient", [
+	        "data_output" => $data_xml
+	    ]);
+	}
 
     function deleteResource($id) {
        
@@ -32,8 +117,8 @@ class FHIRPatient extends FHIRResource {
 
 
         Pazienti::find($id)->delete();
-    }
-
+    } 
+    
     function updateResource($id, $xml) {
         $xml_values     = simplexml_load_string($xml);
         $json           = json_encode($xml_values);
@@ -393,473 +478,5 @@ class FHIRPatient extends FHIRResource {
         return $db_values['idutente'];
 	}
 
-	function getResource($id)
-	{
-
-		//Recupero i dati del paziente avente l' ID richiesto
-		$idutente = $id;
-		$paziente = Pazienti::where('id_utente', $id)->first();
-		$contatti = PazientiContatti::where('id_paziente', $id)->get();
-		$careproviders = CppPaziente::where('id_paziente', $id)->get();
-		
-		if (!$paziente) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
-        }
-
-        // prelevo i dati dell'utente da mostrare come estensione
-        $db_values = array(
-            'username' => $paziente->user->utente_nome,
-            'password' => $paziente->user->utente_password,
-            //'pin' => getInfo('pin', 'utenti', 'id = ' . $idutente),
-            'codicefiscale' => $paziente->paziente_codfiscale,
-            'stato' => $paziente->user->stato,
-            'scadenza' => $paziente->user->utente_scadenza,
-            'codiceruolo' => $paziente->user->id_tipologia,
-            'email' => $paziente->user->utente_email,
-            //'active' => getInfo('active', 'utenti', 'id = ' . $idutente),
-            //'confKey' => getInfo('confKey', 'utenti', 'id = ' . $idutente),
-            //'salt' => '',
-        );
-
-  		//Creazione del documento XML per il paziente
-
-		//Creazione di un oggetto dom con la codifica UTF-8
-		$dom = new \DOMDocument('1.0', 'utf-8');
-
-		//Creazione del nodo Patient, cioè il nodo Root  della risorsa
-		$patient = $dom->createElement('Patient');
-		//Valorizzo il namespace della risorsa e del documento XML, in  questo caso la specifica FHIR
-		$patient->setAttribute('xmlns', 'http://hl7.org/fhir');
-		//Corrello l'elemento con il nodo superiore
-		$patient = $dom->appendChild($patient);
-
-
-		//Creazione del nodo ID sempre presente nelle risorse FHIR
-		$id = $dom->createElement('id');
-		//Il valore dell'ID è il valore dell'ID nella relativa tabella del DB
-		$id->setAttribute('value', $idutente);
-		$id = $patient->appendChild($id);
-
-
-		//Creazione della parte narrativa in XHTML e composta da tag HTML visualizzabili se aperto il file XML in un Browser
-		$narrative = $dom->createElement('text');
-		//Corrello l'elemento con il nodo superiore
-		$narrative = $patient->appendChild($narrative);
-
-
-		//Creazione del nodo status che indica lo stato della parte narrativa
-		$status = $dom->createElement('status');
-		//Il valore del nodo status è sempre generated, la parte narrativa è generato dal sistema
-		$status->setAttribute('value', 'generated');
-		$status = $narrative->appendChild($status);
-
-
-		//Creazione del div che conterrà la tabella con i valori visualizzabili nella parte narrativa
-		$div = $dom->createElement('div');
-		//Link al value set della parte narrativa, cioè la codifica XHTML
-		$div->setAttribute('xmlns',"http://www.w3.org/1999/xhtml");
-		$div = $narrative->appendChild($div);
-
-
-		//Creazione della tabella che conterrà i valori
-		$table = $dom->createElement('table');
-		$table->setAttribute('border',"2");
-		$table = $div->appendChild($table);
-
-
-		//Creazione del nodo tbody
-		$tbody = $dom->createElement('tbody');
-		$tbody = $table->appendChild($tbody);
-
-
-		//Creazione di una riga
-		$tr = $dom->createElement('tr');
-		$tr = $tbody->appendChild($tr);
-
-		//Creazione della colonna Name
-		$td = $dom->createElement('td',"Name");
-		$td = $tr->appendChild($td);
-
-		//Creazione della colonna con il valore di nome e cognome del paziente
-		$td = $dom->createElement('td', $paziente->paziente_nome." ".$paziente->paziente_cognome);
-		$td = $tr->appendChild($td);
-
-
-		//Creazione di una riga
-		$tr = $dom->createElement('tr');
-		$tr = $tbody->appendChild($tr);
-
-
-		//Creazione della colonna BirthDate
-		$td = $dom->createElement('td',"BirthDate");
-		$td = $tr->appendChild($td);
-
-
-		//Creazione della colonna con il valore di data di nascita del paziente
-		$td = $dom->createElement('td', $paziente->paziente_nascita);
-		$td = $tr->appendChild($td);
-
-
-		//Creazione di una riga
-		$tr = $dom->createElement('tr');
-		$tr =$tbody->appendChild($tr);
-
-
-		//Creazione della colonna Contact
-		$td = $dom->createElement('td',"Contact");
-		$td = $tr->appendChild($td);
-
-
-		//Creazione della colonna con il valore del contatto telefonico
-
-		$td = $dom->createElement('td',$paziente->user()->first()->contacts()->first()->contatto_telefono);
-		$td = $tr->appendChild($td);
-
-
-		//Creazione di una riga
-		$tr = $dom->createElement('tr');
-		$tr = $tbody->appendChild($tr);
-
-
-		//Creazione della colonna City
-		$td = $dom->createElement('td',"City");
-		$td = $tr->appendChild($td);
-
-
-		//Creazione della colonna con il valore del comune di residenza
-		$td = $dom->createElement('td',$paziente->user()->first()->contacts()->first()->id_comune_residenza);
-		$td = $tr->appendChild($td);
-
-
-		//Creazione di una riga
-		$tr = $dom->createElement('tr');
-		$tr = $tbody->appendChild($tr);
-
-
-		//Creazione della colonna Address
-		$td = $dom->createElement('td',"Address");
-		$td = $tr->appendChild($td);
-
-
-		///Creazione della colonna con il valore dell'indirizzo
-		$td = $dom->createElement('td',$paziente->user()->first()->contacts()->first()->contatto_indirizzo);
-		$td = $tr->appendChild($td);
-
-
-		//Creazione di una riga
-		$tr = $dom->createElement('tr');
-		$tr = $tbody->appendChild($tr);
-
-
-		//Creazione della colonna State
-		$td = $dom->createElement('td',"State");
-		$td = $tr->appendChild($td);
-
-
-		//Creazione della colonna con il valore dello stato di residenza
-		$td = $dom->createElement('td', "Italia IT");
-		$td = $tr->appendChild($td);
-
-
-		//Creazione di una riga
-		$tr = $dom->createElement('tr');
-		$tr = $tbody->appendChild($tr);
-
-
-		//Creazione della colonna Marital Status
-		$td = $dom->createElement('td',"Marital Status");
-		$td = $tr->appendChild($td);
-
-
-		//Creazione della colonna con il valore di stato civile
-		$td = $dom->createElement('td',$paziente->id_stato_matrimoniale);
-		$td = $tr->appendChild($td);
-
-
-        // creo l'estensione per indicare il gruppo sanguigno
-        $node_extension = $dom->createElement('extension');
-        $node_extension->setAttribute('url', 'http://'.$_SERVER['HTTP_HOST'].'/resources/extensions/blood-type.xml');
-        $node_extension = $patient->appendChild($node_extension);
-
-        $node_valueString = $dom->createElement('valueString');
-        $node_valueString->setAttribute('value', $paziente->paziente_gruppo);
-        $node_valueString = $node_extension->appendChild($node_valueString);
-
-        
-        // creazione del nodo extension che rappresenta i vari campi dell'utente a cui
-        // corrisponde il paziente della risorsa
-
-        $node_extension_fields = $dom->createElement('extension');
-        $node_extension_fields->setAttribute('url', 'http://'.$_SERVER['HTTP_HOST'].'/resources/extensions/user-fields.xml');
-        $node_extension_fields = $patient->appendChild($node_extension_fields);
-
-        foreach($db_values as $i => $value) {
-            $node_inner_extension = $dom->createElement('extension');
-            $node_inner_extension->setAttribute('url', $i);
-            $node_inner_extension = $node_extension_fields->appendChild($node_inner_extension);
-
-            $node_valueString = $dom->createElement('valueString');
-            $node_valueString->setAttribute('value', $value);
-            $node_valueString = $node_inner_extension->appendChild($node_valueString);
-        }
-
-        
-		//Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
-		$identifier = $dom->createElement('identifier');
-		$identifier = $patient->appendChild($identifier);
-		//Creazione del nodo use con valore fisso ad usual
-		$use = $dom->createElement('use');
-		$use->setAttribute('value', 'usual');
-		$use = $identifier->appendChild($use);
-		//Creazione del nodo system che identifica il namespace degli URI per identificare la risorsa
-		$system = $dom->createElement('system');
-		$system->setAttribute('value', 'urn:ietf:rfc:3986');  //RFC gestione URI
-		$system = $identifier->appendChild($system);
-		//Creazione del nodo value
-		$value = $dom->createElement('value');
-		//Do il valore all' URI della risorsa
-		$value->setAttribute('value', "../fhir/Patient/".$idutente);
-		$value = $identifier->appendChild($value);
-
-		
-		
-		//Creazione del nodo active settato a true in quanto la risorsa è attiva per il FSEM
-		$active = $dom->createElement('active');
-		$active->setAttribute('value', 'true');
-		$active = $patient->appendChild($active);
-		
-
-		//Creazione del nodo per il nominativo del paziente
-		$name = $dom->createElement('name');
-		$name = $patient->appendChild($name);
-		//Creazione del nodo use settato sempre al valore usual
-		$use = $dom->createElement('use');
-		$use->setAttribute('value', 'usual');
-		$use = $name->appendChild($use);
-		//Creazione del nodo family che indica il nome dalla famiglia di provenienza, quindi il cognome del paziente
-		$family = $dom->createElement('family');
-		$family->setAttribute('value', $paziente->paziente_cognome);
-		$family = $name->appendChild($family);
-		//Creazione del nodo given che indica il nome di battesimo dato al paziente
-		$given = $dom->createElement('given');
-		$given->setAttribute('value', $paziente->paziente_nome);
-		$given = $name->appendChild($given);
-
-		
-		//Creazione del nodo telecom con il contatto telefonico del paziente
-		$telecom = $dom->createElement('telecom');
-		$telecom = $patient->appendChild($telecom);
-		//Creazione del nodo system che indica che il contatto è un valore telefonico
-		$system = $dom->createElement('system');
-		$system->setAttribute('value', 'phone');
-		$system = $telecom->appendChild($system);
-		//Creazione del nodo value che contiene il valore del numero di telefono del paziente
-		$value = $dom->createElement('value');
-		$value->setAttribute('value', $paziente->user()->first()->contacts()->first()->contatto_telefono);
-		$value = $telecom->appendChild($value);
-		//Creazione del nodo use che indica la tipologia di numero di telefono
-		$use = $dom->createElement('use');
-		//Contro se il numero di telefono è di un mobile o fisso
-		if($paziente->user()->first()->contacts()->first()->contatto_telefono[0]=="3")
-			$use->setAttribute('value', 'mobile');
-		else
-			$use->setAttribute('value', 'home');
-		
-		$use = $telecom->appendChild($use);
-
-
-		//Creazione del nodo gender per il sesso del paziente
-		$gender = $dom->createElement('gender');
-		//Controllo se il sesso salvato nel FSEM sia maschio o femmina e do il valore all'attributo con codifica HL7
-		$gender->setAttribute('value', $paziente->paziente_sesso);
-		$gender = $patient->appendChild($gender);
-
-
-		//Creazione del nodo birthdate con la data di nascita del paziente
-		$birthDate = $dom->createElement('birthDate');
-		$birthDate->setAttribute('value', $paziente->paziente_nascita);
-		$birthDate = $patient->appendChild($birthDate);
-
-
-		//Effettuo il controllo sulla data di decesso del paziente
-		if(!$paziente->tbl_pazienti_decessi()->first())
-		{
-			//Se la data di decesso non esiste allora setto a false il valore del nodo deceasedBoolean
-			$deceasedBoolean = $dom->createElement('deceasedBoolean');
-			$deceasedBoolean->setAttribute('value', 'false');
-			$deceasedBoolean = $patient->appendChild($deceasedBoolean);
-		}
-		else
-		{
-			//Se la data di decesso esiste allora la inserisco
-			$deceasedDateTime = $dom->createElement('deceasedDateTime');
-			$deceasedDateTime->setAttribute('value', $paziente->tbl_pazienti_decessi()->first()->paziente_data_decesso);
-			$deceasedDateTime = $patient->appendChild($deceasedDateTime);
-		}
-
-
-		//Creazione del nodo address per i dati relativi al recapito del paziente
-		$address = $dom->createElement('address');
-		$address = $patient->appendChild($address);
-		//Creazione del nodo use che indica che il recapito è relativo alla casa di residenza
-		$use = $dom->createElement('use');
-		$use->setAttribute('value', 'home');
-		$use = $address->appendChild($use);
-		
-		//Creazione del nodo line che indica l'indirizzo di residenza
-		$line = $dom->createElement('line');
-		$line->setAttribute('value', $paziente->user()->first()->getAddress());
-		$line = $address->appendChild($line);
-		//Creazione del nodo city che indica la città di residenza
-		$city = $dom->createElement('city');
-		$city->setAttribute('value', $paziente->user()->first()->getLivingTown());
-		$city = $address->appendChild($city);
-	
-		//Creazione del nodo postalCode che indica il codice postale di residenza
-		$postalCode = $dom->createElement('postalCode');
-		$postalCode->setAttribute('value', $paziente->user()->first()->getCapLivingTown());
-		$postalCode = $address->appendChild($postalCode);
-		
-		//Creazione del nodo country che indica lo stato di residenza
-		$country = $dom->createElement('country');
-		$country->setAttribute('value', $paziente->user()->first()->contacts()->first()->town()->first()->tbl_nazioni()->first()->getCountryName());
-		$country = $address->appendChild($country);
-
-		//Creazione del nodo maritalStatus cioè lo stato civile del paziente
-		$maritalStatus = $dom->createElement('maritalStatus');
-		$maritalStatus = $patient->appendChild($maritalStatus);
-		//Creazione del nodo coding che indica la codifica usata
-		$coding = $dom->createElement('coding');
-		$coding = $maritalStatus->appendChild($coding);
-		//Creazione del nodo system che indica il value set da cui confrontare la validità dei codici
-		$system = $dom->createElement('system');
-		$system->setAttribute('value', "http://hl7.org/fhir/v3/MaritalStatus"); //value set HL7
-		$system = $coding->appendChild($system);
-		//Creazione del nodo code con codice dello stato civile
-		$code = $dom->createElement('code');
-		$code->setAttribute('value', $paziente->user()->first()->utente_stato);
-		$code = $coding->appendChild($code);
-		//Creazione del nodo dysplay cioè la visualizzazione dello stato civile
-		$dysplay = $dom->createElement('display');
-		//Do il valore all' attributo del tag
-		$dysplay->setAttribute('value', $paziente->user()->first()->getMaritalStatus() );
-		$dysplay = $coding->appendChild($dysplay);
-
-
-		//Controllo che ci sia una foto relativa al paziente
-
-		/**
-		 * @TODO: Il caricamento delle foto non funziona
-		if($foto!=""){
-			//Creazione del nodo photo se esiste la foto del paziente
-			$photo = $dom->createElement('photo');
-			$photo = $patient->appendChild($photo);
-			//Creazione del nodo contentType che indica l'estensione e quindi il tipo di foto
-			$contentType = $dom->createElement('contentType');
-			$contentType->setAttribute('value', 'image/jpeg');
-			$contentType = $photo->appendChild($contentType);
-			//Creazione del nodo url che contiene l'indirizzo in cui si trova la foto
-			$url = $dom->createElement('url');
-			$url->setAttribute('value', "../files/uploads/".$foto);
-			$url = $photo->appendChild($url);
-			$data->setAttribute('value', $foto);
-			$data = $photo->appendChild($data);
-		}
-        */
-
-
-		//Inserisco tutti i contatti di emergenza in quanto possono essere più di uno
-		foreach ($contatti as $contatto){
-
-			$contact = $dom->createElement('contact');
-			$contact = $patient->appendChild($contact);
-			//Creazione del nodo relationship indicante la relazione che intercorre fra paziente e contatto
-			$relationship = $dom->createElement('relationship');
-			$relationship = $contact->appendChild($relationship);
-			$coding = $dom->createElement('coding');
-			$coding = $relationship->appendChild($coding);
-			//Creazione del nodo system dal quale recupero il value set delle tipologie di contatti
-			$system = $dom->createElement('system');
-			$system->setAttribute('value', 'http://hl7.org/fhir/patient-contact-relationship');
-			$system = $coding->appendChild($system);
-			//Creazione del nodo code avente il valore della tipologia di contatto
-			$code = $dom->createElement('code');
-			$code->setAttribute('value', $contatto->contacts_type()->first()->tipologia_nome);
-			$code = $coding->appendChild($code);
-			//Creazione del nodo name con il nominativo del contatto
-			$name = $dom->createElement('name');
-			$name = $contact->appendChild($name);
-			//Creazione del nodo use settato sempre a usual
-			$use = $dom->createElement('use');
-			//Do il valore all' attributo del tag
-			$use->setAttribute('value', 'usual');
-			$use = $name->appendChild($use);
-			//Creazione del nodo text in cui inserisco il valore del nominativo del contatto
-			$text = $dom->createElement('text');
-			$text->setAttribute('value', $contatto->contatto_nominativo);
-			$text = $name->appendChild($text);
-			//Creazione del nodo telecom per il recapito del contatto di emergenza
-			$telecom = $dom->createElement('telecom');
-			$telecom = $contact->appendChild($telecom);
-			//Creazione del nodo system che indica che il recapito è un numero telefonico
-			$system = $dom->createElement('system');
-			$system->setAttribute('value', 'phone');
-			$system = $telecom->appendChild($system);
-			//Creazione del nodo value contenente il numero telefonico del contatto
-			$value = $dom->createElement('value');
-			$value->setAttribute('value', $contatto->contatto_telefono);
-			$value = $telecom->appendChild($value);
-			//Creazione del nodo use che indica se il numero di telefono è fisso o mobile
-			$use = $dom->createElement('use');
-			//Controllo se il primo carattere del numero è 3 e in questo caso è un numero mobile altrimenti è un fisso
-			
-			if($contatto->contatto_telefono[0]=="3")
-				$use->setAttribute('value', 'mobile');
-				elseif($contatto->contatto_telefono[0]=="0")
-				$use->setAttribute('value', 'home');
-			$use = $telecom->appendChild($use);
-
-		}
-
-		//Creazione del nodo communication per indicare la lingua di comunicazione del paziente
-		$communication = $dom->createElement('communication');
-		$communication = $patient->appendChild($communication);
-		//Creazione del nodo coding
-		$coding = $dom->createElement('coding');
-		$coding = $communication->appendChild($coding);
-		//Creazione del nodo system in cui si indica il value set dell' IETF
-		$system = $dom->createElement('system');
-		$system->setAttribute('value', 'https://tools.ietf.org/html/bcp47');
-		$system = $coding->appendChild($system);
-		//Creazione del nodo code che indica il codice della lingua parlata, in questo caso l'italiano perche tutti i pazienti del FSEM usano l'italiano
-		$code = $dom->createElement('code');
-		$code->setAttribute('value', 'it');
-		$code = $coding->appendChild($code);
-		//Creazione del nodo display per visualizzazione testuale del valore della lingua
-		$display = $dom->createElement('display');
-		//Do il valore all' attributo del tag
-		$display->setAttribute('value', 'Italiano');
-		$display = $coding->appendChild($display);
-
-		foreach ($careproviders as $cpp){
-		    //Creazione del nodo careProvider che è in relazione alla risorsa Practitioner
-		    $careProvider = $dom->createElement('careProvider');
-		    $careProvider = $patient->appendChild($careProvider);
-		    //Creazione del nodo reference per inserire il riferimento alla relativa risorsa Practitioner
-		    $reference = $dom->createElement('reference');
-		    $reference->setAttribute('value', "../fhir/Practitioner/".$cpp->id_cpp);
-		    $reference = $careProvider->appendChild($reference);
-		}
-
-		//Elimino gli spazi bianchi superflui per la viasualizzazione grafica dell'XML
-		$dom->preserveWhiteSpace = false;
-		//Formatto il documento per l'output
-		$dom->formatOutput = true;
-		//Salvo il documento XML nella cartella rsources dando come nome, l'id del paziente
-		//$dom->save("../fhir/Patient/".$idutente.".xml");
-
-		echo $dom->saveXML();
-		//return $dom->saveXML();
-	}
 }
 ?>

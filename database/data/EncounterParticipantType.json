@@ -1,0 +1,238 @@
+[
+	{
+		"code": "PART",
+		"display": "Participation"
+	},
+	{
+		"code": "ADM",
+		"display": "admitter"
+	},
+	{
+		"code": "ATND",
+		"display": "attender"
+	},
+	{
+		"code": "CALLBCK",
+		"display": "callback contact"
+	},
+	{
+		"code": "CON",
+		"display": "consultant"
+	},
+	{
+		"code": "DIS",
+		"display": "discharger"
+	},
+	{
+		"code": "ESC",
+		"display": "escort"
+	},
+	{
+		"code": "REF",
+		"display": "referrer"
+	},
+	{
+		"code": "AUT",
+		"display": "author (originator)"
+	},
+	{
+		"code": "INF",
+		"display": "informant"
+	},
+	{
+		"code": "TRANS",
+		"display": "Transcriber"
+	},
+	{
+		"code": "ENT",
+		"display": "data entry person"
+	},
+	{
+		"code": "WIT",
+		"display": "witness"
+	},
+	{
+		"code": "CST",
+		"display": "custodian"
+	},
+	{
+		"code": "DIR",
+		"display": "direct target"
+	},
+	{
+		"code": "ALY",
+		"display": "analyte"
+	},
+	{
+		"code": "BBY",
+		"display": "baby"
+	},
+	{
+		"code": "CAT",
+		"display": "catalyst"
+	},
+	{
+		"code": "CSM",
+		"display": "consumable"
+	},
+	{
+		"code": "TPA",
+		"display": "therapeutic agent"
+	},
+	{
+		"code": "DEV",
+		"display": "device"
+	},
+	{
+		"code": "NRD",
+		"display": "non-reuseable device"
+	},
+	{
+		"code": "RDV",
+		"display": "reusable device"
+	},
+	{
+		"code": "DON",
+		"display": "donor"
+	},
+	{
+		"code": "EXPAGNT",
+		"display": "ExposureAgent"
+	},
+	{
+		"code": "EXPART",
+		"display": "ExposureParticipation"
+	},
+	{
+		"code": "EXPTRGT",
+		"display": "ExposureTarget"
+	},
+	{
+		"code": "EXSRC",
+		"display": "ExposureSource"
+	},
+	{
+		"code": "PRD",
+		"display": "product"
+	},
+	{
+		"code": "SBJ",
+		"display": "subject"
+	},
+	{
+		"code": "SPC",
+		"display": "specimen"
+	},
+	{
+		"code": "IND",
+		"display": "indirect target"
+	},
+	{
+		"code": "BEN",
+		"display": "beneficiary"
+	},
+	{
+		"code": "CAGNT",
+		"display": "causative agent"
+	},
+	{
+		"code": "COV",
+		"display": "coverage target"
+	},
+	{
+		"code": "GUAR",
+		"display": "guarantor party"
+	},
+	{
+		"code": "HLD",
+		"display": "holder"
+	},
+	{
+		"code": "RCT",
+		"display": "record target"
+	},
+	{
+		"code": "RCV",
+		"display": "receiver"
+	},
+	{
+		"code": "IRCP",
+		"display": "information recipient"
+	},
+	{
+		"code": "NOT",
+		"display": "ugent notification contact"
+	},
+	{
+		"code": "PRCP",
+		"display": "primary information recipient"
+	},
+	{
+		"code": "REFB",
+		"display": "Referred By"
+	},
+	{
+		"code": "REFT",
+		"display": "Referred to"
+	},
+	{
+		"code": "TRC",
+		"display": "tracker"
+	},
+	{
+		"code": "LOC",
+		"display": "location"
+	},
+	{
+		"code": "DST",
+		"display": "destination"
+	},
+	{
+		"code": "ELOC",
+		"display": "entry location"
+	},
+	{
+		"code": "ORG",
+		"display": "origin"
+	},
+	{
+		"code": "RML",
+		"display": "remote"
+	},
+	{
+		"code": "VIA",
+		"display": "via"
+	},
+	{
+		"code": "PRF",
+		"display": "performer"
+	},
+	{
+		"code": "DIST",
+		"display": "distributor"
+	},
+	{
+		"code": "PPRF",
+		"display": "primary performer"
+	},
+	{
+		"code": "SPRF",
+		"display": "secondary performer"
+	},
+	{
+		"code": "RESP",
+		"display": "responsible party"
+	},
+	{
+		"code": "VRF",
+		"display": "verifier"
+	},
+	{
+		"code": "AUTHEN",
+		"display": "authenticator"
+	},
+	{
+		"code": "LA",
+		"display": "legal authenticator"
+	}
+]

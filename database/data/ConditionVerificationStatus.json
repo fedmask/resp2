@@ -1,0 +1,20 @@
+[
+    {
+      "code": "provisional"
+    },
+    {
+      "code": "differential"
+    },
+    {
+      "code": "confirmed"
+    },
+    {
+      "code": "refuted"
+    },
+    {
+      "code": "entered-in-error"
+    },
+    {
+      "code": "unknown"
+    }
+  ]

@@ -1,0 +1,42 @@
+[
+	{
+		"code": "109006",
+		"display": "Anxiety disorder of childhood OR adolescence"
+	},
+	{
+		"code": "122003",
+		"display": "Choroidal hemorrhage"
+	},
+	{
+		"code": "127009",
+		"display": "Spontaneous abortion with laceration of cervix"
+	},
+	{
+		"code": "129007",
+		"display": "Homoiothermia"
+	},
+	{
+		"code": "134006",
+		"display": "Decreased hair growth"
+	},
+	{
+		"code": "140004",
+		"display": "Chronic pharyngitis"
+	},
+	{
+		"code": "144008",
+		"display": "Normal peripheral vision"
+	},
+	{
+		"code": "150003",
+		"display": "Abnormal bladder continence"
+	},
+	{
+		"code": "151004",
+		"display": "Gonococcal meningitis"
+	},
+	{
+		"code": "162004",
+		"display": "Severe manic bipolar I disorder without psychotic features"
+	}
+]

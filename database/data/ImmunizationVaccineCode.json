@@ -1,0 +1,42 @@
+[
+	{
+		"code": "01",
+		"display": "DTP"
+	},
+	{
+		"code": "02",
+		"display": "OPV"
+	},
+	{
+		"code": "03",
+		"display": "MMR"
+	},
+	{
+		"code": "04",
+		"display": "M/R"
+	},
+	{
+		"code": "05",
+		"display": "measles"
+	},
+	{
+		"code": "06",
+		"display": "rubella"
+	},
+	{
+		"code": "07",
+		"display": "mumps"
+	},
+	{
+		"code": "08",
+		"display": "Hep B, adolescent or pediatric"
+	},
+	{
+		"code": "09",
+		"display": "Td (adult), adsorbed"
+	},
+	{
+		"code": "10",
+		"display": "IPV"
+	}
+]

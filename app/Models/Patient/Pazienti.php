@@ -4,14 +4,13 @@
  * Created by Reliese Model.
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
-
 namespace App\Models\Patient;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Pazienti
- * 
+ *
  * @property int $id_paziente
  * @property int $id_utente
  * @property int $id_stato_matrimoniale
@@ -23,7 +22,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property bool $paziente_gruppo
  * @property string $pazinte_rh
  * @property bool $paziente_donatore_organi
- * 
+ *
  * @property \App\Models\Utenti $tbl_utenti
  * @property \Illuminate\Database\Eloquent\Collection $tbl_contatti_pazientis
  * @property \Illuminate\Database\Eloquent\Collection $tbl_cpp_pazientes
@@ -43,39 +42,128 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class Pazienti extends Eloquent
-{
+class Pazienti extends Eloquent {
 	protected $table = 'tbl_pazienti';
 	protected $primaryKey = 'id_paziente';
 	public $timestamps = false;
-
-	protected $casts = [
-		'id_utente' => 'int',
-		'id_stato_matrimoniale' => 'int',
-		'paziente_gruppo' => 'bool',
-		'paziente_donatore_organi' => 'bool'
+	protected $casts = [ 
+			'id_utente' => 'int',
+			'id_stato_matrimoniale' => 'int',
+			'paziente_gruppo' => 'bool',
+			'paziente_donatore_organi' => 'bool' 
 	];
-
-	protected $dates = [
-		'paziente_nascita'
+	protected $dates = [ 
+			'paziente_nascita' 
 	];
-
-	protected $fillable = [
-		'id_utente',
-		'id_stato_matrimoniale',
-		'paziente_nome',
-		'paziente_cognome',
-		'paziente_nascita',
-		'paziente_codfiscale',
-		'paziente_sesso',
-		'paziente_gruppo',
-		'pazinte_rh',
-		'paziente_donatore_organi'
+	protected $fillable = [ 
+			'id_utente',
+			'id_stato_matrimoniale',
+			'paziente_nome',
+			'paziente_cognome',
+			'paziente_nascita',
+			'paziente_codfiscale',
+			'paziente_sesso',
+			'paziente_gruppo',
+			'pazinte_rh',
+			'paziente_donatore_organi',
+	        'paziente_lingua'
 	];
-
+	
+	
+	public function tbl_utenti()
+	{
+	    return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+	}
+	
+	public function tbl_stati_matrimoniali()
+	{
+	    return $this->belongsTo(\App\Models\TblStatiMatrimoniali::class, 'id_stato_matrimoniale', 'id_stato_matrimoniale');
+	}
+	
+	public function gender()
+	{
+	    return $this->belongsTo(\App\Models\Gender::class, 'paziente_sesso');
+	}
+	
+	public function language()
+	{
+	    return $this->belongsTo(\App\Models\Language::class, 'paziente_lingua');
+	}
+	
+	public function allergy_intollerances()
+	{
+	    return $this->hasMany(\App\Models\AllergyIntollerance::class, 'recorder');
+	}
+	
+	public function consenso_paziente()
+	{
+	    return $this->hasOne(\App\Models\ConsensoPaziente::class, 'Id_Paziente');
+	}
+	
+	public function dispositivo_impiantabiles()
+	{
+	    return $this->hasMany(\App\Models\DispositivoImpiantabile::class, 'id_paziente');
+	}
+	
+	public function moduli__gruppo__sanguignos()
+	{
+	    return $this->hasMany(\App\Models\ModuliGruppoSanguigno::class, 'Id_Paziente');
+	}
+	
+	public function patient_contact()
+	{
+	    return $this->hasOne(\App\Models\PatientContact::class, 'Id_Patient');
+	}
+	
+	public function farmaci_assunti()
+	{
+	    return $this->hasOne(\App\Models\FarmaciAssunti::class, 'id_paziente');
+	}
+	
+	public function tbl_anamnesi_familiare()
+	{
+	    return $this->hasOne(\App\Models\TblAnamnesiFamiliare::class, 'id_paziente');
+	}
+	
+	public function tbl_cpp_pazientes()
+	{
+	    return $this->hasMany(\App\Models\TblCppPaziente::class, 'id_paziente');
+	}
+	
+	public function tbl_diagnosis()
+	{
+	    return $this->hasMany(\App\Models\TblDiagnosi::class, 'id_paziente');
+	}
+	
+	public function tbl_diagnosi_eliminates()
+	{
+	    return $this->hasMany(\App\Models\TblDiagnosiEliminate::class, 'id_utente');
+	}
+	
+	public function tbl_effetti_collateralis()
+	{
+	    return $this->hasMany(\App\Models\TblEffettiCollaterali::class, 'id_paziente');
+	}
+		
+	
+	public function tbl_pazienti_contattis()
+	{
+	    return $this->hasMany(\App\Models\TblPazientiContatti::class, 'id_paziente');
+	}
+	
+	
+	public function tbl_proc_terapeutiches()
+	{
+	    return $this->hasMany(\App\Models\TblProcTerapeutiche::class, 'Paziente');
+	}
+	
+	
+	
+	
+	
 	/**
-	* Costanti per i gruppi sanguigni e fattori RH
-	*/
+	 * Costanti per i gruppi sanguigni e fattori RH
+	 */
 	const BLOODGROUP_0 = 0;
 	const BLOODGROUP_A = 1;
 	const BLOODGROUP_B = 2;
@@ -83,83 +171,143 @@ class Pazienti extends Eloquent
 	const BLOODRH_POS = "POS";
 	const BLOODRH_NEG = "NEG";
 	
-	public function user()
-	{
-		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_utente');
+	/**
+	 * FHIR FUNCTIONS *
+	 */
+	public function getPhone() {
+		return $this->user ()->first ()->contacts ()->first ()->contatto_telefono;
 	}
-
-	public function patient_contacts()
-	{
-		return $this->hasMany(\App\Models\Patient\PazientiContatti::class, 'id_paziente');
+	public function getPhoneType() {
+		return $this->user ()->first ()->contacts ()->first ()->get_phone_type ();
 	}
-
-	public function cpp_patients()
-	{
-		return $this->hasMany(\App\Models\CareProvider\CppPaziente::class, 'id_paziente');
+	public function isDeceased() {
+		$deceased = "false";
+		
+		if ($this->tbl_pazienti_decessi ()->first ()) {
+			$deceased = $paziente->tbl_pazienti_decessi ()->first ()->paziente_data_decesso;
+		}
+		
+		return $deceased;
 	}
-
-	public function diagnosis()
-	{
-		return $this->hasMany(\App\Models\Diagnosis\Diagnosi::class, 'id_paziente');
+	public function getLine() {
+		return $this->user ()->first ()->getAddress ();
 	}
-
-	public function erased_diagnosis()
-	{
-		return $this->hasMany(\App\Models\Diagnosis\DiagnosiEliminate::class, 'id_utente');
+	public function getCity() {
+		return $this->user ()->first ()->getLivingTown ();
 	}
-
-	public function collateral_effects()
-	{
-		return $this->hasMany(\App\Models\EffettiCollaterali::class, 'id_paziente');
+	public function getPostalCode() {
+		return $this->user ()->first ()->getCapLivingTown ();
 	}
-
-	public function tbl_esami_obiettivis()
-	{
-		return $this->hasMany(\App\Models\EsamiObiettivi::class, 'id_paziente');
+	public function getCountryName() {
+		return $this->user ()->first ()->contacts ()->first ()->town ()->first ()->tbl_nazioni ()->first ()->getCountryName ();
 	}
-
-	public function tbl_farmaci_vietatis()
-	{
-		return $this->hasMany(\App\Models\Drugs\FarmaciVietati::class, 'id_paziente');
+	public function getStatusWedding() {
+		return $this->statusWedding ()->first ()->stato_matrimoniale_nome;
 	}
-
-	public function tbl_files()
-	{
-		return $this->hasMany(\App\Models\File::class, 'id_paziente');
+	public function getStatusWeddingCode() {
+		return $this->id_stato_matrimoniale;
 	}
-
-	public function tbl_indaginis()
-	{
-		return $this->hasMany(\App\Models\InvestigationCenter\Indagini::class, 'id_paziente');
+	public function getName() {
+		return $this->paziente_nome;
 	}
-
-	public function tbl_parametri_vitalis()
-	{
-		return $this->hasMany(\App\Models\Patient\ParametriVitali::class, 'id_paziente');
+	public function getSurname() {
+		return $this->paziente_cognome;
 	}
-
-	public function tbl_pazienti_decessi()
-	{
-		return $this->hasOne(\App\Models\Patient\PazientiDecessi::class, 'id_paziente');
+	public function getFullName() {
+		return $this->getName () . " " . $this->getSurname ();
 	}
-
-	public function tbl_pazienti_familiarita()
-	{
-		return $this->hasMany(\App\Models\Patient\PazientiFamiliarita::class, 'id_paziente');
+	public function getID_Paziente() {
+		return $this->id_paziente;
 	}
-
-	public function tbl_pazienti_visites()
-	{
-		return $this->hasMany(\App\Models\Patient\PazientiVisite::class, 'id_paziente');
+	public function getID() {
+		return $this->id_utente;
 	}
-
-	public function tbl_taccuinos()
-	{
-		return $this->hasMany(\App\Models\Patient\Taccuino::class, 'id_paziente');
+	public function getSex() {
+		return $this->paziente_sesso;
 	}
-
-	public function tbl_vaccinaziones()
-	{
-		return $this->hasMany(\App\Models\Vaccine\Vaccinazione::class, 'id_paziente');
+	public function getBirth() {
+		return $this->paziente_nascita;
 	}
+	public function getFiscalCode() {
+		return $this->paziente_codfiscale;
+	}
+	public function setBirth($date) {
+		$this->paziente_nascita = $date;
+	}
+	public function setFiscalCode($fiscalCode) {
+		$this->paziente_codfiscale = $fiscalCode;
+	}
+	public function setSex($sex) {
+		$this->paziente_sesso = $sex;
+	}
+	public function setID($id) {
+		$this->id_utente = $id;
+	}
+	public function setSurname($surname) {
+		$this->paziente_cognome = $surname;
+	}
+	public function setName($name) {
+		$this->paziente_nome = $name;
+	}
+	
+	/**
+	 * END FHIR *
+	 */
+	public function user() {
+		return $this->belongsTo ( \App\Models\CurrentUser\User::class, 'id_utente' );
+	}
+	public function statusWedding() {
+		return $this->belongsTo ( \App\Models\Patient\StatiMatrimoniali::class, 'id_stato_matrimoniale' );
+	}
+	public function patient_contacts() {
+		return $this->hasMany ( \App\Models\Patient\PazientiContatti::class, 'id_paziente' );
+	}
+	public function cpp_patients() {
+		return $this->hasMany ( \App\Models\CareProvider\CppPaziente::class, 'id_paziente' );
+	}
+	public function diagnosis() {
+		return $this->hasMany ( \App\Models\Diagnosis\Diagnosi::class, 'id_paziente' );
+	}
+	public function erased_diagnosis() {
+		return $this->hasMany ( \App\Models\Diagnosis\DiagnosiEliminate::class, 'id_utente' );
+	}
+	public function collateral_effects() {
+		return $this->hasMany ( \App\Models\EffettiCollaterali::class, 'id_paziente' );
+	}
+	public function tbl_esami_obiettivis() {
+		return $this->hasMany ( \App\Models\EsamiObiettivi::class, 'id_paziente' );
+	}
+	public function tbl_farmaci_vietatis() {
+		return $this->hasMany ( \App\Models\Drugs\FarmaciVietati::class, 'id_paziente' );
+	}
+	public function tbl_files() {
+		return $this->hasMany ( \App\Models\File::class, 'id_paziente' );
+	}
+	public function tbl_indaginis() {
+		return $this->hasMany ( \App\Models\InvestigationCenter\Indagini::class, 'id_paziente' );
+	}
+	public function tbl_parametri_vitalis() {
+		return $this->hasMany ( \App\Models\Patient\ParametriVitali::class, 'id_paziente' );
+	}
+	public function tbl_pazienti_decessi() {
+		return $this->hasOne ( \App\Models\Patient\PazientiDecessi::class, 'id_paziente' );
+	}
+	public function tbl_pazienti_familiarita() {
+		return $this->hasMany ( \App\Models\Patient\PazientiFamiliarita::class, 'id_paziente' );
+	}
+	public function tbl_pazienti_visites() {
+		return $this->hasMany ( \App\Models\Patient\PazientiVisite::class, 'id_paziente' );
+	}
+	public function tbl_taccuinos() {
+		return $this->hasMany ( \App\Models\Patient\Taccuino::class, 'id_paziente' );
+	}
+	public function tbl_vaccinaziones() {
+		return $this->hasMany ( \App\Models\Vaccine\Vaccinazione::class, 'id_paziente' );
+	}
+	
+	public function tbl_proc_ter()
+	{
+	    return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche');
+	}
+	
 }

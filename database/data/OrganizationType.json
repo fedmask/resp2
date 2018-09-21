@@ -1,0 +1,46 @@
+[
+    {
+      "code": "prov",
+      "display": "Healthcare Provider"
+    },
+    {
+      "code": "dept",
+      "display": "Hospital Department"
+    },
+    {
+      "code": "team",
+      "display": "Organizational team"
+    },
+    {
+      "code": "govt",
+      "display": "Government"
+    },
+    {
+      "code": "ins",
+      "display": "Insurance Company"
+    },
+    {
+      "code": "edu",
+      "display": "Educational Institute"
+    },
+    {
+      "code": "reli",
+      "display": "Religious Institution"
+    },
+    {
+      "code": "crs",
+      "display": "Clinical Research Sponsor"
+    },
+    {
+      "code": "cg",
+      "display": "Community Group"
+    },
+    {
+      "code": "bus",
+      "display": "Non-Healthcare Business or Corporation"
+    },
+    {
+      "code": "other",
+      "display": "Other"
+    }
+  ]
