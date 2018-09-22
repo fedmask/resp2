@@ -274,6 +274,13 @@ Code CHAR(10) PRIMARY KEY
 
 );
 
+CREATE TABLE MaritalStatus (
+Code VARCHAR(5) PRIMARY KEY,
+Text VARCHAR(50) NOT NULL
+
+
+);
+
 CREATE TABLE Languages (
 Code VARCHAR(5) PRIMARY KEY,
 Display VARCHAR(20) NOT NULL
@@ -289,7 +296,7 @@ Display VARCHAR(20) NOT NULL
 CREATE TABLE IF NOT EXISTS  `tbl_pazienti` (
   `id_paziente` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_utente` INT(10) UNSIGNED NOT NULL,
-  `id_stato_matrimoniale` SMALLINT(6) NOT NULL,
+  `id_stato_matrimoniale` VARCHAR(5) NOT NULL,
   `paziente_nome` VARCHAR(45)  ,
   `paziente_cognome` VARCHAR(45)  ,
   `paziente_nascita` DATE NOT NULL,
@@ -302,15 +309,13 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti` (
   PRIMARY KEY (`id_paziente`),
   UNIQUE INDEX `paziente_codfiscale_UNIQUE` (`paziente_codfiscale` ASC),
   INDEX `FOREIGN_UTENTE_idx` (`id_utente` ASC),
-  INDEX `fk_tbl_pazienti_tbl_stati_matrimoniali1_idx` (`id_stato_matrimoniale` ASC),
   CONSTRAINT `FOREIGN_UTENTE_idx`
     FOREIGN KEY (`id_utente`)
     REFERENCES  `tbl_utenti` (`id_utente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_pazienti_tbl_stati_matrimoniali1_idx`
     FOREIGN KEY (`id_stato_matrimoniale`)
-    REFERENCES  `tbl_stati_matrimoniali` (`id_stato_matrimoniale`)
+    REFERENCES  `MaritalStatus` (`Code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     
@@ -324,7 +329,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
-
 
 
 -- -----------------------------------------------------
@@ -2156,13 +2160,13 @@ ENGINE = InnoDB;
 -- --------------------------------------------------------------------FINE
 CREATE TABLE ContactRelationship (
 Code CHAR(3) PRIMARY KEY,
-Display VARCHAR(20) NOT NULL
+Display VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE PatientContact (
-Id_Patient INT(10) UNSIGNED PRIMARY KEY,
+Id_Patient INT(10) UNSIGNED ,
 Relationship CHAR(3) NOT NULL,
-Nome CHAR(30) NOT NULL,
+Name CHAR(30) NOT NULL,
 Surname CHAR(30) NOT NULL,
 Telephone VARCHAR (15) NULL,
 Mail VARCHAR(50) NULL,

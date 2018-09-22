@@ -12,7 +12,7 @@ use App\Models\CurrentUser\User;
 use App\Models\Domicile\Comuni;
 use Illuminate\Http\Request;
 use App\Models\FHIR\PatientContact;
-use App\Models\FHIR\ContactRole;
+use App\Models\CodificheFHIR\ContactRelationship;
 use App\Models\FHIR\PazienteCommunication;
 use View;
 use Illuminate\Filesystem\Filesystem;
@@ -36,57 +36,44 @@ class FHIRPatient extends FHIRResource {
     
 	public function __construct() {}
 	
-	public function getResource($id){
+	public function showResource($id){
 	    // Recupero i dati del paziente
 	    $patient = Pazienti::where('id_utente', $id)->first();
 	    
-	  /*  if (! $patient) {
+	    if (! $patient) {
 	        throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
 	    }
-	    */
-	    //Recupero i contatti del paziente
-	  //  $patient_contacts = PatientContact::where('id_patient', $id)->get();
 	    
-	    //Recupero le lingue del paziente
-	   // $patient_languages = PazienteCommunication::where('id_paziente', $patient->getID_Paziente())->get();
+	    //Recupero i contatti del paziente
+	    $patient_contacts = PatientContact::where('id_patient', $id)->get();
+	    
 	    
 	    // Recupero gli operatori sanitari del paziente
-	  //  $careproviders = CppPaziente::where('id_paziente', $id)->get();
+	    //  $careproviders = CppPaziente::where('id_paziente', $id)->get();
 	    
-	  // Sono i valori che verranno riportati nella parte descrittiva del documento
-	  $values_in_narrative = array(
-	      "Prova" => "OK",
-	     /*   "Identifier" => "RESP-PATIENT"."-".$patient->getID_Paziente(),
+	    // Sono i valori che verranno riportati nella parte descrittiva del documento
+	    $values_in_narrative = array(
+	        "Identifier" => "RESP-PATIENT"."-".$patient->getID_Paziente(),
 	        "Active" => $patient->isActive(),
 	        "Name" => $patient->getFullName(),
 	        "Telecom" => $patient->getTelecom(),
 	        "Gender" => $patient->getGender(),
 	        "BirthDate" => $patient->getBirth(),
-	        "Deceased" => $patient->isDeceased(),
+	        "Deceased" => $patient->getDeceased(),
 	        "Address" => $patient->getAddress(),
 	        "MaritalStatus" => $patient->getMaritalStatusDisplay(),
-	        */
-	   );
-	   
-	  //Patient.Contact
-	/*  $narrative_patient_contact = array();
+	        "Language" => $patient->getLanguage(),
+	    );
+	    
+	    //Patient.Contact
+	    $narrative_patient_contact = array();
 	    $count = 0;
 	    foreach($patient->getContact() as $pc){
 	        $count++;
 	        $narrative_patient_contact["ContactName"." ".$count] = $pc->getName()." ".$pc->getSurname();
 	        $narrative_patient_contact["ContactRelationship" ." ".$count] = $pc->getRelationshipDisplay();
-	        $narrative_patient_contact["ContactTelecom"." ".$count] = $pc->getTelephone()." - ".$pc->getMail();   
+	        $narrative_patient_contact["ContactTelecom"." ".$count] = $pc->getTelephone()." - ".$pc->getMail();
 	    }
-	    
-	    //Patient.Communication.language
-	    $narrative_patient_language = array();
-	    $count = 0;
-	    foreach($patient->getCommunication() as $d){
-	        $count++;
-	        $narrative_patient_language["Language"." ".$count] = $d;
-	    }
-	    
-	    
 	    
 	    // prelevo i dati dell'utente da mostrare come estensione
 	    $custom_extensions = array(
@@ -94,16 +81,73 @@ class FHIRPatient extends FHIRResource {
 	        'grupposanguigno' => $patient->paziente_gruppo." ".$patient->paziente_rh,
 	        'donatoreorgani' => $patient->isDonatoreOrgani()
 	    );
-	  */  
+	    
 	    $data_xml["narrative"] = $values_in_narrative;
-	 /*   $data_xml["narrative_patient_contact"] = $narrative_patient_contact;
-	    $data_xml["narrative_patient_language"] = $narrative_patient_language;
+	    $data_xml["narrative_patient_contact"] = $narrative_patient_contact;
 	    $data_xml["extensions"] = $custom_extensions;
 	    $data_xml["patient"] = $patient;
 	    //$data_xml["careproviders"] = $careproviders;
 	    $data_xml["patient_contacts"] = $patient_contacts;
-	    $data_xml["patient_languages"] = $patient_languages;
-	   */ 
+	    
+	    return view("pages.fhir.showpatient", [
+	        "data_output" => $data_xml
+	    ]);
+	}
+	
+	
+	public function getResource($id){
+	    // Recupero i dati del paziente
+	    $patient = Pazienti::where('id_utente', $id)->first();
+	    
+	    if (! $patient) {
+	        throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+	    }
+	  
+	    //Recupero i contatti del paziente
+	    $patient_contacts = PatientContact::where('id_patient', $id)->get();
+
+	    
+	    // Recupero gli operatori sanitari del paziente
+	  //  $careproviders = CppPaziente::where('id_paziente', $id)->get();
+	    
+	  // Sono i valori che verranno riportati nella parte descrittiva del documento
+	  $values_in_narrative = array(
+	        "Identifier" => "RESP-PATIENT"."-".$patient->getID_Paziente(),
+	        "Active" => $patient->isActive(),
+	        "Name" => $patient->getFullName(),
+	        "Telecom" => $patient->getTelecom(),
+	        "Gender" => $patient->getGender(),
+	        "BirthDate" => $patient->getBirth(),
+	        "Deceased" => $patient->getDeceased(),
+	        "Address" => $patient->getAddress(),
+	        "MaritalStatus" => $patient->getMaritalStatusDisplay(),
+	        "Language" => $patient->getLanguage(),
+	   );
+	   
+	  //Patient.Contact
+	  $narrative_patient_contact = array();
+	    $count = 0;
+	    foreach($patient->getContact() as $pc){
+	        $count++;
+	        $narrative_patient_contact["ContactName"." ".$count] = $pc->getName()." ".$pc->getSurname();
+	        $narrative_patient_contact["ContactRelationship" ." ".$count] = $pc->getRelationshipDisplay();
+	        $narrative_patient_contact["ContactTelecom"." ".$count] = $pc->getTelephone()." - ".$pc->getMail();   
+	    } 
+	    
+	    // prelevo i dati dell'utente da mostrare come estensione
+	    $custom_extensions = array(
+	        'codicefiscale' => $patient->paziente_codfiscale,
+	        'grupposanguigno' => $patient->paziente_gruppo." ".$patient->paziente_rh,
+	        'donatoreorgani' => $patient->isDonatoreOrgani()
+	    );
+	    
+	    $data_xml["narrative"] = $values_in_narrative;
+	    $data_xml["narrative_patient_contact"] = $narrative_patient_contact;
+	    $data_xml["extensions"] = $custom_extensions;
+	    $data_xml["patient"] = $patient;
+	    //$data_xml["careproviders"] = $careproviders;
+	    $data_xml["patient_contacts"] = $patient_contacts;
+	    
 	    return view("pages.fhir.patient", [
 	        "data_output" => $data_xml
 	    ]);

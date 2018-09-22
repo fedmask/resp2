@@ -26,9 +26,10 @@ class DatabaseSeeder extends Seeder
         $this->call(LoincTableSeeder::class);
         $this->call(LoincSlabValuesTableSeeder::class);
         $this->call(ContactsTypesTableSeeder::class);
+        $this->call(StatiMatrimonialiTableSeeder::class);
         
         //Tabelle con dati statici (Codifiche FHIR)
-        $this->call(StatiMatrimonialiTableSeeder::class);
+        $this->call(MaritalStatusTableSeeder::class);
         $this->call(LanguagesTableSeeder::class);
         $this->call(GenderTableSeeder::class);
         $this->call(ContactRelationshipTableSeeder::class);
@@ -76,6 +77,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(CppUsers::class); 
         $this->call(PatientsTableSeeder::class);
+        $this->call(PatientContactTableSeeder::class);
         $this->call(TownTableSeeder::class);
         $this->call(CareProviderPeopleTableSeeder::class); 
         $this->call(ContactsTableSeeder::class);

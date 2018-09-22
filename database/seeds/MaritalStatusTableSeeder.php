@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\FHIR\MaritalStatus;
+use App\Models\CodificheFHIR\MaritalStatus;
 
 class MaritalStatusTableSeeder extends Seeder
 {

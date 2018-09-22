@@ -23,7 +23,7 @@ class PatientsTableSeeder extends Seeder
             'paziente_gruppo' => '0',
             'paziente_rh' => 'pos',
             'paziente_donatore_organi' => '1',
-            'id_stato_matrimoniale' => '1',
+            'id_stato_matrimoniale' => 'A',
             'paziente_lingua' => 'it'
         ]);
         
@@ -37,7 +37,7 @@ class PatientsTableSeeder extends Seeder
             'paziente_gruppo' => '0',
             'paziente_rh' => 'neg',
             'paziente_donatore_organi' => '1',
-            'id_stato_matrimoniale' => '2',
+            'id_stato_matrimoniale' => 'D',
             'paziente_lingua' => 'it'
         ]);
         

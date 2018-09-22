@@ -40,4 +40,12 @@ class Language extends Eloquent
 	{
 		return $this->hasMany(\App\Models\TblPazienti::class, 'paziente_lingua');
 	}
+	
+	public function getCode() {
+	    return $this->Code;
+	}
+	
+	public function getDisplay() {
+	    return $this->Display;
+	}
 }
