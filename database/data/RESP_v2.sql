@@ -302,9 +302,9 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti` (
   `paziente_nascita` DATE NOT NULL,
   `paziente_codfiscale` CHAR(16)  ,
   `paziente_sesso` CHAR(10) NOT NULL,
-  `paziente_gruppo` TINYINT(4) NOT NULL,
+  `paziente_gruppo` TINYINT(4) ,
   `paziente_rh` CHAR(3)  ,
-  `paziente_donatore_organi` TINYINT(4) NOT NULL,
+  `paziente_donatore_organi` TINYINT(4) ,
   `paziente_lingua` VARCHAR(5) NOT NULL,
   PRIMARY KEY (`id_paziente`),
   UNIQUE INDEX `paziente_codfiscale_UNIQUE` (`paziente_codfiscale` ASC),
@@ -1801,7 +1801,7 @@ CREATE TABLE IF NOT EXISTS  `tbl_recapiti` (
   `id_contatto` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_utente` INT(10) UNSIGNED NOT NULL,
   `id_comune_residenza` INT(10) UNSIGNED NOT NULL,
-  `id_comune_nascita` INT(10) UNSIGNED NOT NULL,
+  `id_comune_nascita` INT(10) UNSIGNED ,
   `contatto_telefono` VARCHAR(30)  ,
   `contatto_indirizzo` VARCHAR(100)  ,
   PRIMARY KEY (`id_contatto`),
@@ -1810,11 +1810,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_recapiti` (
   INDEX `fk_tbl_contatti_tbl_comuni1_idx` (`id_comune_residenza` ASC),
   CONSTRAINT `fk_tbl_contatti_tbl_comuni1_idx`
     FOREIGN KEY (`id_comune_residenza`)
-    REFERENCES  `tbl_comuni` (`id_comune`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_contatti_tbl_comuni2_idx`
-    FOREIGN KEY (`id_comune_nascita`)
     REFERENCES  `tbl_comuni` (`id_comune`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -2168,8 +2163,8 @@ Id_Patient INT(10) UNSIGNED ,
 Relationship CHAR(3) NOT NULL,
 Name CHAR(30) NOT NULL,
 Surname CHAR(30) NOT NULL,
-Telephone VARCHAR (15) NULL,
-Mail VARCHAR(50) NULL,
+Telephone VARCHAR (15),
+Mail VARCHAR(50),
 
 
 FOREIGN KEY (`Id_Patient`)

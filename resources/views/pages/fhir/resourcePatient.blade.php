@@ -28,10 +28,26 @@ $patients = $data_output;
                                                 <input id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
                                             </form>
                                         </div>
-<!-- 
-                                        <u class="text-primary">Importa paziente</u>
-                                        <button id="upload_link" type="button" class="btn btn-primary btn-md btn-circle"><i class="glyphicon glyphicon-cloud-upload"></i></button>
-      -->
+                                        <u class="text-primary">Import Patient</u>
+                                        <button id="upload-res" onclick="openInputFile()" type="button" class="btn btn-primary btn-md btn-circle" ><i class="glyphicon glyphicon-cloud-upload"></i></button>
+                                    
+                                    <!-- FORM INPUT RESOURCE -->
+                                    <div id="inputFile" hidden>
+                                      {{Form::open(array('url' => '/fhirPatient/uploadPatient','files'=>'true'))}}
+                                      {{Form::file('file')}}
+                                      {{Form::submit('Upload File')}}
+                                      {{Form::close()}}
+                                    </div>
+                                    <!-- END -->
+                                    
+                                    <script>
+                                    function openInputFile(){
+                                    document.getElementById("inputFile").hidden=false;
+                                    document.getElementById("inputFile").style.display='block';
+                                    }
+                                    </script>
+                                    
+                                    
                                     </div> <!-- panel-heading text-right -->
                                      <table class="table table-striped table-bordered table-hover" id="dataTables-elencopaz">
                                         <thead>

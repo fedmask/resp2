@@ -62,8 +62,8 @@ $patient_contacts = $data_output["patient_contacts"];
 
 <name> 
    <use value="usual" /> 
-   <family value="{{$patient->getName()}}" />
-   <given value="{{$patient->getSurname()}}" /> 
+   <family value="{{$patient->getSurname()}}" />
+   <given value="{{$patient->getName()}}" /> 
 </name> 
 
 <telecom> 
@@ -120,11 +120,11 @@ $patient_contacts = $data_output["patient_contacts"];
       <use value="home" /> 
       <rank value="1" /> 
    </telecom> 
-   <telecom>
+ <!--    <telecom>
       <system value="email" /> 
       <value value="{{$pc->getMail()}}" /> 
       <use value="home" /> 
-   </telecom>
+   </telecom> -->
 </contact> 
 @endforeach
 

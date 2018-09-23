@@ -251,3 +251,7 @@ Route::group( ['prefix' => 'fhir' ], function () {
      */
     Route::get('/ModIndCompletata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@ModIndagineCompletata');
     
+    
+    
+    Route::post('/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient');
+    

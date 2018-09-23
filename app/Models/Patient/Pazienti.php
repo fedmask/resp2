@@ -54,12 +54,14 @@ class Pazienti extends Eloquent {
 	public $timestamps = false;
 	protected $casts = [ 
 			'id_utente' => 'int',
-			'paziente_donatore_organi' => 'bool' 
+			'paziente_donatore_organi' => 'bool',
+	        'id_paziente' => 'int',
 	];
 	protected $dates = [ 
 			'paziente_nascita' 
 	];
 	protected $fillable = [ 
+	        'id_paziente',
 			'id_utente',
 			'id_stato_matrimoniale',
 			'paziente_nome',

@@ -38,7 +38,7 @@ class FHIRPatient extends FHIRResource {
 	
 	public function showResource($id){
 	    // Recupero i dati del paziente
-	    $patient = Pazienti::where('id_utente', $id)->first();
+	    $patient = Pazienti::where('id_paziente', $id)->first();
 	    
 	    if (! $patient) {
 	        throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
@@ -97,7 +97,7 @@ class FHIRPatient extends FHIRResource {
 	
 	public function getResource($id){
 	    // Recupero i dati del paziente
-	    $patient = Pazienti::where('id_utente', $id)->first();
+	    $patient = Pazienti::where('id_paziente', $id)->first();
 	    
 	    if (! $patient) {
 	        throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");

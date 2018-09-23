@@ -12,8 +12,9 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
-        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '136e53dbd9e10cf4f87df4067d0ef0d2' => __DIR__ . '/..' . '/laravie/parser/src/helpers.php',
+        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
@@ -67,6 +68,10 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
         ),
+        'O' => 
+        array (
+            'Orchestra\\Parser\\' => 17,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
@@ -74,6 +79,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'L' => 
         array (
             'League\\Flysystem\\' => 17,
+            'Laravie\\Parser\\' => 15,
             'Laravel\\Tinker\\' => 15,
         ),
         'I' => 
@@ -120,8 +126,8 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -223,6 +229,10 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'Orchestra\\Parser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/orchestra/parser/src',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -230,6 +240,10 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'League\\Flysystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
+        ),
+        'Laravie\\Parser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravie/parser/src',
         ),
         'Laravel\\Tinker\\' => 
         array (
@@ -385,6 +399,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\Http\\Controllers\\IndaginiController' => __DIR__ . '/../..' . '/app/Http/Controllers/IndaginiController.php',
         'App\\Http\\Controllers\\MailController' => __DIR__ . '/../..' . '/app/Http/Controllers/MailController.php',
         'App\\Http\\Controllers\\PazienteController' => __DIR__ . '/../..' . '/app/Http/Controllers/PazienteController.php',
+        'App\\Http\\Controllers\\ResourceFHIRController' => __DIR__ . '/../..' . '/app/Http/Controllers/ResourceFHIRController.php',
         'App\\Http\\Controllers\\TaccuinoController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaccuinoController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Controllers\\VisiteController' => __DIR__ . '/../..' . '/app/Http/Controllers/VisiteController.php',
@@ -456,6 +471,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\Models\\Drugs\\FarmaciVietati' => __DIR__ . '/../..' . '/app/Models/Drugs/FarmaciVietati.php',
         'App\\Models\\EffettiCollaterali' => __DIR__ . '/../..' . '/app/Models/EffettiCollaterali.php',
         'App\\Models\\EsamiObiettivi' => __DIR__ . '/../..' . '/app/Models/EsamiObiettivi.php',
+        'App\\Models\\FHIR\\PatientContact' => __DIR__ . '/../..' . '/app/Models/FHIR/PatientContact.php',
         'App\\Models\\File' => __DIR__ . '/../..' . '/app/Models/File.php',
         'App\\Models\\History\\AnamnesiFamiliare' => __DIR__ . '/../..' . '/app/Models/History/AnamnesiFamiliare.php',
         'App\\Models\\History\\AnamnesiFisiologica' => __DIR__ . '/../..' . '/app/Models/History/AnamnesiFisiologica.php',
@@ -2447,6 +2463,13 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'Laravel\\Tinker\\Console\\TinkerCommand' => __DIR__ . '/..' . '/laravel/tinker/src/Console/TinkerCommand.php',
         'Laravel\\Tinker\\TinkerCaster' => __DIR__ . '/..' . '/laravel/tinker/src/TinkerCaster.php',
         'Laravel\\Tinker\\TinkerServiceProvider' => __DIR__ . '/..' . '/laravel/tinker/src/TinkerServiceProvider.php',
+        'Laravie\\Parser\\Document' => __DIR__ . '/..' . '/laravie/parser/src/Document.php',
+        'Laravie\\Parser\\InvalidContentException' => __DIR__ . '/..' . '/laravie/parser/src/InvalidContentException.php',
+        'Laravie\\Parser\\Reader' => __DIR__ . '/..' . '/laravie/parser/src/Reader.php',
+        'Laravie\\Parser\\Xml\\Concerns\\SupportMultiLevel' => __DIR__ . '/..' . '/laravie/parser/src/Xml/Concerns/SupportMultiLevel.php',
+        'Laravie\\Parser\\Xml\\Definitions\\MultiLevel' => __DIR__ . '/..' . '/laravie/parser/src/Xml/Definitions/MultiLevel.php',
+        'Laravie\\Parser\\Xml\\Document' => __DIR__ . '/..' . '/laravie/parser/src/Xml/Document.php',
+        'Laravie\\Parser\\Xml\\Reader' => __DIR__ . '/..' . '/laravie/parser/src/Xml/Reader.php',
         'League\\Flysystem\\AdapterInterface' => __DIR__ . '/..' . '/league/flysystem/src/AdapterInterface.php',
         'League\\Flysystem\\Adapter\\AbstractAdapter' => __DIR__ . '/..' . '/league/flysystem/src/Adapter/AbstractAdapter.php',
         'League\\Flysystem\\Adapter\\AbstractFtpAdapter' => __DIR__ . '/..' . '/league/flysystem/src/Adapter/AbstractFtpAdapter.php',
@@ -2668,6 +2691,10 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'Monolog\\Processor\\WebProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/WebProcessor.php',
         'Monolog\\Registry' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Registry.php',
         'Observation' => __DIR__ . '/../..' . '/database/seeds/Observation.php',
+        'Orchestra\\Parser\\XmlServiceProvider' => __DIR__ . '/..' . '/orchestra/parser/src/XmlServiceProvider.php',
+        'Orchestra\\Parser\\Xml\\Document' => __DIR__ . '/..' . '/orchestra/parser/src/Xml/Document.php',
+        'Orchestra\\Parser\\Xml\\Facade' => __DIR__ . '/..' . '/orchestra/parser/src/Xml/Facade.php',
+        'Orchestra\\Parser\\Xml\\Reader' => __DIR__ . '/..' . '/orchestra/parser/src/Xml/Reader.php',
         'OrganizationTypeTableSeeder' => __DIR__ . '/../..' . '/database/seeds/OrganizationTypeTableSeeder.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
