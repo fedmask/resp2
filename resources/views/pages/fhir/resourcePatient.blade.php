@@ -16,7 +16,7 @@ $patients = $data_output;
                     <div class="col-lg-12" >
                         <div class="box dark">
                             <header>
-                                <h2> FHIR RESOURCE PATIENT </h2>
+                                <h2 style="color:#1d71b8;"> FHIR RESOURCE PATIENT </h2>
                             </header> 
                             <div class="body">
                                 <div class="table-responsive">

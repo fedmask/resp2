@@ -17,17 +17,22 @@
 			</li>
 			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-hospital"></em> Organization </a>
 			</li>
-			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-file-text-alt"></em> Patient </a>
+			<li class="panel" style="font-size:15px"> <a href="/"> <em class="glyphicon glyphicon-eye-open"></em> Observation </a>
 			</li>
-			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-file-text-alt"></em> Practictioner </a>
+			<li class="panel" style="font-size:15px"> <a href="/"> <em class="glyphicon glyphicon-map-marker"></em> Encounter </a>
 			</li>
-
-
-			
+			<li class="panel" style="font-size:15px"> <a href="/"> <em class="glyphicon glyphicon-medicine"></em> Immunization </a>
+			</li>
+			<li class="panel" style="font-size:15px"> <a href="/"> <em class="glyphicon glyphicon-exclamation-sign"></em> Allergy Intollerance </a>
+			</li>
+			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-file-text-alt"></em> Device </a>
+			</li>
+			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-hospital"></em> Procedure </a>
+			</li>
+			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-file-text-alt"></em> Condiction </a>
+			</li>
+			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-file-text-alt"></em> Medication </a>
+			</li>
 		</ul>
 <!--END MENU SECTION -->
 </div>
-<style>
-
-
-</style>

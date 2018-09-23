@@ -29,9 +29,24 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
                            F<span style="color:orange">ast</span>
                            H<span style="color:orange">ealthcare</span>
 						   I<span style="color:orange">nteroperability</span>
-                           R<span style="color:orange">esources</span>
+                           R<span style="color:orange">esources</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           <img src="/img/logo_icona.png" alt="">&nbsp;
+                           <span style="color:#1d71b8">R</span>
+                           <span style="color:#1d71b8">E</span>
+						   <span style="color:#1d71b8">S</span>
+                           <span style="color:#1d71b8">P</span>
+				
 						</a>
-				</header>
+				
+						</header>
+						
+						</nav>
+						</div></body>
+						
 				<!-- END LOGO SECTION -->
 				<ul class="nav navbar-top-links navbar-right">
 					<!-- HOME SECTION -->
