@@ -33,7 +33,7 @@ $patients = $data_output;
                                     
                                     <!-- FORM INPUT RESOURCE -->
                                     <div id="inputFile" hidden>
-                                      {{Form::open(array('url' => '/fhirPatient/uploadPatient','files'=>'true'))}}
+                                      {{Form::open(array('url' => '/api/fhir/Patient','files'=>'true'))}}
                                       {{Form::file('file')}}
                                       {{Form::submit('Upload File')}}
                                       {{Form::close()}}
@@ -66,9 +66,9 @@ $patients = $data_output;
                                         <td align="center">{{$p->id_paziente}}</td>
                                         <td align="center">{{$p->paziente_cognome}}</td>
                                         <td align="center">{{$p->paziente_nome}}</td>
-                                        <td align="center">{{$p->paziente_codfiscale}}</td>
                                         <td align="center">{{date_format($p->paziente_nascita,"d-m-Y")}}</td>
-                                        <td align="center"> <a href="http://localhost:8000/fhir/Patient/{{$p->id_paziente}}" download="RESP-PATIENT-{{$p->id_paziente}}.xml">
+                                        <td align="center"><a target="blank" href="http://localhost:8000/api/fhir/Patient/{{$p->id_paziente}}">SHOW</a></td>
+                                        <td align="center"> <a href="http://localhost:8000/api/fhir/Patient/{{$p->id_paziente}}" download="RESP-PATIENT-{{$p->id_paziente}}.xml">
                     <i class="glyphicon glyphicon-cloud-download"></i></a></td>
                                         </tr>
                                         @endforeach

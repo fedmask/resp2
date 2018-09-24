@@ -65,7 +65,4 @@ $patient_contacts = $data_output["patient_contacts"];
 		</tbody>
 		
 	</table>
-	<div style="text-align:center">
-	<a href="http://localhost:8000/fhir/Patient/{{$patient->id_paziente}}" download="RESP-PATIENT-{{$patient->id_paziente}}.xml">Download XML File</a>
 	</div>
-</div>
