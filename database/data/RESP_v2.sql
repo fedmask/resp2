@@ -637,8 +637,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_comuni` (
   `comune_nominativo` VARCHAR(45)  ,
   `comune_cap` CHAR(5)  ,
   PRIMARY KEY (`id_comune`),
-  INDEX `FOREIGN_NAZIONE_idx` (`id_comune_nazione` ASC),
-  CONSTRAINT `FOREIGN_NAZIONE_idx`
     FOREIGN KEY (`id_comune_nazione`)
     REFERENCES  `tbl_nazioni` (`id_nazione`)
     ON DELETE NO ACTION
@@ -1789,15 +1787,10 @@ CREATE TABLE IF NOT EXISTS  `tbl_recapiti` (
   `contatto_telefono` VARCHAR(30)  ,
   `contatto_indirizzo` VARCHAR(100)  ,
   PRIMARY KEY (`id_contatto`),
-  INDEX `fk_tbl_contatti_tbl_comuni2_idx` (`id_comune_nascita` ASC),
-  INDEX `fk_tbl_contatti_tbl_utenti1_idx` (`id_utente` ASC),
-  INDEX `fk_tbl_contatti_tbl_comuni1_idx` (`id_comune_residenza` ASC),
-  CONSTRAINT `fk_tbl_contatti_tbl_comuni1_idx`
     FOREIGN KEY (`id_comune_residenza`)
     REFERENCES  `tbl_comuni` (`id_comune`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_contatti_tbl_utenti1_idx`
     FOREIGN KEY (`id_utente`)
     REFERENCES  `tbl_utenti` (`id_utente`)
     ON DELETE NO ACTION
