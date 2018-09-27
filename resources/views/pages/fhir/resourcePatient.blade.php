@@ -21,31 +21,64 @@ $patients = $data_output;
                             <div class="body">
                                 <div class="table-responsive">
                                     <div class="panel-heading text-right">
-                                        <div style="display: none;">
-                                            <form method="POST" action="#" enctype="multipart/form-data">
+                                        <div id="inputFile" style="display: none;">
+                                            <form method="POST" action="/api/fhir/Patient" enctype="multipart/form-data">
                                             	{{ csrf_field() }}
-                                                <input id="upload_patient" type="file" />
-                                                <input id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
+                                                <input name="file" type="file" />
+                                                <input hidden id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
+                                                <input type="submit" value="Upload File">
                                             </form>
                                         </div>
+                                        
+                                        <div id="inputFileUpdate" style="display: none;">
+                                      {{Form::open(array( 'id' => 'updateInputForm' , 'onsubmit' =>'updateInputForm()' ,'method' => 'PUT' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
+                                      {{ csrf_field() }}
+                                      <input name="fileUpdate" type="file" value="PUT"/>
+                                      <input hidden id="patient_id" type="text" value="{{$current_user->id_utente}}" />
+                                      {{Form::submit('Upload File')}}
+                                      {{Form::close()}} 
+                                      
+                                      </div>
                                         <u class="text-primary">Import Patient</u>
                                         <button id="upload-res" onclick="openInputFile()" type="button" class="btn btn-primary btn-md btn-circle" ><i class="glyphicon glyphicon-cloud-upload"></i></button>
                                     
-                                    <!-- FORM INPUT RESOURCE -->
-                                    <div id="inputFile" hidden>
-                                      {{Form::open(array('url' => '/api/fhir/Patient','files'=>'true'))}}
-                                      {{Form::file('file')}}
-                                      {{Form::submit('Upload File')}}
-                                      {{Form::close()}}
-                                    </div>
-                                    <!-- END -->
-                                    
                                     <script>
+
+                                    function updateInputForm(){
+
+                                        var action = document.getElementById("updateInputForm").action;
+                                        document.getElementById("updateInputForm").action = "/api/fhir/Patient/"+document.getElementById("patient_id").value;
+                                    	
+                                    }
+
                                     function openInputFile(){
                                     document.getElementById("inputFile").hidden=false;
                                     document.getElementById("inputFile").style.display='block';
                                     }
+
+                                    function openInputFileUpdate(id){
+                                        document.getElementById("inputFileUpdate").hidden=false;
+                                        document.getElementById("inputFileUpdate").style.display='block';
+                                        document.getElementById("patient_id").value = id;
+                                        
+                                        }
+
+
+                                    
                                     </script>
+                                    
+                                    <style>
+                                    
+                                    
+                                    .icon-cloud-download {
+                                    	  color: white;
+                                    	}
+                                    	
+                                    .icon-trash {
+                                    	  color: white;
+                                    	}
+                                    
+                                    </style>
                                     
                                     
                                     </div> <!-- panel-heading text-right -->
@@ -55,10 +88,12 @@ $patients = $data_output;
                                                 <th>ID</th>
                                                 <th>Surname</th>
                                                 <th>Name</th>
-                                                <th>Tax Code</th>
                                                 <th>Birth Date</th>
+                                                <th>Show</th>
+                                                <th>Update</th>
+                                                <th>Delete</th>
                                                 <th>Export</th>
-                                            </tr>
+                                            </tr>                        
                                         </thead>
                                         <tbody>
                                         <tr>
@@ -67,9 +102,16 @@ $patients = $data_output;
                                         <td align="center">{{$p->paziente_cognome}}</td>
                                         <td align="center">{{$p->paziente_nome}}</td>
                                         <td align="center">{{date_format($p->paziente_nascita,"d-m-Y")}}</td>
-                                        <td align="center"><a target="blank" href="http://localhost:8000/api/fhir/Patient/{{$p->id_paziente}}">SHOW</a></td>
-                                        <td align="center"> <a href="http://localhost:8000/api/fhir/Patient/{{$p->id_paziente}}" download="RESP-PATIENT-{{$p->id_paziente}}.xml">
-                    <i class="glyphicon glyphicon-cloud-download"></i></a></td>
+                                        <td align="center"> <a target="blank" href="http://localhost:8000/api/fhir/Patient/{{$p->id_paziente}}"><button type="button" class="btn btn-primary btn-md btn-circle" ><i class="glyphicon glyphicon-eye-open"></i></button></a>  </td>
+                                        <td align="center"><button id="{{$p->id_paziente}}" value="{{$p->id_paziente}}"  onclick="openInputFileUpdate(this.id)" type="button" class="btn btn-primary btn-md btn-circle" ><i class="icon-cloud-upload"></button></td>
+                                        <td align="center">
+                                      {{Form::open(array( 'action' => array('Fhir\Modules\FHIRPatient@destroy', $p->id_paziente) ,'method' => 'DELETE' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
+                                      {{ csrf_field() }}
+                                      {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-primary btn-md btn-circle'] )  }}
+                                      {{Form::close()}}                          
+                                       </td>
+                                        <td align="center"><button type="button" class="btn btn-primary btn-md btn-circle" > <a href="http://localhost:8000/api/fhir/Patient/{{$p->id_paziente}}" download="RESP-PATIENT-{{$p->id_paziente}}.xml">
+                                        <i class="icon-cloud-download"></i></a></button></td>
                                         </tr>
                                         @endforeach
                                         </tbody>

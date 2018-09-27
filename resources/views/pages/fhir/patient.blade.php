@@ -18,7 +18,7 @@ $patient_contacts = $data_output["patient_contacts"];
 <text> 
 <status value="generated" />
 <div xmlns="http://www.w3.org/1999/xhtml">
-	<table>
+	<table border="2">
 		<tbody>
 			@foreach($narrative as $key => $value)
 			<tr>
@@ -50,6 +50,16 @@ $patient_contacts = $data_output["patient_contacts"];
 <extension url="http://hl7.org/fhir/StructureDefinition/patient-cadavericDonor">
       <valueBoolean value="{{$donatore}}"/>
 </extension>
+
+<!--Codice Fiscale-->
+<extension url="http://resp.local/resources/extensions/patient/codice-fiscale.xml">
+   <valueString value="{{$codfis}}">
+</extension> 
+
+<!--Gruppo Sanguigno--> 
+<extension url="http://resp.local/resources/extensions/patient/gruppo-sanguigno.xml"> 
+   <valueString value="{{$grupposan}}">
+</extension> 
 
 
 <identifier> 

@@ -804,7 +804,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_cpp_paziente` (
   `assegnazione_confidenzialita` SMALLINT(6) NOT NULL,
   PRIMARY KEY (`id_cpp`),
   UNIQUE INDEX `tbl_cpp_paziente_id_cpp_unique` (`id_cpp` ASC),
-  INDEX `fk_tbl_medici_assegnati_tbl_pazienti1_idx` (`id_paziente` ASC),
   INDEX `fk_tbl_medici_assegnati_tbl_livelli_confidenzialita1_idx` (`assegnazione_confidenzialita` ASC),
   INDEX `fk_tbl_medici_assegnati_tbl_medici1_idx` (`id_cpp` ASC),
   CONSTRAINT `fk_tbl_medici_assegnati_tbl_livelli_confidenzialita1_idx`
@@ -817,10 +816,9 @@ CREATE TABLE IF NOT EXISTS  `tbl_cpp_paziente` (
     REFERENCES  `tbl_care_provider` (`id_cpp`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_medici_assegnati_tbl_pazienti1_idx`
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 2;
@@ -917,15 +915,13 @@ CREATE TABLE IF NOT EXISTS  `tbl_diagnosi` (
   PRIMARY KEY (`id_diagnosi`),
   INDEX `fk_tbl_diagnosi_tbl_livelli_confidenzialita1_idx` (`diagnosi_confidenzialita` ASC),
   INDEX `fk_tbl_diagnosi_tbl_pazienti1_idx` (`id_paziente` ASC),
-  CONSTRAINT `fk_tbl_diagnosi_tbl_livelli_confidenzialita1_idx`
     FOREIGN KEY (`diagnosi_confidenzialita`)
     REFERENCES  `tbl_livelli_confidenzialita` (`id_livello_confidenzialita`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_diagnosi_tbl_pazienti1_idx`
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
 	FOREIGN KEY (`diagnosi_stato`)
     REFERENCES  `ConditionClinicalStatus` (`Code`)
@@ -1317,8 +1313,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_indagini` (
   `indagine_allegato` TEXT  ,
   PRIMARY KEY (`id_indagine`),
   INDEX `fk_tbl_indagini_tbl_centri_indagini1_idx` (`id_centro_indagine` ASC),
-  INDEX `fk_tbl_indagini_tbl_diagnosi1_idx` (`id_diagnosi` ASC),
-  INDEX `fk_tbl_indagini_tbl_pazienti1_idx` (`id_paziente` ASC),
   INDEX `fk_tbl_indagini_tbl_cpp_persona1_idx` (`id_cpp` ASC),
   CONSTRAINT `fk_tbl_indagini_tbl_care_provider_idx`
     FOREIGN KEY (`id_cpp`)
@@ -1329,15 +1323,13 @@ CREATE TABLE IF NOT EXISTS  `tbl_indagini` (
     REFERENCES  `tbl_centri_indagini` (`id_centro`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_indagini_tbl_diagnosi1_idx`
     FOREIGN KEY (`id_diagnosi`)
     REFERENCES  `tbl_diagnosi` (`id_diagnosi`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_indagini_tbl_pazienti1_idx`
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
@@ -1449,16 +1441,14 @@ CREATE TABLE IF NOT EXISTS  `tbl_parametri_vitali` (
   `parametro_dolore` TINYINT(4) NOT NULL,
   PRIMARY KEY (`id_parametro_vitale`),
   INDEX `fk_tbl_parametri_vitali_tbl_auditlog_log1_idx` (`id_audit_log` ASC),
-  INDEX `fk_tbl_parametri_vitali_tbl_pazienti1_idx` (`id_paziente` ASC),
   CONSTRAINT `fk_tbl_parametri_vitali_tbl_auditlog_log1_idx`
     FOREIGN KEY (`id_audit_log`)
     REFERENCES  `tbl_auditlog_log` (`id_audit`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_parametri_vitali_tbl_pazienti1_idx`
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
@@ -1570,17 +1560,15 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti_visite` (
   `richiesta_visita_inizio` DATE NULL DEFAULT NULL,
   `richiesta_visita_fine` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`id_visita`),
-  INDEX `fk_tbl_pazienti_visite_tbl_pazienti1_idx` (`id_paziente` ASC),
   INDEX `fk_tbl_pazienti_visite_tbl_medici1_idx` (`id_cpp` ASC),
   CONSTRAINT `fk_tbl_pazienti_visite_tbl_medici1_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_pazienti_visite_tbl_pazienti1_idx`
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
@@ -1721,8 +1709,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_proc_terapeutiche` (
   `outCome` INT(10) UNSIGNED NOT NULL,
   `note` TEXT COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL,
   PRIMARY KEY (`id_Procedure_Terapeutiche`),
-  INDEX `fk_tb_paziente_tb_procedure_treapeutiche` (`Paziente` ASC),
-  INDEX `fk_tb_diagnosi_tb_procedure_treapeutiche` (`Diagnosi` ASC),
   INDEX `fk_tb_cpp_tb_procedure_treapeutiche` (`CareProvider` ASC),
   INDEX `fk_tb_icd9_tb_procedure_treapeutiche` (`Codice_icd9` ASC),
   INDEX `fk_tb_proc_category` (`Category` ASC),
@@ -1733,20 +1719,18 @@ CREATE TABLE IF NOT EXISTS  `tbl_proc_terapeutiche` (
     REFERENCES  `tbl_care_provider` (`id_cpp`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tb_diagnosi_tb_procedure_treapeutiche`
     FOREIGN KEY (`Diagnosi`)
     REFERENCES  `tbl_diagnosi` (`id_diagnosi`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_tb_icd9_tb_procedure_treapeutiche`
     FOREIGN KEY (`Codice_icd9`)
     REFERENCES  `Tbl_ICD9_ICPT` (`Codice_ICD9`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tb_paziente_tb_procedure_treapeutiche`
     FOREIGN KEY (`Paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_tb_proc_category`
     FOREIGN KEY (`Category`)
@@ -1983,17 +1967,15 @@ CREATE TABLE IF NOT EXISTS  `tbl_visita_specialization` (
   `id_visita` INT(10) UNSIGNED NOT NULL,
   `id_specialization` INT(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id_vs`),
-  INDEX `FOREIGN_Visita_Specialization_idx` (`id_visita` ASC),
   INDEX `FOREIGN_Specialization_idx` (`id_specialization` ASC),
   CONSTRAINT `FOREIGN_Specialization_idx`
     FOREIGN KEY (`id_specialization`)
     REFERENCES  `tbl_specialization` (`id_spec`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `FOREIGN_Visita_Specialization_idx`
     FOREIGN KEY (`id_visita`)
     REFERENCES  `tbl_pazienti_visite` (`id_visita`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
@@ -2169,7 +2151,7 @@ Mail VARCHAR(50),
 
 FOREIGN KEY (`Id_Patient`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
 
 FOREIGN KEY (Relationship)
