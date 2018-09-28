@@ -9,6 +9,9 @@
 $patients = $data_output;
 
 ?>
+<link href="/css/resourcePatient.css" rel="stylesheet">
+<script src="/js/formscripts/resourcePatient.js"></script>
+
 <!--PAGE CONTENT -->
 
         <div id="content"> <!--MODCN-->
@@ -41,112 +44,6 @@ $patients = $data_output;
                                       </div>
                                         <u class="text-primary">Import Patient</u>
                                         <button id="upload-res"  onclick="openInputFile()" type="button" class="btn btn-primary btn-md btn-circle" ><i class="glyphicon glyphicon-cloud-upload"></i></button>
-                                  
-                                    <script>
-
-                                    function updateInputForm(){
-
-                                        var action = document.getElementById("updateInputForm").action;
-                                        document.getElementById("updateInputForm").action = "/api/fhir/Patient/"+document.getElementById("patient_id").value;
-                                    	
-                                    }
-
-                                    function openInputFile(){
-                                    document.getElementById("inputFile").hidden=false;
-                                    document.getElementById("inputFile").style.display='block';
-                                    }
-
-                                    function openInputFileUpdate(id){
-                                        document.getElementById("inputFileUpdate").hidden=false;
-                                        document.getElementById("inputFileUpdate").style.display='block';
-                                        document.getElementById("patient_id").value = id;
-                                        
-                                        }
-
-                                    $(document).on('click', "button.button-show", function () {
-                                        var id = $(this).attr('id');
-
-                                        $.get("/api/fhir/Patient/"+id,function(data) {
-                                      	  $(".modal-body").html(data);
-                                      	});
-
-
-                                    	$('#id_paziente').val(id);
-                                    	$("a.link-export").attr("href", "/api/fhir/Patient/"+id);
-                                        $("a.link-export").attr("download", "RESP-PATIENT"+id+".xml");
-                                        
-                                        $("#myModal").modal("show");
-                                   	});
-                                    
-                                    </script>
-                                    
-                                    <style>
-                                    
-                                    .link-export{
-                                       background-color: #1d71b8;
-                                       color: white;
-                                       padding: 8px 18px;
-                                       text-align: center; 
-                                       text-decoration: none;
-                                       display: inline-block;
-                                       border-radius: 8%;
-                                    }
-                                    
-                                    .button-show{
-                                           display:block;
-                                           height: 30px;
-                                           width: 30px;
-                                           border-radius: 50%;
-                                           color:#fff;
-                                           background-color:#1d71b8;
-                                           border-color:#1d71b8;
-                                           border:#1d71b8;
-                                    }
-                                    
-                                    .button-delete{
-                                           display:block;
-                                           height: 30px;
-                                           width: 30px;
-                                           border-radius: 50%;
-                                           color:#fff;
-                                           background-color:#1d71b8;
-                                           border-color:#1d71b8;
-                                           border:#1d71b8;
-                                    }
-                                    
-                                    .button-update{
-                                           display:block;
-                                           height: 30px;
-                                           width: 30px;
-                                           border-radius: 50%;
-                                           color:#fff;
-                                           background-color:#1d71b8;
-                                           border-color:#1d71b8;
-                                           border:#1d71b8;
-                                    }
-                                    
-                                    .button-import{
-                                           display:block;
-                                           height: 30px;
-                                           width: 30px;
-                                           border-radius: 50%;
-                                           color:#fff;
-                                           background-color:#1d71b8;
-                                           border-color:#1d71b8;
-                                           border:#1d71b8;
-                                    }
-                                    
-                                    .icon-cloud-download {
-                                    	  color: white;
-                                    	}
-                                    	
-                                    .icon-trash {
-                                    	  color: white;
-                                    	}
-                                    
-                                    </style>
-                                    
-                                    
                                     </div> <!-- panel-heading text-right -->
 
 <!-- DIV SHOW PATIENT -->

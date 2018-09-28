@@ -1,0 +1,61 @@
+.link-export {
+	background-color: #1d71b8;
+	color: white;
+	padding: 8px 18px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	border-radius: 8%;
+}
+
+.button-show {
+	display: block;
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	color: #fff;
+	background-color: #1d71b8;
+	border-color: #1d71b8;
+	border: #1d71b8;
+}
+
+.button-delete {
+	display: block;
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	color: #fff;
+	background-color: #1d71b8;
+	border-color: #1d71b8;
+	border: #1d71b8;
+}
+
+.button-update {
+	display: block;
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	color: #fff;
+	background-color: #1d71b8;
+	border-color: #1d71b8;
+	border: #1d71b8;
+}
+
+.button-import {
+	display: block;
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	color: #fff;
+	background-color: #1d71b8;
+	border-color: #1d71b8;
+	border: #1d71b8;
+}
+
+.icon-cloud-download {
+	color: white;
+}
+
+.icon-trash {
+	color: white;
+}
