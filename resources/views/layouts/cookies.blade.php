@@ -20,7 +20,7 @@
 			<ul>
 				<li style="color: black"><span style="font-weight: bold">consent</span>
 					- Consente al sistema di memorizzare le informazioni temporali di
-					accettzione.</li>
+					accettazione.</li>
 				<li style="color: black"><span style="font-weight: bold">XSRF-TOKEN</span>
 					- Il sistema genera automaticamente un "token" CSRF per ogni
 					sessione utente attiva gestita dall'applicazione. Questo token

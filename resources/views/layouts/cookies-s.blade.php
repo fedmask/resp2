@@ -90,7 +90,7 @@
 			<h3>Se accetti l'utilizzo dei cookie, saranno memorizzati i seguenti:</h3>
 			<ul>
 				<li><span style="font-weight: bold">consent</span> - Consente al
-					sistema di memorizzare le informazioni temporali di accettzione.</li>
+					sistema di memorizzare le informazioni temporali di accettazione.</li>
 				<li><span style="font-weight: bold">XSRF-TOKEN</span> - Il sistema
 					genera automaticamente un "token" CSRF per ogni sessione utente
 					attiva gestita dall'applicazione. Questo token viene utilizzato per
