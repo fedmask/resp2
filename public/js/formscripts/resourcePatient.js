@@ -31,3 +31,50 @@ $(document).on('click', "button.button-show", function() {
 
 	$("#myModal").modal("show");
 });
+
+
+$(document).ready(function(){
+    $("#annulla").click(function(){
+    	$('#inputFileUpdate').hide();
+    });
+});
+
+$(document).ready(function(){
+    $("#import-annulla").click(function(){
+    	$('#inputFile').hide();
+    });
+});
+
+
+$(document).ready(function(){
+
+    $("#fileUpdate").change(function() {
+    	$("#upload").prop('disabled', false);
+    });
+});
+
+$(document).ready(function(){
+
+    $("#file").change(function() {
+    	$("#import-file").prop('disabled', false);
+    });
+});
+
+
+$(document).ready(function(){
+    $("#annulla").click(function(){
+    	$("#fileUpdate").val('');
+    	$("#upload").prop('disabled', true);
+    	$('#inputFileUpdate').hide();
+    });
+});
+
+
+$(document).ready(function(){
+    $("#import-annulla").click(function(){
+    	$("#file").val('');
+    	$("#import-file").prop('disabled', true);
+    	$('#inputFile').hide();
+    });
+});
+

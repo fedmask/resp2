@@ -1793,7 +1793,7 @@ CREATE TABLE IF NOT EXISTS  `tbl_recapiti` (
     ON UPDATE NO ACTION,
     FOREIGN KEY (`id_utente`)
     REFERENCES  `tbl_utenti` (`id_utente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;

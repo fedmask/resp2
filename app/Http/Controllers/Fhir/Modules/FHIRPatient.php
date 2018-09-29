@@ -519,6 +519,11 @@ class FHIRPatient
         
         Pazienti::find($id)->delete();
         
+        $user = User::where('id_utente', $patient->id_utente)->first();
+        
+        User::find($user->id_utente)->delete();
+        
+        
         return response()->json(null, 204);
     }
 }

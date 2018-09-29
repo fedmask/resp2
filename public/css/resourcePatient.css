@@ -59,3 +59,26 @@
 .icon-trash {
 	color: white;
 }
+
+
+.button-upload {
+	display: block;
+	height: 30px;
+	width: 80px;
+	border-radius: 5%;
+	color: #fff;
+	background-color: #1d71b8;
+	border-color: #1d71b8;
+	border: #1d71b8;
+}
+
+.button-annulla {
+	display: block;
+	height: 30px;
+	width: 80px;
+	border-radius: 5%;
+	color: #fff;
+	background-color: white;
+	border-color: white;
+	border: white;
+}

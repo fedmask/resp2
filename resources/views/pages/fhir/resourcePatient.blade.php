@@ -28,17 +28,19 @@ $patients = $data_output;
                                         <div id="inputFile" style="display: none;">
                                             <form method="POST" action="/api/fhir/Patient" enctype="multipart/form-data">
                                             	{{ csrf_field() }}
-                                                <input name="file" type="file" />
+                                                <input id="file" name="file" type="file" />
                                                 <input hidden id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
-                                                <input type="submit" value="Upload File">
+                                                <input id="import-file" type="submit" value="Import" class="btn btn-primary" disabled>
+                                                <input id="import-annulla" type="button" value="Annulla" class="btn btn-default">
                                             </form>
                                         </div>
                                         <div id="inputFileUpdate"  style="display: none;">
                                       {{Form::open(array( 'id' => 'updateInputForm' , 'onsubmit' =>'updateInputForm()' ,'method' => 'PUT' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
                                       {{ csrf_field() }}
-                                      <input name="fileUpdate" type="file" value="PUT"/>
+                                      <input id="fileUpdate" name="fileUpdate" type="file" />
                                       <input hidden id="patient_id" type="text" value="{{$current_user->id_utente}}" />
-                                      {{Form::submit('Upload File')}}
+                                      {{Form::button('Upload',['id'=>'upload', 'type' => 'submit', 'class' => 'btn btn-primary', 'disabled'] )}}
+                                      {{Form::button('Annulla',['id'=>'annulla', 'type' => 'button', 'class' => 'btn btn-default'] )}}
                                       {{Form::close()}} 
                                       
                                       </div>
