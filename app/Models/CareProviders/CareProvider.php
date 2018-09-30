@@ -7,7 +7,10 @@
 
 namespace App\Models\CareProviders;
 
+
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Models\CodificheFHIR\Language;
+use App\Models\FHIR\CppQualification;
 
 /**
  * Class CareProvider
@@ -42,7 +45,8 @@ class CareProvider extends Eloquent
 	protected $casts = [
 		'id_cpp' => 'int',
 		'id_cpp_tipologia' => 'int',
-		'id_utente' => 'int'
+		'id_utente' => 'int',
+        'active' => 'bool'
 	];
 
 	protected $dates = [
@@ -58,7 +62,9 @@ class CareProvider extends Eloquent
 		'cpp_codfiscale',
 		'cpp_sesso',
 		'cpp_n_iscrizione',
-		'cpp_localita_iscrizione'
+		'cpp_localita_iscrizione',
+	    'active',
+	    'cpp_lingua'
 	];
 
 	public function users()
@@ -95,4 +101,114 @@ class CareProvider extends Eloquent
 	{
 		return $this->hasMany(\App\Models\CurrentUser\Recapiti::class, 'id_utente');
 	}
+	
+	
+	/**
+	 * FHIR
+	 */
+	
+	public function getIdCpp(){
+	    return $this->id_cpp;
+	}
+	
+	public function isActive(){
+	    $ret = "false";
+	    
+	    if(!$this->active){
+	        $ret = "true";
+	    }
+	    return $ret;
+	}
+	
+	
+	public function getName()
+	{
+	    return $this->cpp_nome;
+	}
+	
+	public function getSurname()
+	{
+	    return $this->cpp_cognome;
+	}
+	
+	public function getFullName()
+	{
+	    return $this->getName() . " " . $this->getSurname();
+	}
+	
+	public function getMail(){
+	    return $this->users ()->first ()->utente_email;
+	}
+	
+	public function getPhone(){
+	    return $this->users ()->first ()->contacts ()->first ()->contatto_telefono;
+	}
+	
+	public function getTelecom() {
+	    return $this->getPhone()." - ".$this->getMail();
+	}
+	
+	public function getGender()
+	{
+	    return $this->cpp_sesso;
+	}
+	
+	public function getBirth()
+	{
+	    $data = date_format($this->cpp_nascita_data,"Y-m-d");
+	    return $data;
+	}
+	
+	public function getCodeLanguage()
+	{
+	    return $this->cpp_lingua;
+	}
+	
+	public function getLanguage()
+	{
+	    $language = Language::where('Code', $this->cpp_lingua)->first()->Display;
+	    
+	    return $language;
+	}
+	
+	public function getLine() {
+	    return $this->users ()->first ()->getAddress ();
+	}
+	
+	public function getCity() {
+	    return $this->users ()->first ()->getLivingTown ();
+	}
+	
+	public function getPostalCode() {
+	    return $this->users ()->first ()->getCapLivingTown ();
+	}
+	
+	public function getCountryName() {
+	    return $this->users ()->first ()->contacts ()->first ()->town ()->first ()->tbl_nazioni ()->first ()->getCountryName ();
+	}
+	
+	public function getAddress()
+	{
+	    return $this->getLine()." ".$this->getCity()." ".$this->getCountryName()." ".$this->getPostalCode();
+	}
+	
+	public function getQualifications()
+	{
+	    $practictioner_qual = CppQualification::where('id_cpp', $this->id_cpp)->get();
+	    return $practictioner_qual;
+	}
+	
+	public function getComune()
+	{
+	    return $this->cpp_localita_iscrizione;
+	}
+	
+	public function getIdUtente()
+	{
+	    return $this->id_utente;
+	}
+	
+	/**
+	 * END FHIR
+	 */
 }

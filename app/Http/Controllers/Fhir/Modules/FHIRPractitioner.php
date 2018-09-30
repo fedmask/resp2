@@ -1,442 +1,284 @@
 <?php
-
 namespace App\Http\Controllers\Fhir\Modules;
 
 use App\Http\Controllers\Fhir\Modules\FHIRResource;
-use App\Models\CareProvider\CppPersona;
+use App\Models\CareProviders\CareProvider;
 use Illuminate\Http\Request;
 use App;
+use App\Models\FHIR\CppQualification;
+use View;
+use Illuminate\Filesystem\Filesystem;
+use File;
+use Orchestra\Parser\Xml\Facade as XmlParser;
+use Exception;
+use DB;
 use Redirect;
+use Response;
+use SimpleXMLElement;
+use App\Models\CurrentUser\Recapiti;
+use App\Models\CurrentUser\User;
+use App\Models\Domicile\Comuni;
 
-class FHIRPractitioner extends FHIRResource {
-    
-    public function __construct() {
-    //    $a = new ResourceExceptions();
-    }
+class FHIRPractitioner
+{
 
-    function deleteResource($id) {
-        
-        if (!CppPersona::where('id_persona', $id)->exists()) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
-        }
-
-        # ELIMINO I DATI DAL DATABASE
-
-        CppPersona::find($id)->delete();
-    }
-
-    function updateResource($id, $xml) {
-        $xml_values = simplexml_load_string($xml);
-        $json = json_encode($xml_values);
-        $array_data = json_decode($json, true);
-
-        if (!CppPersona::where('id_persona', $id)->exists()) {
-            throw new IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
-        }
-
-        $db_values = array(
-            'nome' => '',
-            'cognome' => '',
-            'telefono' => '',
-            'fax' => '000000', // default fax
-            'comune' => '',    // preleviamo il comune e l'id utente
-            'idutente' => '',  // mediante delle estensioni alla risorsa practitioner
-            'active' => ''
-        );
-
-        # -----------------------------------------
-        # PARSO I DATI DAL DOCUMENTO XML
-
-        // controllo che l'id passato come URL coincida con il campo id della
-        // risorsa xml passata come input
-
-        if ($id != $array_data['id']['@attributes']['value']) {
-            throw new MatchException('ID provided in url doesn\'t match the one in XML resource');
-        }
-
-        // prelevo il nome del care provider
-        if (!empty($array_data['name']['family']['@attributes']['value']) &&
-            !empty($array_data['name']['given']['@attributes']['value'])) {
-            $db_values['cognome'] = $array_data['name']['family']['@attributes']['value'];
-            $db_values['nome'] = $array_data['name']['given']['@attributes']['value'];
-        } else {
-            throw new InvalidResourceFieldException('invalid care provider name and surname');
-        }
-
-        // prelevo i campi delle estensioni
-        foreach($array_data['extension'] as $extension_element) {
-            switch ($extension_element['@attributes']['url']) {
-                case 'http://'.$_SERVER['HTTP_HOST'].'/resources/extensions/practitioner-comune.xml':
-                    $db_values['comune'] = $extension_element['valueString']['@attributes']['value'];
-                    break;
-                case 'http://'.$_SERVER['HTTP_HOST'].'/resources/extensions/user-id.xml';
-                    $db_values['idutente'] = $extension_element['valueString']['@attributes']['value'];
-                    break;
-                default:
-                    throw new InvalidResourceFieldException('an extension is missing');
-            }
-        }
-        
-        // prelevo il numero di telefono
-        if (!empty($array_data['telecom']['value']['@attributes']['value'])) {
-            $db_values['telefono'] = $array_data['telecom']['value']['@attributes']['value'];
-        } else {
-            throw new InvalidResourceFieldException('invalid phone number');
-        }
-
-        // prelevo il campo active
-        if (!empty($array_data['active']['@attributes']['value'])) {
-            $active_value = $array_data['active']['@attributes']['value'];
-
-            $db_values['active'] = ($active_value == 'true') ? '1' : 'NULL';
-        } else {
-            throw new InvalidResourceFieldException('invalid active field');
-        }
-
-        # AGGIORNO I DATI PARSATI NEL DATABASE
-
-        $comune_nascita = Comuni::where('comune_nominativo', $db_values['comune'])->first();
-        
-        $careProviderPersona = CppPersona::find($id);
-        
-        $careProviderPersona->id_utente = $db_values['idutente'];
-        $careProviderPersona->id_comune = $comune_nascita->id_comune;
-        $careProviderPersona->persona_nome = $db_values['nome'];
-        $careProviderPersona->persona_cognome = $db_values['cognome'];
-        $careProviderPersona->persona_telefono = $db_values['telefono'];
-        $careProviderPersona->persona_fax = $db_values['fax'];
-        $careProviderPersona->persona_attivo = $db_values['active'];
-        
-        $careProviderPersona->save();
-
-    }
-    
-    function createResource($xml) {
-        // converto il documento in formato json
-        // per accedere facilmente alla struttura con un
-        // array associativo php
-        $xml_values = simplexml_load_string($xml);
-        $json = json_encode($xml_values);
-        $array_data = json_decode($json, true);
-
-        //echo var_dump($array_data);
-
-        $db_values = array(
-            'nome' => '',
-            'cognome' => '',
-            'telefono' => '',
-            'fax' => '000000', // default fax
-            'comune' => '',    // preleviamo il comune e l'id utente
-            'idutente' => '',  // mediante delle estensioni alla risorsa practitioner
-            'active' => ''
-        );
-
-        # -----------------------------------------
-        # PARSO I DATI DAL DOCUMENTO XML
-
-        if (!empty($array_data['id']['@attributes']['value'])) {
-            throw new IdFoundInCreateException('invalid id specified in CREATE');
-        }
-
-        // prelevo il nome del care provider
-        if (!empty($array_data['name']['family']['@attributes']['value']) &&
-            !empty($array_data['name']['given']['@attributes']['value'])) {
-            $db_values['cognome'] = $array_data['name']['family']['@attributes']['value'];
-            $db_values['nome'] = $array_data['name']['given']['@attributes']['value'];
-        } else {
-            throw new InvalidResourceFieldException('invalid care provider name and surname');
-        }
-
-        // prelevo i campi delle estensioni
-        foreach($array_data['extension'] as $extension_element) {
-            switch ($extension_element['@attributes']['url']) {
-                case 'http://'.$_SERVER['HTTP_HOST'].'/resources/extensions/practitioner-comune.xml':
-                    $db_values['comune'] = $extension_element['valueString']['@attributes']['value'];
-                    break;
-                case 'http://'.$_SERVER['HTTP_HOST'].'/resources/extensions/user-id.xml';
-                    $db_values['idutente'] = $extension_element['valueString']['@attributes']['value'];
-                    break;
-                default:
-                    throw new InvalidResourceFieldException('an extension is missing');
-            }
-        }
-        
-        // prelevo il numero di telefono
-        if (!empty($array_data['telecom']['value']['@attributes']['value'])) {
-            $db_values['telefono'] = $array_data['telecom']['value']['@attributes']['value'];
-        } else {
-            throw new InvalidResourceFieldException('invalid phone number');
-        }
-
-        // prelevo il campo active
-        if (!empty($array_data['active']['@attributes']['value'])) {
-            $active_value = $array_data['active']['@attributes']['value'];
-
-            $db_values['active'] = ($active_value == 'true') ? '1' : 'NULL';
-        } else {
-            throw new InvalidResourceFieldException('invalid active field');
-        }
-
-        # -----------------------------------------
-        # INSERISCO I DATI PARSATI NEL DATABASE
-
-        $comune_nascita = Comuni::where('comune_nominativo', $db_values['comune'])->first();
-        
-        $careProviderPersona = new CppPersona();
-        
-        $careProviderPersona->id_utente = $db_values['idutente'];
-        $careProviderPersona->id_comune = $comune_nascita->id_comune;
-        $careProviderPersona->persona_nome = $db_values['nome'];
-        $careProviderPersona->persona_cognome = $db_values['cognome'];
-        $careProviderPersona->persona_telefono = $db_values['telefono'];
-        $careProviderPersona->persona_fax = $db_values['fax'];
-        $careProviderPersona->persona_attivo = $db_values['active'];
-        
-        $careProviderPersona->save();
-        
-        return CppPersona::find('id_utente', $db_values['idutente'])->first()->id_persona;
-    }
-
-    function getResource($id)
+    public function show($id)
     {
-        if (!CppPersona::where('id_persona', $id)->exists()) {
-            App::abort(403, "resource with the id provided doesn't exist in database");
+        // Recupero i dati del paziente
+        $practictioner = CareProvider::where('id_cpp', $id)->first();
+        
+        if (! $practictioner) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
         }
+        
+        // Recupero le qualifiche del practictioner
+        $practictioner_qualifiations = CppQualification::where('id_cpp', $id)->get();
+        
+        // Recupero gli operatori sanitari del paziente
+        // $careproviders = CppPaziente::where('id_paziente', $id)->get();
+        
+        // Sono i valori che verranno riportati nella parte descrittiva del documento
+        $values_in_narrative = array(
+            "Identifier" => "RESP-PRACTICTIONER" . "-" . $practictioner->getIdCpp(),
+            "Active" => $practictioner->isActive(),
+            "Name" => $practictioner->getFullName(),
+            "Telecom" => $practictioner->getTelecom(),
+            "Gender" => $practictioner->getGender(),
+            "BirthDate" => $practictioner->getBirth(),
+            "Address" => $practictioner->getAddress(),
+            "Language" => $practictioner->getLanguage()
+        
+        );
+        
+        // Practictioner.Qualification
+        $narrative_practictioner_qualifications = array();
+        $count = 0;
+        foreach ($practictioner->getQualifications() as $pq) {
+            $count ++;
+            $narrative_practictioner_qualifications["QualificationName" . " " . $count] = $pq->getQualificationDisplay();
+            $narrative_practictioner_qualifications["QualificationStartPeriod" . " " . $count] = $pq->getStartPeriod();
+            $narrative_practictioner_qualifications["QualificationEndPeriod" . " " . $count] = $pq->getEndPeriod();
+            $narrative_practictioner_qualifications["QualificationIssuer" . " " . $count] = $pq->getIssuer();
+        }
+        
+        // prelevo i dati dell'utente da mostrare come estensione
+        $custom_extensions = array(
+            'Comune' => $practictioner->getComune(),
+            'Id_Utente' => $practictioner->getIdUtente()
+        );
+        
+        $data_xml["narrative"] = $values_in_narrative;
+        $data_xml["narrative_practictioner_qualifications"] = $narrative_practictioner_qualifications;
+        $data_xml["extensions"] = $custom_extensions;
+        $data_xml["practictioner"] = $practictioner;
+        // $data_xml["careproviders"] = $careproviders;
+        $data_xml["practictioner_qualifiations"] = $practictioner_qualifiations;
+        
+        return view("pages.fhir.practictioner", [
+            "data_output" => $data_xml
+        ]);
+    }
 
-        //dichiaro la variabile in modo tale che se non vi è il relativo valore nel DB, il sistema non vada in crash
-        $careproviders = "";
+    public function store(Request $request)
+    {
+        $file = $request->file('file');
         
-        //dichiaro le variabili in modo tale che se non vi sono i relativi valori nel DB, il sistema non vada in crash
-        $nome_careprovider = "";
-        $cognome_careprovider = "";
-        $telefono_careprovider = "";
-        $citta_careprovider = "";
-        $active_careprovider = "";
-
-        $id_utente_careprovider = "";
-        $comune_careprovider = "";
+        $xml = XmlParser::load($file->getRealPath());
         
-        //Se il valore dell'ID del careprovider richiesto non è nullo recupero i dati richiesti dalla specifica dal DB
-        $nome_careprovider = getInfo('nome', 'careproviderpersona', 'id = ' . $careproviders);
-        $cognome_careprovider = getInfo('cognome', 'careproviderpersona', 'id = ' . $careproviders);
-        $telefono_careprovider = getInfo('telefono', 'careproviderpersona', 'id = ' . $careproviders);
-        $citta_careprovider = getInfo('comune', 'careproviderpersona', 'id = ' . $careproviders);
-        $active_careprovider = getInfo('active', 'careproviderpersona', 'id = ' . $careproviders);
-        $id_utente_careprovider = getInfo('idutente', 'careproviderpersona', 'id = ' . $careproviders);
-        $comune_careprovider = getInfo('comune', 'careproviderpersona', 'id = ' . $careproviders);
+        $id = $xml->parse([
+            'identifier' => [
+                'uses' => 'identifier.value::value'
+            ]
+        ]);
         
-
-        //Creazione del documento XML per il CareProvider del Paziente
-
-        //Creazione di un oggetto dom con la codifica UTF-8
-        $dom = new \DOMDocument('1.0', 'utf-8');
+        $cpp = CareProvider::all();
         
-        //Creazione del nodo Practitioner, cioè il nodo Root  della risorsa
-        $careProvider = $dom->createElement('Practitioner');
-        //Valorizzo il namespace della risorsa e del documento XML, in  questo caso la specifica FHIR
-        $careProvider->setAttribute('xmlns', 'http://hl7.org/fhir');
-        //Corrello l'elemento con il nodo superiore
-        $careProvider = $dom->appendChild($careProvider);
+        foreach ($cpp as $p) {
+            if ($p->id_cpp == $id['identifier']) {
+                throw new Exception("Practictioner is already exists");
+            }
+        }
         
+        $lettura = $xml->parse([
+            'identifier' => [
+                'uses' => 'identifier.value::value'
+            ],
+            'active' => [
+                'uses' => 'active::value'
+            ],
+            'name' => [
+                'uses' => 'name.given::value'
+            ],
+            'surname' => [
+                'uses' => 'name.family::value'
+            ],
+            'telecom' => [
+                'uses' => 'telecom[value::value>attr]'
+            ],
+            'gender' => [
+                'uses' => 'gender::value'
+            ],
+            'birthDate' => [
+                'uses' => 'birthDate::value'
+            ],
+            'line' => [
+                'uses' => 'address.line::value'
+            ],
+            'city' => [
+                'uses' => 'address.city::value'
+            ],
+            'state' => [
+                'uses' => 'address.state::value'
+            ],
+            'postalCode' => [
+                'uses' => 'address.postalCode::value'
+            ],
+            'communication' => [
+                'uses' => 'communication.coding.code::value'
+            ],
+            'qualificationCode' => [
+                'uses' => 'qualification[code.coding.code::value>attr]'
+            ],
+            'qualificationPeriodStart' => [
+                'uses' => 'qualification[period.start::value>attr]'
+            ],
+            'qualificationPeriodEnd' => [
+                'uses' => 'qualification[period.end::value>attr]'
+            ],
+            'qualificationIssuer' => [
+                'uses' => 'qualification[issuer.display::value>attr]'
+            ]
         
-        //Creazione del nodo ID sempre presente nelle risorse FHIR
-        $id = $dom->createElement('id');
-        //Il valore dell'ID è il valore dell'ID nella relativa tabella del DB
-        $id->setAttribute('value', $careproviders);
-        $id = $careProvider->appendChild($id);
-        
-        
-        //Creazione della parte narrativa in XHTML e composta da tag HTML visualizzabili se aperto il file XML in un Browser
-        $narrative = $dom->createElement('text');
-        //Corrello l'elemento con il nodo superiore
-        $narrative = $careProvider->appendChild($narrative);
-        
-        
-        //Creazione del nodo status che indica lo stato della parte narrativa
-        $status = $dom->createElement('status');
-        //Il valore del nodo status è sempre generated, la parte narrativa è generato dal sistema
-        $status->setAttribute('value', 'generated');
-        $status = $narrative->appendChild($status);
-        
-        
-        //Creazione del div che conterrà la tabella con i valori visualizzabili nella parte narrativa
-        $div = $dom->createElement('div');
-        //Link al value set della parte narrativa, cioè la codifica XHTML
-        $div->setAttribute('xmlns',"http://www.w3.org/1999/xhtml");
-        $div = $narrative->appendChild($div);
-        
-        
-        //Creazione della tabella che conterrà i valori
-        $table = $dom->createElement('table');
-        $table->setAttribute('border',"2");
-        $table = $div->appendChild($table);
-        
-        
-        //Creazione del nodo tbody
-        $tbody = $dom->createElement('tbody');
-        //Corrello l'elemento con il nodo superiore
-        $tbody = $table->appendChild($tbody);
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        
-        //Creazione della colonna Name
-        $td = $dom->createElement('td',"Name");
-        $td = $tr->appendChild($td);
-        
-        
-        //Creazione della colonna con il valore del nome e cognome del careprovider
-        $td = $dom->createElement('td', $cognome_careprovider." ".$nome_careprovider);
-        $td = $tr->appendChild($td);
+        ]);
         
         
         
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr =$tbody->appendChild($tr);
+        // USER
         
+        $telecom = array();
         
-        //Creazione della colonna Contact
-        $td = $dom->createElement('td',"Contact");
-        $td = $tr->appendChild($td);
+        foreach ($lettura['telecom'] as $p) {
+            array_push($telecom, $p['attr']);
+        }
         
+        $user = array();
         
-        //Creazione della colonna con il valore del numero di telefono del careprovider
-        $td = $dom->createElement('td',$telefono_careprovider);
-        $td = $tr->appendChild($td);
+        if (! is_null($telecom[1])) {
+            $user['utente_email'] = $telecom[1];
+        }
         
+        $user['utente_nome'] = $lettura['name'] . " " . $lettura['surname'];
         
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
+        $user['id_tipologia'] = 'mos';
+        $user['utente_password'] = bcrypt('test1234');
+        $user['utente_stato'] = '1';
+        $user['utente_scadenza'] = '2030-01-01';
+        $user['utente_dati_condivisione'] = '1';
         
+        $addUtente = new User();
         
-        //Creazione della colonna City
-        $td = $dom->createElement('td',"City");
-        $td = $tr->appendChild($td);
+        foreach ($user as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            $addUtente->$key = $value;
+        }
         
+         $addUtente->save();
         
-        //Creazione della colonna con il valore della città di residenza del careprovider
-        $td = $dom->createElement('td',$citta_careprovider);
-        $td = $tr->appendChild($td);
+        // CONTATTI
         
-        // creazione del nodo dell'extension del comune
-        $node_extension_comune = $dom->createElement('extension');
-        $node_extension_comune->setAttribute('url', 'http://'.$_SERVER['HTTP_HOST'].'/resources/extensions/practitioner-comune.xml');
-        $node_extension_comune = $careProvider->appendChild($node_extension_comune);
-
-        $node_valueString = $dom->createElement('valueString');
-        $node_valueString->setAttribute('value', $comune_careprovider);
-        $node_valueString = $node_extension_comune->appendChild($node_valueString);
-
-        // creazione del nodo dell'extension per l'id utente
-
-        $node_extension_idutente = $dom->createElement('extension');
-        $node_extension_idutente->setAttribute('url', 'http://'.$_SERVER['HTTP_HOST'].'/resources/extensions/user-id.xml');
-        $node_extension_idutente = $careProvider->appendChild($node_extension_idutente);
-
-        $node_valueString = $dom->createElement('valueString');
-        $node_valueString->setAttribute('value', $id_utente_careprovider);
-        $node_valueString = $node_extension_idutente->appendChild($node_valueString);
+        $comune = Comuni::all()->where('comune_nominativo', $lettura['city'])->first();
+        
+        $utente = User::all()->last();
+        
+        $addContact = new Recapiti();
+        
+        $contact = array(
+            'id_utente' => $utente->id_utente,
+            'id_comune_residenza' => $comune->id_comune,
+            'id_comune_nascita' => $comune->id_comune,
+            'contatto_indirizzo' => $lettura['line']
+        );
+        
+        if (! is_null($telecom[0])) {
+            $contact['contatto_telefono'] = $telecom[0];
+        }
+        
+        foreach ($contact as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
             
-        //Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
-        $identifier = $dom->createElement('identifier');
-        $identifier = $careProvider->appendChild($identifier);
-        //Creazione del nodo use con valore fisso ad usual
-        $use = $dom->createElement('use');
-        $use->setAttribute('value', 'usual');
-        $use = $identifier->appendChild($use);
-        //Creazione del nodo system che identifica il namespace degli URI per identificare la risorsa
-        $system = $dom->createElement('system');
-        $system->setAttribute('value', 'urn:ietf:rfc:3986'); //RFC gestione URI
-        $system = $identifier->appendChild($system);
-        //Creazione del nodo value
-        $value = $dom->createElement('value');
-        //Do il valore all' URI della risorsa
-        $value->setAttribute('value', "../fhir/Practitioner/".$careproviders);
-        $value = $identifier->appendChild($value);
+            $addContact->$key = $value;
+        }
+        
+         $addContact->save();
+        
+        // PRACTICTIONER
+        
+        $practictioner = array(
+            'id_cpp' => $lettura['identifier'],
+            'id_utente' => $utente->id_utente,
+            'cpp_nome' => $lettura['name'],
+            'cpp_cognome' => $lettura['surname'],
+            'cpp_sesso' => $lettura['gender'],
+            'cpp_nascita_data' => $lettura['birthDate'],
+            'cpp_codfiscale' => '',
+            'active' => $lettura['active'],
+            'cpp_lingua' => $lettura['communication']
+        );
+        
+        $addPractictioner = new CareProvider();
+        
+        foreach ($practictioner as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            $addPractictioner->$key = $value;
+        }
+        
+         $addPractictioner->save();
+        
+        // PRACTICTIONER.QUALIFICATION
+        
+        $practQual = array();
+        $cpp = CareProvider::all()->last();
+        
+        for ($i = 0; $i < count($lettura['qualificationCode']); $i ++) {
+            $practictionerQual = array(
+                'id_cpp' => $cpp->id_cpp,
+                'Code' => $lettura['qualificationCode'][$i]['attr'],
+                'Start_Period' => $lettura['qualificationPeriodStart'][$i]['attr'],
+                'End_Period' => $lettura['qualificationPeriodEnd'][$i]['attr'],
+                'Issuer' => $lettura['qualificationIssuer'][$i]['attr']
+            );
+            array_push($practQual, $practictionerQual);
+        }
         
         
-        //Creazione del nodo active settato al valore recuperato dal DB FSEM
-        $active = $dom->createElement('active');
-        if($active_careprovider=="1")
-            $active->setAttribute('value', 'true');
-        else
-            $active->setAttribute('value', 'false');
-        $active = $careProvider->appendChild($active);
         
+        $addPractictionerQual = new CppQualification();
+        $add = array();
+        $praQual = array();
         
-        //Creazione del nodo name con il nominativo del care provider
-        $name = $dom->createElement('name');
-        $name = $careProvider->appendChild($name);
-        //Creazione del nodo use settato sempre a usual
-        $use = $dom->createElement('use');
-        $use->setAttribute('value', 'usual');
-        $use = $name->appendChild($use);
-        //Creazione del nodo family che indica il cognome del care provider
-        $family = $dom->createElement('family');
-        $family->setAttribute('value', $cognome_careprovider);
-        $family = $name->appendChild($family);
-        //Creazione del nodo given che indica il nome del care provider
-        $given = $dom->createElement('given');
-        $given->setAttribute('value', $nome_careprovider);
-        $given = $name->appendChild($given);
+        foreach ($practQual as $pq) {
+            foreach ($pq as $key => $value) {
+                $add[$key] = $value;
+            }
+            array_push($praQual, $add);
+        }
         
-        //Creazione del nodo telecom per il recapito telefonoco del care provider
-        $telecom = $dom->createElement('telecom');
-        $telecom = $careProvider->appendChild($telecom);
-        //Creazione del nodo system che indica il tipo di recapito. valore sempre a phone
-        $system = $dom->createElement('system');
-        //Do il valore all' attributo del tag
-        $system->setAttribute('value', 'phone');
-        $system = $telecom->appendChild($system);
-        //Creazione del nodo value per il valore del recapito telefonico
-        $value = $dom->createElement('value');
-        //Do il valore all' attributo del tag
-        $value->setAttribute('value', $telefono_careprovider);
-        $value = $telecom->appendChild($value);
-        //Creazione del nodo use per capire se il numero è fisso o mobile
-        $use = $dom->createElement('use');
-        //Controllo se il primo carattere del numero è 3 in questo caso è un numero mobile altrimenti è un fisso
-        if($telefono_careprovider[0]=="3")  
-            $use->setAttribute('value', 'mobile');
-        elseif( $telefono_careprovider[0]=="0")
-            $use->setAttribute('value', 'home');
-        $use = $telecom->appendChild($use);
-
-        //Creazione del nodo communication per indicare la lingua di comunicazione del care provider
-        $communication = $dom->createElement('communication');
-        $communication = $careProvider->appendChild($communication);
-        //Creazione del nodo coding
-        $coding = $dom->createElement('coding');
-        $coding = $communication->appendChild($coding);
-        //Creazione del nodo system in cui si indica il value set dell' IETF
-        $system = $dom->createElement('system');
-        $system->setAttribute('value', 'https://tools.ietf.org/html/bcp47');
-        $system = $coding->appendChild($system);
-        //Creazione del nodo code che indica il codice della lingua parlata, in questo caso l'italiano perche tutti i pazienti del FSEM usano l'italiano
-        $code = $dom->createElement('code');
-        $code->setAttribute('value', 'it');
-        $code = $coding->appendChild($code);
-        //Creazione del nodo display per visualizzazione testuale del valore della lingua
-        $display = $dom->createElement('display');
-        //Do il valore all' attributo del tag
-        $display->setAttribute('value', 'Italiano');
-        $display = $coding->appendChild($display);
-
-
-        //Elimino gli spazi bianchi superflui per la viasualizzazione grafica dell'XML
-        $dom->preserveWhiteSpace = false;
-        //Formattazione per l'output
-        $dom->formatOutput = true;
-        //Salvo il documento XML nella cartella rsources dando come nome, l'id del paziente
-        //$dom->save("Practitioner/".$careproviders.".xml");
+        foreach ($praQual as $a) {
+            $addPractictionerQual = new CppQualification();
+            foreach ($a as $key => $value) {
+                $addPractictionerQual->$key = $value;
+            }
+            $addPractictionerQual->save();
+        }
         
-        return $dom->saveXML();
-
+        return response()->json($lettura['identifier'], 201);
+       
     }
 }
 

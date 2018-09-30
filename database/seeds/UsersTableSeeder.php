@@ -38,12 +38,12 @@ class UsersTableSeeder extends Seeder
         ]);
         
         DB::table('tbl_utenti')->insert([
-            'utente_nome' => 'Zio paperone',
+            'utente_nome' => 'Marco Kelso',
             'id_tipologia'=> 'ass',
             'utente_password' => bcrypt('test1234'),
             'utente_stato' => '0',
             'utente_scadenza' => '2030-01-01',
-            'utente_email' => 'owner@paypal.com',
+            'utente_email' => 'marco.kelso@paypal.com',
             'utente_dati_condivisione' => '0',
             'utente_token_accesso' => ''
         ]);

@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
         $this->call ( ProcedureStatusSeeder::class );
         $this->call ( ProcTerapSeeder::class );
         
-        
+        $this->call ( CppQualificationTableSeeder::class );
         
         
         

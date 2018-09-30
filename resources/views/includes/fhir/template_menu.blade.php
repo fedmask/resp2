@@ -11,7 +11,7 @@
 		<ul id="menu" class="collapse">
 			<li class="panel" style="font-size:15px"> <a href="/fhirPatient" > <em class="glyphicon glyphicon-user" ></em> Patient </a>
 			</li>
-			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-stethoscope"></em> Practictioner </a>
+			<li class="panel" style="font-size:15px"> <a href="/fhirPractictioner"> <em class="icon-stethoscope"></em> Practictioner </a>
 			</li>
 			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-group"></em> Related Person </a>
 			</li>

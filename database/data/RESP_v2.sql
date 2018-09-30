@@ -534,7 +534,7 @@ Display VARCHAR(50) NOT NULL
 -- -- DROP  IF EXISTS  `tbl_care_provider` ;
 
 CREATE TABLE IF NOT EXISTS  `tbl_care_provider` (
-  `id_cpp` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  id_cpp INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_utente` INT(10) UNSIGNED NOT NULL,
   `cpp_nome` VARCHAR(45)  ,
   `cpp_cognome` VARCHAR(45)  ,
@@ -546,11 +546,8 @@ CREATE TABLE IF NOT EXISTS  `tbl_care_provider` (
   `specializzation` VARCHAR(45)  ,
   `cpp_lingua` VARCHAR(10)  ,
   `active` TINYINT(1) DEFAULT '0'  ,
-  PRIMARY KEY (`id_cpp`),
+  PRIMARY KEY (id_cpp),
   UNIQUE INDEX `cpp_codfiscale_UNIQUE` (`cpp_codfiscale` ASC),
-  INDEX `FOREIGN_CPP_UTENTE_idx` (`id_utente` ASC),
-  CHECK (specializzation IN (SELECT QC.Display FROM QualificationCode QC)),
-  CONSTRAINT `FOREIGN_CPP_UTENTE_idx`
     FOREIGN KEY (`id_utente`)
     REFERENCES  `tbl_utenti` (`id_utente`)
     ON DELETE NO ACTION
@@ -572,7 +569,7 @@ AUTO_INCREMENT = 1;
 
 
 CREATE TABLE CppQualification (
-id_cpp INT(10) UNSIGNED NOT NULL,
+id_cpp INT(10) UNSIGNED,
 Code CHAR(10) NOT NULL,
 Start_Period DATE NOT NULL,
 End_Period DATE NOT NULL,
@@ -582,9 +579,9 @@ FOREIGN KEY(Code) REFERENCES QualificationCode(Code)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
 
-FOREIGN KEY (`id_cpp`)
-    REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+FOREIGN KEY (id_cpp)
+    REFERENCES  tbl_care_provider (id_cpp)
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 
 );
