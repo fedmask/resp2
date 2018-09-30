@@ -167,16 +167,13 @@ class FHIRPatient
                 'uses' => 'extension.valueBoolean::value'
             ],
             'ContRelCode' => [
-                'uses' => 'contact.relationship.coding.code::value'
+                'uses' => 'contact[relationship.coding.code::value>attr]'
             ],
             'ContSurname' => [
-                'uses' => 'contact.name.family::value'
+                'uses' => 'contact[name.family::value>attr]'
             ],
             'ContName' => [
-                'uses' => 'contact.name.given::value'
-            ],
-            'ContTelecom' => [
-                'uses' => 'contact.telecom[value::value>attr]'
+                'uses' => 'contact[name.given::value>attr]'
             ]
             
         ]);
@@ -276,41 +273,68 @@ class FHIRPatient
         $addPatient->save();
      
         // PATIENT.CONTACT
+        $xmlfile = file_get_contents($file);
+        $ob= simplexml_load_string($xmlfile);
+        $json  = json_encode($ob);
+        $configData = json_decode($json, true);
         
-        $patientContact = array(
-            'Id_Patient' => $lettura['identifier'],
-            'Relationship' => $lettura['ContRelCode'],
-            'Name' => $lettura['ContName'],
-            'Surname' => $lettura['ContSurname']
-        );
-        
-        $contTelecom = array();
-        
-        foreach ($lettura['ContTelecom'] as $c) {
-            array_push($contTelecom, $c);
-        }
-        
-        if (! is_null($contTelecom[0])) {
-            $patientContact['Telephone'] = $telecom[0];
-        }
-        
-        if (! is_null($contTelecom[1])) {
-            $patientContact['Mail'] = $telecom[1];
-        }
-        
-        $addPatientContact = new PatientContact;
-        
-        foreach ($patientContact as $key => $value) {
-            if (empty($value)) {
-                continue;
+        $contactTelecom = array();        
+        foreach($configData["contact"] as $c){
+            foreach($c["telecom"] as $t){
+                array_push($contactTelecom, $t["value"]["@attributes"]["value"]);
             }
-            
-            $addPatientContact->$key = $value;
+        }
+       
+        $count = 0;
+        $contactPhone = array();
+        while ($count < count($contactTelecom)) {
+            array_push($contactPhone, $contactTelecom[$count]);
+            $count = $count + 2;
         }
         
-        $addPatientContact->save();
+        $contactMail = array();
+        $count = 1;
+        while ($count < count($contactTelecom)) {
+            array_push($contactMail, $contactTelecom[$count]);
+            $count = $count + 2;
+        }
         
         
+        $patientContact = array();
+        for($i=0; $i<count($lettura['ContName']); $i++){
+            $pc = array(
+            'Id_Patient' => $lettura['identifier'],
+            'Relationship' => $lettura['ContRelCode'][$i]['attr'],
+            'Name' => $lettura['ContName'][$i]['attr'],
+            'Surname' => $lettura['ContSurname'][$i]['attr'],
+            'Telephone' => $contactPhone[$i],
+            'Mail' => $contactMail[$i]
+                );
+            array_push($patientContact, $pc);
+        }
+        
+        
+        
+
+        $addPatientContact = new PatientContact;
+        $add = array();
+        $patCont = array();
+        
+        foreach ($patientContact as $pc) {
+            foreach ($pc as $key => $value) {
+                $add[$key] = $value;
+            }
+            array_push($patCont, $add);
+        }
+        
+        foreach ($patCont as $p) {
+            $addPatientContact = new PatientContact;
+            foreach ($p as $key => $value) {
+                $addPatientContact->$key = $value;
+             }
+            $addPatientContact->save();
+        }
+
         return response()->json($lettura['identifier'], 201);
         
     }
