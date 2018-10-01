@@ -22,23 +22,9 @@ class CppUsers extends Seeder {
 		        'cpp_lingua' => 'it'
 		] );
 		
-		DB::table ( 'tbl_care_provider' )->insert ( [ 
-				'id_cpp' => '2',
-				'id_utente' => '2',
-				'cpp_nome' => 'Pippo',
-				'cpp_cognome' => 'Kelso',
-				'cpp_nascita_data' => '1996-01-01',
-				'cpp_codfiscale' => 'PPPKLS96T91H501D',
-				'cpp_sesso' => 'male',
-				'cpp_n_iscrizione' => '00121332',
-				'cpp_localita_iscrizione' => "Roma",
-				'specializzation' => 'general_practice',
-		        'active' => '0',
-		        'cpp_lingua' => 'it'
-		] );
 		
 		DB::table ( 'tbl_care_provider' )->insert ( [ 
-				'id_cpp' => '3',
+				'id_cpp' => '2',
 				'id_utente' => '3',
 				'cpp_nome' => 'Marco',
 				'cpp_cognome' => 'Kelso',

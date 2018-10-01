@@ -151,8 +151,6 @@ class FHIRPractitioner
         
         ]);
         
-        
-        
         // USER
         
         $telecom = array();
@@ -184,7 +182,7 @@ class FHIRPractitioner
             $addUtente->$key = $value;
         }
         
-         $addUtente->save();
+        $addUtente->save();
         
         // CONTATTI
         
@@ -213,7 +211,7 @@ class FHIRPractitioner
             $addContact->$key = $value;
         }
         
-         $addContact->save();
+        $addContact->save();
         
         // PRACTICTIONER
         
@@ -238,7 +236,7 @@ class FHIRPractitioner
             $addPractictioner->$key = $value;
         }
         
-         $addPractictioner->save();
+        $addPractictioner->save();
         
         // PRACTICTIONER.QUALIFICATION
         
@@ -255,8 +253,6 @@ class FHIRPractitioner
             );
             array_push($practQual, $practictionerQual);
         }
-        
-        
         
         $addPractictionerQual = new CppQualification();
         $add = array();
@@ -278,7 +274,23 @@ class FHIRPractitioner
         }
         
         return response()->json($lettura['identifier'], 201);
-       
+    }
+
+    function destroy($id)
+    {
+        $practitioner = CareProvider::find($id);
+        
+        if (! $practitioner->exists()) {
+            throw new Exception("resource with the id provided doesn't exist in database");
+        }
+        
+        CareProvider::find($id)->delete();
+        
+        $user = User::where('id_utente', $practitioner->id_utente)->first();
+        
+        User::find($user->id_utente)->delete();
+        
+        return response()->json(null, 204);
     }
 }
 

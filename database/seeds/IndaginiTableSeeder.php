@@ -51,7 +51,7 @@ class IndaginiTableSeeder extends Seeder
                 'id_centro_indagine' => 3,
                 'id_diagnosi' => 3,
                 'id_paziente' => 2,
-                'id_cpp' => 3,
+                'id_cpp' => 2,
                 'careprovider' => 'Marco Kelso',
                 'indagine_data' => '2016-02-06 17:00:00',
                 'indagine_aggiornamento' => '2016-04-03',

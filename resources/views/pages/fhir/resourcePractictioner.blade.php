@@ -98,7 +98,7 @@ $practictioner = $data_output;
                                         <td align="center"> <button id="{{$p->id_cpp}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
                                         <td align="center"><button id="" value=""  onclick="" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
-                                      {{Form::open(array( 'action' => array('Fhir\Modules\FHIRPatient@destroy', $p->id_paziente) ,'method' => 'DELETE' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
+                                      {{Form::open(array( 'action' => array('Fhir\Modules\FHIRPractitioner@destroy', $p->id_cpp) ,'method' => 'DELETE'))}}
                                       {{ csrf_field() }}
                                       {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'button-delete'] )  }}
                                       {{Form::close()}}                          

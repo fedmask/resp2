@@ -28,13 +28,5 @@ class CppQualificationTableSeeder extends Seeder
         ]);
         
         
-        DB::table('CppQualification')->insert([
-            'id_cpp' => '3',
-            'Code' => 'EMT',
-            'Start_Period' => '2017-11-11',
-            'End_Period' => '2027-11-11',
-            'Issuer' => 'University'
-        ]);
-        
     }
 }

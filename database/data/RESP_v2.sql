@@ -659,16 +659,14 @@ CREATE TABLE IF NOT EXISTS  `tbl_cpp_persona` (
   `persona_attivo` TINYINT(4) NOT NULL,
   PRIMARY KEY (`id_persona`),
   INDEX `fk_tbl_cpp_persona_tbl_comuni1_idx` (`id_comune` ASC),
-  INDEX `fk_tbl_cpp_persona_tbl_utenti1_idx` (`id_utente` ASC),
   CONSTRAINT `fk_tbl_cpp_persona_tbl_comuni1_idx`
     FOREIGN KEY (`id_comune`)
     REFERENCES  `tbl_comuni` (`id_comune`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_cpp_persona_tbl_utenti1_idx`
     FOREIGN KEY (`id_utente`)
     REFERENCES  `tbl_utenti` (`id_utente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
@@ -806,10 +804,9 @@ CREATE TABLE IF NOT EXISTS  `tbl_cpp_paziente` (
     REFERENCES  `tbl_livelli_confidenzialita` (`id_livello_confidenzialita`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_medici_assegnati_tbl_medici1_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
@@ -844,10 +841,9 @@ CREATE TABLE IF NOT EXISTS  `tbl_cpp_specialization` (
   PRIMARY KEY (`id_cpp_specialization`),
   INDEX `FOREIGN_CPP_Specialization_idx` (`id_cpp` ASC),
   INDEX `FOREIGN_Specialization_Cpp_idx` (`id_specialization` ASC),
-  CONSTRAINT `FOREIGN_CPP_Specialization_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FOREIGN_Specialization_Cpp_idx`
     FOREIGN KEY (`id_specialization`)
@@ -1308,11 +1304,9 @@ CREATE TABLE IF NOT EXISTS  `tbl_indagini` (
   `indagine_allegato` TEXT  ,
   PRIMARY KEY (`id_indagine`),
   INDEX `fk_tbl_indagini_tbl_centri_indagini1_idx` (`id_centro_indagine` ASC),
-  INDEX `fk_tbl_indagini_tbl_cpp_persona1_idx` (`id_cpp` ASC),
-  CONSTRAINT `fk_tbl_indagini_tbl_care_provider_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION,
+    ON DELETE CASCADE,
   CONSTRAINT `fk_tbl_indagini_tbl_centri_indagini1_idx`
     FOREIGN KEY (`id_centro_indagine`)
     REFERENCES  `tbl_centri_indagini` (`id_centro`)
@@ -1555,11 +1549,9 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti_visite` (
   `richiesta_visita_inizio` DATE NULL DEFAULT NULL,
   `richiesta_visita_fine` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`id_visita`),
-  INDEX `fk_tbl_pazienti_visite_tbl_medici1_idx` (`id_cpp` ASC),
-  CONSTRAINT `fk_tbl_pazienti_visite_tbl_medici1_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
@@ -1598,7 +1590,7 @@ tipo CHAR(30) ,
 
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
 	FOREIGN KEY (`id_visita`)
     REFERENCES  `tbl_pazienti_visite` (`id_visita`)
@@ -1712,7 +1704,7 @@ CREATE TABLE IF NOT EXISTS  `tbl_proc_terapeutiche` (
   CONSTRAINT `fk_tb_cpp_tb_procedure_treapeutiche`
     FOREIGN KEY (`CareProvider`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
     FOREIGN KEY (`Diagnosi`)
     REFERENCES  `tbl_diagnosi` (`id_diagnosi`)
@@ -1854,12 +1846,10 @@ CREATE TABLE IF NOT EXISTS  `tbl_vaccinazione` (
   `vaccinazione_explanation` TEXT COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL,
   PRIMARY KEY (`id_vaccinazione`),
   INDEX `fk_tbl_vaccinazione_tbl_livelli_confidenzialita1_idx` (`vaccinazione_confidenzialita` ASC),
-  INDEX `fk_tbl_vaccinazione_tbl_care_provider1_idx` (`id_cpp` ASC),
   INDEX `fk_tbl_vaccinazione_tbl_pazienti1_idx` (`id_paziente` ASC),
-  CONSTRAINT `fk_tbl_vaccinazione_tbl_care_provider1_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbl_vaccinazione_tbl_livelli_confidenzialita1_idx`
     FOREIGN KEY (`vaccinazione_confidenzialita`)
@@ -2120,7 +2110,7 @@ FOREIGN KEY (Id_Trattamento)
     
     FOREIGN KEY (`Id_Cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -2247,7 +2237,7 @@ data_impianto DATE NOT NULL,
     ON UPDATE NO ACTION,
 	FOREIGN KEY (id_cpp)
     REFERENCES  tbl_care_provider (id_cpp)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION);
 
 	
@@ -2314,7 +2304,7 @@ confidenza SMALLINT(6) NOT NULL,
     ON UPDATE NO ACTION,
 	FOREIGN KEY (recorder) -- id_cpp oppure id_paziente
     REFERENCES  tbl_care_provider (id_cpp)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
 	FOREIGN KEY (recorder) -- id_cpp oppure id_paziente
     REFERENCES  tbl_pazienti (id_paziente)
