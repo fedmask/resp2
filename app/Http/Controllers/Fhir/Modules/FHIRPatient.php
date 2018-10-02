@@ -175,10 +175,10 @@ class FHIRPatient
             'ContName' => [
                 'uses' => 'contact[name.given::value>attr]'
             ]
-            
+        
         ]);
         
-        //USER
+        // USER
         
         $telecom = array();
         
@@ -200,18 +200,16 @@ class FHIRPatient
         $user['utente_scadenza'] = '2030-01-01';
         $user['utente_dati_condivisione'] = '1';
         
-        $addUtente = new User;
+        $addUtente = new User();
         
         foreach ($user as $key => $value) {
             if (empty($value)) {
                 continue;
             }
             $addUtente->$key = $value;
-
         }
         
         $addUtente->save();
-        
         
         // CONTATTI
         
@@ -219,9 +217,8 @@ class FHIRPatient
         
         $utente = User::all()->last();
         
+        $addContact = new Recapiti();
         
-        $addContact = new Recapiti;
-      
         $contact = array(
             'id_utente' => $utente->id_utente,
             'id_comune_residenza' => $comune->id_comune,
@@ -239,10 +236,9 @@ class FHIRPatient
             }
             
             $addContact->$key = $value;
-         }
+        }
         
         $addContact->save();
-
         
         // PATIENT
         
@@ -261,7 +257,7 @@ class FHIRPatient
             'paziente_lingua' => $lettura['communication']
         );
         
-        $addPatient = new Pazienti;
+        $addPatient = new Pazienti();
         
         foreach ($patient as $key => $value) {
             if (empty($value)) {
@@ -271,20 +267,31 @@ class FHIRPatient
         }
         
         $addPatient->save();
-     
+        
         // PATIENT.CONTACT
         $xmlfile = file_get_contents($file);
-        $ob= simplexml_load_string($xmlfile);
-        $json  = json_encode($ob);
+        $ob = simplexml_load_string($xmlfile);
+        $json = json_encode($ob);
         $configData = json_decode($json, true);
         
-        $contactTelecom = array();        
-        foreach($configData["contact"] as $c){
-            foreach($c["telecom"] as $t){
-                array_push($contactTelecom, $t["value"]["@attributes"]["value"]);
+        $contactTelecom = array();
+        
+        if(array_key_exists('telecom', $configData['contact'])){
+            foreach ($configData['contact']['telecom'] as $c) {
+                foreach ($c["value"] as $t) {
+                    array_push($contactTelecom, $t['value']);
+                }
+            }
+        }else{
+            $contactTelecom = array();
+            foreach ($configData["contact"] as $c) {
+                foreach ($c["telecom"] as $t) {
+                    array_push($contactTelecom, $t["value"]["@attributes"]["value"]);
+                }
             }
         }
-       
+           
+        
         $count = 0;
         $contactPhone = array();
         while ($count < count($contactTelecom)) {
@@ -299,24 +306,20 @@ class FHIRPatient
             $count = $count + 2;
         }
         
-        
         $patientContact = array();
-        for($i=0; $i<count($lettura['ContName']); $i++){
+        for ($i = 0; $i < count($lettura['ContName']); $i ++) {
             $pc = array(
-            'Id_Patient' => $lettura['identifier'],
-            'Relationship' => $lettura['ContRelCode'][$i]['attr'],
-            'Name' => $lettura['ContName'][$i]['attr'],
-            'Surname' => $lettura['ContSurname'][$i]['attr'],
-            'Telephone' => $contactPhone[$i],
-            'Mail' => $contactMail[$i]
-                );
+                'Id_Patient' => $lettura['identifier'],
+                'Relationship' => $lettura['ContRelCode'][$i]['attr'],
+                'Name' => $lettura['ContName'][$i]['attr'],
+                'Surname' => $lettura['ContSurname'][$i]['attr'],
+                'Telephone' => $contactPhone[$i],
+                'Mail' => $contactMail[$i]
+            );
             array_push($patientContact, $pc);
         }
         
-        
-        
-
-        $addPatientContact = new PatientContact;
+        $addPatientContact = new PatientContact();
         $add = array();
         $patCont = array();
         
@@ -328,13 +331,13 @@ class FHIRPatient
         }
         
         foreach ($patCont as $p) {
-            $addPatientContact = new PatientContact;
+            $addPatientContact = new PatientContact();
             foreach ($p as $key => $value) {
                 $addPatientContact->$key = $value;
-             }
+            }
             $addPatientContact->save();
         }
-
+        
         return response()->json($lettura['identifier'], 201);
         
     }
@@ -404,16 +407,13 @@ class FHIRPatient
                 'uses' => 'extension.valueBoolean::value'
             ],
             'ContRelCode' => [
-                'uses' => 'contact.relationship.coding.code::value'
+                'uses' => 'contact[relationship.coding.code::value>attr]'
             ],
             'ContSurname' => [
-                'uses' => 'contact.name.family::value'
+                'uses' => 'contact[name.family::value>attr]'
             ],
             'ContName' => [
-                'uses' => 'contact.name.given::value'
-            ],
-            'ContTelecom' => [
-                'uses' => 'contact.telecom[value::value>attr]'
+                'uses' => 'contact[name.given::value>attr]'
             ]
         
         ]);
@@ -422,7 +422,7 @@ class FHIRPatient
         
         $patient_data = Pazienti::where('id_paziente', $id)->first();
         
-        $updUser = User::find($patient_data->id_utente)->first();
+        $updUser = User::where("id_utente", $patient_data->id_utente)->first();
         
         $telecom = array();
         
@@ -437,12 +437,11 @@ class FHIRPatient
         }
         
         $user['utente_nome'] = $lettura['name'] . " " . $lettura['surname'];
-        
+         
         foreach ($user as $key => $value) {
             if (empty($value)) {
                 continue;
             }
-            
             $updUser->$key = $value;
         }
         
@@ -450,7 +449,7 @@ class FHIRPatient
         
         // CONTATTI
         
-        $updContact = Recapiti::find($patient_data->id_utente)->first();
+        $updContact = Recapiti::where("id_utente", $patient_data->id_utente)->first();
         
         $comune = Comuni::all()->where('comune_nominativo', $lettura['city'])->first();
         
@@ -498,38 +497,77 @@ class FHIRPatient
         
         // PATIENT.CONTACT
         
-        $updPatientContact = PatientContact::where('Id_Patient', $patient_data->id_paziente)->first();
+        PatientContact::where('Id_Patient', $patient_data->id_paziente)->delete();
         
-        $patientContact = array(
-            'Relationship' => $lettura['ContRelCode'],
-            'Name' => $lettura['ContName'],
-            'Surname' => $lettura['ContSurname']
-        );
+        $xmlfile = file_get_contents($file);
+        $ob = simplexml_load_string($xmlfile);
+        $json = json_encode($ob);
+        $configData = json_decode($json, true);
         
-        $contTelecom = array();
+        $contactTelecom = array();
         
-        foreach ($lettura['ContTelecom'] as $c) {
-            array_push($contTelecom, $c);
-        }
-        
-        if (! is_null($contTelecom[0])) {
-            $patientContact['Telephone'] = $telecom[0];
-        }
-        
-        if (! is_null($contTelecom[1])) {
-            $patientContact['Mail'] = $telecom[1];
-        }
-        
-        foreach ($patientContact as $key => $value) {
-            if (empty($value)) {
-                continue;
+        if(array_key_exists('telecom', $configData['contact'])){
+            foreach ($configData['contact']['telecom'] as $c) {
+                foreach ($c["value"] as $t) {
+                    array_push($contactTelecom, $t['value']);
+                }
             }
-            
-            $updPatientContact->$key = $value;
+        }else{
+            $contactTelecom = array();
+            foreach ($configData["contact"] as $c) {
+                foreach ($c["telecom"] as $t) {
+                    array_push($contactTelecom, $t["value"]["@attributes"]["value"]);
+                }
+            }
         }
         
-        $updPatientContact->save();
         
+        $count = 0;
+        $contactPhone = array();
+        while ($count < count($contactTelecom)) {
+            array_push($contactPhone, $contactTelecom[$count]);
+            $count = $count + 2;
+        }
+        
+        $contactMail = array();
+        $count = 1;
+        while ($count < count($contactTelecom)) {
+            array_push($contactMail, $contactTelecom[$count]);
+            $count = $count + 2;
+        }
+        
+        $patientContact = array();
+        for ($i = 0; $i < count($lettura['ContName']); $i ++) {
+            $pc = array(
+                'Id_Patient' => $lettura['identifier'],
+                'Relationship' => $lettura['ContRelCode'][$i]['attr'],
+                'Name' => $lettura['ContName'][$i]['attr'],
+                'Surname' => $lettura['ContSurname'][$i]['attr'],
+                'Telephone' => $contactPhone[$i],
+                'Mail' => $contactMail[$i]
+            );
+            array_push($patientContact, $pc);
+        }
+        
+        $addPatientContact = new PatientContact();
+        $add = array();
+        $patCont = array();
+        
+        foreach ($patientContact as $pc) {
+            foreach ($pc as $key => $value) {
+                $add[$key] = $value;
+            }
+            array_push($patCont, $add);
+        }
+        
+        foreach ($patCont as $p) {
+            $addPatientContact = new PatientContact();
+            foreach ($p as $key => $value) {
+                $addPatientContact->$key = $value;
+            }
+            $addPatientContact->save();
+        }
+                
         return response()->json($id, 200);
     }
 
@@ -546,7 +584,6 @@ class FHIRPatient
         $user = User::where('id_utente', $patient->id_utente)->first();
         
         User::find($user->id_utente)->delete();
-        
         
         return response()->json(null, 204);
     }

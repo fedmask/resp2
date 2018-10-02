@@ -276,6 +276,199 @@ class FHIRPractitioner
         return response()->json($lettura['identifier'], 201);
     }
 
+    public function update(Request $request, $id)
+    {
+        $file = $request->file('fileUpdate');
+        
+        $xml = XmlParser::load($file->getRealPath());
+        
+        $id_cpp = $xml->parse([
+            'identifier' => [
+                'uses' => 'identifier.value::value'
+            ]
+        ]);
+        
+        $cpp = CareProvider::all();
+        
+        if (! CareProvider::find($id)) {
+            throw new Exception("Practitioner does not exist in the database");
+        }
+        
+        if ($id != $id_cpp['identifier']) {
+            throw new Exception("Error");
+        }
+        
+        $lettura = $xml->parse([
+            'identifier' => [
+                'uses' => 'identifier.value::value'
+            ],
+            'active' => [
+                'uses' => 'active::value'
+            ],
+            'name' => [
+                'uses' => 'name.given::value'
+            ],
+            'surname' => [
+                'uses' => 'name.family::value'
+            ],
+            'telecom' => [
+                'uses' => 'telecom[value::value>attr]'
+            ],
+            'gender' => [
+                'uses' => 'gender::value'
+            ],
+            'birthDate' => [
+                'uses' => 'birthDate::value'
+            ],
+            'line' => [
+                'uses' => 'address.line::value'
+            ],
+            'city' => [
+                'uses' => 'address.city::value'
+            ],
+            'state' => [
+                'uses' => 'address.state::value'
+            ],
+            'postalCode' => [
+                'uses' => 'address.postalCode::value'
+            ],
+            'communication' => [
+                'uses' => 'communication.coding.code::value'
+            ],
+            'qualificationCode' => [
+                'uses' => 'qualification[code.coding.code::value>attr]'
+            ],
+            'qualificationPeriodStart' => [
+                'uses' => 'qualification[period.start::value>attr]'
+            ],
+            'qualificationPeriodEnd' => [
+                'uses' => 'qualification[period.end::value>attr]'
+            ],
+            'qualificationIssuer' => [
+                'uses' => 'qualification[issuer.display::value>attr]'
+            ]
+        
+        ]);
+        
+        // USER
+        
+        $practitioner_data = CareProvider::where('id_cpp', $id)->first();
+        $user_data = User::where("id_utente", $practitioner_data->id_utente)->first();
+        
+        $updUser = $user_data;
+        
+        $telecom = array();
+        
+        foreach ($lettura['telecom'] as $p) {
+            array_push($telecom, $p['attr']);
+        }
+        
+        $user = array();
+        
+        if (! is_null($telecom[1])) {
+            $user['utente_email'] = $telecom[1];
+        }
+        
+        $user['utente_nome'] = $lettura['name'] . " " . $lettura['surname'];
+        
+        foreach ($user as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            $updUser->$key = $value;
+        }
+        
+        $updUser->save();
+        
+        // CONTATTI
+        
+        $comune = Comuni::all()->where('comune_nominativo', $lettura['city'])->first();
+        
+        $updContact = Recapiti::where("id_utente", $user_data->id_utente)->first();
+        
+        $contact = array(
+            'id_comune_residenza' => $comune->id_comune,
+            'id_comune_nascita' => $comune->id_comune,
+            'contatto_indirizzo' => $lettura['line']
+        );
+        
+        if (! is_null($telecom[0])) {
+            $contact['contatto_telefono'] = $telecom[0];
+        }
+        
+        foreach ($contact as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            $updContact->$key = $value;
+        }
+        
+        $updContact->save();
+        
+        // PRACTICTIONER
+        
+        $updPractitioner = $practitioner_data;
+        
+        $practitioner = array(
+            'cpp_nome' => $lettura['name'],
+            'cpp_cognome' => $lettura['surname'],
+            'cpp_sesso' => $lettura['gender'],
+            'cpp_nascita_data' => $lettura['birthDate'],
+            'cpp_codfiscale' => '',
+            'active' => $lettura['active'],
+            'cpp_lingua' => $lettura['communication']
+        );
+        
+        foreach ($practitioner as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            $updPractitioner->$key = $value;
+        }
+        
+        $updPractitioner->save();
+        
+        // PRACTITIONER.QUALIFICATION
+        
+        $practQual = array();
+        
+        $cpp = $practitioner_data;
+        
+        CppQualification::where("id_cpp", $cpp->id_cpp)->delete();
+        
+        for ($i = 0; $i < count($lettura['qualificationCode']); $i ++) {
+            $practitionerQual = array(
+                'id_cpp' => $cpp->id_cpp,
+                'Code' => $lettura['qualificationCode'][$i]['attr'],
+                'Start_Period' => $lettura['qualificationPeriodStart'][$i]['attr'],
+                'End_Period' => $lettura['qualificationPeriodEnd'][$i]['attr'],
+                'Issuer' => $lettura['qualificationIssuer'][$i]['attr']
+            );
+            array_push($practQual, $practitionerQual);
+        }
+        
+        $updPractitionerQual = new CppQualification();
+        $add = array();
+        $praQual = array();
+        
+        foreach ($practQual as $pq) {
+            foreach ($pq as $key => $value) {
+                $add[$key] = $value;
+            }
+            array_push($praQual, $add);
+        }
+        
+        foreach ($praQual as $a) {
+            $updPractitionerQual = new CppQualification();
+            foreach ($a as $key => $value) {
+                $updPractitionerQual->$key = $value;
+            }
+            $updPractitionerQual->save();
+        }
+        
+        return response()->json($id, 200);
+    }
+
     function destroy($id)
     {
         $practitioner = CareProvider::find($id);
