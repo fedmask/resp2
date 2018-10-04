@@ -6,7 +6,10 @@
  */
 namespace App\Models\CareProviders;
 
+
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Models\CodificheFHIR\Language;
+use App\Models\FHIR\CppQualification;
 
 /**
  * Class CareProvider
@@ -36,11 +39,13 @@ class CareProvider extends Eloquent {
 	protected $primaryKey = 'id_cpp';
 	public $incrementing = false;
 	public $timestamps = false;
-	protected $casts = [ 
-			'id_cpp' => 'int',
-			'id_cpp_tipologia' => 'int',
-			'id_utente' => 'int',
-	        'active' => 'bool'
+
+	protected $casts = [
+		'id_cpp' => 'int',
+		'id_cpp_tipologia' => 'int',
+		'id_utente' => 'int',
+        'active' => 'bool'
+
 	];
 	
 	protected $dates = [
@@ -48,202 +53,164 @@ class CareProvider extends Eloquent {
 	];
 	
 	protected $fillable = [
-	    'id_utente',
-	    'cpp_nome',
-	    'cpp_cognome',
-	    'cpp_nascita_data',
-	    'cpp_codfiscale',
-	    'cpp_sesso',
-	    'cpp_n_iscrizione',
-	    'cpp_localita_iscrizione',
-	    'specializzation',
-	    'cpp_lingua',
-	    'active'
+
+		'id_cpp_tipologia',
+		'id_utente',
+		'cpp_nome',
+		'cpp_cognome',
+		'cpp_nascita_data',
+		'cpp_codfiscale',
+		'cpp_sesso',
+		'cpp_n_iscrizione',
+		'cpp_localita_iscrizione',
+	    'active',
+	    'cpp_lingua'
+
 	];
 	
-	public function tbl_utenti()
+	public function users()
 	{
-	    return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\CurrentUser\User::class, 'id_utente');
 	}
 	
-	public function language()
+	public function careprovider_types()
 	{
-	    return $this->belongsTo(\App\Models\Language::class, 'cpp_lingua');
+		return $this->belongsTo(\App\Models\CareProvider\CppTipologie::class, 'id_cpp_tipologia');
 	}
 	
-	public function gender()
+	public function carprovider_diagnosis()
 	{
-	    return $this->belongsTo(\App\Models\Gender::class, 'cpp_sesso');
+		return $this->hasMany(\App\Models\CareProvider\CppDiagnosi::class, 'id_cpp');
 	}
 	
-	public function allergy_intollerances()
+	public function careprovider_patients()
 	{
-	    return $this->hasMany(\App\Models\AllergyIntollerance::class, 'recorder');
+		return $this->hasMany(\App\Models\CareProvider\CppPaziente::class, 'id_cpp');
 	}
 	
-	public function consenso_c_p()
+	public function patient_visits()
 	{
-	    return $this->hasOne(\App\Models\ConsensoCP::class, 'Id_Cpp');
+		return $this->hasMany(\App\Models\Patient\PazientiVisite::class, 'id_cpp');
 	}
 	
-	public function cpp_qualification()
+	public function vaccines()
 	{
-	    return $this->hasOne(\App\Models\CppQualification::class, 'id_cpp');
+		return $this->hasMany(\App\Models\Vaccine\Vaccinazione::class, 'id_cpp');
 	}
 	
-	public function dispositivo_impiantabiles()
+	public function contacts()
 	{
-	    return $this->hasMany(\App\Models\DispositivoImpiantabile::class, 'id_cpp');
-	}
-	
-	public function visita_c_p()
-	{
-	    return $this->hasOne(\App\Models\VisitaCP::class, 'id_cpp');
-	}
-	
-	public function tbl_cpp_paziente()
-	{
-	    return $this->hasOne(\App\Models\TblCppPaziente::class, 'id_cpp');
-	}
-	
-	public function tbl_cpp_specializations()
-	{
-	    return $this->hasMany(\App\Models\TblCppSpecialization::class, 'id_cpp');
-	}
-	
-	public function tbl_indaginis()
-	{
-	    return $this->hasMany(\App\Models\TblIndagini::class, 'id_cpp');
-	}
-	
-	public function tbl_pazienti_visites()
-	{
-	    return $this->hasMany(\App\Models\TblPazientiVisite::class, 'id_cpp');
-	}
-	
-	public function tbl_proc_terapeutiches()
-	{
-	    return $this->hasMany(\App\Models\TblProcTerapeutiche::class, 'CareProvider');
-	}
-	
-	public function tbl_vaccinaziones()
-	{
-	    return $this->hasMany(\App\Models\TblVaccinazione::class, 'id_cpp');
+		return $this->hasMany(\App\Models\CurrentUser\Recapiti::class, 'id_utente');
 	}
 	
 	
-	public function users() {
-		return $this->belongsTo ( \App\Models\CurrentUser\User::class, 'id_utente' );
-	}
-	public function careprovider_types() {
-		return $this->belongsTo ( \App\Models\CareProvider\CppTipologie::class, 'id_cpp_tipologia' );
-	}
-	public function carprovider_diagnosis() {
-		return $this->hasMany ( \App\Models\CareProvider\CppDiagnosi::class, 'id_cpp' );
-	}
-	public function careprovider_patients() {
-		return $this->hasMany ( \App\Models\CareProvider\CppPaziente::class, 'id_cpp' );
-	}
-	public function patient_visits() {
-		return $this->hasMany ( \App\Models\Patient\PazientiVisite::class, 'id_cpp' );
-	}
-	public function vaccines() {
-		return $this->hasMany ( \App\Models\Vaccine\Vaccinazione::class, 'id_cpp' );
-	}
-	public function contacts() {
-		return $this->hasMany ( \App\Models\CurrentUser\Recapiti::class, 'id_utente' );
-	}
-	public function getID() {
+	/**
+	 * FHIR
+	 */
+	
+	public function getIdCpp(){
 		return $this->id_cpp;
 	}
-	public function getId_cpp_tipologia() {
-		return $this->id_cpp_tipologia;
+	
+	public function isActive(){
+		$ret = "false";
+		
+		if(!$this->active){
+			$ret = "true";
+		}
+		return $ret;
 	}
-	public function getCpp_nome() {
+	
+	
+	public function getName()
+	{
 		return $this->cpp_nome;
 	}
-	public function getCpp_cognome() {
+	
+	public function getSurname()
+	{
 		return $this->cpp_cognome;
 	}
-	public function getSpecializzation() {
-		return $this->specializzation;
+	
+	public function getFullName()
+	{
+		return $this->getName() . " " . $this->getSurname();
 	}
-	public function getCpp_type() {
-		return $this->careprovider_types ()->first ();
+	
+	public function getMail(){
+		return $this->users ()->first ()->utente_email;
 	}
-	public function getCpp_FullName() {
-		return getCpp_nome () . " " . getCpp_cognome ();
+	
+	public function getPhone(){
+		return $this->users ()->first ()->contacts ()->first ()->contatto_telefono;
 	}
-	public function getCpp_nascita_data() {
-		return $this->cpp_nascita_data;
+	
+	public function getTelecom() {
+		return $this->getPhone()." - ".$this->getMail();
 	}
-	public function getCpp_codfiscale() {
-		return $this->cpp_codfiscale;
-	}
-	public function getCpp_sesso() {
+	
+	public function getGender()
+	{
 		return $this->cpp_sesso;
 	}
-	public function getCpp_n_iscrizione() {
-		return $this->cpp_n_iscrizione;
+	
+	public function getBirth()
+	{
+		$data = date_format($this->cpp_nascita_data,"Y-m-d");
+		return $data;
 	}
-	public function getCpp_localita_iscrizione() {
+	
+	public function getCodeLanguage()
+	{
+		return $this->cpp_lingua;
+	}
+	
+	public function getLanguage()
+	{
+		$language = Language::where('Code', $this->cpp_lingua)->first()->Display;
+		
+		return $language;
+	}
+	
+	public function getLine() {
+		return $this->users ()->first ()->getAddress ();
+	}
+	
+	public function getCity() {
+		return $this->users ()->first ()->getLivingTown ();
+	}
+	
+	public function getPostalCode() {
+		return $this->users ()->first ()->getCapLivingTown ();
+	}
+	
+	public function getCountryName() {
+		return $this->users ()->first ()->contacts ()->first ()->town ()->first ()->tbl_nazioni ()->first ()->getCountryName ();
+	}
+	
+	public function getAddress()
+	{
+		return $this->getLine()." ".$this->getCity()." ".$this->getCountryName()." ".$this->getPostalCode();
+	}
+	
+	public function getQualifications()
+	{
+		$practictioner_qual = CppQualification::where('id_cpp', $this->id_cpp)->get();
+		return $practictioner_qual;
+	}
+	
+	public function getComune()
+	{
 		return $this->cpp_localita_iscrizione;
 	}
-	public function getUser() {
+	
+	public function getIdUtente()
+	{
 		return $this->id_utente;
 	}
-
-	public function getSpecializationDesc() {
-	    return $this->Specialization_Cpp()->first()->getSpecializzation();
-	}
-	public function setID($ID) {
-		$this->id_cpp = $ID;
-	}
-	public function setCpp_nome($Nome) {
-		$this->cpp_nome = $Nome;
-	}
-	public function setCpp_cognome($Cognome) {
-		$this->cpp_cognome = $Cognome;
-	}
-	public function setCpp_nascita_data($DataN) {
-		$this->cpp_nascita_data = $DataN;
-	}
-	public function setCpp_codfiscale($CF) {
-		if (CareProvider::checkCF ( $CF )) {
-			$this->cpp_codfiscale = $CF;
-		}
-	}
-	public function setCpp_sesso($Sesso) {
-		$this->cpp_sesso = $Sesso;
-	}
-	public function setCpp_n_iscrizione($N_Iscrizione) {
-		$this->cpp_n_iscrizione = $N_Iscrizione;
-	}
-	public function setCpp_localita_iscrizione($Località) {
-		$this->cpp_localita_iscrizione = $Località;
-	}
-	public function setSpecializzation($Special) {
-		$this->specializzation = $Special;
-	}
 	
-	
-	public static function checkCF($CF) {
-		if ($length ( CF ) == 16) {
-			return true;
-		}
-	}
-	public function tbl_proc_ter() {
-		return $this->hasMany ( \App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche' );
-	}
-	
-	public function Specialization_Cpp(){
-	    return $this->hasMany(\App\Models\CppSpecialization::class, 'id_cpp');
-	}
-	
-	public function VaccinazioneCpp(){
-		return $this->hasMany(\App\Models\Vaccinazione::class, 'id_cpp');
-	}
-	
-	
+	/**
+	 * END FHIR
+	 */
 }
 

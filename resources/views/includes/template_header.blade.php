@@ -1,3 +1,7 @@
+<?php 
+$id_paz = $current_user->data_patient()->first()->id_paziente;
+?>
+
 <link href="/css/icon_chat.css" rel="stylesheet">
 <link href="/css/chat_style.css" rel="stylesheet">
 <!-- Typeahead plugin -->
@@ -116,8 +120,17 @@
 
 					<!-- se l'utente e' un paziente visualizzo il pulsante per l'esportazione del profilo -->
 					@if( $current_user->getDescription() == User::PATIENT_DESCRIPTION)
-					<li><a href="EXPORT PATIENT"><i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
+
+				<!--  	<li>
+				    <a href="http://localhost:8000/fhir/Patient/{{$id_paz}}" download="RESP-PATIENT-{{$id_paz}}.xml">
+                    <i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
+					</li>-->
+				<li>
+				    <a href="http://localhost:8000/Patient/{{$id_paz}}" target="_blank">
+                    <i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
+
 					</li>
+					
 					@endif
 					<!--Logout  -->
 					<li>
@@ -134,4 +147,6 @@
 				</ul>
 			</nav>
 		</div>
+		
+		
 		<!-- END HEADER SECTION -->

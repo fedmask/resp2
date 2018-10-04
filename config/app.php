@@ -165,6 +165,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 		Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Orchestra\Parser\XmlServiceProvider::class,
+        
 
         /*
          * Package Service Providers...
@@ -241,6 +243,8 @@ return [
         'UtentiTipologie' => App\Models\UtentiTipologie::class,
         'CareProvider' => App\Models\CareProviders\CareProvider::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'XmlParser' => Orchestra\Parser\Xml\Facade::class,
+        
     ],
 
 ];

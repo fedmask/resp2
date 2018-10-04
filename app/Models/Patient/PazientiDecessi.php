@@ -42,4 +42,5 @@ class PazientiDecessi extends Eloquent
 	{
 		return $this->belongsTo(\App\Models\Patient\Pazienti::class, 'id_paziente');
 	}
+	
 }

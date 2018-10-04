@@ -6,6 +6,10 @@
  */
 namespace App\Models\Patient;
 
+use App\Models\Patient\PazientiDescessi;
+use App\Models\CodificheFHIR\MaritalStatus;
+use App\Models\FHIR\PatientContact;
+use App\Models\CodificheFHIR\Language;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -66,100 +70,59 @@ class Pazienti extends Eloquent {
 			'paziente_gruppo',
 			'pazinte_rh',
 			'paziente_donatore_organi',
-	        'paziente_lingua'
+			'paziente_lingua' 
 	];
-	
-	
-	public function tbl_utenti()
-	{
-	    return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+	public function tbl_utenti() {
+		return $this->belongsTo ( \App\Models\TblUtenti::class, 'id_utente' );
 	}
-	
-	public function tbl_stati_matrimoniali()
-	{
-	    return $this->belongsTo(\App\Models\TblStatiMatrimoniali::class, 'id_stato_matrimoniale', 'id_stato_matrimoniale');
+	public function tbl_stati_matrimoniali() {
+		return $this->belongsTo ( \App\Models\TblStatiMatrimoniali::class, 'id_stato_matrimoniale', 'id_stato_matrimoniale' );
 	}
-	
-	public function gender()
-	{
-	    return $this->belongsTo(\App\Models\Gender::class, 'paziente_sesso');
+	public function gender() {
+		return $this->belongsTo ( \App\Models\Gender::class, 'paziente_sesso' );
 	}
-	
-	public function language()
-	{
-	    return $this->belongsTo(\App\Models\Language::class, 'paziente_lingua');
+	public function language() {
+		return $this->belongsTo ( \App\Models\Language::class, 'paziente_lingua' );
 	}
-	
-	public function allergy_intollerances()
-	{
-	    return $this->hasMany(\App\Models\AllergyIntollerance::class, 'recorder');
+	public function allergy_intollerances() {
+		return $this->hasMany ( \App\Models\AllergyIntollerance::class, 'recorder' );
 	}
-	
-	public function consenso_paziente()
-	{
-	    return $this->hasOne(\App\Models\ConsensoPaziente::class, 'Id_Paziente');
+	public function consenso_paziente() {
+		return $this->hasOne ( \App\Models\ConsensoPaziente::class, 'Id_Paziente' );
 	}
-	
-	public function dispositivo_impiantabiles()
-	{
-	    return $this->hasMany(\App\Models\DispositivoImpiantabile::class, 'id_paziente');
+	public function dispositivo_impiantabiles() {
+		return $this->hasMany ( \App\Models\DispositivoImpiantabile::class, 'id_paziente' );
 	}
-	
-	public function moduli__gruppo__sanguignos()
-	{
-	    return $this->hasMany(\App\Models\ModuliGruppoSanguigno::class, 'Id_Paziente');
+	public function moduli__gruppo__sanguignos() {
+		return $this->hasMany ( \App\Models\ModuliGruppoSanguigno::class, 'Id_Paziente' );
 	}
-	
-	public function patient_contact()
-	{
-	    return $this->hasOne(\App\Models\PatientContact::class, 'Id_Patient');
+	public function patient_contact() {
+		return $this->hasOne ( \App\Models\PatientContact::class, 'Id_Patient' );
 	}
-	
-	public function farmaci_assunti()
-	{
-	    return $this->hasOne(\App\Models\FarmaciAssunti::class, 'id_paziente');
+	public function farmaci_assunti() {
+		return $this->hasOne ( \App\Models\FarmaciAssunti::class, 'id_paziente' );
 	}
-	
-	public function tbl_anamnesi_familiare()
-	{
-	    return $this->hasOne(\App\Models\TblAnamnesiFamiliare::class, 'id_paziente');
+	public function tbl_anamnesi_familiare() {
+		return $this->hasOne ( \App\Models\TblAnamnesiFamiliare::class, 'id_paziente' );
 	}
-	
-	public function tbl_cpp_pazientes()
-	{
-	    return $this->hasMany(\App\Models\TblCppPaziente::class, 'id_paziente');
+	public function tbl_cpp_pazientes() {
+		return $this->hasMany ( \App\Models\TblCppPaziente::class, 'id_paziente' );
 	}
-	
-	public function tbl_diagnosis()
-	{
-	    return $this->hasMany(\App\Models\TblDiagnosi::class, 'id_paziente');
+	public function tbl_diagnosis() {
+		return $this->hasMany ( \App\Models\TblDiagnosi::class, 'id_paziente' );
 	}
-	
-	public function tbl_diagnosi_eliminates()
-	{
-	    return $this->hasMany(\App\Models\TblDiagnosiEliminate::class, 'id_utente');
+	public function tbl_diagnosi_eliminates() {
+		return $this->hasMany ( \App\Models\TblDiagnosiEliminate::class, 'id_utente' );
 	}
-	
-	public function tbl_effetti_collateralis()
-	{
-	    return $this->hasMany(\App\Models\TblEffettiCollaterali::class, 'id_paziente');
+	public function tbl_effetti_collateralis() {
+		return $this->hasMany ( \App\Models\TblEffettiCollaterali::class, 'id_paziente' );
 	}
-		
-	
-	public function tbl_pazienti_contattis()
-	{
-	    return $this->hasMany(\App\Models\TblPazientiContatti::class, 'id_paziente');
+	public function tbl_pazienti_contattis() {
+		return $this->hasMany ( \App\Models\TblPazientiContatti::class, 'id_paziente' );
 	}
-	
-	
-	public function tbl_proc_terapeutiches()
-	{
-	    return $this->hasMany(\App\Models\TblProcTerapeutiche::class, 'Paziente');
+	public function tbl_proc_terapeutiches() {
+		return $this->hasMany ( \App\Models\TblProcTerapeutiche::class, 'Paziente' );
 	}
-	
-	
-	
-	
 	
 	/**
 	 * Costanti per i gruppi sanguigni e fattori RH
@@ -304,10 +267,8 @@ class Pazienti extends Eloquent {
 	public function tbl_vaccinaziones() {
 		return $this->hasMany ( \App\Models\Vaccine\Vaccinazione::class, 'id_paziente' );
 	}
-	
-	public function tbl_proc_ter()
-	{
-	    return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche');
+	public function tbl_proc_ter() {
+		return $this->hasMany ( \App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche' );
 	}
-	
 }
+	

@@ -16,8 +16,10 @@ class LanguagesTableSeeder extends Seeder
         $data = json_decode($json);
         foreach ($data as $obj) {
             Language::create(array(
-                'code' => $obj->code,
-                'display' => $obj->display
+
+                'Code' => $obj->code,
+                'Display' => $obj->display
+
             ));
         }
     }

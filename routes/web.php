@@ -159,9 +159,15 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/patients-list', 'CareProviderController@showPatientsList')->name('patients-list');
 
 	Route::get('/structures', 'CareProviderController@showStructures')->name('structures');
+	
+	Route::get('/fhirPatient', 'ResourceFHIRController@indexPatient');
 
 });
 
+    Route::get('/fhirPractictioner', 'ResourceFHIRController@indexPractictioner');
+
+
+ /*   Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');
 
     /**
      * Route per prendere l'id_cpp e associarlo all'utente loggato
@@ -187,7 +193,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::group( ['prefix' => 'fhir' ], function () {
         
-        Route::get('Patient/{id?}', 'Fhir\Modules\FHIRPatient@getResource');
+        Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@getResource');
         Route::post('Patient', 'Fhir\Modules\FHIRPatient@createResource');
         Route::put('Patient/{id}', 'Fhir\Modules\FHIRPatient@update');
         Route::delete('Patient/{id}', 'Fhir\Modules\FHIRPatient@destroy');
@@ -210,7 +216,8 @@ Route::group( ['prefix' => 'fhir' ], function () {
         Route::post('/', '\LibreEHR\FHIR\Http\Controllers\BundleController@store');
         // Get a ValueSet resource
         Route::get('ValueSet/{id}', '\LibreEHR\FHIR\Http\Controllers\ValuesetController@show');
-    });
+  
+    });/*
 
 
     /**
@@ -274,3 +281,16 @@ Route::group( ['prefix' => 'fhir' ], function () {
     Route::get('/ModIndCompletata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@ModIndagineCompletata');
     
 
+    
+    
+    Route::post('/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient');
+    
+    
+    
+    
+    
+    /**
+     * RESTful for Patient 
+     */
+ //   Route::resource('fhir/Patient','Fhir\Modules\FHIRPatient');
+    
