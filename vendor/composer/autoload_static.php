@@ -398,7 +398,6 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\Exceptions\\FHIR\\MatchException' => __DIR__ . '/../..' . '/app/Exceptions/FHIR/MatchException.php',
         'App\\Exceptions\\FHIR\\ResourceNotFoundException' => __DIR__ . '/../..' . '/app/Exceptions/FHIR/ResourceNotFoundException.php',
         'App\\Exceptions\\FHIR\\UnsupportedOperationException' => __DIR__ . '/../..' . '/app/Exceptions/FHIR/UnsupportedOperationException.php',
-
         'App\\Exceptions\\FHIR\\UserAlreadyExistsException' => __DIR__ . '/../..' . '/app/Exceptions/FHIR/UserAlreadyExistsException.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\FamilyCondiction' => __DIR__ . '/../..' . '/app/Models/FamilyCondiction.php',
@@ -2734,12 +2733,10 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'Monolog\\Processor\\WebProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/WebProcessor.php',
         'Monolog\\Registry' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Registry.php',
         'Observation' => __DIR__ . '/../..' . '/database/seeds/Observation.php',
-
         'Orchestra\\Parser\\XmlServiceProvider' => __DIR__ . '/..' . '/orchestra/parser/src/XmlServiceProvider.php',
         'Orchestra\\Parser\\Xml\\Document' => __DIR__ . '/..' . '/orchestra/parser/src/Xml/Document.php',
         'Orchestra\\Parser\\Xml\\Facade' => __DIR__ . '/..' . '/orchestra/parser/src/Xml/Facade.php',
         'Orchestra\\Parser\\Xml\\Reader' => __DIR__ . '/..' . '/orchestra/parser/src/Xml/Reader.php',
-
         'OrganizationTypeTableSeeder' => __DIR__ . '/../..' . '/database/seeds/OrganizationTypeTableSeeder.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',

@@ -116,7 +116,6 @@ return array(
     'App\\Models\\CodificheFHIR\\ImmunizationStatus' => $baseDir . '/app/Models/CodificheFHIR/ImmunizationStatus.php',
     'App\\Models\\CodificheFHIR\\ImmunizationVaccineCode' => $baseDir . '/app/Models/CodificheFHIR/ImmunizationVaccineCode.php',
     'App\\Models\\CodificheFHIR\\Language' => $baseDir . '/app/Models/CodificheFHIR/Language.php',
-
     'App\\Models\\CodificheFHIR\\MaritalStatus' => $baseDir . '/app/Models/CodificheFHIR/MaritalStatus.php',
     'App\\Models\\CodificheFHIR\\MedicationCode' => $baseDir . '/app/Models/CodificheFHIR/MedicationCode.php',
     'App\\Models\\CodificheFHIR\\MedicationForm' => $baseDir . '/app/Models/CodificheFHIR/MedicationForm.php',
@@ -128,7 +127,6 @@ return array(
     'App\\Models\\CodificheFHIR\\ProcedureFollowUp' => $baseDir . '/app/Models/CodificheFHIR/ProcedureFollowUp.php',
     'App\\Models\\CodificheFHIR\\ProcedureNotDoneReason' => $baseDir . '/app/Models/CodificheFHIR/ProcedureNotDoneReason.php',
     'App\\Models\\CodificheFHIR\\ProcedureReasonCode' => $baseDir . '/app/Models/CodificheFHIR/ProcedureReasonCode.php',
-
     'App\\Models\\CodificheFHIR\\QualificationCode' => $baseDir . '/app/Models/CodificheFHIR/QualificationCode.php',
     'App\\Models\\CodificheFHIR\\StatiMatrimoniali' => $baseDir . '/app/Models/CodificheFHIR/StatiMatrimoniali.php',
     'App\\Models\\CodificheFHIR\\TipoContatto' => $baseDir . '/app/Models/CodificheFHIR/TipoContatto.php',

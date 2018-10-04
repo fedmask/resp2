@@ -1,4 +1,3 @@
-
 drop schema if exists resp;
 -- -----------------------------------------------------
 -- Schema resp
@@ -274,14 +273,12 @@ Code CHAR(10) PRIMARY KEY
 
 );
 
-
 CREATE TABLE MaritalStatus (
 Code VARCHAR(5) PRIMARY KEY,
 Text VARCHAR(50) NOT NULL
 
 
 );
-
 
 CREATE TABLE Languages (
 Code VARCHAR(5) PRIMARY KEY,
@@ -298,9 +295,7 @@ Display VARCHAR(20) NOT NULL
 CREATE TABLE IF NOT EXISTS  `tbl_pazienti` (
   `id_paziente` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_utente` INT(10) UNSIGNED NOT NULL,
-
   `id_stato_matrimoniale` VARCHAR(5) NOT NULL,
-
   `paziente_nome` VARCHAR(45)  ,
   `paziente_cognome` VARCHAR(45)  ,
   `paziente_nascita` DATE NOT NULL,
@@ -313,7 +308,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti` (
   PRIMARY KEY (`id_paziente`),
   UNIQUE INDEX `paziente_codfiscale_UNIQUE` (`paziente_codfiscale` ASC),
   INDEX `FOREIGN_UTENTE_idx` (`id_utente` ASC),
-
   CONSTRAINT `FOREIGN_UTENTE_idx`
     FOREIGN KEY (`id_utente`)
     REFERENCES  `tbl_utenti` (`id_utente`)
@@ -334,7 +328,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
-
 
 
 -- -----------------------------------------------------
@@ -540,9 +533,7 @@ Display VARCHAR(50) NOT NULL
 -- -- DROP  IF EXISTS  `tbl_care_provider` ;
 
 CREATE TABLE IF NOT EXISTS  `tbl_care_provider` (
-
   id_cpp INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-
   `id_utente` INT(10) UNSIGNED NOT NULL,
   `cpp_nome` VARCHAR(45)  ,
   `cpp_cognome` VARCHAR(45)  ,
@@ -554,7 +545,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_care_provider` (
   `specializzation` VARCHAR(45)  ,
   `cpp_lingua` VARCHAR(10)  ,
   `active` TINYINT(1) DEFAULT '0'  ,
-
   PRIMARY KEY (id_cpp),
   UNIQUE INDEX `cpp_codfiscale_UNIQUE` (`cpp_codfiscale` ASC),
     FOREIGN KEY (`id_utente`)
@@ -643,7 +633,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_comuni` (
   `comune_nominativo` VARCHAR(45)  ,
   `comune_cap` CHAR(5)  ,
   PRIMARY KEY (`id_comune`),
-
     FOREIGN KEY (`id_comune_nazione`)
     REFERENCES  `tbl_nazioni` (`id_nazione`)
     ON DELETE NO ACTION
@@ -669,16 +658,14 @@ CREATE TABLE IF NOT EXISTS  `tbl_cpp_persona` (
   `persona_attivo` TINYINT(4) NOT NULL,
   PRIMARY KEY (`id_persona`),
   INDEX `fk_tbl_cpp_persona_tbl_comuni1_idx` (`id_comune` ASC),
-  INDEX `fk_tbl_cpp_persona_tbl_utenti1_idx` (`id_utente` ASC),
   CONSTRAINT `fk_tbl_cpp_persona_tbl_comuni1_idx`
     FOREIGN KEY (`id_comune`)
     REFERENCES  `tbl_comuni` (`id_comune`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_cpp_persona_tbl_utenti1_idx`
     FOREIGN KEY (`id_utente`)
     REFERENCES  `tbl_utenti` (`id_utente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
@@ -816,12 +803,10 @@ CREATE TABLE IF NOT EXISTS  `tbl_cpp_paziente` (
     REFERENCES  `tbl_livelli_confidenzialita` (`id_livello_confidenzialita`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbl_medici_assegnati_tbl_medici1_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
-
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
     ON DELETE CASCADE
@@ -855,10 +840,9 @@ CREATE TABLE IF NOT EXISTS  `tbl_cpp_specialization` (
   PRIMARY KEY (`id_cpp_specialization`),
   INDEX `FOREIGN_CPP_Specialization_idx` (`id_cpp` ASC),
   INDEX `FOREIGN_Specialization_Cpp_idx` (`id_specialization` ASC),
-  CONSTRAINT `FOREIGN_CPP_Specialization_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FOREIGN_Specialization_Cpp_idx`
     FOREIGN KEY (`id_specialization`)
@@ -921,12 +905,10 @@ CREATE TABLE IF NOT EXISTS  `tbl_diagnosi` (
   PRIMARY KEY (`id_diagnosi`),
   INDEX `fk_tbl_diagnosi_tbl_livelli_confidenzialita1_idx` (`diagnosi_confidenzialita` ASC),
   INDEX `fk_tbl_diagnosi_tbl_pazienti1_idx` (`id_paziente` ASC),
-
     FOREIGN KEY (`diagnosi_confidenzialita`)
     REFERENCES  `tbl_livelli_confidenzialita` (`id_livello_confidenzialita`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
     ON DELETE CASCADE
@@ -1321,17 +1303,14 @@ CREATE TABLE IF NOT EXISTS  `tbl_indagini` (
   `indagine_allegato` TEXT  ,
   PRIMARY KEY (`id_indagine`),
   INDEX `fk_tbl_indagini_tbl_centri_indagini1_idx` (`id_centro_indagine` ASC),
-  INDEX `fk_tbl_indagini_tbl_cpp_persona1_idx` (`id_cpp` ASC),
-  CONSTRAINT `fk_tbl_indagini_tbl_care_provider_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION,
+    ON DELETE CASCADE,
   CONSTRAINT `fk_tbl_indagini_tbl_centri_indagini1_idx`
     FOREIGN KEY (`id_centro_indagine`)
     REFERENCES  `tbl_centri_indagini` (`id_centro`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-
     FOREIGN KEY (`id_diagnosi`)
     REFERENCES  `tbl_diagnosi` (`id_diagnosi`)
     ON DELETE CASCADE
@@ -1339,7 +1318,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_indagini` (
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
     ON DELETE CASCADE
-
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
@@ -1451,13 +1429,11 @@ CREATE TABLE IF NOT EXISTS  `tbl_parametri_vitali` (
   `parametro_dolore` TINYINT(4) NOT NULL,
   PRIMARY KEY (`id_parametro_vitale`),
   INDEX `fk_tbl_parametri_vitali_tbl_auditlog_log1_idx` (`id_audit_log` ASC),
-
   CONSTRAINT `fk_tbl_parametri_vitali_tbl_auditlog_log1_idx`
     FOREIGN KEY (`id_audit_log`)
     REFERENCES  `tbl_auditlog_log` (`id_audit`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
     ON DELETE CASCADE
@@ -1572,12 +1548,9 @@ CREATE TABLE IF NOT EXISTS  `tbl_pazienti_visite` (
   `richiesta_visita_inizio` DATE NULL DEFAULT NULL,
   `richiesta_visita_fine` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`id_visita`),
-
-  INDEX `fk_tbl_pazienti_visite_tbl_medici1_idx` (`id_cpp` ASC),
-  CONSTRAINT `fk_tbl_pazienti_visite_tbl_medici1_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
     FOREIGN KEY (`id_paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
@@ -1616,7 +1589,7 @@ tipo CHAR(30) ,
 
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
 	FOREIGN KEY (`id_visita`)
     REFERENCES  `tbl_pazienti_visite` (`id_visita`)
@@ -1722,7 +1695,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_proc_terapeutiche` (
   `outCome` INT(10) UNSIGNED NOT NULL,
   `note` TEXT COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL,
   PRIMARY KEY (`id_Procedure_Terapeutiche`),
-
   INDEX `fk_tb_cpp_tb_procedure_treapeutiche` (`CareProvider` ASC),
   INDEX `fk_tb_icd9_tb_procedure_treapeutiche` (`Codice_icd9` ASC),
   INDEX `fk_tb_proc_category` (`Category` ASC),
@@ -1731,13 +1703,11 @@ CREATE TABLE IF NOT EXISTS  `tbl_proc_terapeutiche` (
   CONSTRAINT `fk_tb_cpp_tb_procedure_treapeutiche`
     FOREIGN KEY (`CareProvider`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
-
     FOREIGN KEY (`Diagnosi`)
     REFERENCES  `tbl_diagnosi` (`id_diagnosi`)
     ON DELETE CASCADE
-
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_tb_icd9_tb_procedure_treapeutiche`
     FOREIGN KEY (`Codice_icd9`)
@@ -1747,7 +1717,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_proc_terapeutiche` (
     FOREIGN KEY (`Paziente`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
     ON DELETE CASCADE
-
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_tb_proc_category`
     FOREIGN KEY (`Category`)
@@ -1802,21 +1771,17 @@ CREATE TABLE IF NOT EXISTS  `tbl_recapiti` (
   `id_contatto` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_utente` INT(10) UNSIGNED NOT NULL,
   `id_comune_residenza` INT(10) UNSIGNED NOT NULL,
-
   `id_comune_nascita` INT(10) UNSIGNED ,
   `contatto_telefono` VARCHAR(30)  ,
   `contatto_indirizzo` VARCHAR(100)  ,
   PRIMARY KEY (`id_contatto`),
-
     FOREIGN KEY (`id_comune_residenza`)
     REFERENCES  `tbl_comuni` (`id_comune`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-
     FOREIGN KEY (`id_utente`)
     REFERENCES  `tbl_utenti` (`id_utente`)
     ON DELETE CASCADE
-
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
@@ -1880,12 +1845,10 @@ CREATE TABLE IF NOT EXISTS  `tbl_vaccinazione` (
   `vaccinazione_explanation` TEXT COLLATE 'utf8mb4_unicode_ci' NULL DEFAULT NULL,
   PRIMARY KEY (`id_vaccinazione`),
   INDEX `fk_tbl_vaccinazione_tbl_livelli_confidenzialita1_idx` (`vaccinazione_confidenzialita` ASC),
-  INDEX `fk_tbl_vaccinazione_tbl_care_provider1_idx` (`id_cpp` ASC),
   INDEX `fk_tbl_vaccinazione_tbl_pazienti1_idx` (`id_paziente` ASC),
-  CONSTRAINT `fk_tbl_vaccinazione_tbl_care_provider1_idx`
     FOREIGN KEY (`id_cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbl_vaccinazione_tbl_livelli_confidenzialita1_idx`
     FOREIGN KEY (`vaccinazione_confidenzialita`)
@@ -1989,7 +1952,6 @@ CREATE TABLE IF NOT EXISTS  `tbl_visita_specialization` (
     REFERENCES  `tbl_specialization` (`id_spec`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-
     FOREIGN KEY (`id_visita`)
     REFERENCES  `tbl_pazienti_visite` (`id_visita`)
     ON DELETE CASCADE
@@ -2147,15 +2109,15 @@ FOREIGN KEY (Id_Trattamento)
     
     FOREIGN KEY (`Id_Cpp`)
     REFERENCES  `tbl_care_provider` (`id_cpp`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 -- --------------------------------------------------------------------FINE
 CREATE TABLE ContactRelationship (
 Code CHAR(3) PRIMARY KEY,
+Display VARCHAR(50) NOT NULL
 );
-
 
 CREATE TABLE PatientContact (
 Id_Patient INT(10) UNSIGNED ,
@@ -2164,13 +2126,13 @@ Name CHAR(30) NOT NULL,
 Surname CHAR(30) NOT NULL,
 Telephone VARCHAR (15),
 Mail VARCHAR(50),
-Display VARCHAR(50) NOT NULL,
+
+
 FOREIGN KEY (`Id_Patient`)
     REFERENCES  `tbl_pazienti` (`id_paziente`)
-
     ON DELETE CASCADE
-
     ON UPDATE NO ACTION,
+
 FOREIGN KEY (Relationship)
     REFERENCES  ContactRelationship(Code)
     ON DELETE NO ACTION
@@ -2274,7 +2236,7 @@ data_impianto DATE NOT NULL,
     ON UPDATE NO ACTION,
 	FOREIGN KEY (id_cpp)
     REFERENCES  tbl_care_provider (id_cpp)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION);
 
 	
@@ -2341,7 +2303,7 @@ confidenza SMALLINT(6) NOT NULL,
     ON UPDATE NO ACTION,
 	FOREIGN KEY (recorder) -- id_cpp oppure id_paziente
     REFERENCES  tbl_care_provider (id_cpp)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
 	FOREIGN KEY (recorder) -- id_cpp oppure id_paziente
     REFERENCES  tbl_pazienti (id_paziente)
@@ -2405,12 +2367,3 @@ note VARCHAR(255) NOT NULL ,
     ON UPDATE NO ACTION
 );
 
-
-
-
-	
-	
-	
-	
-	
-	
