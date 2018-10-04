@@ -320,6 +320,20 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
     );
 
     public static $prefixesPsr0 = array (
+        'X' => 
+        array (
+            'Xethron\\MigrationsGenerator' => 
+            array (
+                0 => __DIR__ . '/..' . '/xethron/migrations-generator/src',
+            ),
+        ),
+        'W' => 
+        array (
+            'Way\\Generators' => 
+            array (
+                0 => __DIR__ . '/..' . '/xethron/laravel-4-generators/src',
+            ),
+        ),
         'P' => 
         array (
             'Prophecy\\' => 
@@ -416,7 +430,6 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\Http\\Controllers\\FamilyMemberHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/FamilyMemberHistoryController.php',
         'App\\Http\\Controllers\\Fhir\\Modules\\FHIRObservation' => __DIR__ . '/../..' . '/app/Http/Controllers/Fhir/Modules/FHIRObservation.php',
         'App\\Http\\Controllers\\Fhir\\Modules\\FHIROrganization' => __DIR__ . '/../..' . '/app/Http/Controllers/Fhir/Modules/FHIROrganization.php',
-        'App\\Http\\Controllers\\Fhir\\Modules\\FHIRPatient' => __DIR__ . '/../..' . '/app/Http/Controllers/Fhir/Modules/FHIRPatient.php',
         'App\\Http\\Controllers\\Fhir\\Modules\\FHIRPractitioner' => __DIR__ . '/../..' . '/app/Http/Controllers/Fhir/Modules/FHIRPractitioner.php',
         'App\\Http\\Controllers\\FilesController' => __DIR__ . '/../..' . '/app/Http/Controllers/FilesController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
@@ -4354,6 +4367,34 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'VacciniTableSeeder' => __DIR__ . '/../..' . '/database/seeds/VacciniTableSeeder.php',
         'Visita_SpecializationSeeder' => __DIR__ . '/../..' . '/database/seeds/Visita_SpecializationSeeder.php',
         'VisiteTableSeeder' => __DIR__ . '/../..' . '/database/seeds/VisiteTableSeeder.php',
+        'Way\\Generators\\Commands\\ControllerGeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/ControllerGeneratorCommand.php',
+        'Way\\Generators\\Commands\\GeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/GeneratorCommand.php',
+        'Way\\Generators\\Commands\\MigrationGeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/MigrationGeneratorCommand.php',
+        'Way\\Generators\\Commands\\ModelGeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/ModelGeneratorCommand.php',
+        'Way\\Generators\\Commands\\PivotGeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/PivotGeneratorCommand.php',
+        'Way\\Generators\\Commands\\PublishTemplatesCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/PublishTemplatesCommand.php',
+        'Way\\Generators\\Commands\\ResourceGeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/ResourceGeneratorCommand.php',
+        'Way\\Generators\\Commands\\ScaffoldGeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/ScaffoldGeneratorCommand.php',
+        'Way\\Generators\\Commands\\SeederGeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/SeederGeneratorCommand.php',
+        'Way\\Generators\\Commands\\ViewGeneratorCommand' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Commands/ViewGeneratorCommand.php',
+        'Way\\Generators\\Compilers\\Compiler' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Compilers/Compiler.php',
+        'Way\\Generators\\Compilers\\TemplateCompiler' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Compilers/TemplateCompiler.php',
+        'Way\\Generators\\Filesystem\\FileAlreadyExists' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Filesystem/FileAlreadyExists.php',
+        'Way\\Generators\\Filesystem\\FileNotFound' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Filesystem/FileNotFound.php',
+        'Way\\Generators\\Filesystem\\Filesystem' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Filesystem/Filesystem.php',
+        'Way\\Generators\\Generator' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Generator.php',
+        'Way\\Generators\\GeneratorsServiceProvider' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/GeneratorsServiceProvider.php',
+        'Way\\Generators\\InvalidMigrationName' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/InvalidMigrationName.php',
+        'Way\\Generators\\Parsers\\MigrationFieldsParser' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Parsers/MigrationFieldsParser.php',
+        'Way\\Generators\\Parsers\\MigrationNameParser' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Parsers/MigrationNameParser.php',
+        'Way\\Generators\\SchemaCreator' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/SchemaCreator.php',
+        'Way\\Generators\\Syntax\\AddToTable' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Syntax/AddToTable.php',
+        'Way\\Generators\\Syntax\\CreateTable' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Syntax/CreateTable.php',
+        'Way\\Generators\\Syntax\\DroppedTable' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Syntax/DroppedTable.php',
+        'Way\\Generators\\Syntax\\RemoveFromTable' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Syntax/RemoveFromTable.php',
+        'Way\\Generators\\Syntax\\Table' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/Syntax/Table.php',
+        'Way\\Generators\\Templates\\Data\\Controller' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/templates/Data/Controller.php',
+        'Way\\Generators\\Templates\\Data\\Migration' => __DIR__ . '/..' . '/xethron/laravel-4-generators/src/Way/Generators/templates/Data/Migration.php',
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'Whoops\\Exception\\ErrorException' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/ErrorException.php',
         'Whoops\\Exception\\Formatter' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Exception/Formatter.php',
@@ -4374,6 +4415,17 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
+        'Xethron\\MigrationsGenerator\\Generators\\FieldGenerator' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Generators/FieldGenerator.php',
+        'Xethron\\MigrationsGenerator\\Generators\\ForeignKeyGenerator' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Generators/ForeignKeyGenerator.php',
+        'Xethron\\MigrationsGenerator\\Generators\\IndexGenerator' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Generators/IndexGenerator.php',
+        'Xethron\\MigrationsGenerator\\Generators\\SchemaGenerator' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Generators/SchemaGenerator.php',
+        'Xethron\\MigrationsGenerator\\MigrateGenerateCommand' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/MigrateGenerateCommand.php',
+        'Xethron\\MigrationsGenerator\\MigrationsGeneratorServiceProvider' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/MigrationsGeneratorServiceProvider.php',
+        'Xethron\\MigrationsGenerator\\Syntax\\AddForeignKeysToTable' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Syntax/AddForeignKeysToTable.php',
+        'Xethron\\MigrationsGenerator\\Syntax\\AddToTable' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Syntax/AddToTable.php',
+        'Xethron\\MigrationsGenerator\\Syntax\\DroppedTable' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Syntax/DroppedTable.php',
+        'Xethron\\MigrationsGenerator\\Syntax\\RemoveForeignKeysFromTable' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Syntax/RemoveForeignKeysFromTable.php',
+        'Xethron\\MigrationsGenerator\\Syntax\\Table' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Syntax/Table.php',
         'icd9CodesStrum' => __DIR__ . '/../..' . '/database/seeds/icd9CodesStrum.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
