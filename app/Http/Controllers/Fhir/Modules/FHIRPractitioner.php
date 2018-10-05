@@ -18,6 +18,7 @@ use SimpleXMLElement;
 use App\Models\CurrentUser\Recapiti;
 use App\Models\CurrentUser\User;
 use App\Models\Domicile\Comuni;
+use DOMDocument;
 
 class FHIRPractitioner
 {
@@ -484,6 +485,439 @@ class FHIRPractitioner
         User::find($user->id_utente)->delete();
         
         return response()->json(null, 204);
+    }
+    
+    
+    function getResource($id){
+        
+        // Recupero i dati del paziente
+        $practitioner = CareProvider::where('id_cpp', $id)->first();
+        
+        if (! $practitioner) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+        }
+        
+        // Recupero le qualifiche del practictioner
+        $practitioner_qualifiations = CppQualification::where('id_cpp', $id)->get();
+        
+        // Recupero gli operatori sanitari del paziente
+        // $careproviders = CppPaziente::where('id_paziente', $id)->get();
+        
+        // Sono i valori che verranno riportati nella parte descrittiva del documento
+        $values_in_narrative = array(
+            "Id" => $practitioner->getIdCpp(),
+            "Identifier" => "RESP-PRACTICTIONER" . "-" . $practitioner->getIdCpp(),
+            "Active" => $practitioner->isActive(),
+            "Name" => $practitioner->getFullName(),
+            "Telecom" => $practitioner->getTelecom(),
+            "Gender" => $practitioner->getGender(),
+            "BirthDate" => $practitioner->getBirth(),
+            "Address" => $practitioner->getAddress(),
+            "Language" => $practitioner->getLanguage()
+            
+        );
+        
+        // Practictioner.Qualification
+        $narrative_practitioner_qualifications = array();
+        $count = 0;
+        foreach ($practitioner->getQualifications() as $pq) {
+            $count ++;
+            $narrative_practitioner_qualifications["QualificationName" . " " . $count] = $pq->getQualificationDisplay();
+            $narrative_practitioner_qualifications["QualificationStartPeriod" . " " . $count] = $pq->getStartPeriod();
+            $narrative_practitioner_qualifications["QualificationEndPeriod" . " " . $count] = $pq->getEndPeriod();
+            $narrative_practitioner_qualifications["QualificationIssuer" . " " . $count] = $pq->getIssuer();
+        }
+        
+        // prelevo i dati dell'utente da mostrare come estensione
+        $custom_extensions = array(
+            'Comune' => $practitioner->getComune(),
+            'Id_Utente' => $practitioner->getIdUtente()
+        );
+        
+        $data_xml["narrative"] = $values_in_narrative;
+        $data_xml["narrative_practitioner_qualifications"] = $narrative_practitioner_qualifications;
+        $data_xml["extensions"] = $custom_extensions;
+        $data_xml["practitioner"] = $practitioner;
+        // $data_xml["careproviders"] = $careproviders;
+        $data_xml["practitioner_qualifiations"] = $practitioner_qualifiations;
+        
+        $this->xml($data_xml);
+        
+    }
+    
+    
+    function xml($data_xml){
+        //Creazione di un oggetto dom con la codifica UTF-8
+        $dom = new DOMDocument('1.0', 'utf-8');
+        
+        //Creazione del nodo Patient, cioè il nodo Root  della risorsa
+        $practitioner = $dom->createElement('Practitioner');
+        //Valorizzo il namespace della risorsa e del documento XML, in  questo caso la specifica FHIR
+        $practitioner->setAttribute('xmlns', 'http://hl7.org/fhir');
+        //Corrello l'elemento con il nodo superiore
+        $practitioner = $dom->appendChild($practitioner);
+        
+        
+        //Creazione del nodo ID sempre presente nelle risorse FHIR
+        $id = $dom->createElement('id');
+        //Il valore dell'ID è il valore dell'ID nella relativa tabella del DB
+        $id->setAttribute('value', $data_xml["narrative"]["Id"]);
+        $id = $practitioner->appendChild($id);
+        
+        //Creazione della parte narrativa in XHTML e composta da tag HTML visualizzabili se aperto il file XML in un Browser
+        $narrative = $dom->createElement('text');
+        //Corrello l'elemento con il nodo superiore
+        $narrative = $practitioner->appendChild($narrative);
+        
+        
+        //Creazione del nodo status che indica lo stato della parte narrativa
+        $status = $dom->createElement('status');
+        //Il valore del nodo status è sempre generated, la parte narrativa è generato dal sistema
+        $status->setAttribute('value', 'generated');
+        $status = $narrative->appendChild($status);
+        
+        
+        //Creazione del div che conterrà la tabella con i valori visualizzabili nella parte narrativa
+        $div = $dom->createElement('div');
+        //Link al value set della parte narrativa, cioè la codifica XHTML
+        $div->setAttribute('xmlns',"http://www.w3.org/1999/xhtml");
+        $div = $narrative->appendChild($div);
+        
+        
+        //Creazione della tabella che conterrà i valori
+        $table = $dom->createElement('table');
+        $table->setAttribute('border',"2");
+        $table = $div->appendChild($table);
+        
+        
+        //Creazione del nodo tbody
+        $tbody = $dom->createElement('tbody');
+        $tbody = $table->appendChild($tbody);
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Identifier
+        $td = $dom->createElement('td',"Identifier");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del practitioner
+        $td = $dom->createElement('td', $data_xml["narrative"]["Identifier"]);
+        $td = $tr->appendChild($td);
+        
+             
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Active
+        $td = $dom->createElement('td',"Active");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del practitioner
+        $td = $dom->createElement('td', $data_xml["narrative"]["Active"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Name
+        $td = $dom->createElement('td',"Name");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del practitioner
+        $td = $dom->createElement('td', $data_xml["narrative"]["Name"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Telecom
+        $td = $dom->createElement('td',"Telecom");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del practitioner
+        $td = $dom->createElement('td', $data_xml["narrative"]["Telecom"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Gender
+        $td = $dom->createElement('td',"Gender");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del practitioner
+        $td = $dom->createElement('td', $data_xml["narrative"]["Gender"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna BirthDate
+        $td = $dom->createElement('td',"BirthDate");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del practitioner
+        $td = $dom->createElement('td', $data_xml["narrative"]["BirthDate"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Address
+        $td = $dom->createElement('td',"Address");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del practitioner
+        $td = $dom->createElement('td', $data_xml["narrative"]["Address"]);
+        $td = $tr->appendChild($td);
+        
+
+             
+        foreach($data_xml["narrative_practitioner_qualifications"] as $key => $value){
+            //Creazione di una riga
+            $tr = $dom->createElement('tr');
+            $tr = $tbody->appendChild($tr);
+            
+            //Creazione della colonna Contact
+            $td = $dom->createElement('td', $key);
+            $td = $tr->appendChild($td);
+            
+            //Creazione della colonna con il valore di contact del practitioner
+            $td = $dom->createElement('td', $value);
+            $td = $tr->appendChild($td);
+            
+            
+        }
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Language
+        $td = $dom->createElement('td',"Language");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Language"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        //Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
+        $identifier = $dom->createElement('identifier');
+        $identifier = $practitioner->appendChild($identifier);
+        //Creazione del nodo use con valore fisso ad usual
+        $use = $dom->createElement('use');
+        $use->setAttribute('value', 'official');
+        $use = $identifier->appendChild($use);
+        //Creazione del nodo system che identifica il namespace degli URI per identificare la risorsa
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'http://resp.local');  //RFC gestione URI
+        $system = $identifier->appendChild($system);
+        //Creazione del nodo value
+        $value = $dom->createElement('value');
+        //Do il valore all' URI della risorsa
+        $value->setAttribute('value', $data_xml["narrative"]["Id"]);
+        $value = $identifier->appendChild($value);
+        
+        
+        //Creazione del nodo active settato a true in quanto la risorsa è attiva per il FSEM
+        $active = $dom->createElement('active');
+        $active->setAttribute('value', $data_xml["narrative"]["Active"]);
+        $active = $practitioner->appendChild($active);
+        
+        
+        //Creazione del nodo per il nominativo del practitioner
+        $name = $dom->createElement('name');
+        $name = $practitioner->appendChild($name);
+        //Creazione del nodo family che indica il nome dalla famiglia di provenienza, quindi il cognome del practitioner
+        $family = $dom->createElement('family');
+        $family->setAttribute('value', $data_xml["practitioner"]->getSurname());
+        $family = $name->appendChild($family);
+        //Creazione del nodo given che indica il nome di battesimo dato al practitioner
+        $given = $dom->createElement('given');
+        $given->setAttribute('value', $data_xml["practitioner"]->getName());
+        $given = $name->appendChild($given);
+        //Creazione del nodo prefix settato sempre al valore Dr
+        $prefix = $dom->createElement('prefix');
+        $prefix->setAttribute('value', 'Dr');
+        $prefix = $name->appendChild($prefix);
+        
+        
+        //Creazione del nodo telecom con il contatto telefonico del practitioner
+        $telecom = $dom->createElement('telecom');
+        $telecom = $practitioner->appendChild($telecom);
+        //Creazione del nodo system che indica che il contatto è un valore telefonico
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'phone');
+        $system = $telecom->appendChild($system);
+        //Creazione del nodo value che contiene il valore del numero di telefono del practitioner
+        $value = $dom->createElement('value');
+        $value->setAttribute('value', $data_xml["practitioner"]->getPhone());
+        $value = $telecom->appendChild($value);
+        //Creazione del nodo use che indica la tipologia di numero di telefono
+        $use = $dom->createElement('use');
+        $use->setAttribute('value', 'mobile');
+        $use = $telecom->appendChild($use);
+        
+        
+        //Creazione del nodo telecom con il contatto mail del practitioner
+        $telecom = $dom->createElement('telecom');
+        $telecom = $practitioner->appendChild($telecom);
+        //Creazione del nodo system che indica che il contatto è un valore telefonico
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'email');
+        $system = $telecom->appendChild($system);
+        //Creazione del nodo value che contiene il valore del numero di telefono del practitioner
+        $value = $dom->createElement('value');
+        $value->setAttribute('value', $data_xml["practitioner"]->getMail());
+        $value = $telecom->appendChild($value);
+        //Creazione del nodo use che indica la tipologia di numero di telefono
+        $use = $dom->createElement('use');
+        $use->setAttribute('value', 'home');
+        $use = $telecom->appendChild($use);
+        
+        
+        
+        //Creazione del nodo address per i dati relativi al recapito del paziente
+        $address = $dom->createElement('address');
+        $address = $practitioner->appendChild($address);
+        //Creazione del nodo use che indica che il recapito è relativo alla casa di residenza
+        $use = $dom->createElement('use');
+        $use->setAttribute('value', 'home');
+        $use = $address->appendChild($use);
+        //Creazione del nodo line che indica l'indirizzo di residenza
+        $line = $dom->createElement('line');
+        $line->setAttribute('value', $data_xml["practitioner"]->getLine());
+        $line = $address->appendChild($line);
+        //Creazione del nodo city che indica la città di residenza
+        $city = $dom->createElement('city');
+        $city->setAttribute('value', $data_xml["practitioner"]->getCity());
+        $city = $address->appendChild($city);
+        //Creazione del nodo country che indica lo stato di residenza
+        $country = $dom->createElement('state');
+        $country->setAttribute('value', $data_xml["practitioner"]->getCountryName());
+        $country = $address->appendChild($country);
+        //Creazione del nodo postalCode che indica il codice postale di residenza
+        $postalCode = $dom->createElement('postalCode');
+        $postalCode->setAttribute('value', $data_xml["practitioner"]->getPostalCode());
+        $postalCode = $address->appendChild($postalCode);
+        
+
+        
+        //Creazione del nodo gender per il sesso del practitioner
+        $gender = $dom->createElement('gender');
+        $gender->setAttribute('value', $data_xml["practitioner"]->getGender());
+        $gender = $practitioner->appendChild($gender);
+        
+        //Creazione del nodo birthdate con la data di nascita del practitioner
+        $birthDate = $dom->createElement('birthDate');
+        $birthDate->setAttribute('value', $data_xml["practitioner"]->getBirth());
+        $birthDate = $practitioner->appendChild($birthDate);
+        
+        
+        //Practitioner.Qualifications
+        foreach($data_xml["practitioner_qualifiations"] as $pq){
+            //Creazione del nodo qualification
+            $qualification = $dom->createElement('qualification');
+            $qualification = $practitioner->appendChild($qualification);
+            //Creazione del nodo code
+            $codeQ = $dom->createElement('code');
+            $codeQ = $qualification->appendChild($codeQ);
+            //Creazione del nodo coding
+            $coding = $dom->createElement('coding');
+            $coding = $codeQ->appendChild($coding);
+            //Creazione del nodo system
+            $system = $dom->createElement('system');
+            $system->setAttribute('value', 'http://hl7.org/fhir/v2/0360/2.7');
+            $system = $coding->appendChild($system);
+            //Creazione del nodo code
+            $code = $dom->createElement('code');
+            $code->setAttribute('value', $pq->getCode());
+            $code = $coding->appendChild($code);
+            //Creazione del nodo display
+            $display = $dom->createElement('display');
+            $display->setAttribute('value', $pq->getQualificationDisplay());
+            $display = $coding->appendChild($display);
+            //Creazione del nodo text
+            $text = $dom->createElement('text');
+            $text->setAttribute('value', $pq->getQualificationDisplay());
+            $text = $codeQ->appendChild($text);
+            //Creazione del nodo period
+            $period = $dom->createElement('period');
+            $period = $qualification->appendChild($period);
+            //Creazione del nodo start
+            $start = $dom->createElement('start');
+            $start->setAttribute('value', $pq->getStartPeriod());
+            $start = $period->appendChild($start);
+            //Creazione del nodo end
+            $end = $dom->createElement('end');
+            $end->setAttribute('value', $pq->getEndPeriod());
+            $end = $period->appendChild($end);
+            //Creazione del nodo issuer
+            $issuer = $dom->createElement('issuer');
+            $issuer = $qualification->appendChild($issuer);
+            //Creazione del nodo display
+            $display = $dom->createElement('display');
+            $display->setAttribute('value', $pq->getIssuer());
+            $display = $issuer->appendChild($display);
+        }
+        
+        
+        //Creazione del nodo communication per indicare la lingua di comunicazione del practitioner
+        $communication = $dom->createElement('communication');
+        $communication = $practitioner->appendChild($communication);
+        //Creazione del nodo coding
+        $coding = $dom->createElement('coding');
+        $coding = $communication->appendChild($coding);
+        //Creazione del nodo system in cui si indica il value set dell' IETF
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'urn:ietf:bcp:47');
+        $system = $coding->appendChild($system);
+        //Creazione del nodo code che indica il codice della lingua parlata, in questo caso l'italiano perche tutti i pazienti del FSEM usano l'italiano
+        $code = $dom->createElement('code');
+        $code->setAttribute('value', $data_xml["practitioner"]->getCodeLanguage());
+        $code = $coding->appendChild($code);
+        //Creazione del nodo code che indica il display
+        $display = $dom->createElement('display');
+        $display->setAttribute('value', $data_xml["practitioner"]->getLanguage());
+        $display = $coding->appendChild($display);
+        
+        
+        //Elimino gli spazi bianchi superflui per la viasualizzazione grafica dell'XML
+        $dom->preserveWhiteSpace = false;
+        //Formatto il documento per l'output
+        $dom->formatOutput = true;
+        $path = getenv("HOMEPATH")."/Desktop/";
+        //Salvo il documento XML nella cartella rsources dando come nome, l'id del paziente
+        $dom->save($path."RESP-PRACTITIONER-".$data_xml["narrative"]["Id"].".xml");
+        return $dom->saveXML();
+        
     }
 }
 

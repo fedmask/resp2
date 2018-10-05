@@ -78,3 +78,16 @@ $(document).ready(function(){
     });
 });
 
+$(document).on('click', "button.button-export", function() {
+	var id = $(this).attr('id');
+	$("#myModalExport").modal("show");
+});
+
+
+$(document).on('click', "button.button-export1", function() {
+	var id = $(this).attr('id');
+	if($('input[name=Patient]').is(':checked')){
+		window.location.href = "/fhirPatientExport/"+id;
+	}
+});
+

@@ -119,6 +119,21 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
 					@endif
 
 					<!-- se l'utente e' un paziente visualizzo il pulsante per l'esportazione del profilo -->
+					@if( $current_user->getDescription() != User::PATIENT_DESCRIPTION)
+
+				<!--  	<li>
+				    <a href="http://localhost:8000/fhir/Patient/{{$id_paz}}" download="RESP-PATIENT-{{$id_paz}}.xml">
+                    <i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
+					</li>-->
+				<li>
+				    <a href="/fhirPatient" target="_blank">
+                    <i class="glyphicon glyphicon-fire"></i> FHIR</a>
+
+					</li>
+					
+					@endif
+					
+               <!-- se l'utente e' un careprovider visualizzo il pulsante per la gestione delle risorse FHIR -->
 					@if( $current_user->getDescription() == User::PATIENT_DESCRIPTION)
 
 				<!--  	<li>
@@ -126,12 +141,13 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
                     <i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
 					</li>-->
 				<li>
-				    <a href="http://localhost:8000/Patient/{{$id_paz}}" target="_blank">
-                    <i class="glyphicon glyphicon-cloud-download"></i> Esporta profilo</a>
+				    <a href="/fhirPatientIndex/{{$id_paz}}" target="_blank">
+                    <i class="glyphicon glyphicon-fire"></i> FHIR</a>
 
 					</li>
 					
 					@endif
+					
 					<!--Logout  -->
 					<li>
 						<a href="{{ route('logout') }}" onclick="event.preventDefault();

@@ -73,6 +73,43 @@ $practitioner = $data_output;
 </div>
 <!-- END DIV SHOW PATIENT -->
 
+<!-- DIV EXPORT -->
+<div class="container">
+    <!-- Modal -->
+  <div class="modal fade" id="myModalExport" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">SELECT RESOURCES</h4>
+        </div>
+        <div class="modal-body" >
+        <input type="checkbox" name="" value=""> Patient<br>
+        <input type="checkbox" name="" value=""> Practitioner<br>
+        <input type="checkbox" name="" value=""> Encounter<br>
+        <input type="checkbox" name="" value=""> Related Person<br>
+        <input type="checkbox" name="" value=""> Observation<br>
+        <input type="checkbox" name="" value=""> Immunization<br>
+        <input type="checkbox" name="" value=""> Allergy & Intollerance<br>
+        <input type="checkbox" name="" value=""> Device<br>
+        <input type="checkbox" name="" value=""> Procedure<br>
+        <input type="checkbox" name="" value=""> Condiction<br>
+        <input type="checkbox" name="" value=""> Medication<br>
+        </div>
+        <div class="modal-footer">
+          <!--  <a class="link-export" >Export</a>-->
+          <a>Export</a>
+          </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+<!-- END DIV EXPORT -->
+
                                     
                                      <table class="table table-striped table-bordered table-hover" id="dataTables-elencopaz">
                                         <thead>
@@ -84,7 +121,7 @@ $practitioner = $data_output;
                                                 <th>Tax Code</th>
                                                 <th>Show</th>
                                                 <th>Update</th>
-                                                <th>Delete</th>
+                                                <th>Export</th>
                                                 </tr>                        
                                         </thead>
                                         <tbody>
@@ -98,10 +135,7 @@ $practitioner = $data_output;
                                         <td align="center"> <button id="{{$p->id_cpp}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
                                         <td align="center"><button id="{{$p->id_cpp}}" value="{{$p->id_cpp}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
-                                      {{Form::open(array( 'action' => array('Fhir\Modules\FHIRPractitioner@destroy', $p->id_cpp) ,'method' => 'DELETE'))}}
-                                      {{ csrf_field() }}
-                                      {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'button-delete'] )  }}
-                                      {{Form::close()}}                          
+                                    <a href="/fhirPractitionerIndex/{{$p->id_cpp}}">Index</a>                      
                                        </td>
                                         </tr>
                                         @endforeach
