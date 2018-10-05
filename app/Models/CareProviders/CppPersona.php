@@ -53,21 +53,6 @@ class CppPersona extends Eloquent
 		'persona_attivo'
 	];
 
-	public function getPhoneType(){
-	    
-	    $phone_type = "mobile";
-	    
-	    if($this->persona_telefono[0] == 0){
-	        $phone_type = "home";
-	    }
-	    
-	    return $phone_type;
-	}
-	
-	public function getTown(){
-	    return $this->tbl_comuni()->first()->getTown();
-	}
-	
 	public function tbl_comuni()
 	{
 		return $this->belongsTo(\App\Models\Domicile\Comuni::class, 'id_comune');
@@ -81,51 +66,5 @@ class CppPersona extends Eloquent
 	public function tbl_centri_indaginis()
 	{
 		return $this->hasMany(\App\Models\InvestigationCenter\CentriIndagini::class, 'id_ccp_persona');
-	}
-	
-	/** FHIR **/
-	
-	public function getUserID(){
-	    return $this->id_utente;
-	}
-	
-	public function getName(){
-	    return $this->persona_nome;
-	}
-	
-	public function getSurname(){
-	    return $this->persona_cognome;
-	}
-	
-	public function getPhone(){
-	    return $this->persona_telefono;
-	}
-	
-	public function isActive(){
-	    return $this->persona_attivo == 1;
-	}
-	
-	public function setUserID($id){
-	    $this->id_utente = $id;
-	}
-
-	public function setName($name){
-	    $this->persona_nome = $name;
-	}
-	
-	public function setSurname($surname){
-	    $this->persona_cognome = $surname;
-	}
-	
-	public function setPhone($phone){
-	    $this->persona_telefono = $phone;
-	}
-	
-	public function setActive($active){
-	    $this->persona_attivo = $active;
-	}
-	
-	public function setIDTown($id){
-	    $this->id_comune = $id;
 	}
 }

@@ -6,15 +6,15 @@ use App\Models\CodificheFHIR\ContactRelationship;
 
 class PatientContact extends Model
 {
-
+    
     protected $table = 'PatientContact';
-
+    
     protected $primaryKey = 'Id_Patient';
-
+    
     public $incrementing = true;
-
+    
     public $timestamps = false;
-
+    
     protected $fillable = [
         'Id_Patient',
         'Relationship',

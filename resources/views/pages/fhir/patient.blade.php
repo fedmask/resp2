@@ -4,7 +4,7 @@
 $narrative = $data_output["narrative"];
 $narrative_patient_contact = $data_output["narrative_patient_contact"];
 $extensions = $data_output["extensions"];
-$codfis = $extensions["codicefiscale"]; 
+$codfis = $extensions["codicefiscale"];
 $grupposan = $extensions["grupposanguigno"];
 $donatore = $extensions["donatoreorgani"];
 $patient = $data_output["patient"];

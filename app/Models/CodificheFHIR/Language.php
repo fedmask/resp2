@@ -48,5 +48,4 @@ class Language extends Eloquent
 	public function getDisplay() {
 	    return $this->Display;
 	}
-
 }

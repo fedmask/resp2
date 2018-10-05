@@ -1,4 +1,4 @@
-<?php 
+<?php
 $id_paz = $current_user->data_patient()->first()->id_paziente;
 ?>
 
