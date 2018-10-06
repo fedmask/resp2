@@ -26,20 +26,10 @@ use Response;
 use SimpleXMLElement;
 use App\Models\InvestigationCenter\Indagini;
 use DOMDocument;
+use App\Http\Controllers\Fhir\Modules\FHIRPractitioner;
+use App\Http\Controllers\Fhir\Modules\FHIRPatient;
+use ZipArchive;
 
-/*
- * N.B.
- * la risorsa Patient utilizza diverse estensioni tra cui blood-type.
- * Ci sono estensioni che servono per acquisire informazioni sull'utente presente
- * nel sistema che e' legato al paziente, queste estensioni sono user-id e user-fields.
- *
- * user-id: sara' utilizzata per aggiornare la risorsa quindi con user-id si
- * specifica semplicamente l'id dell'utente a cui corrisponde il paziente;
- * user-fields: e' invece una estensione che contiene tutti i campi della
- * tabella utenti presente nel database. Questa estensione sara' utilizzata in fase
- * di creazione e visualizzazione della risorsa in maniera tale da creare un
- * nuovo utente ogni qualvolta si crea un nuovo paziente nel sistema.
- */
 class FHIRPatientIndex
 {
     
@@ -50,6 +40,87 @@ class FHIRPatientIndex
         return view("pages.fhir.indexPatient", [
             "data_output" => $patient
         ]);
+    }
+    
+    
+    function exportResources($id, $list){
+        $patient = Pazienti::where('id_paziente', $id)->first();
+        
+        $files = array();
+        $resources = explode(",", $list);
+        
+        foreach($resources as $res){
+            if($res == "Patient"){
+                array_push($files, FHIRPatient::getResource($patient->id_paziente));
+            }
+            if($res == "Practitioner"){
+                $cppPatient = CppPaziente::where('id_paziente', $patient->id_paziente)->get();
+                
+                foreach($cppPatient as $cpp){
+                    array_push($files, FHIRPractitioner::getResource($cpp->id_cpp));
+                }
+            }
+        }
+        
+        $path = getcwd()."\\resources\\Patient\\";
+        
+        $files = array();
+        
+        //carico tutti i file creati e salvati in public/resources/Paitent
+        if ($handle = opendir($path)) {
+            
+            while (false !== ($entry = readdir($handle))) {
+                
+                if ($entry != "." && $entry != "..") {
+                    
+                    array_push($files, $entry);
+                }
+            }
+            
+            closedir($handle);
+        }
+        
+        $filesXML = array();
+        foreach($files as $file){
+            array_push($filesXML, file_get_contents($path.$file));
+        }
+        
+        
+        $filename = "PATIENT.zip";
+        $zip = new ZipArchive;
+        $res = $zip->open($filename, ZipArchive::CREATE);
+        
+        $name = "file";
+        $i = 0;
+        foreach($filesXML as $file) {
+            $zip->addFromString($files[$i], $file);
+            $i++;
+        }
+            $zip->close();
+            
+            //elimino tutti i file creati e salvati in public/resources/Paitent
+            if ($handle = opendir($path)) {
+                
+                while (false !== ($entry = readdir($handle))) {
+                    
+                    if ($entry != "." && $entry != "..") {
+                        
+                        unlink($path.$entry);
+                    }
+                }
+                
+                closedir($handle);
+            }
+            
+            header('Content-type: application/zip');
+            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            
+            readfile($filename);
+            
+            //elimino lo zip salvato in locale dopo averlo fatto scaricare dall'utente
+            unlink($filename);
+            
+                    
     }
     
 }

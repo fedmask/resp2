@@ -488,7 +488,7 @@ class FHIRPractitioner
     }
     
     
-    function getResource($id){
+   public static function getResource($id){
         
         // Recupero i dati del paziente
         $practitioner = CareProvider::where('id_cpp', $id)->first();
@@ -541,12 +541,12 @@ class FHIRPractitioner
         // $data_xml["careproviders"] = $careproviders;
         $data_xml["practitioner_qualifiations"] = $practitioner_qualifiations;
         
-        $this->xml($data_xml);
+        self::xml($data_xml);
         
     }
     
     
-    function xml($data_xml){
+    public static function xml($data_xml){
         //Creazione di un oggetto dom con la codifica UTF-8
         $dom = new DOMDocument('1.0', 'utf-8');
         
@@ -913,7 +913,7 @@ class FHIRPractitioner
         $dom->preserveWhiteSpace = false;
         //Formatto il documento per l'output
         $dom->formatOutput = true;
-        $path = getenv("HOMEPATH")."/Desktop/";
+        $path = getcwd()."\\resources\\Patient\\";
         //Salvo il documento XML nella cartella rsources dando come nome, l'id del paziente
         $dom->save($path."RESP-PRACTITIONER-".$data_xml["narrative"]["Id"].".xml");
         return $dom->saveXML();

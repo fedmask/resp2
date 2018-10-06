@@ -590,7 +590,7 @@ class FHIRPatient
     }
     
 
-    function getResource($id){
+public static function getResource($id){
         
         // Recupero i dati del paziente
         $patient = Pazienti::where('id_paziente', $id)->first();
@@ -636,7 +636,7 @@ class FHIRPatient
             'grupposanguigno' => $patient->paziente_gruppo . " " . $patient->paziente_rh,
             'donatoreorgani' => $patient->isDonatoreOrgani()
         );
-        
+
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["narrative_patient_contact"] = $narrative_patient_contact;
         $data_xml["extensions"] = $custom_extensions;
@@ -644,11 +644,11 @@ class FHIRPatient
         // $data_xml["careproviders"] = $careproviders;
         $data_xml["patient_contacts"] = $patient_contacts;
         
-        $this->xml($data_xml);
+        self::xml($data_xml);
         
     }
     
-    function xml($data_xml){
+    public static function xml($data_xml){
         //Creazione di un oggetto dom con la codifica UTF-8
         $dom = new DOMDocument('1.0', 'utf-8');
         
@@ -1091,7 +1091,7 @@ class FHIRPatient
         $dom->preserveWhiteSpace = false;
         //Formatto il documento per l'output
         $dom->formatOutput = true;
-        $path = getenv("HOMEPATH")."/Desktop/";
+        $path = getcwd()."\\resources\\Patient\\";
         //Salvo il documento XML nella cartella rsources dando come nome, l'id del paziente
         $dom->save($path."RESP-PATIENT-".$data_xml["narrative"]["Id"].".xml");
         return $dom->saveXML();

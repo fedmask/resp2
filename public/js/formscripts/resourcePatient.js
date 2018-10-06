@@ -86,8 +86,16 @@ $(document).on('click', "button.button-export", function() {
 
 $(document).on('click', "button.button-export1", function() {
 	var id = $(this).attr('id');
+	var list = new Array();
+
 	if($('input[name=Patient]').is(':checked')){
-		window.location.href = "/fhirPatientExport/"+id;
+		list.push("Patient");
 	}
+	
+	if($('input[name=Practitioner]').is(':checked')){
+		list.push("Practitioner");
+	}
+	window.location.href = "/fhirExportResources/Patient/"+id+"/"+list;
+	
 });
 
