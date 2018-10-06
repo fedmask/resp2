@@ -41,8 +41,7 @@ $patient = $data_output;
         <div class="modal-body" >
         </div>
         <div class="modal-footer">
-          <!--  <a class="link-export" >Export</a>-->
-          <a>Export</a>
+          <a class="link-export" >Export</a>
           </div>
       </div>
       
@@ -65,17 +64,6 @@ $patient = $data_output;
           <h4 class="modal-title">SELECT RESOURCES</h4>
         </div>
         <div class="modal-body" >
-        <input class="check" type="checkbox" name="Patient" value="Patient"> Patient<br>
-        <input class="check" type="checkbox" name="Practitioner" value=""> Practitioner<br>
-        <input class="check" type="checkbox" name="" value=""> Encounter<br>
-        <input class="check" type="checkbox" name="" value=""> Related Person<br>
-        <input class="check" type="checkbox" name="" value=""> Observation<br>
-        <input class="check" type="checkbox" name="" value=""> Immunization<br>
-        <input class="check" type="checkbox" name="" value=""> Allergy & Intollerance<br>
-        <input class="check" type="checkbox" name="" value=""> Device<br>
-        <input class="check" type="checkbox" name="" value=""> Procedure<br>
-        <input class="check" type="checkbox" name="" value=""> Condiction<br>
-        <input class="check" type="checkbox" name="" value=""> Medication<br>
         </div>
         <div class="modal-footer">
           <!--  <a class="link-export" >Export</a>-->

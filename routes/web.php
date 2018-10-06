@@ -155,8 +155,6 @@ Route::group(['middleware' => ['auth']], function () {
     
     Route::get('/structures', 'CareProviderController@showStructures')->name('structures');
     
-    Route::get('/fhirPatient', 'ResourceFHIRController@indexPatient');
-    
 });
     
     Route::get('/fhirPractictioner', 'ResourceFHIRController@indexPractictioner');
