@@ -257,9 +257,13 @@ Route::group(['middleware' => ['auth']], function () {
     
     
     Route::get('/fhirPatientIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@Index');
-    Route::get('/fhirPractitionerIndex/{id}', 'Fhir\Modules\FHIRPractitioner@getResource');
-    //Route::get('/fhirPatientExport/{id}', 'Fhir\Modules\FHIRPatient@getResource');
     Route::get('/fhirExportResources/Patient/{id}/{list}', 'Fhir\Modules\FHIRPatientIndex@exportResources');
+    Route::get('/fhirPractitionerIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@indexPractitioner');
+    
+    
+   // Route::get('/fhirPractitionerIndex/{id}', 'Fhir\Modules\FHIRPractitioner@getResource');
+    //Route::get('/fhirPatientExport/{id}', 'Fhir\Modules\FHIRPatient@getResource');
+    
     
     
     /**

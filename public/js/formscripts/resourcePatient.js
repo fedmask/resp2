@@ -85,8 +85,8 @@ $(document).on('click', "button.button-export", function() {
 	
 	$("<input class='check' type='checkbox' name='Patient' value='Patient'> Patient<br>").appendTo(".modal-body");
 	$("<input class='check' type='checkbox' name='Practitioner' value='Practitioner'> Practitioner<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='' value=''> Encounter<br>").appendTo(".modal-body");
 	$("<input class='check' type='checkbox' name='' value=''> Related Person<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='' value=''> Encounter<br>").appendTo(".modal-body");
 	$("<input class='check' type='checkbox' name='' value=''> Observation<br>").appendTo(".modal-body");
 	$("<input class='check' type='checkbox' name='' value=''> Immunization<br>").appendTo(".modal-body");
 	$("<input class='check' type='checkbox' name='' value=''> Allergy & Intollerance<br>").appendTo(".modal-body");
@@ -114,4 +114,8 @@ $(document).on('click', "button.button-export1", function() {
 	window.location.href = "/fhirExportResources/Patient/"+id+"/"+list;
 	
 });
+
+
+
+
 

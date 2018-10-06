@@ -1,4 +1,6 @@
-
+<?php 
+$id_paz = $current_user->data_patient()->first()->id_paziente;
+?>
 <!-- MENU SECTION -->
 <div id="left">
 <div class="row" >
@@ -9,9 +11,9 @@
 
 </div>
 		<ul id="menu" class="collapse">
-			<li class="panel" style="font-size:15px"> <a href="/fhirPatient" > <em class="glyphicon glyphicon-user" ></em> Patient </a>
+			<li class="panel" style="font-size:15px"> <a href="/fhirPatientIndex/{{$id_paz}}" > <em class="glyphicon glyphicon-user" ></em> Patient </a>
 			</li>
-			<li class="panel" style="font-size:15px"> <a href="/fhirPractictioner"> <em class="icon-stethoscope"></em> Practitioner </a>
+			<li class="panel" style="font-size:15px"> <a href="/fhirPractitionerIndex/{{$id_paz}}"> <em class="icon-stethoscope"></em> Practitioner </a>
 			</li>
 			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-group"></em> Related Person </a>
 			</li>

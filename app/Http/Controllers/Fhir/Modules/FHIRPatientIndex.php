@@ -7,6 +7,7 @@ use App\Models\Patient\PazientiVisite;
 use App\Models\Patient\ParametriVitali;
 use App\Models\Patient\PazientiContatti;
 use App\Models\CareProviders\CppPaziente;
+use App\Models\CareProviders\CareProvider;
 use App\Exceptions\FHIR as FHIR;
 use App\Models\CurrentUser\Recapiti;
 use App\Models\CurrentUser\User;
@@ -32,13 +33,29 @@ use ZipArchive;
 
 class FHIRPatientIndex
 {
-    
+ 
     function Index($id){
         $patient = Pazienti::where('id_paziente', $id)->first();
         
         
         return view("pages.fhir.indexPatient", [
             "data_output" => $patient
+        ]);
+    }
+    
+    function indexPractitioner($id){
+        $patient = Pazienti::where('id_paziente', $id)->first();
+        
+        $cppPatient = CppPaziente::where('id_paziente', $patient->id_paziente)->get();
+        
+        $practitioner = array();
+        
+        foreach($cppPatient as $cpp){
+            array_push($practitioner, CareProvider::where('id_cpp', $cpp->id_cpp)->first());
+        }
+        
+        return view("pages.fhir.indexPractitioner", [
+            "data_output" => $practitioner
         ]);
     }
     

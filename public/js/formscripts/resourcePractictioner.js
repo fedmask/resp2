@@ -72,3 +72,22 @@ $(document).ready(function(){
     	$('#inputFileUpdate').hide();
     });
 });
+
+$(document).on('click', "button.button-export", function() {
+	$(".modal-body").html("");
+	
+	$("<input class='check' type='checkbox' name='Patient' value='Patient'> Patient<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='Practitioner' value='Practitioner'> Practitioner<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='' value=''> Related Person<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='' value=''> Encounter<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='' value=''> Observation<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='' value=''> Immunization<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='' value=''> Allergy & Intollerance<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='' value=''> Device<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='' value=''> Procedure<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='' value=''> Condiction<br>").appendTo(".modal-body");
+	$("<input class='check' type='checkbox' name='' value=''> Medication<br>").appendTo(".modal-body");
+
+	var id = $(this).attr('id');
+	$("#myModalExport").modal("show");
+});
