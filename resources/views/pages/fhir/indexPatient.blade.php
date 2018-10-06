@@ -40,7 +40,7 @@ $patient = $data_output;
         </div>
         <div class="modal-body" >
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer"> 
           <a class="link-export" >Export</a>
           </div>
       </div>
