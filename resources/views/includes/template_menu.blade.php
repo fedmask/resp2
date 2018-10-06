@@ -160,7 +160,7 @@ function prendeValori(){
 
 			<!-- ANAMNESI -->
 
-			<li class="panel"> <a href="ANAMNESI-FAM"> <em class="icon-archive"></em> Anamnesi </a>
+			<li class="panel"> <a href="/anamnesi"> <em class="icon-archive"></em> Anamnesi </a>
 			</li>
 
 

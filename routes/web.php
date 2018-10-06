@@ -113,7 +113,7 @@ Route::get('/downloadImage/{id_photo}', 'FilesController@downloadImage');
 
 
 /**
- * Route per l'aggiornamento del livello di confidenzialità
+ * Route per l'aggiornamento del livello di confidenzialitï¿½
  * associato ad un file
  */
 Route::post('/updateFileConfidentiality', 'FilesController@updateFileConfidentiality');
@@ -156,6 +156,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/structures', 'CareProviderController@showStructures')->name('structures');
     
     Route::get('/fhirPatient', 'ResourceFHIRController@indexPatient');
+
+    Route::get('/anamnesi', 'AnamnesiController@showAnamnesi');
     
 });
     
@@ -256,9 +258,9 @@ Route::group(['middleware' => ['auth']], function () {
     
     
     Route::post('/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient');
-    
-    
-    
+
+
+
     
     
     /**
