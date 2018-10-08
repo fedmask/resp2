@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Fhir\Modules;
 
 use App\Http\Controllers\Fhir\Modules\FHIRResource;
 use App\Models\CareProviders\CareProvider;
+use App\Models\CareProviders\CppPaziente;    
 use Illuminate\Http\Request;
 use App;
 use App\Models\FHIR\CppQualification;
@@ -19,6 +20,8 @@ use App\Models\CurrentUser\Recapiti;
 use App\Models\CurrentUser\User;
 use App\Models\Domicile\Comuni;
 use DOMDocument;
+use App\Models\Patient\Pazienti;
+use Auth;
 
 class FHIRPractitioner
 {
@@ -82,6 +85,7 @@ class FHIRPractitioner
     
     public function store(Request $request)
     {
+        
         $file = $request->file('file');
         
         $xml = XmlParser::load($file->getRealPath());
@@ -273,6 +277,33 @@ class FHIRPractitioner
             }
             $addPractictionerQual->save();
         }
+        
+        //recupero l'id del paziente loggato
+        $user = User::all();
+        $patient = array();
+        foreach($user as $u){
+            if($u->id_tipologia == $u::PATIENT_ID){
+                array_push($patient, $u->data_patient()->first());
+            }
+        }
+        $id_paziente = $patient[0]['id_paziente'];
+        
+        $cppPaz = array(
+            'id_cpp' => $cpp->id_cpp,
+            'id_paziente' => $id_paziente,
+            'assegnazione_confidenzialita' => '1',
+        );
+        
+        $addCppPaz = new CppPaziente();
+        
+        foreach ($cppPaz as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            $addCppPaz->$key = $value;
+        }
+        
+        $addCppPaz->save();
         
         return response()->json($lettura['identifier'], 201);
     }
