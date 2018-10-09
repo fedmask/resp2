@@ -19,6 +19,8 @@ class CreateTblParenteTable extends Migration {
 			$table->string('nome', 25);
 			$table->string('cognome', 25);
 			$table->string('sesso', 10)->index('sesso');
+			$table->string('telefono', 11);
+			$table->string('mail', 150);
 			$table->date('data_nascita');
 			$table->integer('eta');
 			$table->boolean('decesso');

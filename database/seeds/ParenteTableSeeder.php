@@ -18,8 +18,10 @@ class ParenteTableSeeder extends Seeder
             'cognome' => 'Jan',
             'sesso' => 'male',
             'data_nascita' => '1990-01-01',
+            'telefono' => '9463213',
+            'mail' => 'tonio.jan@gmail.com',
             'eta' => '',
-            'decesso' => '',
+            'decesso' => '1',
             'eta_decesso' => '',
             'data_decesso' => '',
         ]);
@@ -32,8 +34,10 @@ class ParenteTableSeeder extends Seeder
             'cognome' => 'Key',
             'sesso' => 'female',
             'data_nascita' => '1890-04-03',
+            'telefono' => '789565',
+            'mail' => 'marika.key@gmail.com',
             'eta' => '',
-            'decesso' => '',
+            'decesso' => '1',
             'eta_decesso' => '',
             'data_decesso' => '',
         ]);

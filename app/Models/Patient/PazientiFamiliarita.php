@@ -7,6 +7,7 @@
 
 namespace App\Models\Patient;
 
+use App\Models\CodificheFHIR\RelationshipType;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -65,5 +66,14 @@ class PazientiFamiliarita extends Eloquent
 	public function tbl_familiarita_decessi()
 	{
 		return $this->hasOne(\App\Models\Patient\FamiliaritaDecessi::class, 'id_paziente');
+	}
+	
+	public function getIdPaziente(){
+	    return $this->id_paziente;
+	}
+	
+	public function getRelazione(){
+	    $rel = RelationshipType::where('Code', $this->relazione)->first();
+	    return $rel->Display;
 	}
 }

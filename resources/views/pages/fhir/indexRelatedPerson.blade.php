@@ -13,7 +13,7 @@ $relazioni = $data_output['relazioni'];
 
 ?>
 <link href="/css/resourcePatient.css" rel="stylesheet">
-<script src="/js/formscripts/resourcePractictioner.js"></script>
+<script src="/js/formscripts/resourceRelatedPerson.js"></script>
 
 <!--PAGE CONTENT -->
 
@@ -47,7 +47,7 @@ $relazioni = $data_output['relazioni'];
                                       {{Form::close()}} 
                                       
                                       </div>
-                                        <u class="text-primary">Import RelatedPerson</u>
+                                        <u class="text-primary">Import Emergency Contact</u>
                                         <button id="upload-res"  onclick="openInputFile()" type="button" class="btn btn-primary btn-md btn-circle" ><i class="glyphicon glyphicon-cloud-upload"></i></button>
                                     </div> <!-- panel-heading text-right -->
 
@@ -66,7 +66,7 @@ $relazioni = $data_output['relazioni'];
         <div class="modal-body" >
         </div>
         <div class="modal-footer">
-          <a class="" >Export</a>
+          <a class="link-export" >Export</a>
           </div>
       </div>
       
@@ -127,7 +127,7 @@ $relazioni = $data_output['relazioni'];
                                         <td align="center">{{$rel->Display}}</td>
                                         @endif
                                         @endforeach
-                                        <td align="center"> <button id="" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
+                                        <td align="center"> <button id="{{$em->id_contatto.',Contatto'}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
                                         <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
@@ -137,6 +137,32 @@ $relazioni = $data_output['relazioni'];
                                         </tbody>
                                         
                                     </table>
+                                    
+                                    
+                                    <div class="panel-heading text-right">
+                                        <div id="inputFileRel" style="display: none;">
+                                            <form method="POST" action="" enctype="multipart/form-data">
+                                            	{{ csrf_field() }}
+                                                <input id="file" name="file" type="file" />
+                                                <input hidden id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
+                                                <input id="import-file" type="submit" value="Import" class="btn btn-primary" disabled>
+                                                <input id="import-annullaRel" type="button" value="Annulla" class="btn btn-default">
+                                            </form>
+                                        </div>
+                                        <div id="inputFileUpdate"  style="display: none;">
+                                      {{Form::open(array( 'id' => 'updateInputForm' , 'onsubmit' =>'updateInputForm()' ,'method' => 'PUT' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
+                                      {{ csrf_field() }}
+                                      <input id="fileUpdate" name="fileUpdate" type="file" />
+                                      <input hidden id="practitioner_id" type="text" value="{{$current_user->id_utente}}" />
+                                      {{Form::button('Upload',['id'=>'upload', 'type' => 'submit', 'class' => 'btn btn-primary', 'disabled'] )}}
+                                      {{Form::button('Annulla',['id'=>'annulla', 'type' => 'button', 'class' => 'btn btn-default'] )}}
+                                      {{Form::close()}} 
+                                      
+                                      </div>
+                                        <u class="text-primary">Import Relatives</u>
+                                        <button id="upload-res"  onclick="openInputFileRel()" type="button" class="btn btn-primary btn-md btn-circle" ><i class="glyphicon glyphicon-cloud-upload"></i></button>
+                                    </div> <!-- panel-heading text-right -->
+                                    
                                     
                                      <h2>RELATIVES</h2>
                                      <table class="table table-striped table-bordered table-hover" id="dataTables-elencopaz">
@@ -168,7 +194,7 @@ $relazioni = $data_output['relazioni'];
                                         @endforeach
                                         @endif
                                         @endforeach
-                                        <td align="center"> <button id="" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
+                                        <td align="center"> <button id="{{$p->id_parente.',Parente'}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
                                         <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
