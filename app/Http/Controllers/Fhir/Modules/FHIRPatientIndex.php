@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fhir\Modules;
 use App\Http\Controllers\Fhir\Modules\FHIRResource;
 use App\Models\Patient\Pazienti;
 use App\Models\Patient\PazientiVisite;
+use App\Models\Patient\PazientiFamiliarita;
 use App\Models\Patient\ParametriVitali;
 use App\Models\Patient\PazientiContatti;
 use App\Models\CareProviders\CppPaziente;
@@ -30,6 +31,9 @@ use DOMDocument;
 use App\Http\Controllers\Fhir\Modules\FHIRPractitioner;
 use App\Http\Controllers\Fhir\Modules\FHIRPatient;
 use ZipArchive;
+use App\Models\FHIR\Contatto;
+use App\Models\Parente;
+use App\Models\CodificheFHIR\RelationshipType;
 
 class FHIRPatientIndex
 {
@@ -54,8 +58,39 @@ class FHIRPatientIndex
             array_push($practitioner, CareProvider::where('id_cpp', $cpp->id_cpp)->first());
         }
         
+        $data['practitioner'] = $practitioner;
+        $data['patient'] = $patient;
+        
         return view("pages.fhir.indexPractitioner", [
-            "data_output" => $practitioner
+            "data_output" => $data
+        ]);
+    }
+    
+    function indexRelatedPerson($id){
+        $patient = Pazienti::where('id_paziente', $id)->first();
+        
+        $contatti = Contatto::where('id_paziente', $patient->id_paziente)->get();
+        
+        
+        $contatto = array();
+        $contatto['emergency'] = $contatti;
+        
+        $pazFam = PazientiFamiliarita::where('id_paziente', $id)->get();
+        
+        $parenti = array();
+        
+        foreach($pazFam as $p){
+            array_push($parenti, Parente::where('id_parente', $p->id_parente)->first());
+        }
+     
+        $contatto['pazFam'] = $pazFam;
+        $contatto['parenti'] = $parenti;
+        $contatto['relazioni'] = RelationshipType::all();
+        
+        
+        
+        return view("pages.fhir.indexRelatedPerson", [
+            "data_output" => $contatto
         ]);
     }
     
@@ -103,7 +138,7 @@ class FHIRPatientIndex
         }
         
         
-        $filename = "PATIENT.zip";
+        $filename = "FHIR-RESOURCES.zip";
         $zip = new ZipArchive;
         $res = $zip->open($filename, ZipArchive::CREATE);
         

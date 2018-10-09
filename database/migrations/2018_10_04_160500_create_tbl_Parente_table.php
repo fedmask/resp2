@@ -16,15 +16,19 @@ class CreateTblParenteTable extends Migration {
 		{
 			$table->increments('id_parente');
 			$table->char('codice_fiscale', 16)->nullable();
-			$table->string('nome', 25)->nullable();
-			$table->string('cognome', 25)->nullable();
-			$table->string('sesso', 8)->nullable();
+			$table->string('nome', 25);
+			$table->string('cognome', 25);
+			$table->string('sesso', 10)->index('sesso');
 			$table->date('data_nascita');
-			$table->integer('et');
+			$table->integer('eta');
 			$table->boolean('decesso');
-			$table->integer('et?_decesso');
+			$table->integer('eta_decesso');
 			$table->date('data_decesso');
+		
+			$table->foreign('sesso', 'tbl_Parente_ibfk_1')->references('Code')->on('Gender')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 		});
+		
+		
 	}
 
 

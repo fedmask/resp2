@@ -71,6 +71,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProcedureComplicationTableSeeder::class);
         $this->call(ProcedureNotDoneReasonTableSeeder::class);
         $this->call(ProcedureReasonCodeTableSeeder::class);
+        $this->call(RelatedPersonRelationshipTypeTableSeeder::class);
         //Fine Codifiche FHIR
         //Fine tabelle dati statici
         
@@ -81,7 +82,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call(PatientContactTableSeeder::class);
 
+        
         $this->call(TownTableSeeder::class);
+        $this->call(ContattoTableSeeder::class);
+        
         $this->call(CareProviderPeopleTableSeeder::class); 
         $this->call(ContactsTableSeeder::class);
         $this->call(VisiteTableSeeder::class);
@@ -110,6 +114,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call ( CppQualificationTableSeeder::class );
 
+        $this->call ( ParenteTableSeeder::class );
+        $this->call ( PazientiFamTableSeeder::class );
         
         
         

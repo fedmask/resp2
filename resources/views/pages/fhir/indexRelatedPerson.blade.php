@@ -1,13 +1,15 @@
 @extends( 'layouts.fhir' )
 @extends( 'includes.template_head' )
 
-@section( 'pageTitle', 'FHIR PRACTITIONER' )
+@section( 'pageTitle', 'FHIR RELATEDPERSON' )
 @section( 'content' )
 
 <?php 
 
-$practitioner = $data_output['practitioner'];
-$patient = $data_output['patient'];
+$emergency = $data_output['emergency'];
+$pazFam = $data_output['pazFam'];
+$parenti = $data_output['parenti'];
+$relazioni = $data_output['relazioni'];
 
 ?>
 <link href="/css/resourcePatient.css" rel="stylesheet">
@@ -21,13 +23,13 @@ $patient = $data_output['patient'];
                     <div class="col-lg-12" >
                         <div class="box dark">
                             <header>
-                                <h2 style="color:#1d71b8;"> FHIR RESOURCE PRACTITIONER </h2>
+                                <h2 style="color:#1d71b8;"> FHIR RESOURCE RELATEDPERSON </h2>
                             </header> 
                             <div class="body">
                                 <div class="table-responsive">
                                     <div class="panel-heading text-right">
                                         <div id="inputFile" style="display: none;">
-                                            <form method="POST" action="/api/fhir/Practitioner" enctype="multipart/form-data">
+                                            <form method="POST" action="" enctype="multipart/form-data">
                                             	{{ csrf_field() }}
                                                 <input id="file" name="file" type="file" />
                                                 <input hidden id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
@@ -45,7 +47,7 @@ $patient = $data_output['patient'];
                                       {{Form::close()}} 
                                       
                                       </div>
-                                        <u class="text-primary">Import Practitioner</u>
+                                        <u class="text-primary">Import RelatedPerson</u>
                                         <button id="upload-res"  onclick="openInputFile()" type="button" class="btn btn-primary btn-md btn-circle" ><i class="glyphicon glyphicon-cloud-upload"></i></button>
                                     </div> <!-- panel-heading text-right -->
 
@@ -59,12 +61,12 @@ $patient = $data_output['patient'];
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">SHOW PRACTITIONER RESOURCE</h4>
+          <h4 class="modal-title">SHOW RELATEDPERSON RESOURCE</h4>
         </div>
         <div class="modal-body" >
         </div>
         <div class="modal-footer">
-          <a class="link-export" >Export</a>
+          <a class="" >Export</a>
           </div>
       </div>
       
@@ -89,7 +91,7 @@ $patient = $data_output['patient'];
         <div class="modal-body" >
         </div>
         <div class="modal-footer">
-        <button id="{{$patient->id_paziente}}" type="button" class="button-export1" >Export</button>
+        <button id="" type="button" class="button-export1" >Export</button>
           </div>
       </div>
       
@@ -99,7 +101,7 @@ $patient = $data_output['patient'];
 </div>
 <!-- END DIV EXPORT -->
 
-                                    
+                                    <h2>EMERGENCY CONTACTS</h2>
                                      <table class="table table-striped table-bordered table-hover" id="dataTables-elencopaz">
                                         <thead>
                                             <tr>
@@ -107,7 +109,7 @@ $patient = $data_output['patient'];
                                                 <th>Surname</th>
                                                 <th>Name</th>
                                                 <th>Birth Date</th>
-                                                <th>Tax Code</th>
+                                                <th>Relationship</th>
                                                 <th>Show</th>
                                                 <th>Update</th>
                                                 <th>Export</th>
@@ -115,22 +117,70 @@ $patient = $data_output['patient'];
                                         </thead>
                                         <tbody>
                                         <tr>
-                                        @foreach($practitioner as $p)
-                                        <td align="center">{{$p->id_cpp}}</td>
-                                        <td align="center">{{$p->cpp_cognome}}</td>
-                                        <td align="center">{{$p->cpp_nome}}</td>
-                                        <td align="center">{{date_format($p->cpp_nascita_data,"d-m-Y")}}</td> <!--  data-toggle="modal" data-target="#myModal" href="http://localhost:8000/api/fhir/Patient/{{$p->id_paziente}}" -->
-                                        <td align="center">{{$p->cpp_codfiscale}}</td>
-                                        <td align="center"> <button id="{{$p->id_cpp}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
-                                        <td align="center"><button id="{{$p->id_cpp}}" value="{{$p->id_cpp}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
+                                        @foreach($emergency as $em)
+                                        <td align="center">{{$em->id_contatto}}</td>
+                                        <td align="center">{{$em->cognome}}</td>
+                                        <td align="center">{{$em->nome}}</td>
+                                        <td align="center">{{date_format($em->data_nascita,"d-m-Y")}}</td> <!--  data-toggle="modal" data-target="#myModal" href="http://localhost:8000/api/fhir/Patient/" -->
+                                        @foreach($relazioni as $rel)
+                                        @if($rel->Code == $em->relazione)
+                                        <td align="center">{{$rel->Display}}</td>
+                                        @endif
+                                        @endforeach
+                                        <td align="center"> <button id="" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
+                                        <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
-                                       <button id="{{$p->id_cpp}}" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
+                                       <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
                                        </td>
                                         </tr>
                                         @endforeach
                                         </tbody>
                                         
                                     </table>
+                                    
+                                     <h2>RELATIVES</h2>
+                                     <table class="table table-striped table-bordered table-hover" id="dataTables-elencopaz">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Surname</th>
+                                                <th>Name</th>
+                                                <th>Birth Date</th>
+                                                <th>Relationship</th>
+                                                <th>Show</th>
+                                                <th>Update</th>
+                                                <th>Export</th>
+                                                </tr>                        
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                        @foreach($parenti as $p)
+                                        <td align="center">{{$p->id_parente}}</td>
+                                        <td align="center">{{$p->cognome}}</td>
+                                        <td align="center">{{$p->nome}}</td>
+                                        <td align="center">{{date_format($p->data_nascita,"d-m-Y")}}</td> <!--  data-toggle="modal" data-target="#myModal" href="http://localhost:8000/api/fhir/Patient/" -->
+                                        @foreach($pazFam as $pf)
+                                        @if($pf->id_parente == $p->id_parente)
+                                        @foreach($relazioni as $rel)
+                                        @if($pf->relazione == $rel->Code)
+                                        <td align="center">{{$rel->Display}}</td>
+                                        @endif
+                                        @endforeach
+                                        @endif
+                                        @endforeach
+                                        <td align="center"> <button id="" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
+                                        <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
+                                        <td align="center">
+                                       <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
+                                       </td>
+                                        </tr>
+                                        @endforeach
+                                        </tbody>
+                                        
+                                    </table>
+                                    
+                                    
+                                    
                                 </div><!--table-responsive-->
                             </div ><!--body-->
                         </div><!--box dark-->

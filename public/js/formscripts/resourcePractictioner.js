@@ -75,19 +75,68 @@ $(document).ready(function(){
 
 $(document).on('click', "button.button-export", function() {
 	$(".modal-body").html("");
+	$("<table style='width:100%;' padding='15'>").appendTo(".modal-body");
+	$("<h2>Base</h2>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	$("<th>Individuals</th>").appendTo(".modal-body");
+	$("<th>Entities</th>").appendTo(".modal-body");
+	$("<th>Management</th>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Patient' value='Patient'> Patient</td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Organization' value='Organization'> Organization</td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Encounter' value='Encounter'> Encounter</td>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Practitioner' value='Practitioner'> Practitioner</td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Device' value='Device'> Device</td>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Related Person' value='Related Person'> Related Person</td>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
 	
-	$("<input class='check' type='checkbox' name='Patient' value='Patient'> Patient<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='Practitioner' value='Practitioner'> Practitioner<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='' value=''> Related Person<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='' value=''> Encounter<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='' value=''> Observation<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='' value=''> Immunization<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='' value=''> Allergy & Intollerance<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='' value=''> Device<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='' value=''> Procedure<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='' value=''> Condiction<br>").appendTo(".modal-body");
-	$("<input class='check' type='checkbox' name='' value=''> Medication<br>").appendTo(".modal-body");
-
+	$("<h2>Clinical</h2>").appendTo(".modal-body");
+	$("<th>Summary</th>").appendTo(".modal-body");
+	$("<th>Diagnostics</th>").appendTo(".modal-body");
+	$("<th>Medications</th>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='AllergyIntolerance' value='AllergyIntolerance'> AllergyIntolerance</td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Observation' value='Observation'> Observation</td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Medication' value='Medication'> Medication</td>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Condition' value='Condition'> Condition</td>").appendTo(".modal-body");
+	$("<td></td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Immunization' value='Immunization'> Immunization</td>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Procedure' value='Procedure'> Procedure</td>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	
+	$("</table>").appendTo(".modal-body");
 	var id = $(this).attr('id');
 	$("#myModalExport").modal("show");
+});
+
+
+$(document).on('click', "button.button-export1", function() {
+	var id = $(this).attr('id');
+	var list = new Array();
+
+	if($('input[name=Patient]').is(':checked')){
+		list.push("Patient");
+	}
+	
+	if($('input[name=Practitioner]').is(':checked')){
+		list.push("Practitioner");
+	}
+	window.location.href = "/fhirExportResources/Patient/"+id+"/"+list;
+	
 });

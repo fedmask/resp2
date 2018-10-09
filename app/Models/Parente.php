@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,8 +12,8 @@ class Parente extends Model {
 	public $timestamps = false;
 	protected $casts = [ 
 			'id_parente' => 'int',
-			'età' => 'int',
-			'età_decesso' => 'int' 
+			'eta' => 'int',
+			'eta_decesso' => 'int' 
 	
 	];
 	protected $dates = [ 

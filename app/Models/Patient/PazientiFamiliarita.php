@@ -26,7 +26,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @package App\Models
  */
 class PazientiFamiliarita extends Eloquent
-{
+{   
+    protected $table = 'tbl_pazienti_familiarita';
 	protected $primaryKey = 'id_familiarita';
 	public $incrementing = false;
 	public $timestamps = false;
@@ -45,6 +46,7 @@ class PazientiFamiliarita extends Eloquent
 	protected $fillable = [
 		'id_paziente',
 		'id_parente',
+	    'relazione',
 		'familiarita_grado_parentela',
 		'familiarita_aggiornamento_data',
 		'familiarita_conferma'
