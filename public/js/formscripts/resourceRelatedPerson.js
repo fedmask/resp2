@@ -57,10 +57,25 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+
+	$("#fileRel").change(function() {
+		$("#import-fileRel").prop('disabled', false);
+	});
+});
+
+$(document).ready(function() {
 	$("#import-annulla").click(function() {
 		$("#file").val('');
 		$("#import-file").prop('disabled', true);
 		$('#inputFile').hide();
+	});
+});
+
+$(document).ready(function() {
+	$("#import-annullaRel").click(function() {
+		$("#file").val('');
+		$("#import-fileRel").prop('disabled', true);
+		$('#inputFileRel').hide();
 	});
 });
 

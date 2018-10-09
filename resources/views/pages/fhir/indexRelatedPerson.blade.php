@@ -10,6 +10,7 @@ $emergency = $data_output['emergency'];
 $pazFam = $data_output['pazFam'];
 $parenti = $data_output['parenti'];
 $relazioni = $data_output['relazioni'];
+$patient = $data_output['patient'];
 
 ?>
 <link href="/css/resourcePatient.css" rel="stylesheet">
@@ -29,10 +30,10 @@ $relazioni = $data_output['relazioni'];
                                 <div class="table-responsive">
                                     <div class="panel-heading text-right">
                                         <div id="inputFile" style="display: none;">
-                                            <form method="POST" action="" enctype="multipart/form-data">
+                                            <form method="POST" action="/api/fhir/RelatedPerson" enctype="multipart/form-data">
                                             	{{ csrf_field() }}
                                                 <input id="file" name="file" type="file" />
-                                                <input hidden id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
+                                                <input hidden id="paziente_id" name="paziente_id" type="text" value="{{$patient->id_paziente}}" />
                                                 <input id="import-file" type="submit" value="Import" class="btn btn-primary" disabled>
                                                 <input id="import-annulla" type="button" value="Annulla" class="btn btn-default">
                                             </form>
@@ -141,11 +142,11 @@ $relazioni = $data_output['relazioni'];
                                     
                                     <div class="panel-heading text-right">
                                         <div id="inputFileRel" style="display: none;">
-                                            <form method="POST" action="" enctype="multipart/form-data">
+                                            <form method="POST" action="/api/fhir/RelatedPerson" enctype="multipart/form-data">
                                             	{{ csrf_field() }}
-                                                <input id="file" name="file" type="file" />
-                                                <input hidden id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
-                                                <input id="import-file" type="submit" value="Import" class="btn btn-primary" disabled>
+                                                <input id="fileRel" name="fileRel" type="file" />
+                                                <input hidden id="paziente_id" name="paziente_id" type="text" value="{{$patient->id_paziente}}" />
+                                                <input id="import-fileRel" type="submit" value="Import" class="btn btn-primary" disabled>
                                                 <input id="import-annullaRel" type="button" value="Annulla" class="btn btn-default">
                                             </form>
                                         </div>

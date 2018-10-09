@@ -86,6 +86,7 @@ class FHIRPatientIndex
         $contatto['pazFam'] = $pazFam;
         $contatto['parenti'] = $parenti;
         $contatto['relazioni'] = RelationshipType::all();
+        $contatto['patient'] = $patient;
         
         
         
