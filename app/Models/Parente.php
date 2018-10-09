@@ -117,7 +117,7 @@ class Parente extends Model {
 	public function isActive()
 	{
 	    $active = "false";
-	    if ($this->decesso == 0) {
+	    if ($this->decesso == 1) {
 	        $active = "true";
 	    }
 	    

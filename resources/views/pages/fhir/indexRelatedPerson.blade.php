@@ -93,7 +93,7 @@ $patient = $data_output['patient'];
         <div class="modal-body" >
         </div>
         <div class="modal-footer">
-        <button id="" type="button" class="button-export1" >Export</button>
+        <button id="{{$patient->id_paziente}}" type="button" class="button-export1" >Export</button>
           </div>
       </div>
       

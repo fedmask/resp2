@@ -426,4 +426,358 @@ class FHIRRelatedPerson
         
         return response()->json($id, 200);
     }
+    
+    public static function getResource($id){
+        $id = explode(",", $id);
+        $tipo = $id[1];
+        $id = $id[0];
+        
+        $relPers;
+        $values_in_narrative;
+        
+        if ($tipo == "Contatto") {
+            $relPers = new Contatto();
+            $relPers = Contatto::where('id_contatto', $id)->first();
+            
+            if (! $relPers) {
+                throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+            }
+            
+            $values_in_narrative = array(
+                "Id" => $id,
+                "Identifier" => "RESP-RELATEDPERSON-EM" . "-" . $relPers->getId(),
+                "Active" => $relPers->isActive(),
+                "Patient" => "FHIR-PATIENT-" . $relPers->getIdPaziente(),
+                "Relationship" => $relPers->getRelazione(),
+                "RelationshipCode" => $relPers->getRelazioneCode(),
+                "Name" => $relPers->getFullName(),
+                "Nome" => $relPers->getNome(),
+                "Cognome" => $relPers->getCognome(),
+                "Telecom" => $relPers->getTelecom(),
+                "Telefono" => $relPers->getTelefono(),
+                "Mail" => $relPers->getMail(),
+                "Gender" => $relPers->getSesso(),
+                "BirthDate" => $relPers->getDataNascita()
+            );
+        } else {
+            $relPers = new Parente();
+            $relPers = Parente::where('id_parente', $id)->first();
+            
+            if (! $relPers) {
+                throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+            }
+            
+            $values_in_narrative = array(
+                "Id" => $id,
+                "Identifier" => "RESP-RELATEDPERSON-REL" . "-" . $relPers->getId(),
+                "Active" => $relPers->isActive(),
+                "Patient" => "FHIR-PATIENT-" . $relPers->getIdPaziente(),
+                "Relationship" => $relPers->getRelazione(),
+                "RelationshipCode" => $relPers->getRelazioneCode(),
+                "Name" => $relPers->getFullName(),
+                "Nome" => $relPers->getNome(),
+                "Cognome" => $relPers->getCognome(),
+                "Telecom" => $relPers->getTelecom(),
+                "Telefono" => $relPers->getTelefono(),
+                "Mail" => $relPers->getMail(),
+                "Gender" => $relPers->getSesso(),
+                "BirthDate" => $relPers->getDataNascita()
+            );
+        }
+        
+        $data_xml["narrative"] = $values_in_narrative;
+        $data_xml["relPers"] = $relPers;
+        $data_xml["tipo"] = $tipo;
+        
+        self::xml($data_xml);
+    }
+    
+    public static function xml($data_xml){
+        //Creazione di un oggetto dom con la codifica UTF-8
+        $dom = new DOMDocument('1.0', 'utf-8');
+        
+        //Creazione del nodo Patient, cioè il nodo Root  della risorsa
+        $relPer = $dom->createElement('RelatedPerson');
+        //Valorizzo il namespace della risorsa e del documento XML, in  questo caso la specifica FHIR
+        $relPer->setAttribute('xmlns', 'http://hl7.org/fhir');
+        //Corrello l'elemento con il nodo superiore
+        $relPer = $dom->appendChild($relPer);
+        
+        
+        //Creazione del nodo ID sempre presente nelle risorse FHIR
+        $id = $dom->createElement('id');
+        //Il valore dell'ID è il valore dell'ID nella relativa tabella del DB
+        $id->setAttribute('value', $data_xml["narrative"]["Id"]);
+        $id = $relPer->appendChild($id);
+        
+        //Creazione della parte narrativa in XHTML e composta da tag HTML visualizzabili se aperto il file XML in un Browser
+        $narrative = $dom->createElement('text');
+        //Corrello l'elemento con il nodo superiore
+        $narrative = $relPer->appendChild($narrative);
+        
+        
+        //Creazione del nodo status che indica lo stato della parte narrativa
+        $status = $dom->createElement('status');
+        //Il valore del nodo status è sempre generated, la parte narrativa è generato dal sistema
+        $status->setAttribute('value', 'generated');
+        $status = $narrative->appendChild($status);
+        
+        
+        //Creazione del div che conterrà la tabella con i valori visualizzabili nella parte narrativa
+        $div = $dom->createElement('div');
+        //Link al value set della parte narrativa, cioè la codifica XHTML
+        $div->setAttribute('xmlns',"http://www.w3.org/1999/xhtml");
+        $div = $narrative->appendChild($div);
+        
+        
+        //Creazione della tabella che conterrà i valori
+        $table = $dom->createElement('table');
+        $table->setAttribute('border',"2");
+        $table = $div->appendChild($table);
+        
+        
+        //Creazione del nodo tbody
+        $tbody = $dom->createElement('tbody');
+        $tbody = $table->appendChild($tbody);
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Identifier
+        $td = $dom->createElement('td',"Identifier");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del related person
+        $td = $dom->createElement('td', $data_xml["narrative"]["Identifier"]);
+        $td = $tr->appendChild($td);
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Active
+        $td = $dom->createElement('td',"Active");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del related person
+        $td = $dom->createElement('td', $data_xml["narrative"]["Active"]);
+        $td = $tr->appendChild($td);
+        
+
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Patient
+        $td = $dom->createElement('td',"Patient");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Patient"]);
+        $td = $tr->appendChild($td);
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Relationship
+        $td = $dom->createElement('td',"Relationship");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Relationship"]);
+        $td = $tr->appendChild($td);
+        
+         
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Name
+        $td = $dom->createElement('td',"Name");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Name"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Telecom
+        $td = $dom->createElement('td',"Telecom");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Telecom"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Gender
+        $td = $dom->createElement('td',"Gender");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Gender"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna BirthDate
+        $td = $dom->createElement('td',"BirthDate");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["BirthDate"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        //Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
+        $identifier = $dom->createElement('identifier');
+        $identifier = $relPer->appendChild($identifier);
+        //Creazione del nodo use con valore fisso ad usual
+        $use = $dom->createElement('use');
+        $use->setAttribute('value', 'official');
+        $use = $identifier->appendChild($use);
+        //Creazione del nodo system che identifica il namespace degli URI per identificare la risorsa
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'http://resp.local');  //RFC gestione URI
+        $system = $identifier->appendChild($system);
+        //Creazione del nodo value
+        $value = $dom->createElement('value');
+        //Do il valore all' URI della risorsa
+        $value->setAttribute('value', $data_xml["narrative"]["Id"]);
+        $value = $identifier->appendChild($value);
+        
+      
+        //Creazione del nodo active settato a true in quanto la risorsa è attiva per il FSEM
+        $active = $dom->createElement('active');
+        $active->setAttribute('value', $data_xml["narrative"]["Active"]);
+        $active = $relPer->appendChild($active);
+        
+        //creazione del nodo patient
+        $patient = $dom->createElement('patient');
+        $patient = $relPer->appendChild($patient);
+        
+        $reference = $dom->createElement('reference');
+        $reference->setAttribute('value', $data_xml["narrative"]["Patient"]);
+        $reference = $patient->appendChild($reference);
+        
+        
+        //creazione del nodo relationship
+        $relationship = $dom->createElement('relationship');
+        $relationship = $relPer->appendChild($relationship);
+        
+        $coding = $dom->createElement('coding');
+        $coding = $relationship->appendChild($coding);
+   
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'http://hl7.org/fhir/v3/RoleCode');
+        $system = $coding->appendChild($system);
+        
+        $code = $dom->createElement('code');
+        $code->setAttribute('value', $data_xml["narrative"]["RelationshipCode"]);
+        $code = $system->appendChild($code);
+        
+        
+             
+        //Creazione del nodo per il nominativo del paziente
+        $name = $dom->createElement('name');
+        $name = $relPer->appendChild($name);
+        //Creazione del nodo use settato sempre al valore usual
+        $use = $dom->createElement('use');
+        $use->setAttribute('value', 'usual');
+        $use = $name->appendChild($use);
+        //Creazione del nodo family che indica il nome dalla famiglia di provenienza, quindi il cognome del paziente
+        $family = $dom->createElement('family');
+        $family->setAttribute('value', $data_xml["narrative"]["Cognome"]);
+        $family = $name->appendChild($family);
+        //Creazione del nodo given che indica il nome di battesimo dato al paziente
+        $given = $dom->createElement('given');
+        $given->setAttribute('value', $data_xml["narrative"]["Nome"]);
+        $given = $name->appendChild($given);
+        
+        
+        //Creazione del nodo telecom con il contatto telefonico del paziente
+        $telecom = $dom->createElement('telecom');
+        $telecom = $relPer->appendChild($telecom);
+        //Creazione del nodo system che indica che il contatto è un valore telefonico
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'phone');
+        $system = $telecom->appendChild($system);
+        //Creazione del nodo value che contiene il valore del numero di telefono del paziente
+        $value = $dom->createElement('value');
+        $value->setAttribute('value', $data_xml["narrative"]["Telefono"]);
+        $value = $telecom->appendChild($value);
+        //Creazione del nodo use che indica la tipologia di numero di telefono
+        $use = $dom->createElement('use');
+        $use->setAttribute('value', 'mobile');
+        $use = $telecom->appendChild($use);
+        
+        
+        //Creazione del nodo telecom con il contatto mail del paziente
+        $telecom = $dom->createElement('telecom');
+        $telecom = $relPer->appendChild($telecom);
+        //Creazione del nodo system che indica che il contatto è un valore telefonico
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'email');
+        $system = $telecom->appendChild($system);
+        //Creazione del nodo value che contiene il valore del numero di telefono del paziente
+        $value = $dom->createElement('value');
+        $value->setAttribute('value', $data_xml["narrative"]["Mail"]);
+        $value = $telecom->appendChild($value);
+        //Creazione del nodo use che indica la tipologia di numero di telefono
+        $use = $dom->createElement('use');
+        $use->setAttribute('value', 'home');
+        $use = $telecom->appendChild($use);
+        
+        
+        //Creazione del nodo gender per il sesso del paziente
+        $gender = $dom->createElement('gender');
+        $gender->setAttribute('value', $data_xml["narrative"]["Gender"]);
+        $gender = $relPer->appendChild($gender);
+        
+        //Creazione del nodo birthdate con la data di nascita del paziente
+        $birthDate = $dom->createElement('birthDate');
+        $birthDate->setAttribute('value', $data_xml["narrative"]["BirthDate"]);
+        $birthDate = $relPer->appendChild($birthDate);
+        
+        
+        
+        //Elimino gli spazi bianchi superflui per la viasualizzazione grafica dell'XML
+        $dom->preserveWhiteSpace = false;
+        //Formatto il documento per l'output
+        $dom->formatOutput = true;
+        $path = getcwd()."\\resources\\Patient\\";
+        //Salvo il documento XML nella cartella rsources dando come nome, l'id del paziente
+        if($data_xml['tipo'] == "Contatto"){
+            $dom->save($path."RESP-RELATEDPERSON-EM-".$data_xml["narrative"]["Id"].".xml");
+        }else{
+            $dom->save($path."RESP-RELATEDPERSON-REL-".$data_xml["narrative"]["Id"].".xml");
+        }
+        
+        return $dom->saveXML();
+        
+    }
 }

@@ -35,6 +35,7 @@ use App\Models\FHIR\Contatto;
 use App\Models\Parente;
 use App\Models\CodificheFHIR\RelationshipType;
 
+
 class FHIRPatientIndex
 {
  
@@ -101,7 +102,7 @@ class FHIRPatientIndex
         
         $files = array();
         $resources = explode(",", $list);
-        
+      
         foreach($resources as $res){
             if($res == "Patient"){
                 array_push($files, FHIRPatient::getResource($patient->id_paziente));
@@ -112,6 +113,20 @@ class FHIRPatientIndex
                 foreach($cppPatient as $cpp){
                     array_push($files, FHIRPractitioner::getResource($cpp->id_cpp));
                 }
+            }
+            if($res == "RelatedPerson"){
+                $contatti = Contatto::where('id_paziente', $patient->id_paziente)->get();
+                
+                foreach($contatti as $cont){
+                    array_push($files, FHIRRelatedPerson::getResource($cont->id_contatto.",Contatto"));
+                }
+                
+                $pazFam = PazientiFamiliarita::where('id_paziente', $patient->id_paziente)->get();
+                
+                foreach($pazFam as $p){
+                    array_push($files, FHIRRelatedPerson::getResource($p->id_parente.",Parente"));
+                }
+                
             }
         }
         
@@ -172,8 +187,7 @@ class FHIRPatientIndex
             
             //elimino lo zip salvato in locale dopo averlo fatto scaricare dall'utente
             unlink($filename);
-            
-                    
+                
     }
     
 }
