@@ -274,18 +274,20 @@ class FHIRRelatedPerson
         $relPers;
         $tipo;
         
-        $i;
         // emergency
         if (! is_null($file)) {
             
             $xml = XmlParser::load($file->getRealPath());
             
-            $i = $xml->parse([
+            $id_contatto = $xml->parse([
                 'identifier' => [
                     'uses' => 'identifier.value::value'
                 ]
             ]);
-            
+          
+            if ($id_contatto['identifier'] != $id) {
+                throw new Exception("Emergency Contact does not exist in the database");
+            }
             
             $tipo = "Contatto";
         } else {
@@ -293,15 +295,135 @@ class FHIRRelatedPerson
             $file = $request->file('fileUpdateRel');
             $xml = XmlParser::load($file->getRealPath());
             
-            $i = $xml->parse([
+            $id_parente = $xml->parse([
                 'identifier' => [
                     'uses' => 'identifier.value::value'
                 ]
             ]);
             
-            $relPers = Parente::all();
+            if ($id_parente['identifier'] != $id) {
+                throw new Exception("Relative does not exist in the database");
+            }
+          
             $tipo = "Parente";
         }
-        print_r($i);
+        
+        $lettura = $xml->parse([
+            'identifier' => [
+                'uses' => 'identifier.value::value'
+            ],
+            'active' => [
+                'uses' => 'active::value'
+            ],
+            'patient' => [
+                'uses' => 'patient.reference::value'
+            ],
+            'relationship' => [
+                'uses' => 'relationship.coding.code::value'
+            ],
+            'name' => [
+                'uses' => 'name.given::value'
+            ],
+            'surname' => [
+                'uses' => 'name.family::value'
+            ],
+            'telecom' => [
+                'uses' => 'telecom[value::value>attr]'
+            ],
+            'gender' => [
+                'uses' => 'gender::value'
+            ],
+            'birthDate' => [
+                'uses' => 'birthDate::value'
+            ]
+            
+        ]);
+        
+        $telecom = array();
+        
+        foreach ($lettura['telecom'] as $p) {
+            array_push($telecom, $p['attr']);
+        }
+        
+        $tel = array();
+        
+        if (! is_null($telecom[0])) {
+            $tel['telefono'] = $telecom[0];
+        }
+        
+        if (! is_null($telecom[1])) {
+            $tel['mail'] = $telecom[1];
+        }
+        
+        if ($tipo == "Contatto") {
+            
+            $contatto = array();
+            $contatto['attivo'] = $lettura['active'];
+            $contatto['relazione'] = $lettura['relationship'];
+            $contatto['nome'] = $lettura['name'];
+            $contatto['cognome'] = $lettura['surname'];
+            $contatto['sesso'] = $lettura['gender'];
+            $contatto['telefono'] = $tel['telefono'];
+            $contatto['mail'] = $tel['mail'];
+            $contatto['data_nascita'] = $lettura['birthDate'];
+            $contatto['data_inizio'] = '';
+            $contatto['data_fine'] = '';
+            
+            $updContatto = Contatto::where('id_contatto', $lettura['identifier'])->first();
+            
+            foreach ($contatto as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+                $updContatto->$key = $value;
+            }
+            
+            $updContatto->save();
+        } else {
+            
+            $parente = array();
+            $parente['codice_fiscale'] = '';
+            $parente['nome'] = $lettura['name'];
+            $parente['cognome'] = $lettura['surname'];
+            $parente['sesso'] = $lettura['gender'];
+            $parente['data_nascita'] = $lettura['birthDate'];
+            $parente['telefono'] = $tel['telefono'];
+            $parente['mail'] = $tel['mail'];
+            $parente['eta'] = '';
+            $parente['decesso'] = $lettura['active'];
+            $parente['eta_decesso'] = '';
+            $parente['data_decesso'] = '';
+            
+            $updParente = Parente::where('id_parente', $lettura['identifier'])->first();
+            
+            foreach ($parente as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+                $updParente->$key = $value;
+            }
+            
+            $updParente->save();
+            
+            $pazFam = array();
+            $pazFam['id_parente'] = $lettura['identifier'];
+            $pazFam['relazione'] = $lettura['relationship'];
+            $pazFam['familiarita_grado_parentela'] = '';
+            $pazFam['familiarita_aggiornamento_data'] = '';
+            $pazFam['familiarita_conferma'] = '';
+            
+            $updPazFam = PazientiFamiliarita::where('id_parente', $lettura['identifier'])->first();
+            
+            foreach ($pazFam as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+                $updPazFam->$key = $value;
+            }
+            
+            $updPazFam->save();
+        }
+        
+        return response()->json($id, 200);
     }
 }

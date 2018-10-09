@@ -16,13 +16,28 @@ $(document).on('click', "button.button-show", function() {
 function openInputFileUpdate(id) {
 	document.getElementById("inputFileUpdate").hidden = false;
 	document.getElementById("inputFileUpdate").style.display = 'block';
-	document.getElementById("practitioner_id").value = id;
+	document.getElementById("contatto_id").value = id;
 }
+
+function openInputFileUpdateRel(id) {
+	document.getElementById("inputFileUpdateRel").hidden = false;
+	document.getElementById("inputFileUpdateRel").style.display = 'block';
+	document.getElementById("parente_id").value = id;
+}
+
 function updateInputForm() {
 
 	var action = document.getElementById("updateInputForm").action;
-	document.getElementById("updateInputForm").action = "/api/fhir/Practitioner/"
-			+ document.getElementById("practitioner_id").value;
+	document.getElementById("updateInputForm").action = "/api/fhir/RelatedPerson/"
+			+ document.getElementById("contatto_id").value;
+
+}
+
+function updateInputFormRel() {
+
+	var action = document.getElementById("updateInputFormRel").action;
+	document.getElementById("updateInputFormRel").action = "/api/fhir/RelatedPerson/"
+			+ document.getElementById("parente_id").value;
 
 }
 
@@ -88,11 +103,25 @@ $(document).ready(function(){
     });
 });
 
+$(document).ready(function(){
+    $("#annullaRel").click(function(){
+    	$("#fileUpdateRel").val('');
+    	$("#upload").prop('disabled', true);
+    	$('#inputFileUpdateRel').hide();
+    });
+});
+
 
 $(document).ready(function(){
-
     $("#fileUpdate").change(function() {
     	$("#upload").prop('disabled', false);
+    });
+});
+
+
+$(document).ready(function(){
+    $("#fileUpdateRel").change(function() {
+    	$("#uploadRel").prop('disabled', false);
     });
 });
 
@@ -101,6 +130,14 @@ $(document).ready(function(){
     	$('#inputFileUpdate').hide();
     });
 });
+
+$(document).ready(function(){
+    $("#annullaRel").click(function(){
+    	$('#inputFileUpdateRel').hide();
+    });
+});
+
+
 
 $(document).on('click', "button.button-export", function() {
 	$(".modal-body").html("");

@@ -42,7 +42,8 @@ $patient = $data_output['patient'];
                                       {{Form::open(array( 'id' => 'updateInputForm' , 'onsubmit' =>'updateInputForm()' ,'method' => 'PUT' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
                                       {{ csrf_field() }}
                                       <input id="fileUpdate" name="fileUpdate" type="file" />
-                                      <input hidden id="practitioner_id" type="text" value="{{$current_user->id_utente}}" />
+                                      <input hidden id="contatto_id" type="text" value="{{$current_user->id_utente}}" />
+                                      <input hidden id="paziente_id" name="paziente_id" type="text" value="{{$patient->id_paziente}}" />
                                       {{Form::button('Upload',['id'=>'upload', 'type' => 'submit', 'class' => 'btn btn-primary', 'disabled'] )}}
                                       {{Form::button('Annulla',['id'=>'annulla', 'type' => 'button', 'class' => 'btn btn-default'] )}}
                                       {{Form::close()}} 
@@ -129,7 +130,7 @@ $patient = $data_output['patient'];
                                         @endif
                                         @endforeach
                                         <td align="center"> <button id="{{$em->id_contatto.',Contatto'}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
-                                        <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
+                                        <td align="center"><button id="{{$em->id_contatto}}" value="{{$em->id_contatto}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
                                        </td>
@@ -150,13 +151,14 @@ $patient = $data_output['patient'];
                                                 <input id="import-annullaRel" type="button" value="Annulla" class="btn btn-default">
                                             </form>
                                         </div>
-                                        <div id="inputFileUpdate"  style="display: none;">
-                                      {{Form::open(array( 'id' => 'updateInputForm' , 'onsubmit' =>'updateInputForm()' ,'method' => 'PUT' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
+                                        <div id="inputFileUpdateRel"  style="display: none;">
+                                      {{Form::open(array( 'id' => 'updateInputFormRel' , 'onsubmit' =>'updateInputFormRel()' ,'method' => 'PUT' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
                                       {{ csrf_field() }}
-                                      <input id="fileUpdate" name="fileUpdate" type="file" />
-                                      <input hidden id="practitioner_id" type="text" value="{{$current_user->id_utente}}" />
-                                      {{Form::button('Upload',['id'=>'upload', 'type' => 'submit', 'class' => 'btn btn-primary', 'disabled'] )}}
-                                      {{Form::button('Annulla',['id'=>'annulla', 'type' => 'button', 'class' => 'btn btn-default'] )}}
+                                      <input id="fileUpdateRel" name="fileUpdateRel" type="file" />
+                                      <input hidden id="parente_id" type="text" value="{{$current_user->id_utente}}" />
+                                      <input hidden id="paziente_id" name="paziente_id" type="text" value="{{$patient->id_paziente}}" />
+                                      {{Form::button('Upload',['id'=>'uploadRel', 'type' => 'submit', 'class' => 'btn btn-primary', 'disabled'] )}}
+                                      {{Form::button('Annulla',['id'=>'annullaRel', 'type' => 'button', 'class' => 'btn btn-default'] )}}
                                       {{Form::close()}} 
                                       
                                       </div>
@@ -196,7 +198,7 @@ $patient = $data_output['patient'];
                                         @endif
                                         @endforeach
                                         <td align="center"> <button id="{{$p->id_parente.',Parente'}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
-                                        <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
+                                        <td align="center"><button id="{{$p->id_parente}}" value="{{$p->id_parente}}"  onclick="openInputFileUpdateRel(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
                                        </td>
