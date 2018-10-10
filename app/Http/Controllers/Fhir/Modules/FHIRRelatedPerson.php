@@ -698,7 +698,7 @@ class FHIRRelatedPerson
         
         $code = $dom->createElement('code');
         $code->setAttribute('value', $data_xml["narrative"]["RelationshipCode"]);
-        $code = $system->appendChild($code);
+        $code = $coding->appendChild($code);
         
         
              
