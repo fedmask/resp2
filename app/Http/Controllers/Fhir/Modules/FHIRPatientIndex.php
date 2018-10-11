@@ -34,8 +34,9 @@ use ZipArchive;
 use App\Models\FHIR\Contatto;
 use App\Models\Parente;
 use App\Models\CodificheFHIR\RelationshipType;
+use App\Models\Diagnosis\Diagnosi;
 
-
+//Classe per la gestione della pagina fhir sul lato paziente
 class FHIRPatientIndex
 {
  
@@ -95,6 +96,25 @@ class FHIRPatientIndex
             "data_output" => $contatto
         ]);
     }
+    
+    function indexObservation($id){
+        $patient = Pazienti::where('id_paziente', $id)->first();
+        
+        
+        $ind = Indagini::where('id_paziente', $patient->id_paziente)->get();
+        
+        $diagnosi = Diagnosi::all();
+        
+        
+        $data['indagini'] = $ind;
+        $data['patient'] = $patient;
+        $data['diagnosi'] = $diagnosi;
+        
+        return view("pages.fhir.indexObservation", [
+            "data_output" => $data
+        ]);
+    }
+    
     
     
     function exportResources($id, $list){

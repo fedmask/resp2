@@ -1,0 +1,54 @@
+[
+	{
+		"code": "<",
+		"display": "Off scale low"
+	},
+	{
+		"code": ">",
+		"display": "Off scale high"
+	},
+	{
+		"code": "A",
+		"display": "Abnormal"
+	},
+	{
+		"code": "AA",
+		"display": "Critically abnormal"
+	},
+	{
+		"code": "AC",
+		"display": "Anti-complementary substances present"
+	},
+	{
+		"code": "B",
+		"display": "Better"
+	},
+	{
+		"code": "D",
+		"display": "Significant change down"
+	},
+	{
+		"code": "SYN-S",
+		"display": "Synergy - susceptible"
+	},
+	{
+		"code": "TOX",
+		"display": "Cytotoxic substance present"
+	},
+	{
+		"code": "U",
+		"display": "Significant change up"
+	},
+	{
+		"code": "VS",
+		"display": "Very susceptible. Indicates for microbiology susceptibilities only."
+	},
+	{
+		"code": "W",
+		"display": "Worse"
+	},
+	{
+		"code": "WR",
+		"display": "Weakly reactive"
+	}
+]

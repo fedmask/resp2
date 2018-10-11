@@ -72,6 +72,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ProcedureNotDoneReasonTableSeeder::class);
         $this->call(ProcedureReasonCodeTableSeeder::class);
         $this->call(RelatedPersonRelationshipTypeTableSeeder::class);
+        $this->call(ObservationStatusTableSeeder::class);
+        $this->call(ObservationCategoryTableSeeder::class);
+        $this->call(ObservationCodeTableSeeder::class);
+        $this->call(ObservationInterpretationTableSeeder::class);
         //Fine Codifiche FHIR
         //Fine tabelle dati statici
         

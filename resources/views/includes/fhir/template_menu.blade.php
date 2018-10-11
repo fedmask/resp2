@@ -17,9 +17,9 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
 			</li>
 			<li class="panel" style="font-size:15px"> <a href="/fhirRelatedPersonIndex/{{$id_paz}}"> <em class="icon-group"></em> Related Person </a>
 			</li>
-			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-hospital"></em> Organization </a>
+			<li class="panel" style="font-size:15px"> <a href="/fhirObservationIndex/{{$id_paz}}"> <em class="glyphicon glyphicon-eye-open"></em> Observation </a>
 			</li>
-			<li class="panel" style="font-size:15px"> <a href="/"> <em class="glyphicon glyphicon-eye-open"></em> Observation </a>
+			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-hospital"></em> Organization </a>
 			</li>
 			<li class="panel" style="font-size:15px"> <a href="/"> <em class="glyphicon glyphicon-map-marker"></em> Encounter </a>
 			</li>

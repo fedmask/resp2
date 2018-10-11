@@ -22,4 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::resource('Patient', 'Fhir\Modules\FHIRPatient');
         Route::resource('Practitioner', 'Fhir\Modules\FHIRPractitioner');
         Route::resource('RelatedPerson', 'Fhir\Modules\FHIRRelatedPerson');
+        Route::resource('Observation', 'Fhir\Modules\FHIRObservation');
     });

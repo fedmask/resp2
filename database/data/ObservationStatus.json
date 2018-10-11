@@ -1,0 +1,35 @@
+ [
+	{
+		"code": "registered",
+		"display": "Registered"
+	},
+	{
+		"code": "preliminary",
+		"display": "Preliminary"
+	},
+	{
+		"code": "final",
+		"display": "Final"
+	},
+	{
+		"code": "amended",
+		"display": "Amended"
+	},
+	{
+		"code": "corrected",
+		"display": "Corrected"
+		
+	},
+	{
+		"code": "cancelled",
+		"display": "Cancelled"
+	},
+	{
+		"code": "entered-in-error",
+		"display": "Entered in Error"
+	},
+	{
+		"code": "unknown",
+		"display": "Unknown"
+	}
+]

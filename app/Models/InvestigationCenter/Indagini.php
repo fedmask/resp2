@@ -7,6 +7,10 @@
 
 namespace App\Models\InvestigationCenter;
 
+use App\Models\CodificheFHIR\ObservationStatus;
+use App\Models\CodificheFHIR\ObservationCode;
+use App\Models\CodificheFHIR\ObservationCategory;
+use App\Models\CodificheFHIR\ObservationInterpretation;
 use Reliese\Database\Eloquent\Model as Eloquent;
 use DateTime;
 /**
@@ -39,7 +43,7 @@ class Indagini extends Eloquent
 	protected $primaryKey = 'id_indagine';
 	public $incrementing = false;
 	public $timestamps = false;
-
+	
 	protected $casts = [
 		'id_indagine' => 'int',
 		'id_centro_indagine' => 'int',
@@ -50,7 +54,9 @@ class Indagini extends Eloquent
 
 	protected $dates = [
 		'indagine_data',
-		'indagine_aggiornamento'
+	    'indagine_data_fine',
+		'indagine_aggiornamento',
+	    'indagine_issued'
 	];
 
 	protected $fillable = [
@@ -60,8 +66,13 @@ class Indagini extends Eloquent
 	    'id_cpp',
 	    'careprovider',
 		'indagine_data',
-		'indagine_aggiornamento',
+	    'indagine_data_fine',
+	    'indagine_aggiornamento',
+	    'indagine_code',
+	    'indagine_interpretation',
+	    'indagine_category',
 		'indagine_stato',
+	    'indagine_issued',
 		'indagine_tipologia',
 		'indagine_motivo',
 		'indagine_referto',
@@ -90,5 +101,67 @@ class Indagini extends Eloquent
 	{
 	    return $this->belongsTo(App\Models\CareProviders\CareProvider::class, 'id_cpp');
 	}
+	
+	public function getId(){
+	    return $this->id_indagine;
+	}
+	
+	public function getIdPaziente(){
+	    return $this->id_paziente;
+	}
+	
+	public function getIdCpp(){
+	    return $this->id_cpp;
+	}
+	
+	public function getCpp(){
+	    return $this->careprovider;
+	}
+	
+	public function getDataFine(){
+	    return $this->indagine_data_fine;
+	}
+	
+	public function getIssued(){
+	    return $this->indagine_issued;
+	}
+	
+	public function getCode(){
+	    return $this->indagine_code;
+	}
+	
+	
+	public function getCodeDisplay(){
+	    $dis = ObservationCode::where('Code', $this->indagine_code)->first();
+	    return $dis->Display;
+	}
+	
+	public function getStatus(){
+	    return $this->indagine_stato;
+	}
+	
+	public function getStatusDisplay(){
+	    $dis = ObservationStatus::where('Code', $this->indagine_stato)->first();
+	    return $dis->Display;
+	}
+	
+	public function getCategory(){
+	    return $this->indagine_category;
+	}
+	
+	public function getCategoryDisplay(){
+	    $dis = ObservationCategory::where('Code', $this->indagine_category)->first();
+	    return $dis->Display;
+	}
+	
+	public function getInterpretation(){
+	    return $this->indagine_interpretation;
+	}
+	
+	public function getInterpretationDisplay(){
+	    $dis = ObservationInterpretation::where('Code', $this->indagine_interpretation)->first();
+	    return $dis->Display;
+	}
+	
 	
 }
