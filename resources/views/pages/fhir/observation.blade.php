@@ -1,13 +1,13 @@
 <?php 
 
 $narrative = $data_output["narrative"];
-
+$indagine = $data_output["indagine"];
 ?>
 
 
 <?xml version="1.0" encoding="UTF-8"?>
 <Observation xmlns="http://hl7.org/fhir">
-  <id value=""/>
+  <id value="{{$indagine->getId()}}"/>
   <text>
   	<status value="generated"/>
   	<div xmlns="http://www.w3.org/1999/xhtml">
@@ -29,50 +29,50 @@ $narrative = $data_output["narrative"];
 
   <identifier>
     <use value="official"/>
-    <system value=""/>
-    <value value=""/>
+    <system value="http://resp.local"/>
+    <value value="{{$indagine->getId()}}"/>
   </identifier>
   
-  <status value=""/>
+  <status value="{{$indagine->getStatus()}}"/>
   
   <category>
 	<coding>
 		<system value="http://hl7.org/fhir/observation-category"/>
-		<code value=""/>
-		<display value=""/>
+		<code value="{{$indagine->getCategory()}}"/>
+		<display value="{{$indagine->getCategoryDisplay()}}"/>
 	</coding>
-	    <text value=""/>
+	    <text value="{{$indagine->getCategoryDisplay()}}"/>
   </category>
   
   <code>
     <coding>
       <system value="http://loinc.org"/>
-      <code value=""/>
-      <display value=""/>
+      <code value="{{$indagine->getCode()}}"/>
+      <display value="{{$indagine->getCodeDisplay()}}"/>
     </coding>
   </code>
   
   <subject>
-    <reference value=""/>
-    <display value=""/>
+    <reference value="RESP-PATIENT-{{$indagine->getIdPaziente()}}"/>
+    <display value="{{$indagine->getPaziente()}}"/>
   </subject>
   
   <effectivePeriod>
-    <start value=""/>
+    <start value="{{$indagine->getDataFine()}}"/>
   </effectivePeriod>
   
-  <issued value=""/>
+  <issued value="{{$indagine->getIssued()}}"/>
   
   <performer>
-    <reference value=""/>
-    <display value=""/>
+    <reference value="RESP-PRACTITIONER-{{$indagine->getIdCpp()}}"/>
+    <display value="{{$indagine->getCpp()}}"/>
   </performer>
   
   <interpretation>
     <coding>
       <system value="http://hl7.org/fhir/v2/0078"/>
-      <code value=""/>
-      <display value=""/>
+      <code value="{{$indagine->getInterpretation()}}"/>
+      <display value="{{$indagine->getInterpretationDisplay()}}"/>
     </coding>
   </interpretation>
 

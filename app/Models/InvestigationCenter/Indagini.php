@@ -11,8 +11,13 @@ use App\Models\CodificheFHIR\ObservationStatus;
 use App\Models\CodificheFHIR\ObservationCode;
 use App\Models\CodificheFHIR\ObservationCategory;
 use App\Models\CodificheFHIR\ObservationInterpretation;
+use App\Models\Patient\Pazienti;
+use App\Models\CareProviders\CareProvider;
 use Reliese\Database\Eloquent\Model as Eloquent;
 use DateTime;
+use Carbon\Carbon;
+use Date;
+
 /**
  * Class Indagini
  * 
@@ -110,20 +115,32 @@ class Indagini extends Eloquent
 	    return $this->id_paziente;
 	}
 	
+	public function getPaziente(){
+	    $paz = Pazienti::where('id_paziente', $this->id_paziente)->first();
+	    return $paz->getFullName();
+	}
+	
 	public function getIdCpp(){
 	    return $this->id_cpp;
 	}
 	
 	public function getCpp(){
-	    return $this->careprovider;
+	    $cpp = CareProvider::where('id_cpp', $this->id_cpp)->first();
+	    return $cpp->getFullName();
 	}
 	
 	public function getDataFine(){
-	    return $this->indagine_data_fine;
+	    $data = date_format($this->indagine_data_fine,"Y-m-d");
+	    return $data;
 	}
 	
 	public function getIssued(){
-	    return $this->indagine_issued;
+	    $t = $this->indagine_issued;
+	    date_default_timezone_set("Europe/Rome");
+	    
+	    $date = date(DATE_ATOM,mktime(date("H", strtotime($t)),date("m", strtotime($t)),date("s", strtotime($t)),date("m", strtotime($t)),date("d", strtotime($t)),date("Y", strtotime($t))));
+	    return $date;
+	    //return date(DATE_ATOM, mktime($date));
 	}
 	
 	public function getCode(){

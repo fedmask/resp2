@@ -7,7 +7,7 @@ $(document).on('click', "button.button-show", function() {
 
 	$('#id_paziente').val(id);
 	$("a.link-export").attr("href", "/api/fhir/Observation/" + id);
-	$("a.link-export").attr("download", "RESP-OBSERVATION" + id + ".xml");
+	$("a.link-export").attr("download", "RESP-OBSERVATION-" + id + ".xml");
 
 	$("#myModal").modal("show");
 });
