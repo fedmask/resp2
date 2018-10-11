@@ -19,7 +19,9 @@ use DOMDocument;
 use Input;
 use App\Models\CareProviders\CareProvider;
 use DateTime;
+use DateTimeZone;
 use Date;
+use Carbon\Carbon;
 
 class FHIRObservation
 {
@@ -121,9 +123,9 @@ class FHIRObservation
         ])->first()->id_cpp;
         
        
-        
-        $date = DateTime::createFromFormat('Y-m-d', $lettura['issued']);
-        
+        $carbon = new Carbon($lettura['issued']);
+        $date = Carbon::parse($lettura['issued'])->toDateTimeString();
+  
         
         $indagine = array(
             'id_indagine' => $lettura['identifier'],
@@ -153,6 +155,7 @@ class FHIRObservation
         $addIndagine->save();
         
         return response()->json($lettura['identifier'], 201);
+        
     }
     
 }
