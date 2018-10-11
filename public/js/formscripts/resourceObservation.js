@@ -11,3 +11,21 @@ $(document).on('click', "button.button-show", function() {
 
 	$("#myModal").modal("show");
 });
+
+function openInputFile() {
+	document.getElementById("inputFile").hidden = false;
+	document.getElementById("inputFile").style.display = 'block';
+}
+
+$(document).ready(function(){
+    $("#import-annulla").click(function(){
+    	$('#inputFile').hide();
+    });
+});
+
+$(document).ready(function(){
+
+    $("#file").change(function() {
+    	$("#import-file").prop('disabled', false);
+    });
+});

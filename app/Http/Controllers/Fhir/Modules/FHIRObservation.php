@@ -6,7 +6,20 @@ use App\Models\InvestigationCenter\CentriIndagini;
 use App\Models\InvestigationCenter\Indagini;
 use App\Models\Icd9\Icd9EsamiStrumentiCodici;
 use Illuminate\Http\Request;
-
+use View;
+use Illuminate\Filesystem\Filesystem;
+use File;
+use Orchestra\Parser\Xml\Facade as XmlParser;
+use Exception;
+use DB;
+use Redirect;
+use Response;
+use SimpleXMLElement;
+use DOMDocument;
+use Input;
+use App\Models\CareProviders\CareProvider;
+use DateTime;
+use Date;
 
 class FHIRObservation
 {
@@ -27,7 +40,7 @@ class FHIRObservation
             "Subject" => "FHIR-PATIENT-" . $indagine->getIdPaziente(),
             "EffectivePeriod" => $indagine->getDataFine(),
             "Issued" => $indagine->getIssued(),
-            "Performer" => "FHIR-PRACTITIONER-".$indagine->getIdCpp(),
+            "Performer" => "FHIR-PRACTITIONER-" . $indagine->getIdCpp(),
             "Interpretation" => $indagine->getInterpretationDisplay()
         );
         
@@ -38,6 +51,110 @@ class FHIRObservation
             "data_output" => $data_xml
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $file = $request->file('file');
+        $id_paziente = Input::get('patient_id');
+        
+        $xml = XmlParser::load($file->getRealPath());
+        
+        $id = $xml->parse([
+            'identifier' => [
+                'uses' => 'identifier.value::value'
+            ]
+        ]);
+        
+        $indagini = Indagini::all();
+        
+        foreach ($indagini as $i) {
+            if ($i->id_indagine == $id['identifier']) {
+                throw new Exception("Indagine is already exists");
+            }
+        }
+        
+        $lettura = $xml->parse([
+            'identifier' => [
+                'uses' => 'identifier.value::value'
+            ],
+            'status' => [
+                'uses' => 'status::value'
+            ],
+            'category' => [
+                'uses' => 'category.coding.code::value'
+            ],
+            'code' => [
+                'uses' => 'code.coding.code::value'
+            ],
+            'subject' => $id_paziente, // subject = patient = paziente loggato che importa la risorsa
+            
+            'effectivePeriod' => [
+                'uses' => 'effectivePeriod.start::value'
+            ],
+            'issued' => [
+                'uses' => 'issued::value'
+            ],
+            'performer' => [
+                'uses' => 'performer.display::value' // cpp
+            ],
+            'interpretation' => [
+                'uses' => 'interpretation.coding.code::value'
+            ]
+        
+        ]);
+        
+        $explode = explode(" ", $lettura['performer']);
+        $cppName = $explode[0];
+        $cppSurname = $explode[1];
+        
+        $id_cpp = CareProvider::where([
+            [
+                'cpp_nome',
+                '=',
+                $cppName
+            ],
+            [
+                'cpp_cognome',
+                '=',
+                $cppSurname
+            ]
+        ])->first()->id_cpp;
+        
+       
+        
+        $date = DateTime::createFromFormat('Y-m-d', $lettura['issued']);
+        
+        
+        $indagine = array(
+            'id_indagine' => $lettura['identifier'],
+            'id_paziente' => $lettura['subject'],
+            'id_cpp' => $id_cpp,
+            'careprovider' => $lettura['performer'],
+            'indagine_data' => $lettura['effectivePeriod'],
+            'indagine_data_fine' => $lettura['effectivePeriod'],
+            'indagine_aggiornamento' => '2018-04-03',
+            'indagine_stato' => $lettura['status'],
+            'indagine_issued' => $date,
+            'indagine_category' => $lettura['category'],
+            'indagine_code' => $lettura['code'],
+            'indagine_interpretation' => $lettura['interpretation'],
+            
+        );
+        
+        $addIndagine = new Indagini();
+        
+        foreach ($indagine as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            $addIndagine->$key = $value;
+        }
+        
+        $addIndagine->save();
+        
+        return response()->json($lettura['identifier'], 201);
+    }
+    
 }
 
 ?>

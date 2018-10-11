@@ -28,10 +28,10 @@ $diagnosi = $data_output['diagnosi'];
                                 <div class="table-responsive">
                                     <div class="panel-heading text-right">
                                         <div id="inputFile" style="display: none;">
-                                            <form method="POST" action="/api/fhir/Practitioner" enctype="multipart/form-data">
+                                            <form method="POST" action="/api/fhir/Observation" enctype="multipart/form-data">
                                             	{{ csrf_field() }}
                                                 <input id="file" name="file" type="file" />
-                                                <input hidden id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
+                                                <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
                                                 <input id="import-file" type="submit" value="Import" class="btn btn-primary" disabled>
                                                 <input id="import-annulla" type="button" value="Annulla" class="btn btn-default">
                                             </form>
