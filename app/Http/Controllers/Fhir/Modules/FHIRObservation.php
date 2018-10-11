@@ -244,7 +244,7 @@ class FHIRObservation
             'indagine_aggiornamento' => '2018-04-03',
             'indagine_stato' => $lettura['status'],
             'indagine_issued' => $date,
-            'indagine_category' => $lettura['category'],
+            'indagine_category' => $lettura['category'], 
             'indagine_code' => $lettura['code'],
             'indagine_interpretation' => $lettura['interpretation'],
             
