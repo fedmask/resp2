@@ -40,7 +40,7 @@ $diagnosi = $data_output['diagnosi'];
                                       {{Form::open(array( 'id' => 'updateInputForm' , 'onsubmit' =>'updateInputForm()' ,'method' => 'PUT' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
                                       {{ csrf_field() }}
                                       <input id="fileUpdate" name="fileUpdate" type="file" />
-                                      <input hidden id="practitioner_id" type="text" value="{{$current_user->id_utente}}" />
+                                      <input hidden id="indagine_id" type="text" value="{{$current_user->id_utente}}" />
                                       {{Form::button('Upload',['id'=>'upload', 'type' => 'submit', 'class' => 'btn btn-primary', 'disabled'] )}}
                                       {{Form::button('Annulla',['id'=>'annulla', 'type' => 'button', 'class' => 'btn btn-default'] )}}
                                       {{Form::close()}} 
@@ -123,7 +123,7 @@ $diagnosi = $data_output['diagnosi'];
                                         <td align="center">{{$i->indagine_category}}</td>
                                         <td align="center">{{$i->indagine_stato}}</td>
                                         <td align="center"> <button id="{{$i->id_indagine}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
-                                        <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
+                                        <td align="center"><button id="{{$i->id_indagine}}" value="{{$i->id_indagine}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
                                        </td>
