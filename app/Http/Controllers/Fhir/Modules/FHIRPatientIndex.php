@@ -148,6 +148,13 @@ class FHIRPatientIndex
                 }
                 
             }
+            if($res == "Observation"){
+                $indagini = Indagini::where('id_paziente', $patient->id_paziente)->get();
+                
+                foreach($indagini as $ind){
+                    array_push($files, FHIRObservation::getResource($ind->id_indagine));
+                }
+            }
         }
         
         $path = getcwd()."\\resources\\Patient\\";

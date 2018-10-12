@@ -142,6 +142,11 @@ $(document).on('click', "button.button-export1", function() {
 		list.push("RelatedPerson");
 	}
 	
+	if($('input[name=Observation]').is(':checked')){
+		list.push("Observation");
+	}
+	
+	
 	window.location.href = "/fhirExportResources/Patient/"+id+"/"+list;
 	
 });

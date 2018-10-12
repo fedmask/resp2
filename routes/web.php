@@ -263,7 +263,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/fhirObservationIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@indexObservation');
     
     
-    Route::get('/fhirRelatedPersonProva/{id}', 'Fhir\Modules\FHIRRelatedPerson@getResource');
+   
     //Route::get('/fhirPatientExport/{id}', 'Fhir\Modules\FHIRPatient@getResource');
     
     
