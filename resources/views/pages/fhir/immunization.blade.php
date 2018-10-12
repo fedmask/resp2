@@ -1,6 +1,7 @@
 <?php 
 
 $narrative = $data_output["narrative"];
+$providers = $data_output["providers"];
 $vaccinazione = $data_output["vaccinazione"];
 ?>
 
@@ -66,18 +67,19 @@ $vaccinazione = $data_output["vaccinazione"];
 		<code value="mg"/>
 	</doseQuantity>
 	
+	@foreach($providers as $p)
 	<practitioner>
 		<role>
 			<coding>
 				<system value="http://hl7.org/fhir/v2/0443"/>
-				<code value="{{$vaccinazione->getCppRole()}}"/>
+				<code value="{{$p->role}}"/>
 			</coding>
 		</role>
     		<actor>
-     			<reference value="RESP-PRACTITIONER-{{$vaccinazione->getIdCpp()}}"/>
+     			<reference value="RESP-PRACTITIONER-{{$p->id_cpp}}"/>
     		</actor>
 	</practitioner>
-	
+	@endforeach
 	<note>
 		<text value="{{$vaccinazione->getNote()}}"/>
 	</note>

@@ -14,7 +14,6 @@ class ImmunizationTableSeeder extends Seeder
         DB::table('tbl_vaccinazione')->insert([
             'id_vaccinazione' => '1',
             'id_paziente' => '2',
-            'id_cpp' => '2',
             'vaccineCode' => '02',
             'vaccinazione_confidenzialita' => '3',
             'vaccinazione_data' => '2017-05-06',
@@ -31,7 +30,6 @@ class ImmunizationTableSeeder extends Seeder
         DB::table('tbl_vaccinazione')->insert([
             'id_vaccinazione' => '2',
             'id_paziente' => '2',
-            'id_cpp' => '1',
             'vaccineCode' => '06',
             'vaccinazione_confidenzialita' => '4',
             'vaccinazione_data' => '2018-02-03',

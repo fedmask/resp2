@@ -16,7 +16,6 @@ class AddForeignKeysToTblVaccinazioneTable extends Migration {
 		{
 			$table->foreign('vaccinazione_confidenzialita', 'fk_tbl_vaccinazione_tbl_livelli_confidenzialita1_idx')->references('id_livello_confidenzialita')->on('tbl_livelli_confidenzialita')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('id_paziente', 'fk_tbl_vaccinazione_tbl_pazienti1_idx')->references('id_paziente')->on('tbl_pazienti')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('id_cpp', 'tbl_vaccinazione_ibfk_1')->references('id_cpp')->on('ImmunizationProvider')->onUpdate('NO ACTION')->onDelete('CASCADE');
 			$table->foreign('vaccineCode', 'tbl_vaccinazione_ibfk_2')->references('Code')->on('ImmunizationVaccineCode')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('vaccinazione_stato', 'tbl_vaccinazione_ibfk_3')->references('Code')->on('ImmunizationStatus')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('vaccinazione_route', 'tbl_vaccinazione_ibfk_4')->references('Code')->on('ImmunizationRoute')->onUpdate('NO ACTION')->onDelete('NO ACTION');

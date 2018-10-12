@@ -14,12 +14,20 @@ class ImmunizationProviderTableSeeder extends Seeder
         
         DB::table('ImmunizationProvider')->insert([
             'id_cpp' => '1',
-            'role' => 'CP'
+            'role' => 'AP',
+            'id_vaccinazione' => '1'
         ]);
         
         DB::table('ImmunizationProvider')->insert([
             'id_cpp' => '2',
-            'role' => 'OP'
+            'role' => 'OP',
+            'id_vaccinazione' => '1'
+        ]);
+        
+        DB::table('ImmunizationProvider')->insert([
+            'id_cpp' => '2',
+            'role' => 'AP',
+            'id_vaccinazione' => '2'
         ]);
     }
 }

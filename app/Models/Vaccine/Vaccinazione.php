@@ -48,8 +48,8 @@ class Vaccinazione extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
+	    'id_vaccinazione' => 'int',
 		'id_paziente' => 'int',
-		'id_cpp' => 'int',
 		'vaccinazione_confidenzialita' => 'int',
 		'vaccinazione_notGiven' => 'bool',
 	    'vaccinazione_primarySource' => 'bool',
@@ -61,8 +61,8 @@ class Vaccinazione extends Eloquent
 	];
 
 	protected $fillable = [
+	    'id_vaccinazione',
 		'id_paziente',
-		'id_cpp',
 		'vaccineCode',
 		'vaccinazione_confidenzialita',
 		'vaccinazione_data',
@@ -119,13 +119,9 @@ class Vaccinazione extends Eloquent
 	    return $this->id_vaccinazione;
 	}
 	
-	public function getIdCpp(){
-	    return $this->id_cpp;
-	}
-	
-	public function getCpp(){
-	    $cpp = CareProvider::where('id_cpp', $this->getIdCpp())->first();
-	    return $cpp->getFullName();
+	public function getProviders(){
+	    $providers = ImmunizationProvider::where('id_vaccinazione', $this->getId())->get();
+	    return $providers;
 	}
 	
 	public function getCppRole(){

@@ -22,11 +22,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class ImmunizationProvider extends Eloquent
 {
 	protected $table = 'ImmunizationProvider';
-	protected $primaryKey = 'id_cpp';
+	protected $primaryKey = 'id_vaccinazione';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $fillable = [
+	    'id_vaccinazione',
 		'id_cpp',
 		'role'
 	];
