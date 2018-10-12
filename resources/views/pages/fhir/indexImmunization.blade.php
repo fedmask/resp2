@@ -40,7 +40,7 @@ $patient = $data_output['patient'];
                                       {{Form::open(array( 'id' => 'updateInputForm' , 'onsubmit' =>'updateInputForm()' ,'method' => 'PUT' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
                                       {{ csrf_field() }}
                                       <input id="fileUpdate" name="fileUpdate" type="file" />
-                                      <input hidden id="indagine_id" type="text" value="{{$current_user->id_utente}}" />
+                                      <input hidden id="vaccinazione_id" type="text" value="{{$current_user->id_utente}}" />
                                       {{Form::button('Upload',['id'=>'upload', 'type' => 'submit', 'class' => 'btn btn-primary', 'disabled'] )}}
                                       {{Form::button('Annulla',['id'=>'annulla', 'type' => 'button', 'class' => 'btn btn-default'] )}}
                                       {{Form::close()}} 
@@ -121,7 +121,7 @@ $patient = $data_output['patient'];
                                         <td align="center">{{date_format($v->vaccinazione_data,"d-m-Y")}}</td> 
                                         <td align="center">{{$v->vaccinazione_stato}}</td>
                                         <td align="center"> <button id="{{$v->getId()}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
-                                        <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
+                                        <td align="center"><button id="{{$v->getId()}}" value="{{$v->getId()}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
                                        </td>
