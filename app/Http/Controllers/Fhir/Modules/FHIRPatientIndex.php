@@ -35,11 +35,17 @@ use App\Models\FHIR\Contatto;
 use App\Models\Parente;
 use App\Models\CodificheFHIR\RelationshipType;
 use App\Models\Diagnosis\Diagnosi;
+use App\Models\Vaccine\Vaccinazione;
 
-//Classe per la gestione della pagina fhir sul lato paziente
+/**
+ * Classe per la gestione della pagina FHIR sul lato paziente
+ */
 class FHIRPatientIndex
 {
  
+    /**
+     * Funzione per il reindirizzamento alla sezione Patient 
+     */
     function Index($id){
         $patient = Pazienti::where('id_paziente', $id)->first();
         
@@ -49,6 +55,9 @@ class FHIRPatientIndex
         ]);
     }
     
+    /**
+     * Funzione per il reindirizzamento alla sezione Practitioner 
+     */
     function indexPractitioner($id){
         $patient = Pazienti::where('id_paziente', $id)->first();
         
@@ -68,6 +77,9 @@ class FHIRPatientIndex
         ]);
     }
     
+    /**
+     * Funzione per il reindirizzamento alla sezione RelatedPerson 
+     */
     function indexRelatedPerson($id){
         $patient = Pazienti::where('id_paziente', $id)->first();
         
@@ -97,6 +109,9 @@ class FHIRPatientIndex
         ]);
     }
     
+    /**
+     * Funzione per il reindirizzamento alla sezione Observation 
+     */
     function indexObservation($id){
         $patient = Pazienti::where('id_paziente', $id)->first();
         
@@ -116,7 +131,27 @@ class FHIRPatientIndex
     }
     
     
+    /**
+     * Funzione per il reindirizzamento alla sezione Immunization
+     */
+    function indexImmunization($id){
+        $patient = Pazienti::where('id_paziente', $id)->first();
+        
+        
+        $vaccinazioni = Vaccinazione::where('id_paziente', $patient->id_paziente)->get();
+        
+        $data['vaccinazioni'] = $vaccinazioni;
+        $data['patient'] = $patient;
+        
+        return view("pages.fhir.indexImmunization", [
+            "data_output" => $data
+        ]);
+    }
     
+    
+    /**
+     * Funzione che gestisce l'export multiplo delle risorse in tutte le sezioni
+     */
     function exportResources($id, $list){
         $patient = Pazienti::where('id_paziente', $id)->first();
         

@@ -26,7 +26,7 @@ class CreateTblVaccinazioneTable extends Migration {
 			$table->integer('vaccinazione_quantity');
 			$table->char('vaccinazione_route', 10)->nullable()->index('vaccinazione_route');
 			$table->string('vaccinazione_note', 45)->nullable();
-			$table->text('vaccinazione_explanation', 65535)->nullable();
+			$table->boolean('vaccinazione_primarySource');
 		});
 	}
 
