@@ -310,7 +310,7 @@ class FHIRImmunization
             $updVacc->$key = $value;
         }
         
-         $updVacc->save();
+        $updVacc->save();
         
         $providers = array();
         if (! is_null($lettura['practitioner'])) {
@@ -365,5 +365,322 @@ class FHIRImmunization
         }
         
         return response()->json($id_vacc['identifier'], 200);
+    }
+
+    public static function getResource($id)
+    {
+        $vaccinazione = Vaccinazione::where('id_vaccinazione', $id)->first();
+        
+        if (! $vaccinazione) {
+            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
+        }
+        
+        $values_in_narrative = array(
+            "Id" => $vaccinazione->getId(),
+            "Identifier" => "RESP-IMMUNIZATION" . "-" . $vaccinazione->getId(),
+            "Status" => $vaccinazione->getStato(),
+            "VaccineCode" => $vaccinazione->getVaccineCodeDisplay(),
+            "Patient" => $vaccinazione->getPaziente(),
+            "Date" => $vaccinazione->getData(),
+            "Route" => $vaccinazione->getRouteDisplay(),
+            "DoseQuantity" => $vaccinazione->getQuantity() . " mg",
+            "Note" => $vaccinazione->getNote()
+        );
+        
+        $providers = $vaccinazione->getProviders();
+        $narrative_providers = array();
+        $i = 0;
+        foreach ($providers as $p) {
+            $i ++;
+            $narrative_providers["Practitioner" . "" . $i] = CareProvider::where('id_cpp', $p->id_cpp)->first()->getFullName();
+        }
+        
+        $data_xml["narrative"] = $values_in_narrative;
+        $data_xml["narrative_providers"] = $narrative_providers;
+        $data_xml["providers"] = $providers;
+        $data_xml["vaccinazione"] = $vaccinazione;
+        
+        self::xml($data_xml);
+    }
+
+    public static function xml($data_xml)
+    {
+        // Creazione di un oggetto dom con la codifica UTF-8
+        $dom = new DOMDocument('1.0', 'utf-8');
+        
+        // Creazione del nodo Patient, cioè il nodo Root della risorsa
+        $imm = $dom->createElement('Immunization');
+        // Valorizzo il namespace della risorsa e del documento XML, in questo caso la specifica FHIR
+        $imm->setAttribute('xmlns', 'http://hl7.org/fhir');
+        // Corrello l'elemento con il nodo superiore
+        $imm = $dom->appendChild($imm);
+        
+        // Creazione del nodo ID sempre presente nelle risorse FHIR
+        $id = $dom->createElement('id');
+        // Il valore dell'ID è il valore dell'ID nella relativa tabella del DB
+        $id->setAttribute('value', $data_xml["narrative"]["Id"]);
+        $id = $imm->appendChild($id);
+        
+        // Creazione della parte narrativa in XHTML e composta da tag HTML visualizzabili se aperto il file XML in un Browser
+        $narrative = $dom->createElement('text');
+        // Corrello l'elemento con il nodo superiore
+        $narrative = $imm->appendChild($narrative);
+        
+        // Creazione del nodo status che indica lo stato della parte narrativa
+        $status = $dom->createElement('status');
+        // Il valore del nodo status è sempre generated, la parte narrativa è generato dal sistema
+        $status->setAttribute('value', 'generated');
+        $status = $narrative->appendChild($status);
+        
+        // Creazione del div che conterrà la tabella con i valori visualizzabili nella parte narrativa
+        $div = $dom->createElement('div');
+        // Link al value set della parte narrativa, cioè la codifica XHTML
+        $div->setAttribute('xmlns', "http://www.w3.org/1999/xhtml");
+        $div = $narrative->appendChild($div);
+        
+        // Creazione della tabella che conterrà i valori
+        $table = $dom->createElement('table');
+        $table->setAttribute('border', "2");
+        $table = $div->appendChild($table);
+        
+        // Creazione del nodo tbody
+        $tbody = $dom->createElement('tbody');
+        $tbody = $table->appendChild($tbody);
+        
+        // Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        // Creazione della colonna Identifier
+        $td = $dom->createElement('td', "Identifier");
+        $td = $tr->appendChild($td);
+        
+        // Creazione della colonna con il valore di nome e cognome del related person
+        $td = $dom->createElement('td', $data_xml["narrative"]["Identifier"]);
+        $td = $tr->appendChild($td);
+        
+        // Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        // Creazione della colonna Active
+        $td = $dom->createElement('td', "Status");
+        $td = $tr->appendChild($td);
+        
+        // Creazione della colonna con il valore di nome e cognome del related person
+        $td = $dom->createElement('td', $data_xml["narrative"]["Status"]);
+        $td = $tr->appendChild($td);
+        
+        // Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        // Creazione della colonna Patient
+        $td = $dom->createElement('td', "VaccineCode");
+        $td = $tr->appendChild($td);
+        
+        // Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["VaccineCode"]);
+        $td = $tr->appendChild($td);
+        
+        // Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        // Creazione della colonna Relationship
+        $td = $dom->createElement('td', "Patient");
+        $td = $tr->appendChild($td);
+        
+        // Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Patient"]);
+        $td = $tr->appendChild($td);
+        
+        // Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        // Creazione della colonna Name
+        $td = $dom->createElement('td', "Date");
+        $td = $tr->appendChild($td);
+        
+        // Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Date"]);
+        $td = $tr->appendChild($td);
+        
+        // Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        // Creazione della colonna Telecom
+        $td = $dom->createElement('td', "Route");
+        $td = $tr->appendChild($td);
+        
+        // Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Route"]);
+        $td = $tr->appendChild($td);
+        
+        // Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        // Creazione della colonna Gender
+        $td = $dom->createElement('td', "DoseQuantity");
+        $td = $tr->appendChild($td);
+        
+        // Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["DoseQuantity"]);
+        $td = $tr->appendChild($td);
+        
+        // Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        // Creazione della colonna BirthDate
+        $td = $dom->createElement('td', "Note");
+        $td = $tr->appendChild($td);
+        
+        // Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Note"]);
+        $td = $tr->appendChild($td);
+        
+        foreach ($data_xml["narrative_providers"] as $key => $value) {
+            $tr = $dom->createElement('tr');
+            $tr = $tbody->appendChild($tr);
+            
+            // Creazione della colonna BirthDate
+            $td = $dom->createElement('td', $key);
+            $td = $tr->appendChild($td);
+            
+            // Creazione della colonna con il valore di nome e cognome del paziente
+            $td = $dom->createElement('td', $value);
+            $td = $tr->appendChild($td);
+        }
+        
+        // Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
+        $identifier = $dom->createElement('identifier');
+        $identifier = $imm->appendChild($identifier);
+        // Creazione del nodo use con valore fisso ad usual
+        // Creazione del nodo system che identifica il namespace degli URI per identificare la risorsa
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'http://resp.local'); // RFC gestione URI
+        $system = $identifier->appendChild($system);
+        // Creazione del nodo value
+        $value = $dom->createElement('value');
+        // Do il valore all' URI della risorsa
+        $value->setAttribute('value', $data_xml["narrative"]["Id"]);
+        $value = $identifier->appendChild($value);
+        
+        $status = $dom->createElement('status');
+        $status->setAttribute('value', $data_xml["vaccinazione"]->getStato());
+        $status = $imm->appendChild($status);
+        
+        // Creazione del nodo active settato a true in quanto la risorsa è attiva per il FSEM
+        $notGiven = $dom->createElement('notGiven');
+        $notGiven->setAttribute('value', $data_xml["vaccinazione"]->getNotGiven());
+        $notGiven = $imm->appendChild($notGiven);
+        
+        // creazione del nodo patient
+        $vaccineCode = $dom->createElement('vaccineCode');
+        $vaccineCode = $imm->appendChild($vaccineCode);
+        
+        $coding = $dom->createElement('coding');
+        $coding = $vaccineCode->appendChild($coding);
+        
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'urn:oid:1.2.36.1.2001.1005.17');
+        $system = $coding->appendChild($system);
+        
+        $code = $dom->createElement('code');
+        $code->setAttribute('value', $data_xml["vaccinazione"]->getVaccineCode());
+        $code = $coding->appendChild($code);
+        
+        $text = $dom->createElement('text');
+        $text->setAttribute('value', $data_xml["vaccinazione"]->getVaccineCodeDisplay());
+        $text = $vaccineCode->appendChild($text);
+        
+        $patient = $dom->createElement('patient');
+        $patient = $imm->appendChild($patient);
+        
+        $reference = $dom->createElement('reference');
+        $reference->setAttribute('value', "RESP-PATIENT-" . $data_xml["vaccinazione"]->getIdPaziente());
+        $reference = $patient->appendChild($reference);
+        
+        $date = $dom->createElement('date');
+        $date->setAttribute('value', $data_xml["vaccinazione"]->getData());
+        $date = $imm->appendChild($date);
+        
+        $primarySource = $dom->createElement('primarySource');
+        $primarySource->setAttribute('value', $data_xml["vaccinazione"]->getPrimarySource());
+        $primarySource = $imm->appendChild($primarySource);
+        
+        $route = $dom->createElement('route');
+        $route = $imm->appendChild($route);
+        
+        $coding = $dom->createElement('coding');
+        $coding = $route->appendChild($coding);
+        
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'http://hl7.org/fhir/v3/RouteOfAdministration');
+        $system = $coding->appendChild($system);
+        
+        $code = $dom->createElement('code');
+        $code->setAttribute('value', $data_xml["vaccinazione"]->getRoute());
+        $code = $coding->appendChild($code);
+        
+        $display = $dom->createElement('display');
+        $display->setAttribute('value', $data_xml["vaccinazione"]->getRouteDisplay());
+        $display = $coding->appendChild($display);
+        
+        $doseQuantity = $dom->createElement('doseQuantity');
+        $doseQuantity = $imm->appendChild($doseQuantity);
+        
+        $value = $dom->createElement('value');
+        $value->setAttribute('value', $data_xml["vaccinazione"]->getQuantity());
+        $value = $doseQuantity->appendChild($value);
+        
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'http://unitsofmeasure.org');
+        $system = $doseQuantity->appendChild($system);
+        
+        $code = $dom->createElement('code');
+        $code->setAttribute('value', 'mg');
+        $code = $doseQuantity->appendChild($code);
+        
+        foreach ($data_xml["providers"] as $p) {
+            
+            $practitioner = $dom->createElement('practitioner');
+            $practitioner = $imm->appendChild($practitioner);
+            
+            $role = $dom->createElement('role');
+            $role = $practitioner->appendChild($role);
+            
+            $coding = $dom->createElement('coding');
+            $coding = $role->appendChild($coding);
+            
+            $system = $dom->createElement('system');
+            $system->setAttribute('value', 'http://hl7.org/fhir/v2/0443');
+            $system = $coding->appendChild($system);
+            
+            $code = $dom->createElement('code');
+            $code->setAttribute('value', $p->role);
+            $code = $coding->appendChild($code);
+            
+            $actor = $dom->createElement('actor');
+            $actor = $practitioner->appendChild($actor);
+            
+            $reference = $dom->createElement('reference');
+            $reference->setAttribute('value', "RESP-PATIENT-" . $p->id_cpp);
+            $reference = $actor->appendChild($reference);
+        }
+        
+        // Elimino gli spazi bianchi superflui per la viasualizzazione grafica dell'XML
+        $dom->preserveWhiteSpace = false;
+        // Formatto il documento per l'output
+        $dom->formatOutput = true;
+        $path = getcwd() . "\\resources\\Patient\\";
+        // Salvo il documento XML nella cartella rsources dando come nome, l'id del paziente
+        $dom->save($path . "RESP-IMMUNIZATION-" . $data_xml["narrative"]["Id"] . ".xml");
+        
+        return $dom->saveXML();
     }
 }

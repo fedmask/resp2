@@ -190,6 +190,14 @@ class FHIRPatientIndex
                     array_push($files, FHIRObservation::getResource($ind->id_indagine));
                 }
             }
+            
+            if($res == "Immunization"){
+                $vaccinazioni = Vaccinazione::where('id_paziente', $patient->id_paziente)->get();
+                
+                foreach($vaccinazioni as $vacc){
+                    array_push($files, FHIRImmunization::getResource($vacc->id_vaccinazione));
+                }
+            }
         }
         
         $path = getcwd()."\\resources\\Patient\\";

@@ -146,6 +146,10 @@ $(document).on('click', "button.button-export1", function() {
 		list.push("Observation");
 	}
 	
+	if($('input[name=Immunization]').is(':checked')){
+		list.push("Immunization");
+	}
+	
 	
 	window.location.href = "/fhirExportResources/Patient/"+id+"/"+list;
 	
