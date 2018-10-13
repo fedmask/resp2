@@ -1,12 +1,12 @@
 @extends( 'layouts.fhir' )
 @extends( 'includes.template_head' )
 
-@section( 'pageTitle', 'FHIR IMMUNIZATION' )
+@section( 'pageTitle', 'FHIR ENCOUNTER' )
 @section( 'content' )
 
 <?php 
 
-$vaccinazioni = $data_output['vaccinazioni'];
+$visite = $data_output['visite'];
 $patient = $data_output['patient'];
 
 
@@ -22,13 +22,13 @@ $patient = $data_output['patient'];
                     <div class="col-lg-12" >
                         <div class="box dark">
                             <header>
-                                <h2 style="color:#1d71b8;"> FHIR RESOURCE IMMUNIZATION </h2>
+                                <h2 style="color:#1d71b8;"> FHIR RESOURCE ENCOUNTER </h2>
                             </header> 
                             <div class="body">
                                 <div class="table-responsive">
                                     <div class="panel-heading text-right">
                                         <div id="inputFile" style="display: none;">
-                                            <form method="POST" action="/api/fhir/Immunization" enctype="multipart/form-data">
+                                            <form method="POST" action="/api/fhir/Encounter" enctype="multipart/form-data">
                                             	{{ csrf_field() }}
                                                 <input id="file" name="file" type="file" />
                                                 <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
@@ -46,7 +46,7 @@ $patient = $data_output['patient'];
                                       {{Form::close()}} 
                                       
                                       </div>
-                                        <u class="text-primary">Import Immunization</u>
+                                        <u class="text-primary">Import Encounter</u>
                                         <button id="upload-res"  onclick="openInputFile()" type="button" class="btn btn-primary btn-md btn-circle" ><i class="glyphicon glyphicon-cloud-upload"></i></button>
                                     </div> <!-- panel-heading text-right -->
 
@@ -60,7 +60,7 @@ $patient = $data_output['patient'];
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">SHOW IMMUNIZATION RESOURCE</h4>
+          <h4 class="modal-title">SHOW ENCOUNTER RESOURCE</h4>
         </div>
         <div class="modal-body" >
         </div>
@@ -105,7 +105,7 @@ $patient = $data_output['patient'];
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Vaccine Code</th>
+                                                <th>Class</th>
                                                 <th>Date</th>
                                                 <th>Status</th>
                                                 <th>Show</th>
@@ -116,18 +116,18 @@ $patient = $data_output['patient'];
                                         </thead>
                                         <tbody>
                                         <tr>
-                                        @foreach($vaccinazioni as $v)
-                                        <td align="center">{{$v->getId()}}</td>
-                                        <td align="center">{{$v->getVaccineCodeDisplay()}}</td>
-                                        <td align="center">{{date_format($v->vaccinazione_data,"d-m-Y")}}</td> 
-                                        <td align="center">{{$v->vaccinazione_stato}}</td>
-                                        <td align="center"> <button id="{{$v->getId()}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
-                                        <td align="center"><button id="{{$v->getId()}}" value="{{$v->getId()}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
+                                        @foreach($visite as $v)
+                                        <td align="center">{{$v->id_visita}}</td>
+                                        <td align="center">{{$v->class}}</td>
+                                        <td align="center">{{$v->visita_data}}</td> 
+                                        <td align="center">{{$v->status}}</td>
+                                        <td align="center"> <button id="" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
+                                        <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
                                        </td>
                                         <td align="center">
-                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIRImmunization@destroy', $v->getId()) ,'method' => 'DELETE'))}}
+                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIRImmunization@destroy', $v->id_visita) ,'method' => 'DELETE'))}}
                                       {{ csrf_field() }}
                                       <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
                                       {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'button-delete'] )  }}

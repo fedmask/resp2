@@ -1,0 +1,38 @@
+[
+	{
+		"code": "AMB",
+		"display": "ambulatory"
+	},
+	{
+		"code": "EMER",
+		"display": "emergency"
+	},
+	{
+		"code": "FLD",
+		"display": "field"
+	},
+	{
+		"code": "HH",
+		"display": "home health"
+	},
+	{
+		"code": "IMP",
+		"display": "inpatient encounter"
+	},
+	{
+		"code": "ACUTE",
+		"display": "inpatient non-acute"
+	},
+	{
+		"code": "PRENC",
+		"display": "pre-admission"
+	},
+	{
+		"code": "SS",
+		"display": "short stay"
+	},
+	{
+		"code": "VR",
+		"display": "virtual"
+	}
+]

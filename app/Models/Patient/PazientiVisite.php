@@ -33,18 +33,26 @@ class PazientiVisite extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
-		'id_cpp' => 'int',
+	    'id_visita' => 'int',
+	    'id_cpp' => 'int',
 		'id_paziente' => 'int'
 	];
 
 	protected $dates = [
-		'visita_data'
+		'visita_data',
+	    'start_period',
+	    'end_period'
 	];
 
 	protected $fillable = [
-	    'id_visita'
+	    'id_visita',
 	    'id_cpp',
 		'id_paziente',
+	    'status',
+	    'class',
+	    'start_period',
+	    'end_period',
+	    'reason',
 		'visita_data',
 		'visita_motivazione',
 		'visita_osservazioni',
@@ -52,7 +60,6 @@ class PazientiVisite extends Eloquent
 	    'stato_visita',
 	    'codice_priorita',
 	    'tipo_richiesta',
-	    'status',
 	    'richiesta_visita_inizio',
 	    'richiesta_visita_fine'
 	];

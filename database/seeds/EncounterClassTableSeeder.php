@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\CodificheFHIR\EncounterParticipantType;
+use App\Models\CodificheFHIR\EncounterClass;
 
-class EncounterParticipantTypeTableSeeder extends Seeder
+class EncounterClassTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,10 +12,10 @@ class EncounterParticipantTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        $json = File::get("database/data/EncounterParticipantType.json");
+        $json = File::get("database/data/EncounterClass.json");
         $data = json_decode($json);
         foreach ($data as $obj) {
-            EncounterParticipantType::create(array(
+            EncounterClass::create(array(
                 'code' => $obj->code,
                 'display' => $obj->display
             ));

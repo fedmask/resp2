@@ -63,6 +63,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AllergyIntolleranceReactionSubstanceTableSeeder::class);
         $this->call(DeviceTypeTableSeeder::class);
         $this->call(EncounterReasonTableSeeder::class);
+        $this->call(EncounterStatusTableSeeder::class);
+        $this->call(EncounterClassTableSeeder::class);
         $this->call(ImmunizationVaccineCodeTableSeeder::class);
         $this->call(MedicationCodeTableSeeder::class);
         $this->call(MedicationFormTableSeeder::class);
@@ -92,7 +94,6 @@ class DatabaseSeeder extends Seeder
         
         $this->call(CareProviderPeopleTableSeeder::class); 
         $this->call(ContactsTableSeeder::class);
-        $this->call(VisiteTableSeeder::class);
         $this->call(ParametriVitaliTableSeeder::class);
         $this->call(CppPazienteTableSeeder::class);
         $this->call(DiagnosiTableSeeder::class);
@@ -127,7 +128,7 @@ class DatabaseSeeder extends Seeder
         
         $this->call ( Cpp_SpecializationSeeder::class );
         
-        
+        $this->call(EncounterParticipantTableSeeder::class);
         
         $this->call ( ATCGruppoAnatomicoPSeeder::class );
         $this->call (ATCGruppoTerapeuticoPSeeder::class );

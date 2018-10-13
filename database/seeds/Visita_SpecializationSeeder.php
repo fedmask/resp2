@@ -11,7 +11,7 @@ class Visita_SpecializationSeeder extends Seeder
      */
     public function run()
     {
-        DB::table ( 'tbl_visita_specialization' )->insert ( [
+       /* DB::table ( 'tbl_visita_specialization' )->insert ( [
             'id_visita' => '1',
             'id_specialization' =>'1'
             
@@ -28,6 +28,6 @@ class Visita_SpecializationSeeder extends Seeder
             'id_specialization' =>'1'
             
         ] );
-        
+        */
     }
 }

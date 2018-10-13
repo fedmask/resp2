@@ -366,6 +366,19 @@ class FHIRImmunization
         
         return response()->json($id_vacc['identifier'], 200);
     }
+    
+    
+    function destroy($id)
+    {
+    
+        ImmunizationProvider::find($id)->delete();
+        
+        Vaccinazione::find($id)->delete();
+        
+        return response()->json(null, 204);
+       
+    }
+    
 
     public static function getResource($id)
     {

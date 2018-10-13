@@ -58,6 +58,7 @@ class FHIRPatientIndex
 
     /**
      * Funzione per il reindirizzamento alla sezione Practitioner
+     * Visulizza solo i CareProvider associati al Paziente loggato
      */
     function indexPractitioner($id)
     {
@@ -81,6 +82,7 @@ class FHIRPatientIndex
 
     /**
      * Funzione per il reindirizzamento alla sezione RelatedPerson
+     * Visualizza solo i Contatti di Emergenza e i Parenti associati al Paziente loggato
      */
     function indexRelatedPerson($id)
     {
@@ -111,6 +113,7 @@ class FHIRPatientIndex
 
     /**
      * Funzione per il reindirizzamento alla sezione Observation
+     * Visualizza solo le Indagini del Paziente loggato che non sono state eliminate
      */
     function indexObservation($id)
     {
@@ -120,7 +123,7 @@ class FHIRPatientIndex
         
         $indElim = IndaginiEliminate::all();
         
-        //controllo che restituisce tutte le indagini del paz loggato che non sono state eliminate
+        // controllo che restituisce tutte le indagini del paz loggato che non sono state eliminate
         $indagini = array();
         foreach ($ind as $i) {
             if (! IndaginiEliminate::find($i->id_indagine)) {
@@ -141,6 +144,7 @@ class FHIRPatientIndex
 
     /**
      * Funzione per il reindirizzamento alla sezione Immunization
+     * Visualizza le Vaccinazioni del Paziente loggato
      */
     function indexImmunization($id)
     {
@@ -155,6 +159,24 @@ class FHIRPatientIndex
             "data_output" => $data
         ]);
     }
+    
+    /**
+     * Funzione per il reindirizzamento alla sezione Encounter
+     * Visualizza le Visite del Paziente loggato
+     */
+    function indexEncounter($id)
+    {
+        $patient = Pazienti::where('id_paziente', $id)->first();
+        
+        $visite = PazientiVisite::where('id_paziente', $patient->id_paziente)->get();
+        
+        $data['visite'] = $visite;
+        $data['patient'] = $patient;
+        
+        return view("pages.fhir.indexEncounter", [
+            "data_output" => $data
+        ]);
+    }
 
     /**
      * Funzione che gestisce l'export multiplo delle risorse in tutte le sezioni
@@ -166,6 +188,7 @@ class FHIRPatientIndex
         $files = array();
         $resources = explode(",", $list);
         
+        // controllo le risorse che sono state selezionate e creo i file xml per ciascuna di esse
         foreach ($resources as $res) {
             if ($res == "Patient") {
                 array_push($files, FHIRPatient::getResource($patient->id_paziente));
@@ -211,7 +234,7 @@ class FHIRPatientIndex
         
         $files = array();
         
-        // carico tutti i file creati e salvati in public/resources/Paitent
+        // carico tutti i file creati e salvati in public/resources/Patient
         if ($handle = opendir($path)) {
             
             while (false !== ($entry = readdir($handle))) {
