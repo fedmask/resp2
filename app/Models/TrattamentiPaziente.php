@@ -48,5 +48,7 @@ class TrattamentiPaziente extends Model
 		return $this->Incaricati;
 	}
 	
-	
+	public function tbl_Consenso_Trattamento() {
+		return $this->hasMany ( \App\Models\Patient\ConsensoPaziente::class, 'Id_Trattamento' );
+	}
 }

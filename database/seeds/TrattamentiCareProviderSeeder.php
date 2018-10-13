@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class CentriIndaginiTableSeeder extends Seeder
+class TrattamentiCareProviderSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class CentriIndaginiTableSeeder extends Seeder
     {
     	DB::table('Trattamenti_CP')->insert([
     			[ 'Id_Trattamento' => 1,
-    					'Nome_T' => 1,
+    					'Nome_T' => 'Prova',
     					'Finalita_T' => 1,
     					'Modalita_T' => 1,
     					'Informativa' => 'Nome Centro 1',

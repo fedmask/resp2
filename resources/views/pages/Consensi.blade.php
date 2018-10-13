@@ -1,7 +1,7 @@
 @extends('layouts.app') @extends('includes.template_head')
 
 
-@section('pageTitle', 'Diagnosi') @section('content')
+@section('content')
 <!--PAGE CONTENT -->
 <div id="content">
 	<div class="inner" style="min-height: 1200px;">
@@ -9,12 +9,7 @@
 			<div class="col-lg-12">
 				<h2>Trattamenti</h2>
 				<hr>
-				<script
-					src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-				<script src="formscripts/jquery.js"></script>
-				<script src="formscripts/jquery-ui.js"></script>
-				<script src="formscripts/diagnosi.js"></script>
-
+				
 				<br>
 
 				<style>
@@ -25,29 +20,30 @@
 	padding-left: 35px;
 	margin-bottom: 12px;
 	cursor: pointer;
-	font-size: 22px;
+	font-size: 12px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
 
-/* Hide the browser's default radio button */
+/* Hide the browser's default checkbox */
 .container input {
 	position: absolute;
 	opacity: 0;
 	cursor: pointer;
+	height: 0;
+	width: 0;
 }
 
-/* Create a custom radio button */
+/* Create a custom checkbox */
 .checkmark {
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: 25px;
-	width: 25px;
+	height: 20px;
+	width: 20px;
 	background-color: #eee;
-	border-radius: 50%;
 }
 
 /* On mouse-over, add a grey background color */
@@ -55,46 +51,70 @@
 	background-color: #ccc;
 }
 
-/* When the radio button is checked, add a blue background */
+/* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
 	background-color: #2196F3;
 }
 
-/* Create the indicator (the dot/circle - hidden when not checked) */
+/* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
 	content: "";
 	position: absolute;
 	display: none;
 }
 
-/* Show the indicator (dot/circle) when checked */
+/* Show the checkmark when checked */
 .container input:checked ~ .checkmark:after {
 	display: block;
 }
 
-/* Style the indicator (dot/circle) */
+/* Style the checkmark/indicator */
 .container .checkmark:after {
-	top: 9px;
 	left: 9px;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: white;
+	top: 5px;
+	width: 5px;
+	height: 10px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
 }
 </style>
 
-				<div class="container">
-					
-					<div class="well">
-					<h2>
-					Trattamento 1
-					</h2>
-					<p>{!! Form::label('nome', 'Il tuo nome:') !!}</p>
-					<p>Ciao questa è una prova</p>
-					<label class="container">One <input type="radio" checked="checked"
-						name="radio"> <span class="checkmark"></span>
+				<form data-toggle="validator" data-disable="false" role="form">
+					<div class="container">
+
+						<div class="well">
+
+							@foreach($listaTrattamenti as $Tr)
+							<h2>{{$Tr['Nome_T']}}</h2>
+							<p>{{$Tr['Informativa']}}</p>
+
+							<label class="container">Acconsento <input type="checkbox"
+								name="check" .{{$Tr['Id_Trattamento']}} value=1 >
+								<span class="checkmark"></span> @endforeach
+							</label>
+
+
+
+						</div>
+						<div align="center" onclick="refresh()">
+							<button class="btn btn-info" onclick="window.location.href='/'"">Salva</button>
+						</div>
 					</div>
-				</div>
+
+				</form>
+			
+{!! Form::open(array('url' => 'foo/bar')) !!} 
+
+{!! Form::label('Test-1') !!} {!! Form::checkbox('ch[]', 'value-1', false); !!} 
+
+{!! Form::label('Test-2') !!} {!! Form::checkbox('ch[]', 'value-2', false); !!} 
+
+{!! Form::submit('Click Me!') !!}
+{!! Form::close() !!}
+				
 			</div>
 
 
@@ -103,28 +123,9 @@
 
 
 
-
-
-
 	</div>
 </div>
-
-<script>
-
-//gestisce la conferma dei dati per la modifica di una diagnosi 
-$(document).on('click', "a.conferma", function () {
-	var id = $(this).attr('data-id');
-	var stato = $('#stato'+id).val();
-	var cpp = $('#cpp'+id).val();
-	var conf = $('#conf'+id).val();
-    window.location.href="http://localhost:8000/modDiagn/"+id+"/"+stato+"/"+cpp+"/"+conf;
-	$('#formD')[0].reset(); 
-});
-
-
 
 <!--END PAGE CONTENT -->
 
 @endsection
-
-
