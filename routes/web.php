@@ -76,6 +76,12 @@ Route::post('/pazienti/addContact', 'PazienteController@addContact');
 Route::post('/pazienti/addEmergencyContact', 'PazienteController@addEmergencyContact');
 
 
+
+/**
+ * Route per la gestione del controller dei Consensi
+ */
+Route::resource('consensi', 'ConsensiPazienteController');
+
 /**
  * Route per rimuovere un numero telefonico di un conoscente/familiare ad un paziente
  */
@@ -156,6 +162,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/structures', 'CareProviderController@showStructures')->name('structures');
     
     Route::get('/fhirPatient', 'ResourceFHIRController@indexPatient');
+    
+    Route::get('/consent', function(){return view('pages.Consensi');});
     
 });
     
