@@ -107,7 +107,6 @@ class FHIRImmunization
             'primarySource' => [
                 'uses' => 'primarySource::value'
             ],
-            
             'route' => [
                 'uses' => 'route.coding.code::value'
             ],

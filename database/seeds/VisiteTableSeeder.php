@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class VisiteTableSeeder extends Seeder
 {
@@ -17,10 +18,10 @@ class VisiteTableSeeder extends Seeder
             'id_paziente' => '2',
             'status' => 'planned',
             'class' => 'AMB',
-            'start_period' => '2016-06-02',
-            'end_period' => '2016-06-02',
+            'start_period' => Carbon::now(new DateTimeZone('Europe/Rome')),
+            'end_period' => Carbon::now(new DateTimeZone('Europe/Rome')),
             'reason' => '109006',
-            'visita_data' => '2018-02-02',
+            'visita_data' => Carbon::now(new DateTimeZone('Europe/Rome')),
             'visita_motivazione' => 'Motivazione 1',
             'visita_osservazioni' => 'Osservazioni 1',
             'visita_conclusioni' => 'Conclusioni 1',
@@ -37,10 +38,10 @@ class VisiteTableSeeder extends Seeder
             'id_paziente' => '2',
             'status' => 'arrived',
             'class' => 'EMER',
-            'start_period' => '2018-05-05',
-            'end_period' => '2018-05-05',
+            'start_period' => Carbon::now(new DateTimeZone('Europe/Rome')),
+            'end_period' => Carbon::now(new DateTimeZone('Europe/Rome')),
             'reason' => '134006',
-            'visita_data' => '2018-03-03',
+            'visita_data' => Carbon::now(new DateTimeZone('Europe/Rome')),
             'visita_motivazione' => 'Motivazione 2',
             'visita_osservazioni' => 'Osservazioni 2',
             'visita_conclusioni' => 'Conclusioni 2',

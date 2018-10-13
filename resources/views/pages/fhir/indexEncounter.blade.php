@@ -12,7 +12,7 @@ $patient = $data_output['patient'];
 
 ?>
 <link href="/css/resourcePatient.css" rel="stylesheet">
-<script src="/js/formscripts/resourceImmunization.js"></script>
+<script src="/js/formscripts/resourceEncounter.js"></script>
 
 <!--PAGE CONTENT -->
 
@@ -117,11 +117,11 @@ $patient = $data_output['patient'];
                                         <tbody>
                                         <tr>
                                         @foreach($visite as $v)
-                                        <td align="center">{{$v->id_visita}}</td>
-                                        <td align="center">{{$v->class}}</td>
-                                        <td align="center">{{$v->visita_data}}</td> 
-                                        <td align="center">{{$v->status}}</td>
-                                        <td align="center"> <button id="" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
+                                        <td align="center">{{$v->getId()}}</td>
+                                        <td align="center">{{$v->getClassDisplay()}}</td>
+                                        <td align="center">{{$v->getVisitaData()}}</td> 
+                                        <td align="center">{{$v->getStatusDisplay()}}</td>
+                                        <td align="center"> <button id="{{$v->getId()}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
                                         <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
