@@ -22,7 +22,7 @@ class CreateTblPazientiVisiteTable extends Migration {
 			$table->text('visita_osservazioni', 65535)->nullable();
 			$table->text('visita_conclusioni', 65535)->nullable();
 			$table->text('stato_visita', 65535)->nullable();
-			$table->integer('codice_priorit')->unsigned();
+			$table->integer('codice_priorita')->unsigned();
 			$table->text('tipo_richiesta', 65535)->nullable();
 			$table->text('status', 65535)->nullable();
 			$table->date('richiesta_visita_inizio')->nullable();

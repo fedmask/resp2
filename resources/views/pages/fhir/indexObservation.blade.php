@@ -108,10 +108,10 @@ $diagnosi = $data_output['diagnosi'];
                                                 <th>Practitioner</th>
                                                 <th>Date</th>
                                                 <th>Category</th>
-                                                <th>Status</th>
                                                 <th>Show</th>
                                                 <th>Update</th>
                                                 <th>Export</th>
+                                                <th>Delete</th>
                                                 </tr>                        
                                         </thead>
                                         <tbody>
@@ -121,11 +121,17 @@ $diagnosi = $data_output['diagnosi'];
                                         <td align="center">{{$i->careprovider}}</td>
                                         <td align="center">{{date_format($i->indagine_data,"d-m-Y")}}</td> 
                                         <td align="center">{{$i->indagine_category}}</td>
-                                        <td align="center">{{$i->indagine_stato}}</td>
                                         <td align="center"> <button id="{{$i->id_indagine}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
                                         <td align="center"><button id="{{$i->id_indagine}}" value="{{$i->id_indagine}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
+                                       </td>
+                                       <td align="center">
+                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIRObservation@destroy', $i->id_indagine) ,'method' => 'DELETE'))}}
+                                      {{ csrf_field() }}
+                                      <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
+                                      {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'button-delete'] )  }}
+                                      {{Form::close()}} 
                                        </td>
                                         </tr>
                                         @endforeach

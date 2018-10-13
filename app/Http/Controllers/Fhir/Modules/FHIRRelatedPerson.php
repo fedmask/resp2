@@ -427,6 +427,20 @@ class FHIRRelatedPerson
         return response()->json($id, 200);
     }
     
+    function destroy($id)
+    {
+        $id_paziente = Input::get('patient_id');
+        $tipo = Input::get('type');
+        
+        if($tipo == "EM"){
+            Contatto::find($id)->delete();
+            return response()->json(null, 204);
+        }else{
+            PazientiFamiliarita::find($id)->delete();
+            return response()->json(null, 204);
+        }
+    }
+    
     public static function getResource($id){
         $id = explode(",", $id);
         $tipo = $id[1];

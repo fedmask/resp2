@@ -22,6 +22,8 @@ use App\Models\Domicile\Comuni;
 use DOMDocument;
 use App\Models\Patient\Pazienti;
 use Auth;
+use Input;
+
 
 class FHIRPractitioner
 {
@@ -503,19 +505,23 @@ class FHIRPractitioner
     
     function destroy($id)
     {
-        $practitioner = CareProvider::find($id);
-        
-        if (! $practitioner->exists()) {
-            throw new Exception("resource with the id provided doesn't exist in database");
-        }
-        
-        CareProvider::find($id)->delete();
-        
-        $user = User::where('id_utente', $practitioner->id_utente)->first();
-        
-        User::find($user->id_utente)->delete();
+      $id_paziente = Input::get('patient_id');
+      
+      $cppPatient = CppPaziente::where([
+          [
+              'id_cpp',
+              '=',
+              $id
+          ],
+          [
+              'id_paziente',
+              '=',
+              $id_paziente
+          ]
+      ])->delete();
         
         return response()->json(null, 204);
+      
     }
     
     

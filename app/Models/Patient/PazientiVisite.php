@@ -42,12 +42,19 @@ class PazientiVisite extends Eloquent
 	];
 
 	protected $fillable = [
-		'id_cpp',
+	    'id_visita'
+	    'id_cpp',
 		'id_paziente',
 		'visita_data',
 		'visita_motivazione',
 		'visita_osservazioni',
-		'visita_conclusioni'
+		'visita_conclusioni',
+	    'stato_visita',
+	    'codice_priorita',
+	    'tipo_richiesta',
+	    'status',
+	    'richiesta_visita_inizio',
+	    'richiesta_visita_fine'
 	];
 
 	public function tbl_care_provider()

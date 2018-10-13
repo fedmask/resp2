@@ -27,6 +27,7 @@ use Redirect;
 use Response;
 use SimpleXMLElement;
 use App\Models\InvestigationCenter\Indagini;
+use App\Models\InvestigationCenter\IndaginiEliminate;
 use DOMDocument;
 use App\Http\Controllers\Fhir\Modules\FHIRPractitioner;
 use App\Http\Controllers\Fhir\Modules\FHIRPatient;
@@ -42,30 +43,31 @@ use App\Models\Vaccine\Vaccinazione;
  */
 class FHIRPatientIndex
 {
- 
+
     /**
-     * Funzione per il reindirizzamento alla sezione Patient 
+     * Funzione per il reindirizzamento alla sezione Patient
      */
-    function Index($id){
+    function Index($id)
+    {
         $patient = Pazienti::where('id_paziente', $id)->first();
-        
         
         return view("pages.fhir.indexPatient", [
             "data_output" => $patient
         ]);
     }
-    
+
     /**
-     * Funzione per il reindirizzamento alla sezione Practitioner 
+     * Funzione per il reindirizzamento alla sezione Practitioner
      */
-    function indexPractitioner($id){
+    function indexPractitioner($id)
+    {
         $patient = Pazienti::where('id_paziente', $id)->first();
         
         $cppPatient = CppPaziente::where('id_paziente', $patient->id_paziente)->get();
         
         $practitioner = array();
         
-        foreach($cppPatient as $cpp){
+        foreach ($cppPatient as $cpp) {
             array_push($practitioner, CareProvider::where('id_cpp', $cpp->id_cpp)->first());
         }
         
@@ -76,15 +78,15 @@ class FHIRPatientIndex
             "data_output" => $data
         ]);
     }
-    
+
     /**
-     * Funzione per il reindirizzamento alla sezione RelatedPerson 
+     * Funzione per il reindirizzamento alla sezione RelatedPerson
      */
-    function indexRelatedPerson($id){
+    function indexRelatedPerson($id)
+    {
         $patient = Pazienti::where('id_paziente', $id)->first();
         
         $contatti = Contatto::where('id_paziente', $patient->id_paziente)->get();
-        
         
         $contatto = array();
         $contatto['emergency'] = $contatti;
@@ -93,35 +95,42 @@ class FHIRPatientIndex
         
         $parenti = array();
         
-        foreach($pazFam as $p){
+        foreach ($pazFam as $p) {
             array_push($parenti, Parente::where('id_parente', $p->id_parente)->first());
         }
-     
+        
         $contatto['pazFam'] = $pazFam;
         $contatto['parenti'] = $parenti;
         $contatto['relazioni'] = RelationshipType::all();
         $contatto['patient'] = $patient;
         
-        
-        
         return view("pages.fhir.indexRelatedPerson", [
             "data_output" => $contatto
         ]);
     }
-    
+
     /**
-     * Funzione per il reindirizzamento alla sezione Observation 
+     * Funzione per il reindirizzamento alla sezione Observation
      */
-    function indexObservation($id){
+    function indexObservation($id)
+    {
         $patient = Pazienti::where('id_paziente', $id)->first();
-        
         
         $ind = Indagini::where('id_paziente', $patient->id_paziente)->get();
         
+        $indElim = IndaginiEliminate::all();
+        
+        //controllo che restituisce tutte le indagini del paz loggato che non sono state eliminate
+        $indagini = array();
+        foreach ($ind as $i) {
+            if (! IndaginiEliminate::find($i->id_indagine)) {
+                array_push($indagini, $i);
+            }
+        }
+        
         $diagnosi = Diagnosi::all();
         
-        
-        $data['indagini'] = $ind;
+        $data['indagini'] = $indagini;
         $data['patient'] = $patient;
         $data['diagnosi'] = $diagnosi;
         
@@ -129,14 +138,13 @@ class FHIRPatientIndex
             "data_output" => $data
         ]);
     }
-    
-    
+
     /**
      * Funzione per il reindirizzamento alla sezione Immunization
      */
-    function indexImmunization($id){
+    function indexImmunization($id)
+    {
         $patient = Pazienti::where('id_paziente', $id)->first();
-        
         
         $vaccinazioni = Vaccinazione::where('id_paziente', $patient->id_paziente)->get();
         
@@ -147,64 +155,63 @@ class FHIRPatientIndex
             "data_output" => $data
         ]);
     }
-    
-    
+
     /**
      * Funzione che gestisce l'export multiplo delle risorse in tutte le sezioni
      */
-    function exportResources($id, $list){
+    function exportResources($id, $list)
+    {
         $patient = Pazienti::where('id_paziente', $id)->first();
         
         $files = array();
         $resources = explode(",", $list);
-      
-        foreach($resources as $res){
-            if($res == "Patient"){
+        
+        foreach ($resources as $res) {
+            if ($res == "Patient") {
                 array_push($files, FHIRPatient::getResource($patient->id_paziente));
             }
-            if($res == "Practitioner"){
+            if ($res == "Practitioner") {
                 $cppPatient = CppPaziente::where('id_paziente', $patient->id_paziente)->get();
                 
-                foreach($cppPatient as $cpp){
+                foreach ($cppPatient as $cpp) {
                     array_push($files, FHIRPractitioner::getResource($cpp->id_cpp));
                 }
             }
-            if($res == "RelatedPerson"){
+            if ($res == "RelatedPerson") {
                 $contatti = Contatto::where('id_paziente', $patient->id_paziente)->get();
                 
-                foreach($contatti as $cont){
-                    array_push($files, FHIRRelatedPerson::getResource($cont->id_contatto.",Contatto"));
+                foreach ($contatti as $cont) {
+                    array_push($files, FHIRRelatedPerson::getResource($cont->id_contatto . ",Contatto"));
                 }
                 
                 $pazFam = PazientiFamiliarita::where('id_paziente', $patient->id_paziente)->get();
                 
-                foreach($pazFam as $p){
-                    array_push($files, FHIRRelatedPerson::getResource($p->id_parente.",Parente"));
+                foreach ($pazFam as $p) {
+                    array_push($files, FHIRRelatedPerson::getResource($p->id_parente . ",Parente"));
                 }
-                
             }
-            if($res == "Observation"){
+            if ($res == "Observation") {
                 $indagini = Indagini::where('id_paziente', $patient->id_paziente)->get();
                 
-                foreach($indagini as $ind){
+                foreach ($indagini as $ind) {
                     array_push($files, FHIRObservation::getResource($ind->id_indagine));
                 }
             }
             
-            if($res == "Immunization"){
+            if ($res == "Immunization") {
                 $vaccinazioni = Vaccinazione::where('id_paziente', $patient->id_paziente)->get();
                 
-                foreach($vaccinazioni as $vacc){
+                foreach ($vaccinazioni as $vacc) {
                     array_push($files, FHIRImmunization::getResource($vacc->id_vaccinazione));
                 }
             }
         }
         
-        $path = getcwd()."\\resources\\Patient\\";
+        $path = getcwd() . "\\resources\\Patient\\";
         
         $files = array();
         
-        //carico tutti i file creati e salvati in public/resources/Paitent
+        // carico tutti i file creati e salvati in public/resources/Paitent
         if ($handle = opendir($path)) {
             
             while (false !== ($entry = readdir($handle))) {
@@ -219,46 +226,43 @@ class FHIRPatientIndex
         }
         
         $filesXML = array();
-        foreach($files as $file){
-            array_push($filesXML, file_get_contents($path.$file));
+        foreach ($files as $file) {
+            array_push($filesXML, file_get_contents($path . $file));
         }
         
-        
         $filename = "FHIR-RESOURCES.zip";
-        $zip = new ZipArchive;
+        $zip = new ZipArchive();
         $res = $zip->open($filename, ZipArchive::CREATE);
         
         $name = "file";
         $i = 0;
-        foreach($filesXML as $file) {
+        foreach ($filesXML as $file) {
             $zip->addFromString($files[$i], $file);
-            $i++;
+            $i ++;
         }
-            $zip->close();
+        $zip->close();
+        
+        // elimino tutti i file creati e salvati in public/resources/Paitent
+        if ($handle = opendir($path)) {
             
-            //elimino tutti i file creati e salvati in public/resources/Paitent
-            if ($handle = opendir($path)) {
+            while (false !== ($entry = readdir($handle))) {
                 
-                while (false !== ($entry = readdir($handle))) {
+                if ($entry != "." && $entry != "..") {
                     
-                    if ($entry != "." && $entry != "..") {
-                        
-                        unlink($path.$entry);
-                    }
+                    unlink($path . $entry);
                 }
-                
-                closedir($handle);
             }
             
-            header('Content-type: application/zip');
-            header('Content-Disposition: attachment; filename="'.$filename.'"');
-            
-            readfile($filename);
-            
-            //elimino lo zip salvato in locale dopo averlo fatto scaricare dall'utente
-            unlink($filename);
-                
+            closedir($handle);
+        }
+        
+        header('Content-type: application/zip');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        
+        readfile($filename);
+        
+        // elimino lo zip salvato in locale dopo averlo fatto scaricare dall'utente
+        unlink($filename);
     }
-    
 }
 ?>

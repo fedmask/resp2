@@ -107,10 +107,10 @@ $patient = $data_output['patient'];
                                                 <th>Surname</th>
                                                 <th>Name</th>
                                                 <th>Birth Date</th>
-                                                <th>Tax Code</th>
                                                 <th>Show</th>
                                                 <th>Update</th>
                                                 <th>Export</th>
+                                                <th>Delete</th>
                                                 </tr>                        
                                         </thead>
                                         <tbody>
@@ -120,11 +120,17 @@ $patient = $data_output['patient'];
                                         <td align="center">{{$p->cpp_cognome}}</td>
                                         <td align="center">{{$p->cpp_nome}}</td>
                                         <td align="center">{{date_format($p->cpp_nascita_data,"d-m-Y")}}</td> <!--  data-toggle="modal" data-target="#myModal" href="http://localhost:8000/api/fhir/Patient/{{$p->id_paziente}}" -->
-                                        <td align="center">{{$p->cpp_codfiscale}}</td>
                                         <td align="center"> <button id="{{$p->id_cpp}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
                                         <td align="center"><button id="{{$p->id_cpp}}" value="{{$p->id_cpp}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="{{$p->id_cpp}}" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
+                                       </td>
+                                       <td align="center">
+                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIRPractitioner@destroy', $p->id_cpp) ,'method' => 'DELETE'))}}
+                                      {{ csrf_field() }}
+                                      <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
+                                      {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'button-delete'] )  }}
+                                      {{Form::close()}} 
                                        </td>
                                         </tr>
                                         @endforeach

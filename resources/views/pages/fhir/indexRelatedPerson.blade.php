@@ -110,11 +110,11 @@ $patient = $data_output['patient'];
                                                 <th>ID</th>
                                                 <th>Surname</th>
                                                 <th>Name</th>
-                                                <th>Birth Date</th>
                                                 <th>Relationship</th>
                                                 <th>Show</th>
                                                 <th>Update</th>
                                                 <th>Export</th>
+                                                <th>Delete</th>
                                                 </tr>                        
                                         </thead>
                                         <tbody>
@@ -123,7 +123,6 @@ $patient = $data_output['patient'];
                                         <td align="center">{{$em->id_contatto}}</td>
                                         <td align="center">{{$em->cognome}}</td>
                                         <td align="center">{{$em->nome}}</td>
-                                        <td align="center">{{date_format($em->data_nascita,"d-m-Y")}}</td> <!--  data-toggle="modal" data-target="#myModal" href="http://localhost:8000/api/fhir/Patient/" -->
                                         @foreach($relazioni as $rel)
                                         @if($rel->Code == $em->relazione)
                                         <td align="center">{{$rel->Display}}</td>
@@ -133,6 +132,14 @@ $patient = $data_output['patient'];
                                         <td align="center"><button id="{{$em->id_contatto}}" value="{{$em->id_contatto}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
+                                       </td>
+                                       <td align="center">
+                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIRRelatedPerson@destroy', $em->id_contatto) ,'method' => 'DELETE'))}}
+                                      {{ csrf_field() }}
+                                      <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
+                                      <input hidden id="type" name="type" type="text" value="EM" />
+                                      {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'button-delete'] )  }}
+                                      {{Form::close()}} 
                                        </td>
                                         </tr>
                                         @endforeach
@@ -174,11 +181,11 @@ $patient = $data_output['patient'];
                                                 <th>ID</th>
                                                 <th>Surname</th>
                                                 <th>Name</th>
-                                                <th>Birth Date</th>
                                                 <th>Relationship</th>
                                                 <th>Show</th>
                                                 <th>Update</th>
                                                 <th>Export</th>
+                                                <th>Delete</th>
                                                 </tr>                        
                                         </thead>
                                         <tbody>
@@ -187,7 +194,6 @@ $patient = $data_output['patient'];
                                         <td align="center">{{$p->id_parente}}</td>
                                         <td align="center">{{$p->cognome}}</td>
                                         <td align="center">{{$p->nome}}</td>
-                                        <td align="center">{{date_format($p->data_nascita,"d-m-Y")}}</td> <!--  data-toggle="modal" data-target="#myModal" href="http://localhost:8000/api/fhir/Patient/" -->
                                         @foreach($pazFam as $pf)
                                         @if($pf->id_parente == $p->id_parente)
                                         @foreach($relazioni as $rel)
@@ -201,6 +207,14 @@ $patient = $data_output['patient'];
                                         <td align="center"><button id="{{$p->id_parente}}" value="{{$p->id_parente}}"  onclick="openInputFileUpdateRel(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
+                                       </td>
+                                       <td align="center">
+                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIRRelatedPerson@destroy', $p->id_parente) ,'method' => 'DELETE'))}}
+                                      {{ csrf_field() }}
+                                      <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
+                                      <input hidden id="type" name="type" type="text" value="REL" />
+                                      {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'button-delete'] )  }}
+                                      {{Form::close()}} 
                                        </td>
                                         </tr>
                                         @endforeach

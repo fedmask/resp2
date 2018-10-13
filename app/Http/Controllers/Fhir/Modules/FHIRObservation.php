@@ -22,6 +22,9 @@ use DateTime;
 use DateTimeZone;
 use Date;
 use Carbon\Carbon;
+use App\Models\CurrentUser\User;
+use App\Models\Patient\Pazienti;
+use App\Models\InvestigationCenter\IndaginiEliminate;
 
 class FHIRObservation
 {
@@ -263,6 +266,36 @@ class FHIRObservation
         $updInd->save();
         
         return response()->json($id, 200);
+    }
+    
+    //inserisce l'indagine nella tabelle delle indagini eliminate in modo tale da non essere visualizzata
+    //in quelle disponibili
+    function destroy($id)
+    {
+        $id_paziente = Input::get('patient_id');
+        $paziente = Pazienti::find($id_paziente);
+        
+        $id_utente = User::where('id_utente', $paziente->id_utente)->first()->id_utente;
+        
+        $indElim = array(
+            'id_indagine' => $id,
+            'id_utente' => $id_utente
+        );
+        
+        $addIndElim = new IndaginiEliminate();
+        
+        foreach ($indElim as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            $addIndElim->$key = $value;
+        }
+        
+        $addIndElim->save();
+        
+            
+        return response()->json(null, 204);
+       
     }
     
     
