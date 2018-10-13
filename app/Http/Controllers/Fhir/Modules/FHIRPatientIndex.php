@@ -228,6 +228,14 @@ class FHIRPatientIndex
                     array_push($files, FHIRImmunization::getResource($vacc->id_vaccinazione));
                 }
             }
+            
+            if ($res == "Encounter") {
+                $visite = PazientiVisite::where('id_paziente', $patient->id_paziente)->get();
+                
+                foreach ($visite as $vis) {
+                    array_push($files, FHIREncounter::getResource($vis->id_visita));
+                }
+            }
         }
         
         $path = getcwd() . "\\resources\\Patient\\";
