@@ -40,7 +40,7 @@ $patient = $data_output['patient'];
                                       {{Form::open(array( 'id' => 'updateInputForm' , 'onsubmit' =>'updateInputForm()' ,'method' => 'PUT' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
                                       {{ csrf_field() }}
                                       <input id="fileUpdate" name="fileUpdate" type="file" />
-                                      <input hidden id="vaccinazione_id" type="text" value="{{$current_user->id_utente}}" />
+                                      <input hidden id="visita_id" type="text" value="{{$current_user->id_utente}}" />
                                       {{Form::button('Upload',['id'=>'upload', 'type' => 'submit', 'class' => 'btn btn-primary', 'disabled'] )}}
                                       {{Form::button('Annulla',['id'=>'annulla', 'type' => 'button', 'class' => 'btn btn-default'] )}}
                                       {{Form::close()}} 
@@ -122,12 +122,12 @@ $patient = $data_output['patient'];
                                         <td align="center">{{$v->getVisitaData()}}</td> 
                                         <td align="center">{{$v->getStatusDisplay()}}</td>
                                         <td align="center"> <button id="{{$v->getId()}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
-                                        <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
+                                        <td align="center"><button id="{{$v->getId()}}" value="{{$v->getId()}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
                                        </td>
                                         <td align="center">
-                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIRImmunization@destroy', $v->id_visita) ,'method' => 'DELETE'))}}
+                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIREncounter@destroy', $v->id_visita) ,'method' => 'DELETE'))}}
                                       {{ csrf_field() }}
                                       <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
                                       {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'button-delete'] )  }}

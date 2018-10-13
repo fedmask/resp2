@@ -95,8 +95,7 @@ class FHIREncounter
             "data_output" => $data_xml
         ]);
     }
-    
-    
+
     public function store(Request $request)
     {
         $file = $request->file('file');
@@ -112,14 +111,12 @@ class FHIREncounter
         
         $visite = PazientiVisite::all();
         
-        
         foreach ($visite as $v) {
             if ($v->id_visita == $id['identifier']) {
                 throw new Exception("Visita is already exists");
             }
         }
         
-          
         $lettura = $xml->parse([
             'identifier' => [
                 'uses' => 'identifier.value::value'
@@ -166,10 +163,8 @@ class FHIREncounter
             'reasonDisplay' => [
                 'uses' => 'reason.coding.display::value'
             ]
-            
+        
         ]);
-        
-        
         
         $dateStartPeriod = Carbon::parse($lettura['periodStart'])->toDateTimeString();
         
@@ -192,9 +187,8 @@ class FHIREncounter
             'codice_priorita' => '1',
             'tipo_richiesta' => '',
             'richiesta_visita_inizio' => $dateStartPeriod,
-            'richiesta_visita_fine' => $dateEndPeriod 
+            'richiesta_visita_fine' => $dateEndPeriod
         );
-        
         
         $addVisita = new PazientiVisite();
         
@@ -205,7 +199,6 @@ class FHIREncounter
             $addVisita->$key = $value;
         }
         $addVisita->save();
-        
         
         if (! is_null($lettura['participantType'])) {
             
@@ -228,15 +221,14 @@ class FHIREncounter
             }
             
             $startPeriod = array();
-            foreach($lettura['participantStartPeriod'] as $s){
+            foreach ($lettura['participantStartPeriod'] as $s) {
                 array_push($startPeriod, Carbon::parse($s['attr'])->toDateTimeString());
             }
             
             $endPeriod = array();
-            foreach($lettura['participantEndPeriod'] as $s){
+            foreach ($lettura['participantEndPeriod'] as $s) {
                 array_push($endPeriod, Carbon::parse($s['attr'])->toDateTimeString());
             }
-        
             
             $partStart = array();
             foreach ($startPeriod as $r) {
@@ -253,7 +245,7 @@ class FHIREncounter
             foreach ($partType as $p) {
                 $visitaPart = array(
                     'id_visita' => $lettura['identifier'],
-                    'individual' => $partId[$i], //id_cpp
+                    'individual' => $partId[$i], // id_cpp
                     'type' => $partType[$i],
                     'start_period' => $partStart[$i],
                     'end_period' => $partEnd[$i]
@@ -276,7 +268,192 @@ class FHIREncounter
         }
         
         return response()->json($lettura['identifier'], 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $file = $request->file('fileUpdate');
+        $id_paziente = Input::get('patient_id');
         
+        $xml = XmlParser::load($file->getRealPath());
+        
+        $id_visita = $xml->parse([
+            'identifier' => [
+                'uses' => 'identifier.value::value'
+            ]
+        ]);
+        
+        if ($id != $id_visita['identifier']) {
+            throw new Exception("ERROR");
+        }
+        
+        if (! PazientiVisite::find($id_visita['identifier'])) {
+            throw new Exception("Observation does not exist in the database");
+        }
+        
+        $lettura = $xml->parse([
+            'identifier' => [
+                'uses' => 'identifier.value::value'
+            ],
+            'status' => [
+                'uses' => 'status::value'
+            ],
+            'classCode' => [
+                'uses' => 'class.code::value'
+            ],
+            'classDisplay' => [
+                'uses' => 'class.display::value'
+            ],
+            'subjectReference' => [
+                'uses' => 'subject.reference::value'
+            ],
+            'subjectDisplay' => [
+                'uses' => 'subject.display::value'
+            ],
+            'participantType' => [
+                'uses' => 'participant[type.coding.code::value>attr]'
+            ],
+            'participantStartPeriod' => [
+                'uses' => 'participant[period.start::value>attr]'
+            ],
+            'participantEndPeriod' => [
+                'uses' => 'participant[period.end::value>attr]'
+            ],
+            'participantIndividualReference' => [
+                'uses' => 'participant[individual.reference::value>attr]'
+            ],
+            'participantIndividualDisplay' => [
+                'uses' => 'participant[individual.display::value>attr]'
+            ],
+            'periodStart' => [
+                'uses' => 'period.start::value'
+            ],
+            'periodEnd' => [
+                'uses' => 'period.end::value'
+            ],
+            'reasonCode' => [
+                'uses' => 'reason.coding.code::value'
+            ],
+            'reasonDisplay' => [
+                'uses' => 'reason.coding.display::value'
+            ]
+        
+        ]);
+        
+        $dateStartPeriod = Carbon::parse($lettura['periodStart'])->toDateTimeString();
+        
+        $dateEndPeriod = Carbon::parse($lettura['periodEnd'])->toDateTimeString();
+        
+        $visita = array(
+            'id_cpp' => '1',
+            'id_paziente' => $id_paziente,
+            'status' => $lettura['status'],
+            'class' => $lettura['classCode'],
+            'start_period' => $dateStartPeriod,
+            'end_period' => $dateEndPeriod,
+            'reason' => $lettura['reasonCode'],
+            'visita_data' => $dateStartPeriod,
+            'visita_motivazione' => '',
+            'visita_osservazioni' => '',
+            'visita_conclusioni' => '',
+            'stato_visita' => $lettura['status'],
+            'codice_priorita' => '1',
+            'tipo_richiesta' => '',
+            'richiesta_visita_inizio' => $dateStartPeriod,
+            'richiesta_visita_fine' => $dateEndPeriod
+        );
+        
+        $updVisita = PazientiVisite::find($id_visita['identifier']);
+        
+        foreach ($visita as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            $updVisita->$key = $value;
+        }
+        
+         $updVisita->save();
+        
+        if (! is_null($lettura['participantType'])) {
+            
+            $partType = array();
+            foreach ($lettura['participantType'] as $p) {
+                array_push($partType, $p['attr']);
+            }
+            // estraggo gli id dei partecipanti
+            $partId = array();
+            foreach ($lettura['participantIndividualReference'] as $p) {
+                $expl = explode("-", $p['attr']);
+                array_push($partId, $expl[2]);
+            }
+            // controllo se i providers sono presenti nel sistema
+            $cpp = CareProvider::all();
+            foreach ($partId as $id) {
+                if (! CareProvider::find($id)) {
+                    throw new Exception("Providers not exists");
+                }
+            }
+            
+            $startPeriod = array();
+            foreach ($lettura['participantStartPeriod'] as $s) {
+                array_push($startPeriod, Carbon::parse($s['attr'])->toDateTimeString());
+            }
+            
+            $endPeriod = array();
+            foreach ($lettura['participantEndPeriod'] as $s) {
+                array_push($endPeriod, Carbon::parse($s['attr'])->toDateTimeString());
+            }
+            
+            $partStart = array();
+            foreach ($startPeriod as $r) {
+                array_push($partStart, $r);
+            }
+            
+            $partEnd = array();
+            foreach ($endPeriod as $r) {
+                array_push($partEnd, $r);
+            }
+            
+            $arrayPart = array();
+            $i = 0;
+            foreach ($partType as $p) {
+                $visitaPart = array(
+                    'id_visita' => $lettura['identifier'],
+                    'individual' => $partId[$i], // id_cpp
+                    'type' => $partType[$i],
+                    'start_period' => $partStart[$i],
+                    'end_period' => $partEnd[$i]
+                );
+                array_push($arrayPart, $visitaPart);
+                $i ++;
+            }
+            
+            EncounterParticipant::find($id_visita['identifier'])->delete();
+            
+            $addVisitaPart = new EncounterParticipant();
+            foreach ($arrayPart as $p) {
+                $addVisitaPart = new EncounterParticipant();
+                foreach ($p as $key => $value) {
+                    if (empty($value)) {
+                        continue;
+                    }
+                    $addVisitaPart->$key = $value;
+                }
+                $addVisitaPart->save();
+            }
+        }
+        
+        return response()->json($id_visita['identifier'], 200);
     }
     
+    function destroy($id)
+    {
+        
+        EncounterParticipant::find($id)->delete();
+        
+        PazientiVisite::find($id)->delete();
+        
+        return response()->json(null, 204);
+        
+    }
 }
