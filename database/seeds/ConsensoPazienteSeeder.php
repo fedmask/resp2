@@ -18,7 +18,7 @@ class ConsensoPazienteSeeder extends Seeder
     			[   'Id_Trattamento' => '1',
     					'Id_Paziente' => '2',
     					'Consenso' => true,
-    					'data_consenso'=> date('d-m-Y H:i:s'),
+    					'data_consenso'=> now(),
     			]
     	]);
     	
@@ -26,7 +26,7 @@ class ConsensoPazienteSeeder extends Seeder
     			[   'Id_Trattamento' => '2',
     					'Id_Paziente' => '2',
     					'Consenso' => false,
-    					'data_consenso'=> date('d-m-Y H:i:s'),
+    					'data_consenso'=> now(),
     			]
     	]);
     	

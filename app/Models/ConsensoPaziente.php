@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class ConsensoPaziente extends Model
 {
@@ -42,7 +43,8 @@ class ConsensoPaziente extends Model
 	}
 	public function getDataConsenso()
 	{
-		return $this->data_consenso;
+		
+		return date('d/m/y H:m', strtotime($this->data_consenso));
 	}
 	
 	public function setTime(){

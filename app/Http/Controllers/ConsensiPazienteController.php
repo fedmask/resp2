@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use DB;
 use Input;
+use Carbon\Carbon;
 //use Illuminate\Support\Facades\Input;
 
 class ConsensiPazienteController extends Controller {

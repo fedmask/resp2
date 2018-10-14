@@ -1,3 +1,4 @@
+
 @extends('layouts.app') @extends('includes.template_head')
 
 
@@ -92,6 +93,7 @@
 						<div class="modal-body">
 							<h2>{{$LC->getTrattamentoNome()}}</h2>
 							<p>{{$LC->getTrattamentoInformativa()}}</p>
+							<p>L'ultima modifica risulta effettuata il: <b> {{$LC->getDataConsenso()}} </b></p>
 							<div class="form-group">
 								
 								<div class="col-lg-8">
