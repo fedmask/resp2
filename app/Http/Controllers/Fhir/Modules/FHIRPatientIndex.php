@@ -36,6 +36,7 @@ use App\Models\FHIR\Contatto;
 use App\Models\Parente;
 use App\Models\CodificheFHIR\RelationshipType;
 use App\Models\Diagnosis\Diagnosi;
+use App\Models\Diagnosis\DiagnosiEliminate;
 use App\Models\Vaccine\Vaccinazione;
 
 /**
@@ -174,6 +175,36 @@ class FHIRPatientIndex
         $data['patient'] = $patient;
         
         return view("pages.fhir.indexEncounter", [
+            "data_output" => $data
+        ]);
+    }
+    
+    
+    /**
+     * Funzione per il reindirizzamento alla sezione Condition
+     * Visualizza le Diagnosi del Paziente loggato
+     */
+    function indexCondition($id)
+    {
+        $patient = Pazienti::where('id_paziente', $id)->first();
+        
+        $dia = Diagnosi::where('id_paziente', $patient->id_paziente)->get();
+        
+        $indElim = DiagnosiEliminate::all();
+        
+        // controllo che restituisce tutte le indagini del paz loggato che non sono state eliminate
+        $diagnosi = array();
+        foreach ($dia as $d) {
+            if (! DiagnosiEliminate::find($d->id_indagine)) {
+                array_push($diagnosi, $d);
+            }
+        }
+        
+        
+        $data['diagnosi'] = $diagnosi;
+        $data['patient'] = $patient;
+        
+        return view("pages.fhir.indexCondition", [
             "data_output" => $data
         ]);
     }

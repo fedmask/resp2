@@ -25,4 +25,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::resource('Observation', 'Fhir\Modules\FHIRObservation');
         Route::resource('Immunization', 'Fhir\Modules\FHIRImmunization');
         Route::resource('Encounter', 'Fhir\Modules\FHIREncounter');
+        Route::resource('Condition', 'Fhir\Modules\FHIRCondition');
     });

@@ -23,7 +23,9 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
 			</li>
 			<li class="panel" style="font-size:15px"> <a href="/fhirEncounterIndex/{{$id_paz}}"> <em class="glyphicon glyphicon-map-marker"></em> Encounter </a>
 			</li>
-			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-hospital"></em> Organization </a>
+			<li class="panel" style="font-size:15px"> <a href="/fhirConditionIndex/{{$id_paz}}"> <em class="glyphicon glyphicon-search"></em> Condition </a>
+			</li>
+		<!--  	<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-hospital"></em> Organization </a>
 			</li>
 			<li class="panel" style="font-size:15px"> <a href="/"> <em class="glyphicon glyphicon-exclamation-sign"></em> Allergy Intollerance </a>
 			</li>
@@ -31,10 +33,8 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
 			</li>
 			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-hospital"></em> Procedure </a>
 			</li>
-			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-file-text-alt"></em> Condiction </a>
-			</li>
 			<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-file-text-alt"></em> Medication </a>
-			</li>
+			</li>-->
 		</ul>
 <!--END MENU SECTION -->
 </div>
