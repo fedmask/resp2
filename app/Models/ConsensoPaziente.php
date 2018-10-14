@@ -13,7 +13,7 @@ class ConsensoPaziente extends Model
 	protected $casts = [
 			'Id_Consenso_P' =>'int',
 			'Id_Trattamento' => 'int',
-			'Id_Paziente' => 'bool',
+			'Id_Paziente' => 'int',
 			
 	];
 	protected $dates = [
@@ -38,7 +38,7 @@ class ConsensoPaziente extends Model
 	}
 	public function getConsenso()
 	{
-		return $this->Id_Paziente;
+				return ($this->Consenso == 0) ? false : true;
 	}
 	public function getDataConsenso()
 	{
@@ -48,6 +48,18 @@ class ConsensoPaziente extends Model
 	public function setTime(){
 		
 		$this->data_consenso=now();
+		
+	}
+	
+	public function getTrattamentoNome(){
+		
+		return   \App\TrattamentiPaziente::where('Id_Trattamento', $this->getID_Trattamento())->first()->Nome_T;
+		
+	}
+	
+	public function getTrattamentoInformativa(){
+		
+		return   \App\TrattamentiPaziente::where('Id_Trattamento', $this->getID_Trattamento())->first()->Informativa;
 		
 	}
 	

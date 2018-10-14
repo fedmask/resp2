@@ -224,6 +224,7 @@ return array(
     'ConditionStageSummaryTableSeeder' => $baseDir . '/database/seeds/ConditionStageSummaryTableSeeder.php',
     'ConditionVerificationStatusTableSeeder' => $baseDir . '/database/seeds/ConditionVerificationStatusTableSeeder.php',
     'ConfidenzialitaSeeder' => $baseDir . '/database/seeds/ConfidenzialitaSeeder.php',
+    'ConsensoPazienteSeeder' => $baseDir . '/database/seeds/ConsensoPazienteSeeder.php',
     'ContactRelationshipTableSeeder' => $baseDir . '/database/seeds/ContactRelationshipTableSeeder.php',
     'ContactsTableSeeder' => $baseDir . '/database/seeds/ContactsTableSeeder.php',
     'ContactsTypesTableSeeder' => $baseDir . '/database/seeds/ContactsTypesTableSeeder.php',

@@ -599,6 +599,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'ConditionStageSummaryTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ConditionStageSummaryTableSeeder.php',
         'ConditionVerificationStatusTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ConditionVerificationStatusTableSeeder.php',
         'ConfidenzialitaSeeder' => __DIR__ . '/../..' . '/database/seeds/ConfidenzialitaSeeder.php',
+        'ConsensoPazienteSeeder' => __DIR__ . '/../..' . '/database/seeds/ConsensoPazienteSeeder.php',
         'ContactRelationshipTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ContactRelationshipTableSeeder.php',
         'ContactsTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ContactsTableSeeder.php',
         'ContactsTypesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ContactsTypesTableSeeder.php',

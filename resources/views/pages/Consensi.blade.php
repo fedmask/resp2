@@ -9,7 +9,7 @@
 			<div class="col-lg-12">
 				<h2>Trattamenti</h2>
 				<hr>
-				
+
 				<br>
 
 				<style>
@@ -82,49 +82,47 @@
 }
 </style>
 
-				<form data-toggle="validator" data-disable="false" role="form">
-					<div class="container">
-
-						<div class="well">
-
-							@foreach($listaTrattamenti as $Tr)
-							<h2>{{$Tr['Nome_T']}}</h2>
-							<p>{{$Tr['Informativa']}}</p>
-
-							<label class="container">Acconsento <input type="checkbox"
-								name="check" .{{$Tr['Id_Trattamento']}} value=1 >
-								<span class="checkmark"></span> @endforeach
-							</label>
-
-
-
+				<form class="form-horizontal"
+					action="{{action('ConsensiPazienteController@update')}}"
+					method="post">
+					{{ Form::open(array('url' => '/consent/update')) }} {{
+					csrf_field() }}
+					@foreach($listaConsensi as $LC)
+					<div class="well">
+						<div class="modal-body">
+							<h2>{{$LC->getTrattamentoNome()}}</h2>
+							<p>{{$LC->getTrattamentoInformativa()}}</p>
+							<div class="form-group">
+								
+								<div class="col-lg-8">
+									<label> {{Form::radio('check'.$LC->getID_Trattamento(), 'nego',
+										$LC['Consenso'] === 0? true :
+										false )}} Nego il consenso </label> <label>
+										{{Form::radio('check'.$LC->getID_Trattamento(), 'acconsento',
+										$LC['Consenso'] === 1 ? true :
+										false )}} Acconsento </label>
+								</div>
+							</div>
 						</div>
-						<div align="center" onclick="refresh()">
-							<button class="btn btn-info" onclick="window.location.href='/'"">Salva</button>
 						</div>
-					</div>
-
-				</form>
-			
-{!! Form::open(array('url' => 'foo/bar')) !!} 
-
-{!! Form::label('Test-1') !!} {!! Form::checkbox('ch[]', 'value-1', false); !!} 
-
-{!! Form::label('Test-2') !!} {!! Form::checkbox('ch[]', 'value-2', false); !!} 
-
-{!! Form::submit('Click Me!') !!}
-{!! Form::close() !!}
+						@endforeach
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal" onclick = "window.location.reload()";>Annulla</button>
+							{{ Form::submit('Salva', ['class' => 'btn btn-primary'])}}
+						</div>
+						{{ Form::close() }}
 				
+				</form>
+
 			</div>
 
 
 		</div>
 
-
-
-
 	</div>
 </div>
+
 
 <!--END PAGE CONTENT -->
 

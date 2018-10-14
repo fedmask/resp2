@@ -18,7 +18,7 @@ class CreateConsensoPazienteTable extends Migration {
 			$table->integer('Id_Trattamento')->unsigned();
 			$table->integer('Id_Paziente')->unsigned();
 			$table->boolean('Consenso')->default(0);
-			$table->date('data_consenso');
+			$table->dateTime('data_consenso');
 		});
 	}
 

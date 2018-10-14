@@ -209,7 +209,7 @@ Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' )
  */
 Route::post ( '/visite/addVisita', 'VisiteController@addVisita' );
 
-Route::post ( '/consent/save', 'ConsensiPazienteController@update');
+Route::post ( '/consent/update', 'ConsensiPazienteController@update');
 
 
 /**
