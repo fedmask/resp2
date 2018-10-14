@@ -15,6 +15,7 @@ class CreateFamilyMemberHistoryStatusTable extends Migration {
 		Schema::create('FamilyMemberHistoryStatus', function(Blueprint $table)
 		{
 			$table->string('Code', 20)->primary();
+			$table->string('Display', 150);
 		});
 	}
 

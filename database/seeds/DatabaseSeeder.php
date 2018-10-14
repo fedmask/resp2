@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AllergyIntolleranceReactionSeverityTableSeeder::class);
         $this->call(ConditionCodeTableSeeder::class);
         $this->call(FamilyMemberHistoryConditionOutcomeTableSeeder::class);
+        $this->call(FamilyMemberHistoryStatusTableSeeder::class);
         $this->call(ConditionBodySiteTableSeeder::class);
         $this->call(ConditionStageSummaryTableSeeder::class);
         $this->call(ConditionEvidenceCodeTableSeeder::class);
@@ -129,6 +130,8 @@ class DatabaseSeeder extends Seeder
         $this->call ( Cpp_SpecializationSeeder::class );
         
         $this->call(EncounterParticipantTableSeeder::class);
+        $this->call(FamilyMemberHistoryTableSeeder::class);
+        $this->call(FamilyMemberHistoryConditionTableSeeder::class);
         
         $this->call ( ATCGruppoAnatomicoPSeeder::class );
         $this->call (ATCGruppoTerapeuticoPSeeder::class );
