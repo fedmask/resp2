@@ -157,6 +157,11 @@ class Parente extends Model {
 	    return $this->getNome()."-".$this->getCognome();
 	}
 	
+	public function getFullName1()
+	{
+	    return $this->getNome()." ".$this->getCognome();
+	}
+	
 	public function getMail()
 	{
 	    return $this->mail;
@@ -180,5 +185,13 @@ class Parente extends Model {
 	public function getDataNascita(){
 	    $data = date_format($this->data_nascita,"Y-m-d");
 	    return $data;
+	}
+	
+	public function isDecesso() {
+	    $ret = "false";
+	    if($this->decesso){
+	        $ret = "true";
+	    }
+	    return $ret;
 	}
 }

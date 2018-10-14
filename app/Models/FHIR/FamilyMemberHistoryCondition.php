@@ -8,6 +8,8 @@
 namespace App\Models\FHIR;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Models\CodificheFHIR\ConditionCode;
+use App\Models\CodificheFHIR\FamilyMemberHistoryConditionOutcome;
 
 /**
  * Class FamilyMemberHistoryCondition
@@ -33,4 +35,26 @@ class FamilyMemberHistoryCondition extends Eloquent
 		'outcome',
 		'note'
 	];
+	
+	public function getCode(){
+	    return $this->code;
+	}
+	
+	public function getCodeDisplay(){
+	    $dis = ConditionCode::where('Code', $this->getCode())->first();
+	    return $dis->Text;
+	}
+	
+	public function getOutcome(){
+	    return $this->outcome;
+	}
+	
+	public function getOutComeDisplay(){
+	   $dis = FamilyMemberHistoryConditionOutcome::where('Code', $this->getOutcome())->first();
+	    return $dis->Text;
+	}
+	
+	public function getNote(){
+	    return $this->note;
+	}
 }

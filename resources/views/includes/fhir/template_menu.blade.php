@@ -25,6 +25,8 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
 			</li>
 			<li class="panel" style="font-size:15px"> <a href="/fhirConditionIndex/{{$id_paz}}"> <em class="glyphicon glyphicon-search"></em> Condition </a>
 			</li>
+			<li class="panel" style="font-size:15px"> <a href="/fhirFamilyMemberHistoryIndex/{{$id_paz}}"> <em class="glyphicon glyphicon-list"></em> FamilyMemberHistory </a>
+			</li>
 		<!--  	<li class="panel" style="font-size:15px"> <a href="/"> <em class="icon-hospital"></em> Organization </a>
 			</li>
 			<li class="panel" style="font-size:15px"> <a href="/"> <em class="glyphicon glyphicon-exclamation-sign"></em> Allergy Intollerance </a>

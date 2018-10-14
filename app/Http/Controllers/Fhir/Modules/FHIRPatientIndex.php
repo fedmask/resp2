@@ -38,6 +38,7 @@ use App\Models\CodificheFHIR\RelationshipType;
 use App\Models\Diagnosis\Diagnosi;
 use App\Models\Diagnosis\DiagnosiEliminate;
 use App\Models\Vaccine\Vaccinazione;
+use App\Models\History\AnamnesiF;
 
 /**
  * Classe per la gestione della pagina FHIR sul lato paziente
@@ -205,6 +206,25 @@ class FHIRPatientIndex
         $data['patient'] = $patient;
         
         return view("pages.fhir.indexCondition", [
+            "data_output" => $data
+        ]);
+    }
+    
+    
+    /**
+     * Funzione per il reindirizzamento alla sezione FamilyMemberHistory
+     * Visualizza le Anamnesi Familiari di un parente del Paziente loggato
+     */
+    function indexFamilyMemberHistory($id)
+    {
+        $patient = Pazienti::where('id_paziente', $id)->first();
+        
+        $anamnesi = AnamnesiF::where('id_paziente', $patient->id_paziente)->get();
+        
+        $data['anamnesi'] = $anamnesi;
+        $data['patient'] = $patient;
+        
+        return view("pages.fhir.indexFamilyMemberHistory", [
             "data_output" => $data
         ]);
     }

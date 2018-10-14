@@ -3,6 +3,10 @@
 namespace App\Models\History;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Parente;
+use App\Models\Patient\PazientiFamiliarita;
+use App\Models\Patient\Pazienti;
+use App\Models\CodificheFHIR\FamilyMemberHistoryStatus;
 
 class AnamnesiF extends Model {
 	//
@@ -30,5 +34,64 @@ class AnamnesiF extends Model {
 		'data'
 
 	];
+
+	public function getId(){
+	    return $this->id_anamnesiF;
+	}
 	
+	public function getParente(){
+	    $parente = Parente::where('id_parente', $this->id_parente)->first();
+	    return $parente->getFullName1();
+	}
+	
+	public function getRelationship(){
+	    $rel = PazientiFamiliarita::where([
+	        ['id_paziente', "=", $this->id_paziente],
+	        ['id_parente', "=", $this->id_parente]
+	    ])->first();
+	    
+	    return $rel->getRelazione();
+	}
+	
+	public function getRelationshipCode(){
+	    $rel = PazientiFamiliarita::where([
+	        ['id_paziente', "=", $this->id_paziente],
+	        ['id_parente', "=", $this->id_parente]
+	    ])->first();
+	    
+	    return $rel->relazione;
+	}
+	
+	public function getStatus(){
+	    return $this->status;
+	}
+	
+	public function getStatusDisplay(){
+	    $dis = FamilyMemberHistoryStatus::where('Code', $this->getStatus())->first();
+	    return $dis->Display;
+	}
+	
+	public function getPazienteId(){
+	    return $this->id_paziente;
+	}
+	
+	public function getPaziente(){
+	    $paz = Pazienti::where('id_paziente', $this->getPazienteId())->first();
+	    return $paz->getFullName();
+	}
+	
+	public function getGender(){
+	    $parente = Parente::where('id_parente', $this->id_parente)->first();
+	    return $parente->getSesso();
+	}
+	
+	public function getBorn(){
+	    $parente = Parente::where('id_parente', $this->id_parente)->first();
+	    return $parente->getDataNascita();
+	}
+	
+	public function isDeceased(){
+	    $parente = Parente::where('id_parente', $this->id_parente)->first();
+	    return $parente->isDecesso();
+	}
 }
