@@ -5,7 +5,7 @@ $diagnosi = $data_output["diagnosi"];
 
 <?xml version="1.0" encoding="UTF-8"?>
 <Condition xmlns="http://hl7.org/fhir">
-  <id value="example"/>
+  <id value="{{$diagnosi->getId()}}"/>
  
   <text>
  <status value="generated"/>

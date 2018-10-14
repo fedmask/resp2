@@ -120,12 +120,12 @@ $patient = $data_output['patient'];
                                         <td align="center">{{$d->getCodeDisplay()}}</td> 
                                         <td align="center">{{$d->getSeverityDisplay()}}</td>
                                         <td align="center"> <button id="{{$d->getId()}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
-                                        <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
+                                        <td align="center"><button id="{{$d->getId()}}" value="{{$d->getId()}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
                                        </td>
                                         <td align="center">
-                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIREncounter@destroy', $d->getId()) ,'method' => 'DELETE'))}}
+                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIRCondition@destroy', $d->getId()) ,'method' => 'DELETE'))}}
                                       {{ csrf_field() }}
                                       <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
                                       {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'button-delete'] )  }}

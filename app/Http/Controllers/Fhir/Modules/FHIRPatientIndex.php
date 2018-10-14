@@ -190,12 +190,12 @@ class FHIRPatientIndex
         
         $dia = Diagnosi::where('id_paziente', $patient->id_paziente)->get();
         
-        $indElim = DiagnosiEliminate::all();
+        $diaElim = DiagnosiEliminate::all();
         
         // controllo che restituisce tutte le indagini del paz loggato che non sono state eliminate
         $diagnosi = array();
         foreach ($dia as $d) {
-            if (! DiagnosiEliminate::find($d->id_indagine)) {
+            if (! DiagnosiEliminate::find($d->id_diagnosi)) {
                 array_push($diagnosi, $d);
             }
         }
