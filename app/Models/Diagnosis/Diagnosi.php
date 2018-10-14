@@ -44,6 +44,7 @@ class Diagnosi extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
+	    'id_diagnosi' => 'int',
 		'id_paziente' => 'int',
 		'diagnosi_confidenzialita' => 'int',
 	];
@@ -55,6 +56,7 @@ class Diagnosi extends Eloquent
 	];
 
 	protected $fillable = [
+	    'id_diagnosi',
 		'id_paziente',
 	    'verificationStatus',
 	    'severity',

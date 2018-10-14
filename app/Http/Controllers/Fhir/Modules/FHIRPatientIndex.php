@@ -267,6 +267,14 @@ class FHIRPatientIndex
                     array_push($files, FHIREncounter::getResource($vis->id_visita));
                 }
             }
+            
+            if ($res == "Condition") {
+                $diagnosi = Diagnosi::where('id_paziente', $patient->id_paziente)->get();
+                
+                foreach ($diagnosi as $diagn) {
+                    array_push($files, FHIRCondition::getResource($diagn->id_diagnosi));
+                }
+            }
         }
         
         $path = getcwd() . "\\resources\\Patient\\";

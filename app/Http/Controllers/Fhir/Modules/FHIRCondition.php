@@ -331,4 +331,393 @@ class FHIRCondition
         return response()->json(null, 204);
         
     }
+    
+    public static function getResource($id){
+        
+        $diagnosi = Diagnosi::where('id_diagnosi', $id)->first();
+        
+        $values_in_narrative = array(
+            "Id" => $diagnosi->getId(),
+            "Identifier" => "RESP-CONDITION" . "-" . $diagnosi->getId(),
+            "ClinicalStatus" => $diagnosi->getClinicalStatus(),
+            "VerificationStatus" => $diagnosi->getVerificationStatus(),
+            "Severity" => $diagnosi->getSeverityDisplay(),
+            "Code" => $diagnosi->getCodeDisplay(),
+            "BodySite" => $diagnosi->getBodySiteDisplay(),
+            "Stage" => $diagnosi->getStageDisplay(),
+            "Evidence" => $diagnosi->getEvidenceDisplay(),
+            "Subject" => $diagnosi->getPaziente(),
+            "Note" => $diagnosi->getNote()
+        );
+        
+        $data_xml["narrative"] = $values_in_narrative;
+        $data_xml["diagnosi"] = $diagnosi;
+        
+        self::xml($data_xml);
+    }
+    
+    
+    public static function xml($data_xml){
+        //Creazione di un oggetto dom con la codifica UTF-8
+        $dom = new DOMDocument('1.0', 'utf-8');
+        
+        //Creazione del nodo Patient, cioè il nodo Root  della risorsa
+        $cond = $dom->createElement('Condition');
+        //Valorizzo il namespace della risorsa e del documento XML, in  questo caso la specifica FHIR
+        $cond->setAttribute('xmlns', 'http://hl7.org/fhir');
+        //Corrello l'elemento con il nodo superiore
+        $cond = $dom->appendChild($cond);
+        
+        
+        //Creazione del nodo ID sempre presente nelle risorse FHIR
+        $id = $dom->createElement('id');
+        //Il valore dell'ID è il valore dell'ID nella relativa tabella del DB
+        $id->setAttribute('value', $data_xml["narrative"]["Id"]);
+        $id = $cond->appendChild($id);
+        
+        //Creazione della parte narrativa in XHTML e composta da tag HTML visualizzabili se aperto il file XML in un Browser
+        $narrative = $dom->createElement('text');
+        //Corrello l'elemento con il nodo superiore
+        $narrative = $cond->appendChild($narrative);
+        
+        
+        //Creazione del nodo status che indica lo stato della parte narrativa
+        $status = $dom->createElement('status');
+        //Il valore del nodo status è sempre generated, la parte narrativa è generato dal sistema
+        $status->setAttribute('value', 'generated');
+        $status = $narrative->appendChild($status);
+        
+        
+        //Creazione del div che conterrà la tabella con i valori visualizzabili nella parte narrativa
+        $div = $dom->createElement('div');
+        //Link al value set della parte narrativa, cioè la codifica XHTML
+        $div->setAttribute('xmlns',"http://www.w3.org/1999/xhtml");
+        $div = $narrative->appendChild($div);
+        
+        
+        //Creazione della tabella che conterrà i valori
+        $table = $dom->createElement('table');
+        $table->setAttribute('border',"2");
+        $table = $div->appendChild($table);
+        
+        
+        //Creazione del nodo tbody
+        $tbody = $dom->createElement('tbody');
+        $tbody = $table->appendChild($tbody);
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Identifier
+        $td = $dom->createElement('td',"Identifier");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del related person
+        $td = $dom->createElement('td', $data_xml["narrative"]["Identifier"]);
+        $td = $tr->appendChild($td);
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Active
+        $td = $dom->createElement('td',"ClinicalStatus");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del related person
+        $td = $dom->createElement('td', $data_xml["narrative"]["ClinicalStatus"]);
+        $td = $tr->appendChild($td);
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Patient
+        $td = $dom->createElement('td',"VerificationStatus");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["VerificationStatus"]);
+        $td = $tr->appendChild($td);
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Relationship
+        $td = $dom->createElement('td',"Severity");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Severity"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Name
+        $td = $dom->createElement('td',"Code");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Code"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Telecom
+        $td = $dom->createElement('td',"BodySite");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["BodySite"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna Gender
+        $td = $dom->createElement('td',"Stage");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Stage"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna BirthDate
+        $td = $dom->createElement('td',"Evidence");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Evidence"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna BirthDate
+        $td = $dom->createElement('td',"Subject");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Subject"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        //Creazione di una riga
+        $tr = $dom->createElement('tr');
+        $tr = $tbody->appendChild($tr);
+        
+        //Creazione della colonna BirthDate
+        $td = $dom->createElement('td',"Note");
+        $td = $tr->appendChild($td);
+        
+        //Creazione della colonna con il valore di nome e cognome del paziente
+        $td = $dom->createElement('td', $data_xml["narrative"]["Note"]);
+        $td = $tr->appendChild($td);
+        
+        
+        
+        //Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
+        $identifier = $dom->createElement('identifier');
+        $identifier = $cond->appendChild($identifier);
+        //Creazione del nodo value
+        $value = $dom->createElement('value');
+        //Do il valore all' URI della risorsa
+        $value->setAttribute('value', $data_xml["narrative"]["Id"]);
+        $value = $identifier->appendChild($value);
+        
+        
+        
+        
+        //Creazione del nodo active settato a true in quanto la risorsa è attiva per il FSEM
+        $clinicalStatus = $dom->createElement('clinicalStatus');
+        $clinicalStatus->setAttribute('value', $data_xml["diagnosi"]->getClinicalStatus());
+        $clinicalStatus = $cond->appendChild($clinicalStatus);
+        
+        
+        
+        //Creazione del nodo active settato a true in quanto la risorsa è attiva per il FSEM
+        $verificationStatus = $dom->createElement('verificationStatus');
+        $verificationStatus->setAttribute('value', $data_xml["diagnosi"]->getVerificationStatus());
+        $verificationStatus = $cond->appendChild($verificationStatus);
+        
+        
+        
+        
+        //creazione del nodo patient
+        $severity = $dom->createElement('severity');
+        $severity = $cond->appendChild($severity);
+        
+        $coding = $dom->createElement('coding');
+        $coding = $severity->appendChild($coding);
+        
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'http://snomed.info/sct');
+        $system = $coding->appendChild($system);
+        
+        $code = $dom->createElement('code');
+        $code->setAttribute('value', $data_xml["diagnosi"]->getSeverity());
+        $code = $coding->appendChild($code);
+        
+        $display = $dom->createElement('display');
+        $display->setAttribute('value', $data_xml["diagnosi"]->getSeverityDisplay());
+        $display = $coding->appendChild($display);
+      
+        
+        
+        //creazione del nodo patient
+        $code = $dom->createElement('code');
+        $code = $cond->appendChild($code);
+        
+        $coding = $dom->createElement('coding');
+        $coding = $code->appendChild($coding);
+        
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'http://snomed.info/sct');
+        $system = $coding->appendChild($system);
+        
+        $codeC = $dom->createElement('code');
+        $codeC->setAttribute('value', $data_xml["diagnosi"]->getCode());
+        $codeC = $coding->appendChild($codeC);
+        
+        $display = $dom->createElement('display');
+        $display->setAttribute('value', $data_xml["diagnosi"]->getCodeDisplay());
+        $display = $coding->appendChild($display);
+        
+        $text = $dom->createElement('text');
+        $text->setAttribute('value', $data_xml["diagnosi"]->getCodeDisplay());
+        $text = $code->appendChild($text);
+        
+        
+        
+        
+        //creazione del nodo patient
+        $bodySite = $dom->createElement('bodySite');
+        $bodySite = $cond->appendChild($bodySite);
+        
+        $coding = $dom->createElement('coding');
+        $coding = $bodySite->appendChild($coding);
+        
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'http://snomed.info/sct');
+        $system = $coding->appendChild($system);
+        
+        $code = $dom->createElement('code');
+        $code->setAttribute('value', $data_xml["diagnosi"]->getBodySite());
+        $code = $coding->appendChild($code);
+        
+        $display = $dom->createElement('display');
+        $display->setAttribute('value', $data_xml["diagnosi"]->getBodySiteDisplay());
+        $display = $coding->appendChild($display);
+        
+        $text = $dom->createElement('text');
+        $text->setAttribute('value', $data_xml["diagnosi"]->getBodySiteDisplay());
+        $text = $bodySite->appendChild($text);
+        
+        
+        
+        
+        //Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
+        $subject = $dom->createElement('subject');
+        $subject = $cond->appendChild($subject);
+        
+        $reference = $dom->createElement('reference');
+        $reference->setAttribute('value', "RESP-PATIENT-".$data_xml["diagnosi"]->getPazienteId());
+        $reference = $subject->appendChild($reference);
+        
+        
+        
+        
+        
+        //creazione del nodo patient
+        $stage = $dom->createElement('stage');
+        $stage = $cond->appendChild($stage);
+        
+        $summary = $dom->createElement('summary');
+        $summary = $stage->appendChild($summary);
+        
+        $coding = $dom->createElement('coding');
+        $coding = $summary->appendChild($coding);
+        
+        $system = $dom->createElement('system');
+        $system->setAttribute('value', 'http://snomed.info/sct');
+        $system = $coding->appendChild($system);
+        
+        $code = $dom->createElement('code');
+        $code->setAttribute('value', $data_xml["diagnosi"]->getStage());
+        $code = $coding->appendChild($code);
+        
+        $display = $dom->createElement('display');
+        $display->setAttribute('value', $data_xml["diagnosi"]->getStageDisplay());
+        $display = $coding->appendChild($display);
+        
+        
+        
+        //creazione del nodo patient
+        $evidence = $dom->createElement('evidence');
+        $evidence = $cond->appendChild($evidence);
+        
+        $detail = $dom->createElement('detail');
+        $detail = $evidence->appendChild($detail);
+        
+        $reference = $dom->createElement('reference');
+        $reference->setAttribute('value', $data_xml["diagnosi"]->getEvidence());
+        $reference = $detail->appendChild($reference);
+        
+        $display = $dom->createElement('display');
+        $display->setAttribute('value', $data_xml["diagnosi"]->getEvidenceDisplay());
+        $display = $detail->appendChild($display);
+        
+        
+        
+        //Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
+        $note = $dom->createElement('note');
+        $note = $cond->appendChild($note);
+        
+        $text = $dom->createElement('text');
+        $text->setAttribute('value', $data_xml["diagnosi"]->getNote());
+        $text = $note->appendChild($text);
+     
+      
+        
+        //Elimino gli spazi bianchi superflui per la viasualizzazione grafica dell'XML
+        $dom->preserveWhiteSpace = false;
+        //Formatto il documento per l'output
+        $dom->formatOutput = true;
+        $path = getcwd()."\\resources\\Patient\\";
+        //Salvo il documento XML nella cartella rsources dando come nome, l'id del paziente
+        $dom->save($path."RESP-CONDITION-".$data_xml["narrative"]["Id"].".xml");
+        
+        return $dom->saveXML();
+        
+    }
 }

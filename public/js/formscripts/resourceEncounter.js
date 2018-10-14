@@ -147,6 +147,9 @@ $(document).on('click', "button.button-export1", function() {
 		list.push("Encounter");
 	}
 	
+	if($('input[name=Condition]').is(':checked')){
+		list.push("Condition");
+	}
 	
 	window.location.href = "/fhirExportResources/Patient/"+id+"/"+list;
 	

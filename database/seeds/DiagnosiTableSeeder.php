@@ -13,8 +13,8 @@ class DiagnosiTableSeeder extends Seeder
     {
         DB::table('tbl_diagnosi')->insert([
             [
-                'id_diagnosi' => 1,
-                'id_paziente' => 2,
+                'id_diagnosi' => '1',
+                'id_paziente' => '2',
                 'verificationStatus' => 'provisional',
                 'severity' => '24484000',
                 'code' => '122003',
@@ -33,8 +33,8 @@ class DiagnosiTableSeeder extends Seeder
         
         DB::table('tbl_diagnosi')->insert([
             [
-                'id_diagnosi' => 2,
-                'id_paziente' => 2,
+                'id_diagnosi' => '2',
+                'id_paziente' => '2',
                 'verificationStatus' => 'differential',
                 'severity' => '6736007',
                 'code' => '127009',
@@ -53,8 +53,8 @@ class DiagnosiTableSeeder extends Seeder
         
         DB::table('tbl_diagnosi')->insert([
             [
-                'id_diagnosi' => 3,
-                'id_paziente' => 2,
+                'id_diagnosi' => '3',
+                'id_paziente' => '2',
                 'verificationStatus' => 'refuted',
                 'severity' => '255604002',
                 'code' => '122003',
