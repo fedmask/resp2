@@ -18,7 +18,7 @@ class FamilyMemberHistoryCondition extends Migration
             $table->integer('id_anamnesiF')->unsigned()->index('id_anamnesiF');
             $table->string('code')->index('code');
             $table->string('outcome')->index('outcome');
-            $table->date('note');
+            $table->string('note');
             
             $table->foreign('id_anamnesiF', 'FamilyMemberHistoryCondition_ibfk_1')->references('id_anamnesiF')->on('tbl_AnamnesiF')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign('code', 'FamilyMemberHistoryCondition_ibfk_2')->references('Code')->on('ConditionCode')->onUpdate('NO ACTION')->onDelete('NO ACTION');

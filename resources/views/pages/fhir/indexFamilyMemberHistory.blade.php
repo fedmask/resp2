@@ -28,7 +28,7 @@ $patient = $data_output['patient'];
                                 <div class="table-responsive">
                                     <div class="panel-heading text-right">
                                         <div id="inputFile" style="display: none;">
-                                            <form method="POST" action="/api/fhir/Condition" enctype="multipart/form-data">
+                                            <form method="POST" action="/api/fhir/FamilyMemberHistory" enctype="multipart/form-data">
                                             	{{ csrf_field() }}
                                                 <input id="file" name="file" type="file" />
                                                 <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
@@ -40,7 +40,8 @@ $patient = $data_output['patient'];
                                       {{Form::open(array( 'id' => 'updateInputForm' , 'onsubmit' =>'updateInputForm()' ,'method' => 'PUT' ,'files'=>'true', 'enctype'=>'multipart/form-data'))}}
                                       {{ csrf_field() }}
                                       <input id="fileUpdate" name="fileUpdate" type="file" />
-                                      <input hidden id="diagnosi_id" type="text" value="{{$current_user->id_utente}}" />
+                                      <input hidden id="anamnesi_id" type="text" value="{{$current_user->id_utente}}" />
+                                      <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
                                       {{Form::button('Upload',['id'=>'upload', 'type' => 'submit', 'class' => 'btn btn-primary', 'disabled'] )}}
                                       {{Form::button('Annulla',['id'=>'annulla', 'type' => 'button', 'class' => 'btn btn-default'] )}}
                                       {{Form::close()}} 
@@ -122,12 +123,12 @@ $patient = $data_output['patient'];
                                         <td align="center">{{$a->getRelationship()}}</td>
                                         <td align="center">{{$a->getStatusDisplay()}}</td>
                                         <td align="center"> <button id="{{$a->getId()}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
-                                        <td align="center"><button id="" value=""  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
+                                        <td align="center"><button id="{{$a->getId()}}" value="{{$a->getId()}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
                                        <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
                                        </td>
                                         <td align="center">
-                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIRCondition@destroy', $a->getId()) ,'method' => 'DELETE'))}}
+                                       {{Form::open(array( 'action' => array('Fhir\Modules\FHIRFamilyMemberHistory@destroy', $a->getId()) ,'method' => 'DELETE'))}}
                                       {{ csrf_field() }}
                                       <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}" />
                                       {{Form::button('<i class="icon-trash"></i>', ['type' => 'submit', 'class' => 'button-delete'] )  }}

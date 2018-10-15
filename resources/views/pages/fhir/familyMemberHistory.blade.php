@@ -5,8 +5,9 @@ $anamnesi = $data_output["anamnesi"];
 $condition = $data_output["condition"];
 ?>
 
-<?xml version="1.0" encoding="UTF-8"?><FamilyMemberHistory xmlns="http://hl7.org/fhir">
-  <id value="father"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<FamilyMemberHistory xmlns="http://hl7.org/fhir">
+  <id value="{{$anamnesi->getId()}}"/>
   <text>
   
     	<status value="generated"/>
