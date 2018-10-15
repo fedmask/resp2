@@ -125,7 +125,7 @@ $patient = $data_output['patient'];
                                         <td align="center"> <button id="{{$a->getId()}}" type="button " class="button-show" ><i class="glyphicon glyphicon-eye-open"></i></button></td>
                                         <td align="center"><button id="{{$a->getId()}}" value="{{$a->getId()}}"  onclick="openInputFileUpdate(this.id)" type="button" class="button-update" ><i class="icon-cloud-upload"></button></td>
                                         <td align="center">
-                                       <button id="" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
+                                       <button id="{{$a->getId()}}" type="button " class="button-export" ><i class="icon-cloud-download"></i></button>                  
                                        </td>
                                         <td align="center">
                                        {{Form::open(array( 'action' => array('Fhir\Modules\FHIRFamilyMemberHistory@destroy', $a->getId()) ,'method' => 'DELETE'))}}

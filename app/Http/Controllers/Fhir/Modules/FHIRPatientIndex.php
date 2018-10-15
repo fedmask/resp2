@@ -295,6 +295,14 @@ class FHIRPatientIndex
                     array_push($files, FHIRCondition::getResource($diagn->id_diagnosi));
                 }
             }
+            
+            if ($res == "FamilyMemberHistory") {
+                $anamnesi = AnamnesiF::where('id_paziente', $patient->id_paziente)->get();
+                
+                foreach ($anamnesi as $anam) {
+                    array_push($files, FHIRFamilyMemberHistory::getResource($anam->id_anamnesiF));
+                }
+            }
         }
         
         $path = getcwd() . "\\resources\\Patient\\";

@@ -151,12 +151,12 @@ $(document).on('click', "button.button-export", function() {
 	$("<tr>").appendTo(".modal-body");
 	$("<tr>").appendTo(".modal-body");
 	$("<td><input class='check' type='checkbox' name='Patient' value='Patient'> Patient</td>").appendTo(".modal-body");
-	$("<td><input class='check' type='checkbox' name='Organization' value='Organization'> Organization</td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Organization' value='Organization' disabled> Organization</td>").appendTo(".modal-body");
 	$("<td><input class='check' type='checkbox' name='Encounter' value='Encounter'> Encounter</td>").appendTo(".modal-body");
 	$("</tr>").appendTo(".modal-body");
 	$("<tr>").appendTo(".modal-body");
 	$("<td><input class='check' type='checkbox' name='Practitioner' value='Practitioner'> Practitioner</td>").appendTo(".modal-body");
-	$("<td><input class='check' type='checkbox' name='Device' value='Device'> Device</td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Device' value='Device' disabled> Device</td>").appendTo(".modal-body");
 	$("</tr>").appendTo(".modal-body");
 	$("<tr>").appendTo(".modal-body");
 	$("<td><input class='check' type='checkbox' name='RelatedPerson' value='RelatedPerson'> Related Person</td>").appendTo(".modal-body");
@@ -171,9 +171,9 @@ $(document).on('click', "button.button-export", function() {
 	$("</tr>").appendTo(".modal-body");
 	$("<tr>").appendTo(".modal-body");
 	$("<tr>").appendTo(".modal-body");
-	$("<td><input class='check' type='checkbox' name='AllergyIntolerance' value='AllergyIntolerance'> AllergyIntolerance</td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='AllergyIntolerance' value='AllergyIntolerance' disabled> AllergyIntolerance</td>").appendTo(".modal-body");
 	$("<td><input class='check' type='checkbox' name='Observation' value='Observation'> Observation</td>").appendTo(".modal-body");
-	$("<td><input class='check' type='checkbox' name='Medication' value='Medication'> Medication</td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Medication' value='Medication' disabled> Medication</td>").appendTo(".modal-body");
 	$("</tr>").appendTo(".modal-body");
 	$("<tr>").appendTo(".modal-body");
 	$("<td><input class='check' type='checkbox' name='Condition' value='Condition'> Condition</td>").appendTo(".modal-body");
@@ -181,7 +181,10 @@ $(document).on('click', "button.button-export", function() {
 	$("<td><input class='check' type='checkbox' name='Immunization' value='Immunization'> Immunization</td>").appendTo(".modal-body");
 	$("</tr>").appendTo(".modal-body");
 	$("<tr>").appendTo(".modal-body");
-	$("<td><input class='check' type='checkbox' name='Procedure' value='Procedure'> Procedure</td>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='Procedure' value='Procedure' disabled> Procedure</td>").appendTo(".modal-body");
+	$("</tr>").appendTo(".modal-body");
+	$("<tr>").appendTo(".modal-body");
+	$("<td><input class='check' type='checkbox' name='FamilyMemberHistory' value='FamilyMemberHistory'> FamilyMemberHistory</td>").appendTo(".modal-body");
 	$("</tr>").appendTo(".modal-body");
 	$("</tr>").appendTo(".modal-body");
 	$("<tr>").appendTo(".modal-body");
@@ -223,6 +226,11 @@ $(document).on('click', "button.button-export1", function() {
 	if($('input[name=Condition]').is(':checked')){
 		list.push("Condition");
 	}
+	
+	if($('input[name=FamilyMemberHistory]').is(':checked')){
+		list.push("FamilyMemberHistory");
+	}
+	
 	
 	window.location.href = "/fhirExportResources/Patient/"+id+"/"+list;
 	
