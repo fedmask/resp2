@@ -113,7 +113,7 @@ Route::post ( '/deleteFile', 'FilesController@deleteFile' );
 Route::get ( '/downloadImage/{id_photo}', 'FilesController@downloadImage' );
 
 /**
- * Route per l'aggiornamento del livello di confidenzialità
+ * Route per l'aggiornamento del livello di confidenzialitï¿½
  * associato ad un file
  */
 Route::post ( '/updateFileConfidentiality', 'FilesController@updateFileConfidentiality' );
@@ -270,7 +270,7 @@ Route::get ( '/ModIndCompletata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stat
 Route::post ( '/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient' );
     
     
-    
+Route::get('/anamnesi', 'AnamnesiController@showAnamnesi');
     
     
     /**
