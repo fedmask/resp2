@@ -94,7 +94,7 @@ class FHIRCondition
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["diagnosi"] = $diagnosi;
         
-        return view("pages.fhir.condition", [
+        return view("pages.fhir.Condition.condition", [
             "data_output" => $data_xml
         ]);
     }

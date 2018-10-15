@@ -59,7 +59,7 @@ class FHIRImmunization
         $data_xml["providers"] = $providers;
         $data_xml["vaccinazione"] = $vaccinazione;
         
-        return view("pages.fhir.immunization", [
+        return view("pages.fhir.Immunization.immunization", [
             "data_output" => $data_xml
         ]);
     }

@@ -91,7 +91,7 @@ class FHIREncounter
         $data_xml["visita"] = $visita;
         $data_xml["participant"] = $participant;
         
-        return view("pages.fhir.encounter", [
+        return view("pages.fhir.Encounter.encounter", [
             "data_output" => $data_xml
         ]);
     }

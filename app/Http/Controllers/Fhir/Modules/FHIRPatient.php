@@ -97,7 +97,7 @@ class FHIRPatient
         $data_xml["patient"] = $patient;
         $data_xml["patient_contacts"] = $patient_contacts;
         
-        return view("pages.fhir.patient", [
+        return view("pages.fhir.Patient.patient", [
             "data_output" => $data_xml
         ]);
     }

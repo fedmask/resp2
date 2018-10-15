@@ -53,7 +53,7 @@ class FHIRPatientIndex
     {
         $patient = Pazienti::where('id_paziente', $id)->first();
         
-        return view("pages.fhir.indexPatient", [
+        return view("pages.fhir.Patient.indexPatient", [
             "data_output" => $patient
         ]);
     }
@@ -77,7 +77,7 @@ class FHIRPatientIndex
         $data['practitioner'] = $practitioner;
         $data['patient'] = $patient;
         
-        return view("pages.fhir.indexPractitioner", [
+        return view("pages.fhir.Practitioner.indexPractitioner", [
             "data_output" => $data
         ]);
     }
@@ -108,7 +108,7 @@ class FHIRPatientIndex
         $contatto['relazioni'] = RelationshipType::all();
         $contatto['patient'] = $patient;
         
-        return view("pages.fhir.indexRelatedPerson", [
+        return view("pages.fhir.RelatedPerson.indexRelatedPerson", [
             "data_output" => $contatto
         ]);
     }
@@ -139,7 +139,7 @@ class FHIRPatientIndex
         $data['patient'] = $patient;
         $data['diagnosi'] = $diagnosi;
         
-        return view("pages.fhir.indexObservation", [
+        return view("pages.fhir.Observation.indexObservation", [
             "data_output" => $data
         ]);
     }
@@ -157,7 +157,7 @@ class FHIRPatientIndex
         $data['vaccinazioni'] = $vaccinazioni;
         $data['patient'] = $patient;
         
-        return view("pages.fhir.indexImmunization", [
+        return view("pages.fhir.Immunization.indexImmunization", [
             "data_output" => $data
         ]);
     }
@@ -175,7 +175,7 @@ class FHIRPatientIndex
         $data['visite'] = $visite;
         $data['patient'] = $patient;
         
-        return view("pages.fhir.indexEncounter", [
+        return view("pages.fhir.Encounter.indexEncounter", [
             "data_output" => $data
         ]);
     }
@@ -205,7 +205,7 @@ class FHIRPatientIndex
         $data['diagnosi'] = $diagnosi;
         $data['patient'] = $patient;
         
-        return view("pages.fhir.indexCondition", [
+        return view("pages.fhir.Condition.indexCondition", [
             "data_output" => $data
         ]);
     }
@@ -224,7 +224,7 @@ class FHIRPatientIndex
         $data['anamnesi'] = $anamnesi;
         $data['patient'] = $patient;
         
-        return view("pages.fhir.indexFamilyMemberHistory", [
+        return view("pages.fhir.FamilyMemberHistory.indexFamilyMemberHistory", [
             "data_output" => $data
         ]);
     }

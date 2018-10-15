@@ -80,7 +80,7 @@ class FHIRPractitioner
         // $data_xml["careproviders"] = $careproviders;
         $data_xml["practictioner_qualifiations"] = $practictioner_qualifiations;
         
-        return view("pages.fhir.practictioner", [
+        return view("pages.fhir.Practitioner.practictioner", [
             "data_output" => $data_xml
         ]);
     }

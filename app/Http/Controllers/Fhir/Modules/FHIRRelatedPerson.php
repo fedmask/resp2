@@ -85,7 +85,7 @@ class FHIRRelatedPerson
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["relPers"] = $relPers;
         
-        return view("pages.fhir.relatedPerson", [
+        return view("pages.fhir.RelatedPerson.relatedPerson", [
             "data_output" => $data_xml
         ]);
     }

@@ -89,7 +89,7 @@ class FHIRFamilyMemberHistory
         $data_xml["anamnesi"] = $anamnesi;
         $data_xml["condition"] = $condition;
         
-        return view("pages.fhir.familyMemberHistory", [
+        return view("pages.fhir.FamilyMemberHistory.familyMemberHistory", [
             "data_output" => $data_xml
         ]);
     }

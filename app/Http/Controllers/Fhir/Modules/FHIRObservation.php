@@ -52,7 +52,7 @@ class FHIRObservation
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["indagine"] = $indagine;
         
-        return view("pages.fhir.observation", [
+        return view("pages.fhir.Observation.observation", [
             "data_output" => $data_xml
         ]);
     }
