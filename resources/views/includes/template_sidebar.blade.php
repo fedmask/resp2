@@ -1,5 +1,7 @@
 <!-- RIGHT STRIP  SECTION -->
 <div id="right">
+<br>
+
 	<!--PARAMETRI DI MONITORAGGIO-->
 	<div class="panel panel-primary">
 		<div class="panel-body">
@@ -89,10 +91,11 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th>Patologia</th>
-								<th>Data Principio</th>
-								<th>Data Guarigione</th>
-								<th>stato</th>
+								<th>
+								<strong style="font-size: 12px;"><b>Patologia</b></strong></th>
+								<th><strong style="font-size: 12px "><b>Data Principio</b></strong></th>
+								<th><strong style="font-size: 12px;"><b>Data Guarigione</b></strong></th>
+								<th><strong style="font-size: 12px;"><b>Stato</b></strong></th>
 							</tr>
 						</thead>
 						<tbody>

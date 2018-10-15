@@ -18,7 +18,7 @@ class CreateTrattamentiPazientiTable extends Migration {
 			$table->string('Nome_T');
 			$table->string('Finalita_T');
 			$table->string('Modalita_T');
-			$table->string('Informativa', 500);
+			$table->string('Informativa');
 			$table->string('Incaricati');
 		});
 	}

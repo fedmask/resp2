@@ -16,11 +16,30 @@ class ConsensiPazienteController extends Controller {
 		$data ['listaTrattamenti'] = \App\TrattamentiPaziente::all ();
 		
 		$PazienteAuth = \App\Models\Patient\Pazienti :: where ( 'id_utente', Auth::id())->first()->id_paziente;
+		$this->create($PazienteAuth);
 		$data['listaConsensi'] =  \App\ConsensoPaziente::where ( 'Id_Paziente', $PazienteAuth)->get ();
 		return view ( 'pages.Consensi', $data );
 	}
-	public function create() {
-		return view ( 'pages.Consensi' );
+	public function create($PazienteAuth) {
+		$listaTrattamenti = \App\TrattamentiPaziente::all ();
+		$PazienteCheck = \App\ConsensoPaziente:: where ( 'id_Paziente', Auth::id());
+		
+		if($PazienteCheck->count() == 0){
+			
+			foreach ($listaTrattamenti as $TR){
+				
+				\App\ConsensoPaziente::create([
+						'Id_Trattamento' => $TR->Id_Trattamento,
+						'Id_Paziente' => $PazienteAuth,
+						'Consenso' => false,
+						'data_consenso'=> now(),
+				])->save();
+				
+				
+			}
+			
+		}
+		
 	}
 	public function store(Request $request) {
 	}

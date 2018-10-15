@@ -14,7 +14,7 @@ class ConsensoPazienteSeeder extends Seeder
         //
         
     	
-    	DB::table('Consenso_Paziente')->insert([
+    /*	DB::table('Consenso_Paziente')->insert([
     			[   'Id_Trattamento' => '1',
     					'Id_Paziente' => '2',
     					'Consenso' => true,
@@ -28,7 +28,7 @@ class ConsensoPazienteSeeder extends Seeder
     					'Consenso' => false,
     					'data_consenso'=> now(),
     			]
-    	]);
+    	]);*/
     	
     	
     }
