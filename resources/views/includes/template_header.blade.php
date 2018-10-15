@@ -112,7 +112,43 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
 					<!--Modifica impostazioni sicurezza  -->
 					@if( $current_user->getDescription() == User::PATIENT_DESCRIPTION)
 					<li>
-						<a href="/impostazioniSicurezza"><i class="icon-lock"></i>Impostazioni di sicurezza</a>
+					
+					
+					
+					
+</head>
+<body>
+
+<div class="dropdown">
+<button onclick="myFunction()" class="dropbtn"><i class="icon-lock"></i>Impostazioni</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="/impostazioniSicurezza">Sicurezza</a>
+    <a href="/consent">Trattamenti</a>
+  </div>
+</div>
+
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
 					</li>
 					<li><a href="http://fsem.di.uniba.it/modello%20PBAC/createPDF.php"><i class="icon-book"></i> Report</a>
 					</li>					
