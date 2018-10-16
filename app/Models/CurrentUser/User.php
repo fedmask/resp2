@@ -56,7 +56,8 @@ class User extends Authenticatable
         'utente_password',
         'utente_stato',
         'utente_scadenza',
-        'utente_email'
+        'utente_email',
+    		
     ];
 
     /**

@@ -8,38 +8,69 @@ use Auth;
 use DB;
 use Input;
 use Carbon\Carbon;
-//use Illuminate\Support\Facades\Input;
 
+// use Illuminate\Support\Facades\Input;
 class ConsensiPazienteController extends Controller {
 	//
 	public function index() {
-		$data ['listaTrattamenti'] = \App\TrattamentiPaziente::all ();
+		$user_type = \App\Models\CurrentUser\User::find ( Auth::id () )->id_tipologia;
+		$data = array ();
 		
-		$PazienteAuth = \App\Models\Patient\Pazienti :: where ( 'id_utente', Auth::id())->first()->id_paziente;
-		$this->create($PazienteAuth);
-		$data['listaConsensi'] =  \App\ConsensoPaziente::where ( 'Id_Paziente', $PazienteAuth)->get ();
+		switch ($user_type) {
+			
+			case 'ass' :
+				$data ['listaTrattamenti'] = \App\TrattamentiPaziente::all ();
+				
+				$PazienteAuth = \App\Models\Patient\Pazienti::where ( 'id_utente', Auth::id () )->first ()->id_paziente;
+				$this->createPazienteConsent ( $PazienteAuth );
+				$data ['listaConsensi'] = \App\ConsensoPaziente::where ( 'Id_Paziente', $PazienteAuth )->get ();
+				
+				break;
+			case 'mos' :
+				$data ['listaTrattamenti'] = \App\TrattamentiCareProvider::all ();
+				$CareProviderAuth = \App\Models\CareProviders\CareProvider::where ( 'id_utente', Auth::id () )->first ()->id_cpp;
+				$this->createCareProviderConsent( $CareProviderAuth);
+				$data ['listaConsensi'] = \App\ConsensoCareProvider::where ( 'Id_Cpp', $CareProviderAuth)->get ();
+				
+				
+				break;
+		}
+		
 		return view ( 'pages.Consensi', $data );
 	}
-	public function create($PazienteAuth) {
-		$listaTrattamenti = \App\TrattamentiPaziente::all ();
-		$PazienteCheck = \App\ConsensoPaziente:: where ( 'id_Paziente', Auth::id());
+	public function createCareProviderConsent($CareProviderAuth) {
+		$listaTrattamenti = \App\TrattamentiCareProvider::all ();
+		$CppCheck = \App\ConsensoCareProvider::where ( 'id_Cpp', Auth::id () );
 		
-		if($PazienteCheck->count() == 0){
+		if ($CppCheck->count () == 0) {
 			
-			foreach ($listaTrattamenti as $TR){
+			foreach ( $listaTrattamenti as $TR ) {
 				
-				\App\ConsensoPaziente::create([
+				\App\ConsensoCareProvider::create ( [ 
+						'Id_Trattamento' => $TR->Id_Trattamento,
+						'Id_Cpp' => $CareProviderAuth,
+						'Consenso' => false,
+						'data_consenso' => now () 
+				] )->save ();
+			}
+		}
+	}
+	public function createPazienteConsent($PazienteAuth) {
+		$listaTrattamenti = \App\TrattamentiPaziente::all ();
+		$PazienteCheck = \App\ConsensoPaziente::where ( 'id_Paziente', Auth::id () );
+		
+		if ($PazienteCheck->count () == 0) {
+			
+			foreach ( $listaTrattamenti as $TR ) {
+				
+				\App\ConsensoPaziente::create ( [ 
 						'Id_Trattamento' => $TR->Id_Trattamento,
 						'Id_Paziente' => $PazienteAuth,
 						'Consenso' => false,
-						'data_consenso'=> now(),
-				])->save();
-				
-				
+						'data_consenso' => now () 
+				] )->save ();
 			}
-			
 		}
-		
 	}
 	public function store(Request $request) {
 	}
@@ -49,31 +80,56 @@ class ConsensiPazienteController extends Controller {
 	}
 	public function edit($id) {
 	}
-	public function update(Request $request) {
-		//$trattamenti_count = DB::table ( 'Trattamenti_Pazienti' )->count ();
+	
+	public function updateCP(Request $request){
 		
-		//Ottengo tutti i trattamenti per i Pazienti
-		$trattamenti_list = \App\TrattamentiPaziente::all();
-		$PazienteAuth = \App\Models\Patient\Pazienti :: where ( 'id_utente', Auth::id())->first()->id_paziente;
-		//Ciclo sui trattamenti
+		$trattamenti_list = App\TrattamentiCareProvider::all ();
+		$PazienteAuth = \App\Models\CareProviders\CareProvider::where ( 'id_utente', Auth::id () )->first ()->id_cpp;
+		// Ciclo sui trattamenti
 		foreach ( $trattamenti_list as $trattamento ) {
 			
-			$consenso = (\App\ConsensoPaziente::where('Id_Trattamento',$trattamento->Id_Trattamento))->where('Id_Paziente',$PazienteAuth)->first();
-	
-			if((Input::get('check'.$consenso->getID_Trattamento()))==='acconsento'){
+			$consenso = (\App\ConsensoCareProvider::where ( 'Id_Trattamento', $trattamento->Id_Trattamento ))->where ( 'id_cpp', $PazienteAuth )->first ();
+			
+			if ((Input::get ( 'check' . $consenso->getID_Trattamento () )) === 'acconsento') {
 				
 				$consenso->Consenso = true;
-				$consenso->data_consenso= now();
-				$consenso->save();
-			}else{
+				$consenso->data_consenso = now ();
+				$consenso->save ();
+			} else {
 				$consenso->Consenso = false;
-				$consenso->data_consenso= now();
-				$consenso->save();
+				$consenso->data_consenso = now ();
+				$consenso->save ();
 			}
-			//$consenso->refresh();
-			
+			// $consenso->refresh();
 		}
-		return redirect('/consent')->with('ok_message', 'Tutto aggiornato correttamente');
+		return redirect ( '/consent' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
+		
+	}
+	
+	public function updatePaziente(Request $request) {
+		// $trattamenti_count = DB::table ( 'Trattamenti_Pazienti' )->count ();
+		
+		// Ottengo tutti i trattamenti per i Pazienti
+		$trattamenti_list = \App\TrattamentiPaziente::all ();
+		$PazienteAuth = \App\Models\Patient\Pazienti::where ( 'id_utente', Auth::id () )->first ()->id_paziente;
+		// Ciclo sui trattamenti
+		foreach ( $trattamenti_list as $trattamento ) {
+			
+			$consenso = (\App\ConsensoPaziente::where ( 'Id_Trattamento', $trattamento->Id_Trattamento ))->where ( 'Id_Paziente', $PazienteAuth )->first ();
+			
+			if ((Input::get ( 'check' . $consenso->getID_Trattamento () )) === 'acconsento') {
+				
+				$consenso->Consenso = true;
+				$consenso->data_consenso = now ();
+				$consenso->save ();
+			} else {
+				$consenso->Consenso = false;
+				$consenso->data_consenso = now ();
+				$consenso->save ();
+			}
+			// $consenso->refresh();
+		}
+		return redirect ( '/consent' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
 	}
 	public function destroy($id) {
 	}
