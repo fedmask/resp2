@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -69,7 +69,7 @@ class AnamnesiF extends Model {
 	public function setCodice($IDP) {
 		$this->id_parentela = $IDP;
 	}
-	public function setCodice($Codice) {
+	public function setCodice_($Codice) {
 		$this->codice = $Codice;
 	}
 	public function setCDescrizione($CD) {

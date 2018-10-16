@@ -268,9 +268,9 @@ Route::get ( '/ModIndProgrammata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{sta
 Route::get ( '/ModIndCompletata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@ModIndagineCompletata' );
 
 Route::post ( '/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient' );
-    
-    
-Route::get('/anamnesi', 'AnamnesiController@showAnamnesi');
+
+
+Route::resource('/anamnesi','AnamnesiController');
     
     
     /**

@@ -3,10 +3,6 @@
 @section( 'pageTitle', 'Anamnesi' )
 @section( 'content' )
 
-    <!--PAGE CONTENT -->
-    <!--gli script sono implementati in formscripts/anamnesi,js-->
-
-
     <div id="content">
         <div class="inner">
             <div class="row">
@@ -14,20 +10,9 @@
                     <h2> Anamnesi </h2>
                 </div>
 
-                <!--ANAMNESI FAMILIARE-->
-
-
-                <!--ANAMNESI FISIOLOGICA>
-
-
-
-                        <--ANAMNESI PATOLOGICA-->
-
-
             </div><!--row-->
             <hr/>
-            <!-- script per la manipolazione delle anamnesi familiari
-    aggiunti il 2017-03-07-->
+            <!-- script per la manipolazione delle anamnesi familiari-->
 
             <script src="{{url('https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js')}}"></script>
             <script src="{{asset('js/formscripts/jquery.js')}}"></script>
@@ -36,61 +21,61 @@
             <script type="text/javascript" src="{{ asset('js/formscripts/modanamfam.js') }}"></script>
 
             <div class="row">
+
                 <!-- TABELLA RELATIVA ALL'ANAMNESI FAMILIARE-->
+                <form action="{{ action('AnamnesiController@store') }}" method="post" class="form-horizontal">
+                    {{csrf_field()}}
+                    <div class="col-md-6">
+                        <div class="panel panel-success">
 
+                            <div class="panel-heading">
+                                <center><h4>Familiare </h4></center>
+                                <!--bottoni per la gestione delle modifiche-->
 
-                <div class="col-md-6">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            <center><h4>Familiare </h4></center>
-                            <!--bottoni per la gestione delle modifiche-->
-                            <div class="btn-group" style="text-align: left;">
-                                <a id="buttonUpdateFam" class="btn btn-success btn-sm btn-line"><i
-                                            class="icon-pencil icon-white"></i>Aggiorna</a>
-                                <!--sostituir� il successivo aggiorna-->
+                                <div class="btn-group" style="text-align: left;">
+                                    <a id="buttonUpdateFam" class="btn btn-success btn-sm btn-line"><i
+                                                class="icon-pencil icon-white"></i>Aggiorna</a>
 
-                                <!----	<a id="buttonHiddenfam" class="btn btn-success btn-sm btn-line"><i class="icon-pencil icon-white"></i>Aggiorna</a> -->
+                                    <button type="submit" class="btn btn-warning btn-sm" id="btn_salvafam"
+                                       style="display: none;"><i
+                                                class="icon-save"></i>Salva</button>
+                                    <a type="submit" class="btn btn-info btn-sm" id="buttonCodiciFam"
+                                       style="display: none;"
+                                       data-toggle="modal" data-target="#table_update_anamnesifam"><i
+                                                class="icon-flag"></i>
+                                        Codici</a>
+                                    <a class="btn btn-danger btn-sm" id="buttonAnnullaFam" style="display: none;"><i
+                                                class="icon-trash"></i> Annulla</a>
 
-
-                                <a type="submit" class="btn btn-warning btn-sm" id="btn_salvafam"
-                                   style="display: none;"><i
-                                            class="icon-save"></i>Salva</a>
-                                <a type="submit" class="btn btn-info btn-sm" id="buttonCodiciFam" style="display: none;"
-                                   data-toggle="modal" data-target="#table_update_anamnesifam"><i class="icon-flag"></i>
-                                    Codici</a>
-                                <!--buttonAnnullaFam--	<a class="btn btn-danger btn-sm" id="btn_annullafam" style="display: none;"><i class="icon-trash"></i> Annulla</a> -->
-                                <a class="btn btn-danger btn-sm" id="buttonAnnullaFam" style="display: none;"><i
-                                            class="icon-trash"></i> Annulla</a>
-
+                                </div>
                             </div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
 
-                                    </tr>
-                                    </thead>
-
-
-                                    <tbody>
-                                    <tr>
                                     <textarea class="col-md-12" id="testofam" name="testofam" cols="44" rows="10"
                                               readonly="true"
                                               style="resize:none; border: transparent; overflow-y: scroll; max-height: 200px;"
-                                              placeholder="qui puoi inserire il tuo testo..."></textarea>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                              placeholder="qui puoi inserire il tuo testo...">
+                                        @foreach ($anamnesiFamiliare as $a)
+                                            {{ $a->anamnesi_contenuto }}
+                                        @endforeach
+
+                                    </textarea>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!--bottone che permette le modifiche ANAMNESI FAMILIARE-->
+                            <div class="panel-footer" style="text-align:right;">
                             </div>
                         </div>
-
-                        <!--bottone che permette le modifiche ANAMNESI FAMILIARE-->
-                        <div class="panel-footer" style="text-align:right;">
-                        </div>
                     </div>
-                </div><!--CHIUSURA ANAMNESI FAMILIARE-->
+                </form><!--CHIUSURA ANAMNESI FAMILIARE-->
 
 
                 <!-- TABELLA RELATIVA ALL'ANAMNESI FISIOLOGICA -->
@@ -108,18 +93,18 @@
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table">
-                                <thead>
-                                <tr></tr>
-                                </thead>
+                                    <thead>
+                                    <tr></tr>
+                                    </thead>
 
 
-                                <tbody>
-                                <tr>
+                                    <tbody>
+                                    <tr>
                                            <textarea class="col-md-12" id="testofis" name="testofis" cols="44" rows="10"
                                                      readonly="true"
                                                      style="resize:none; border: transparent; overflow-y: scroll; max-height: 200px;"></textarea>
-                                </tr>
-                                </tbody>
+                                    </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
