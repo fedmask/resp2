@@ -4,6 +4,7 @@ $narrative = $data_output["narrative"];
 $narrative_participant = $data_output["narrative_participant"];
 $visita = $data_output["visita"];
 $participant = $data_output["participant"];
+$extensions =  $data_output["extensions"];
 ?>
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -29,11 +30,33 @@ $participant = $data_output["participant"];
 			</tr>
 			@endforeach 
 			
+			@foreach($extensions as $key => $value)
+			<tr>
+				<td>{{$key}}</td>
+				<td>{{$value}}</td>
+			</tr>
+			@endforeach 
+			
 		</tbody>
 	</table>
   	</div>
   	
   	</text>
+  	
+  	<!--Altra Motivazione-->
+  <extension url="http://resp.local/resources/extensions/Encounter/encounter-altra-motivazione.xml">
+    <valueString value="{{$extensions['AltraMotivazione']}}"/>
+  </extension>
+
+<!--Osservazioni-->
+  <extension url="http://resp.local/resources/extensions/Encounter/encounter-osservazioni.xml">
+    <valueString value="{{$extensions['Osservazioni']}}"/>
+  </extension>
+  
+  <!--Conclusioni-->
+  <extension url="http://resp.local/resources/extensions/Encounter/encounter-conclusioni.xml">
+    <valueString value="{{$extensions['Conclusioni']}}"/>
+  </extension>
 
     <identifier>
         <use value="official"/>

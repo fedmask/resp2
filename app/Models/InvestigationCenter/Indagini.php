@@ -107,6 +107,14 @@ class Indagini extends Eloquent
 	    return $this->belongsTo(App\Models\CareProviders\CareProvider::class, 'id_cpp');
 	}
 	
+	public function getReason(){
+	    return $this->indagine_motivo;
+	}
+	
+	public function getType(){
+	    return $this->indagine_tipologia;
+	}
+	
 	public function getId(){
 	    return $this->id_indagine;
 	}

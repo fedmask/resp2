@@ -1,6 +1,6 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
-  <url value="http://fsem.eu/resources/extensions/observation-type.xml" />
-  <name value="Motivo indagine" />
+  <url value="http://resp.local/resources/extensions/Observation/observation-type.xml" />
+  <name value="Tipo indagine" />
   <kind value="datatype" />
   <constrainedType value="Extension" />
   <contextType value="resource" />
@@ -8,15 +8,15 @@
   <differential>
     <element>
       <path value="Extension"/>
-      <short value="motivoindagine" />
-      <definition value="Il motivo dell'indagine" />
+      <short value="tipoindagine" />
+      <definition value="Il tipo di indagine" />
       <comments value="questo valore e' presente nel database e viene rappresentato nella risorsa Observation tramite una estensione" />
       <mustSupport value="true" />
       <isModifier value="false" />
     </element>
     <element>
       <path value="Extension.valueString"/>
-      <short value="la stringa contenente il motivo dell'indagine" />
+      <short value="la stringa contenente il tipo di indagine" />
       <min value="1" />
       <max value="1" />
       <type>

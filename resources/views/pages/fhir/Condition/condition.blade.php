@@ -1,6 +1,7 @@
 <?php 
 $narrative = $data_output["narrative"];
 $diagnosi = $data_output["diagnosi"];
+$extensions =  $data_output["extensions"];
 ?>
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -19,11 +20,39 @@ $diagnosi = $data_output["diagnosi"];
 				<td>{{$value}}</td>
 			</tr>
 			@endforeach 
+			
+			@foreach($extensions as $key => $value)
+			<tr>
+				<td>{{$key}}</td>
+				<td>{{$value}}</td>
+			</tr>
+			@endforeach 
 						
 		</tbody>
 	</table>
   	</div>
   </text>
+ 
+   	<!--Data Inizio-->
+  <extension url="http://resp.local/resources/extensions/Condition/condition-data-inizio.xml">
+    <valueDate value="{{$extensions['DataInizio']}}"/>
+  </extension>
+
+<!--Data Fine-->
+  <extension url="http://resp.local/resources/extensions/Condition/condition-data-fine.xml">
+    <valueDate value="{{$extensions['DataFine']}}"/>
+  </extension>
+  
+  <!--Data Ultimo Aggiornamento-->
+  <extension url="http://resp.local/resources/extensions/Condition/condition-data-ultimo-aggiornameto.xml">
+    <valueDate value="{{$extensions['DataUltimoAggiornamento']}}"/>
+  </extension>
+  
+  <!--Confidenzialita-->
+  <extension url="http://resp.local/resources/extensions/Condition/condition-confidenzialita.xml">
+    <valueInteger value="{{$extensions['Confidenzialita']}}"/>
+  </extension>
+ 
  
   <identifier>
     <value value="{{$diagnosi->getId()}}"/>

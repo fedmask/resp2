@@ -1,5 +1,5 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
-  <url value="http://resp.local/resources/extensions/Practitioner/cpp-persona-id" /> 
+  <url value="http://example.org/fhir/StructureDefinition/participation-agreement" /> <!--DA MODIFICARE-->
   <name value="Example Extension Definition" /> <!--DA MODIFICARE-->
   <kind value="datatype" />
   <contextType value="resource" />
@@ -12,22 +12,23 @@
 
     <element>
       <path value="Extension"/>
-      <short value="Campi CareProvider" />
-      <definition value="I campi del careprovider" />
+      <short value="Campi Diagnosi" />
+      <definition value="I campi di una diagnosi" />
       <comment value="I campi necessari per l'esportazione della risorsa" />
       <mustSupport value="true" />
       <isModifier value="false" />
     </element>
 
-<!--Cpp Persona ID-->
-  	<element>
+
+<!--Confidenzialita-->
+    <element>
       <path value="Extension.valueString"/>
-      <name value="Cpp Persona ID" />
-      <short value="Indica l'id persona del CareProvider" />
+      <name value="Confidenzialità" />
+      <short value="Indica la confidenzialità della diagnosi" />
       <min value="1" />
       <max value="1" />
       <type>
-         <code value="string" />
+         <code value="integer" />
       </type>
       <mustSupport value="true" />
     </element>

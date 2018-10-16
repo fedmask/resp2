@@ -189,4 +189,7 @@ class Vaccinazione extends Eloquent
 	    return $ret;
 	}
 	
+	public function getConfidenzialita(){
+	    return $this->vaccinazione_confidenzialita;
+	}
 }

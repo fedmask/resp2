@@ -3,6 +3,7 @@
 $narrative = $data_output["narrative"];
 $providers = $data_output["providers"];
 $vaccinazione = $data_output["vaccinazione"];
+$extensions =  $data_output["extensions"];
 ?>
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -22,11 +23,24 @@ $vaccinazione = $data_output["vaccinazione"];
 			</tr>
 			@endforeach 
 			
+			@foreach($extensions as $key => $value)
+			<tr>
+				<td>{{$key}}</td>
+				<td>{{$value}}</td>
+			</tr>
+			@endforeach 
+			
 		</tbody>
 	</table>
   	</div>
   	
   	</text>
+  	
+  	<!--Confidenzialita-->
+  <extension url="http://resp.local/resources/extensions/Immunization/immunization-confidenzialita.xml">
+    <valueInteger value="{{$extensions['Confidenzialita']}}"/>
+  </extension>
+  	
 
 	<identifier>
 		<system value="http://resp.local"/>

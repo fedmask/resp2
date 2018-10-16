@@ -86,6 +86,14 @@ class FHIREncounter
             $narrative_participant["End_Period" . $i] = $p->getEndPeriod();
         }
         
+        
+        $narrative_extensions = array(
+            "AltraMotivazione" => $visita->getAltraMotivazione(),
+            "Osservazioni" => $visita->getOsservazioni(),
+            "Conclusioni" => $visita->getConclusioni()
+        );
+        
+        $data_xml["extensions"] = $narrative_extensions;
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["narrative_participant"] = $narrative_participant;
         $data_xml["visita"] = $visita;
@@ -489,6 +497,13 @@ class FHIREncounter
             $narrative_participant["End_Period" . $i] = $p->getEndPeriod();
         }
         
+        $narrative_extensions = array(
+            "AltraMotivazione" => $visita->getAltraMotivazione(),
+            "Osservazioni" => $visita->getOsservazioni(),
+            "Conclusioni" => $visita->getConclusioni()
+        );
+        
+        $data_xml["extensions"] = $narrative_extensions;
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["narrative_participant"] = $narrative_participant;
         $data_xml["visita"] = $visita;
@@ -541,90 +556,26 @@ class FHIREncounter
         $tbody = $dom->createElement('tbody');
         $tbody = $table->appendChild($tbody);
         
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
         
-        // Creazione della colonna Identifier
-        $td = $dom->createElement('td', "Identifier");
-        $td = $tr->appendChild($td);
         
-        // Creazione della colonna con il valore di nome e cognome del related person
-        $td = $dom->createElement('td', $data_xml["narrative"]["Identifier"]);
-        $td = $tr->appendChild($td);
+        //Narrative
+        foreach($data_xml["narrative"] as $key => $value){
+            //Creazione di una riga
+            $tr = $dom->createElement('tr');
+            $tr = $tbody->appendChild($tr);
+            
+            //Creazione della colonna Contact
+            $td = $dom->createElement('td', $key);
+            $td = $tr->appendChild($td);
+            
+            //Creazione della colonna con il valore di contact del practitioner
+            $td = $dom->createElement('td', $value);
+            $td = $tr->appendChild($td);
+            
+        }
         
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
         
-        // Creazione della colonna Active
-        $td = $dom->createElement('td', "Status");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del related person
-        $td = $dom->createElement('td', $data_xml["narrative"]["Status"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Patient
-        $td = $dom->createElement('td', "Class");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Class"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Relationship
-        $td = $dom->createElement('td', "Start_Period");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Start_Period"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Name
-        $td = $dom->createElement('td', "End_Period");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["End_Period"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Telecom
-        $td = $dom->createElement('td', "Subject");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Subject"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Gender
-        $td = $dom->createElement('td', "Reason");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Reason"]);
-        $td = $tr->appendChild($td);
-        
+        //Narrative.Participant
         foreach ($data_xml["narrative_participant"] as $key => $value) {
             $tr = $dom->createElement('tr');
             $tr = $tbody->appendChild($tr);
@@ -637,6 +588,56 @@ class FHIREncounter
             $td = $dom->createElement('td', $value);
             $td = $tr->appendChild($td);
         }
+        
+        
+        // EXTENSIONS IN NARRATIVE
+        
+        foreach ($data_xml["extensions"] as $key => $value) {
+            // Creazione di una riga
+            $tr = $dom->createElement('tr');
+            $tr = $tbody->appendChild($tr);
+            // Language
+            $td = $dom->createElement('td', $key);
+            $td = $tr->appendChild($td);
+            $td = $dom->createElement('td', $value);
+            $td = $tr->appendChild($td);
+        }
+        
+        // END EXTENSIONS IN NARRATIVE
+        
+        
+        //EXTENSIONS
+        //Altra Motivazione
+        $extension1 = $dom->createElement('extension');
+        $extension1->setAttribute('url', 'http://resp.local/resources/extensions/Encounter/encounter-altra-motivazione.xml');
+        $extension1 = $enc->appendChild($extension1);
+        
+        $valueString1 = $dom->createElement('valueString');
+        $valueString1->setAttribute('value', $data_xml["extensions"]['AltraMotivazione']);
+        $valueString1 = $extension1->appendChild($valueString1);
+        
+        
+        //Osservazioni
+        $extension2 = $dom->createElement('extension');
+        $extension2->setAttribute('url', 'http://resp.local/resources/extensions/Encounter/encounter-osservazioni.xml');
+        $extension2 = $enc->appendChild($extension2);
+        
+        $valueString2 = $dom->createElement('valueString');
+        $valueString2->setAttribute('value', $data_xml["extensions"]['Osservazioni']);
+        $valueString2 = $extension2->appendChild($valueString2);
+        
+        
+        //Conclusioni
+        $extension3 = $dom->createElement('extension');
+        $extension3->setAttribute('url', 'http://resp.local/resources/extensions/Encounter/encounter-conclusioni.xml');
+        $extension3 = $enc->appendChild($extension3);
+        
+        $valueString3 = $dom->createElement('valueString');
+        $valueString3->setAttribute('value', $data_xml["extensions"]['Conclusioni']);
+        $valueString3 = $extension3->appendChild($valueString3);
+        
+        //END EXTENSIONS
+        
         
         // Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
         $identifier = $dom->createElement('identifier');

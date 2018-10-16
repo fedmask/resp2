@@ -78,19 +78,15 @@ class FHIRCondition
             "Note" => $diagnosi->getNote()
         );
         
-        // Encounter.Participant
-        $participant = EncounterParticipant::where('id_visita', $id)->get();
         
-        $narrative_participant = array();
-        $i = 0;
-        foreach ($participant as $p) {
-            $i ++;
-            $narrative_participant["Individual" . $i] = $p->getIndividual();
-            $narrative_participant["Type" . $i] = $p->getTypeDisplay();
-            $narrative_participant["Start_Period" . $i] = $p->getStartPeriod();
-            $narrative_participant["End_Period" . $i] = $p->getEndPeriod();
-        }
+        $narrative_extensions = array(
+            "DataInizio" => $diagnosi->getDataInizio(),
+            "DataFine" => $diagnosi->getDataFine(),
+            "DataUltimoAggiornamento" => $diagnosi->getDataAggiornamento(),
+            "Confidenzialita" => $diagnosi->getConfidenzialita()
+        );
         
+        $data_xml["extensions"] = $narrative_extensions;
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["diagnosi"] = $diagnosi;
         
@@ -350,6 +346,14 @@ class FHIRCondition
             "Note" => $diagnosi->getNote()
         );
         
+        $narrative_extensions = array(
+            "DataInizio" => $diagnosi->getDataInizio(),
+            "DataFine" => $diagnosi->getDataFine(),
+            "DataUltimoAggiornamento" => $diagnosi->getDataAggiornamento(),
+            "Confidenzialita" => $diagnosi->getConfidenzialita()
+        );
+        
+        $data_xml["extensions"] = $narrative_extensions;
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["diagnosi"] = $diagnosi;
         
@@ -406,143 +410,79 @@ class FHIRCondition
         $tbody = $table->appendChild($tbody);
         
         
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Identifier
-        $td = $dom->createElement('td',"Identifier");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del related person
-        $td = $dom->createElement('td', $data_xml["narrative"]["Identifier"]);
-        $td = $tr->appendChild($td);
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Active
-        $td = $dom->createElement('td',"ClinicalStatus");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del related person
-        $td = $dom->createElement('td', $data_xml["narrative"]["ClinicalStatus"]);
-        $td = $tr->appendChild($td);
+        //Narrative
+        foreach($data_xml["narrative"] as $key => $value){
+            //Creazione di una riga
+            $tr = $dom->createElement('tr');
+            $tr = $tbody->appendChild($tr);
+            
+            //Creazione della colonna Contact
+            $td = $dom->createElement('td', $key);
+            $td = $tr->appendChild($td);
+            
+            //Creazione della colonna con il valore di contact del practitioner
+            $td = $dom->createElement('td', $value);
+            $td = $tr->appendChild($td);
+            
+        }
         
         
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
+        // EXTENSIONS IN NARRATIVE
         
-        //Creazione della colonna Patient
-        $td = $dom->createElement('td',"VerificationStatus");
-        $td = $tr->appendChild($td);
+        foreach ($data_xml["extensions"] as $key => $value) {
+            // Creazione di una riga
+            $tr = $dom->createElement('tr');
+            $tr = $tbody->appendChild($tr);
+            // Language
+            $td = $dom->createElement('td', $key);
+            $td = $tr->appendChild($td);
+            $td = $dom->createElement('td', $value);
+            $td = $tr->appendChild($td);
+        }
         
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["VerificationStatus"]);
-        $td = $tr->appendChild($td);
+        // END EXTENSIONS IN NARRATIVE
         
+        //EXTENSIONS
+        //Data Inizio
+        $extension1 = $dom->createElement('extension');
+        $extension1->setAttribute('url', 'http://resp.local/resources/extensions/Condition/condition-data-inizio.xml');
+        $extension1 = $cond->appendChild($extension1);
         
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Relationship
-        $td = $dom->createElement('td',"Severity");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Severity"]);
-        $td = $tr->appendChild($td);
-        
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Name
-        $td = $dom->createElement('td',"Code");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Code"]);
-        $td = $tr->appendChild($td);
+        $valueDate1 = $dom->createElement('valueDate');
+        $valueDate1->setAttribute('value', $data_xml["extensions"]['DataInizio']);
+        $valueDate1 = $extension1->appendChild($valueDate1);
         
         
+        //Data Fine
+        $extension2 = $dom->createElement('extension');
+        $extension2->setAttribute('url', 'http://resp.local/resources/extensions/Condition/condition-data-fine.xml');
+        $extension2 = $cond->appendChild($extension2);
+        
+        $valueDate2 = $dom->createElement('valueDate');
+        $valueDate2->setAttribute('value', $data_xml["extensions"]['DataFine']);
+        $valueDate2 = $extension2->appendChild($valueDate2);
         
         
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
+        //Data Ultimo Aggiornamento
+        $extension3 = $dom->createElement('extension');
+        $extension3->setAttribute('url', 'http://resp.local/resources/extensions/Condition/condition-data-ultimo-aggiornameto.xml');
+        $extension3 = $cond->appendChild($extension3);
         
-        //Creazione della colonna Telecom
-        $td = $dom->createElement('td',"BodySite");
-        $td = $tr->appendChild($td);
+        $valueDate3 = $dom->createElement('valueDate');
+        $valueDate3->setAttribute('value', $data_xml["extensions"]['DataUltimoAggiornamento']);
+        $valueDate3 = $extension3->appendChild($valueDate3);
         
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["BodySite"]);
-        $td = $tr->appendChild($td);
+        //Confidenzialita
+        $extension4 = $dom->createElement('extension');
+        $extension4->setAttribute('url', 'http://resp.local/resources/extensions/Condition/condition-confidenzialita.xml');
+        $extension4 = $cond->appendChild($extension4);
         
-        
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Gender
-        $td = $dom->createElement('td',"Stage");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Stage"]);
-        $td = $tr->appendChild($td);
+        $valueInteger4 = $dom->createElement('valueInteger');
+        $valueInteger4->setAttribute('value', $data_xml["extensions"]['Confidenzialita']);
+        $valueInteger4 = $extension4->appendChild($valueInteger4);
         
         
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna BirthDate
-        $td = $dom->createElement('td',"Evidence");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Evidence"]);
-        $td = $tr->appendChild($td);
-        
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna BirthDate
-        $td = $dom->createElement('td',"Subject");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Subject"]);
-        $td = $tr->appendChild($td);
-        
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna BirthDate
-        $td = $dom->createElement('td',"Note");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Note"]);
-        $td = $tr->appendChild($td);
+        //END EXTENSIONS
         
         
         

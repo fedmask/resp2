@@ -555,115 +555,21 @@ class FHIRRelatedPerson
         $tbody = $table->appendChild($tbody);
         
         
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Identifier
-        $td = $dom->createElement('td',"Identifier");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del related person
-        $td = $dom->createElement('td', $data_xml["narrative"]["Identifier"]);
-        $td = $tr->appendChild($td);
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Active
-        $td = $dom->createElement('td',"Active");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del related person
-        $td = $dom->createElement('td', $data_xml["narrative"]["Active"]);
-        $td = $tr->appendChild($td);
-        
-
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Patient
-        $td = $dom->createElement('td',"Patient");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Patient"]);
-        $td = $tr->appendChild($td);
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Relationship
-        $td = $dom->createElement('td',"Relationship");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Relationship"]);
-        $td = $tr->appendChild($td);
-        
-         
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Name
-        $td = $dom->createElement('td',"Name");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Name"]);
-        $td = $tr->appendChild($td);
-        
-        
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Telecom
-        $td = $dom->createElement('td',"Telecom");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Telecom"]);
-        $td = $tr->appendChild($td);
-        
-        
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna Gender
-        $td = $dom->createElement('td',"Gender");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Gender"]);
-        $td = $tr->appendChild($td);
-        
-        
-        
-        
-        //Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        //Creazione della colonna BirthDate
-        $td = $dom->createElement('td',"BirthDate");
-        $td = $tr->appendChild($td);
-        
-        //Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["BirthDate"]);
-        $td = $tr->appendChild($td);
+        //Narrative
+        foreach($data_xml["narrative"] as $key => $value){
+            //Creazione di una riga
+            $tr = $dom->createElement('tr');
+            $tr = $tbody->appendChild($tr);
+            
+            //Creazione della colonna Contact
+            $td = $dom->createElement('td', $key);
+            $td = $tr->appendChild($td);
+            
+            //Creazione della colonna con il valore di contact del practitioner
+            $td = $dom->createElement('td', $value);
+            $td = $tr->appendChild($td);
+            
+        }
         
         
         

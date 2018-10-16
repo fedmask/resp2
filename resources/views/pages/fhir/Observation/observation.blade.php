@@ -1,7 +1,9 @@
 <?php 
 
 $narrative = $data_output["narrative"];
+$extensions =  $data_output["extensions"];
 $indagine = $data_output["indagine"];
+
 ?>
 
 
@@ -21,11 +23,28 @@ $indagine = $data_output["indagine"];
 			</tr>
 			@endforeach 
 			
+			@foreach($extensions as $key => $value)
+			<tr>
+				<td>{{$key}}</td>
+				<td>{{$value}}</td>
+			</tr>
+			@endforeach 
+			
 		</tbody>
 	</table>
   	</div>
   	
   	</text>
+
+<!--Reason-->
+  <extension url="http://resp.local/resources/extensions/Observation/observation-reason.xml">
+    <valueString value="{{$extensions['Reason']}}"/>
+  </extension>
+
+<!--Type-->
+  <extension url="http://resp.local/resources/extensions/Observation/observatio-type.xml">
+    <valueString value="{{$extensions['Type']}}"/>
+  </extension>
 
   <identifier>
     <use value="official"/>

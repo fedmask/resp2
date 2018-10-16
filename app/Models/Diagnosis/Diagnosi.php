@@ -223,4 +223,23 @@ class Diagnosi extends Eloquent
 	public function getNote(){
 	    return $this->note;
 	}
+	
+	public function getConfidenzialita(){
+	    return $this->diagnosi_confidenzialita;
+	}
+	
+	public function getDataInizio(){
+	    $data = date_format($this->diagnosi_inserimento_data,"Y-m-d");
+	    return $data;
+	}
+	
+	public function getDataFine(){
+	    $data = date_format($this->diagnosi_guarigione_data,"Y-m-d");
+	    return $data;
+	}
+	
+	public function getDataAggiornamento(){
+	    $data = date_format($this->diagnosi_aggiornamento_data,"Y-m-d");
+	    return $data;
+	}
 }

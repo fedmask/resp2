@@ -35,6 +35,12 @@ $idUtente = $extensions["Id_Utente"];
 			</tr>
 			@endforeach
 			 
+			 @foreach($extensions as $key => $value)
+			<tr>
+				<td>{{$key}}</td>
+				<td>{{$value}}</td>
+			</tr>
+			@endforeach
 		</tbody>
 	</table>
     </div>

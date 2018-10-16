@@ -55,6 +55,13 @@ class FHIRImmunization
             $values_in_narrative["Practitioner" . "" . $i] = CareProvider::where('id_cpp', $p->id_cpp)->first()->getFullName();
         }
         
+        
+        $narrative_extensions = array(
+            "Confidenzialita" => $vaccinazione->getConfidenzialita()
+        );
+        
+        
+        $data_xml["extensions"] = $narrative_extensions;
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["providers"] = $providers;
         $data_xml["vaccinazione"] = $vaccinazione;
@@ -407,6 +414,12 @@ class FHIRImmunization
             $narrative_providers["Practitioner" . "" . $i] = CareProvider::where('id_cpp', $p->id_cpp)->first()->getFullName();
         }
         
+        $narrative_extensions = array(
+            "Confidenzialita" => $vaccinazione->getConfidenzialita()
+        );
+        
+        
+        $data_xml["extensions"] = $narrative_extensions;
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["narrative_providers"] = $narrative_providers;
         $data_xml["providers"] = $providers;
@@ -459,102 +472,25 @@ class FHIRImmunization
         $tbody = $dom->createElement('tbody');
         $tbody = $table->appendChild($tbody);
         
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
         
-        // Creazione della colonna Identifier
-        $td = $dom->createElement('td', "Identifier");
-        $td = $tr->appendChild($td);
+        //Narrative
+        foreach($data_xml["narrative"] as $key => $value){
+            //Creazione di una riga
+            $tr = $dom->createElement('tr');
+            $tr = $tbody->appendChild($tr);
+            
+            //Creazione della colonna Contact
+            $td = $dom->createElement('td', $key);
+            $td = $tr->appendChild($td);
+            
+            //Creazione della colonna con il valore di contact del practitioner
+            $td = $dom->createElement('td', $value);
+            $td = $tr->appendChild($td);
+            
+        }
         
-        // Creazione della colonna con il valore di nome e cognome del related person
-        $td = $dom->createElement('td', $data_xml["narrative"]["Identifier"]);
-        $td = $tr->appendChild($td);
         
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Active
-        $td = $dom->createElement('td', "Status");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del related person
-        $td = $dom->createElement('td', $data_xml["narrative"]["Status"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Patient
-        $td = $dom->createElement('td', "VaccineCode");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["VaccineCode"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Relationship
-        $td = $dom->createElement('td', "Patient");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Patient"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Name
-        $td = $dom->createElement('td', "Date");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Date"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Telecom
-        $td = $dom->createElement('td', "Route");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Route"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna Gender
-        $td = $dom->createElement('td', "DoseQuantity");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["DoseQuantity"]);
-        $td = $tr->appendChild($td);
-        
-        // Creazione di una riga
-        $tr = $dom->createElement('tr');
-        $tr = $tbody->appendChild($tr);
-        
-        // Creazione della colonna BirthDate
-        $td = $dom->createElement('td', "Note");
-        $td = $tr->appendChild($td);
-        
-        // Creazione della colonna con il valore di nome e cognome del paziente
-        $td = $dom->createElement('td', $data_xml["narrative"]["Note"]);
-        $td = $tr->appendChild($td);
-        
+        //Narrative.Providers
         foreach ($data_xml["narrative_providers"] as $key => $value) {
             $tr = $dom->createElement('tr');
             $tr = $tbody->appendChild($tr);
@@ -567,6 +503,38 @@ class FHIRImmunization
             $td = $dom->createElement('td', $value);
             $td = $tr->appendChild($td);
         }
+        
+        
+        // EXTENSIONS IN NARRATIVE
+        
+        foreach ($data_xml["extensions"] as $key => $value) {
+            // Creazione di una riga
+            $tr = $dom->createElement('tr');
+            $tr = $tbody->appendChild($tr);
+            // Language
+            $td = $dom->createElement('td', $key);
+            $td = $tr->appendChild($td);
+            $td = $dom->createElement('td', $value);
+            $td = $tr->appendChild($td);
+        }
+        
+        // END EXTENSIONS IN NARRATIVE
+        
+        
+        
+        //EXTENSIONS
+        //Reason
+        $extension1 = $dom->createElement('extension');
+        $extension1->setAttribute('url', 'http://resp.local/resources/extensions/Immunization/immunization-confidenzialita.xml');
+        $extension1 = $imm->appendChild($extension1);
+        
+        $valueInteger = $dom->createElement('valueInteger');
+        $valueInteger->setAttribute('value', $data_xml["extensions"]['Confidenzialita']);
+        $valueInteger = $extension1->appendChild($valueInteger);
+        
+        //END EXTENSIONS
+        
+        
         
         // Creazione del nodo identifier identificativo della risorsa Patient attraverso URI della risorsa
         $identifier = $dom->createElement('identifier');

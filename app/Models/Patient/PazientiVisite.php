@@ -138,4 +138,16 @@ class PazientiVisite extends Eloquent
 	    $dis = EncounterReason::where('Code', $this->getReason())->first();
 	    return $dis->Text;
 	}
+	
+	public function getAltraMotivazione(){
+	    return $this->visita_motivazione;
+	}
+	
+	public function getOsservazioni(){
+	    return $this->visita_osservazioni;
+	}
+	
+	public function getConclusioni(){
+	    return $this->visita_conclusioni;
+	}
 }
