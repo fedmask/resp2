@@ -27,6 +27,7 @@ return array(
     'App\\ATCSottogruppoChimicoTF' => $baseDir . '/app/Models/ATCSottogruppoChimicoTF.php',
     'App\\ATCSottogruppoTerapeuticoF' => $baseDir . '/app/Models/ATCSottogruppoTerapeuticoF.php',
     'App\\AnamnesiF' => $baseDir . '/app/Models/AnamnesiF.php',
+    'App\\ConsensoCareProvider' => $baseDir . '/app/Models/ConsensoCareProvider.php',
     'App\\ConsensoPaziente' => $baseDir . '/app/Models/ConsensoPaziente.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\CppSpecialization' => $baseDir . '/app/Models/CppSpecialization.php',

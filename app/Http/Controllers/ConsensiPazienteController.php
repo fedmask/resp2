@@ -31,8 +31,6 @@ class ConsensiPazienteController extends Controller {
 				$CareProviderAuth = \App\Models\CareProviders\CareProvider::where ( 'id_utente', Auth::id () )->first ()->id_cpp;
 				$this->createCareProviderConsent( $CareProviderAuth);
 				$data ['listaConsensi'] = \App\ConsensoCareProvider::where ( 'Id_Cpp', $CareProviderAuth)->get ();
-				
-				
 				break;
 		}
 		
@@ -83,12 +81,12 @@ class ConsensiPazienteController extends Controller {
 	
 	public function updateCP(Request $request){
 		
-		$trattamenti_list = App\TrattamentiCareProvider::all ();
-		$PazienteAuth = \App\Models\CareProviders\CareProvider::where ( 'id_utente', Auth::id () )->first ()->id_cpp;
+		$trattamenti_list = \App\TrattamentiCareProvider::all ();
+		$CppAuth = \App\Models\CareProviders\CareProvider::where ( 'id_utente', Auth::id () )->first ()->id_cpp;
 		// Ciclo sui trattamenti
 		foreach ( $trattamenti_list as $trattamento ) {
 			
-			$consenso = (\App\ConsensoCareProvider::where ( 'Id_Trattamento', $trattamento->Id_Trattamento ))->where ( 'id_cpp', $PazienteAuth )->first ();
+			$consenso = (\App\ConsensoCareProvider::where ( 'Id_Trattamento', $trattamento->Id_Trattamento ))->where ( 'id_cpp', $CppAuth )->first ();
 			
 			if ((Input::get ( 'check' . $consenso->getID_Trattamento () )) === 'acconsento') {
 				
@@ -102,9 +100,28 @@ class ConsensiPazienteController extends Controller {
 			}
 			// $consenso->refresh();
 		}
-		return redirect ( '/consent' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
 		
 	}
+	
+	
+	public function update(Request $request){
+		
+		$user_type = \App\Models\CurrentUser\User::find ( Auth::id () )->id_tipologia;
+		
+		switch ($user_type) {
+			
+			case 'ass' :
+				$this->updatePaziente($request);
+				break;
+				
+			case 'mos' :
+				
+				$this->updateCP($request);
+				break;
+		}
+		return redirect ( '/consent' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
+	}
+	
 	
 	public function updatePaziente(Request $request) {
 		// $trattamenti_count = DB::table ( 'Trattamenti_Pazienti' )->count ();
@@ -129,7 +146,7 @@ class ConsensiPazienteController extends Controller {
 			}
 			// $consenso->refresh();
 		}
-		return redirect ( '/consent' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
+		
 	}
 	public function destroy($id) {
 	}
