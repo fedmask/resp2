@@ -14,6 +14,7 @@ class CreateConsensoCPTable extends Migration {
 	{
 		Schema::create('Consenso_CP', function(Blueprint $table)
 		{
+			$table->increments('Id_Consenso_P');
 			$table->integer('Id_Trattamento')->unsigned()->index('Id_Trattamento');
 			$table->integer('Id_Cpp')->unsigned()->index('Id_Cpp');
 			$table->boolean('Consenso')->default(0);

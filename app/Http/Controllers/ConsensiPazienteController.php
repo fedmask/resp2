@@ -86,7 +86,7 @@ class ConsensiPazienteController extends Controller {
 		// Ciclo sui trattamenti
 		foreach ( $trattamenti_list as $trattamento ) {
 			
-			$consenso = (\App\ConsensoCareProvider::where ( 'Id_Trattamento', $trattamento->Id_Trattamento ))->where ( 'id_cpp', $CppAuth )->first ();
+			$consenso = (\App\ConsensoCareProvider::where ( 'Id_Trattamento', $trattamento->Id_Trattamento ))->where ( 'Id_Cpp', $CppAuth )->first ();
 			
 			if ((Input::get ( 'check' . $consenso->getID_Trattamento () )) === 'acconsento') {
 				

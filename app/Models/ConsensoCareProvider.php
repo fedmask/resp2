@@ -66,7 +66,7 @@ class ConsensoCareProvider extends Model
 	}
 	
 	public function Paziente() {
-		return $this->belongsTo ( \App\Models\CareProviders\CareProvider::class, 'id_cpp' );
+		return $this->belongsTo ( \App\Models\CareProviders\CareProvider::class, 'Id_Cpp' );
 	}
 	public function Trattamento() {
 		return $this->belongsTo ( \App\Models\TrattamentiCareProvider::class, 'Id_Trattamento' );

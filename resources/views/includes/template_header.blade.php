@@ -106,19 +106,6 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
 					@endif
 					<!-- END HOME SECTION -->
 
-					<!--USER SETTINGS SECTIONS -->
-					<!--rispetto alla versione originale si è tolta la classe dropdown  e si sono lasciate la modifica				
-					delle impostazioni di sicurezza ed il logout nella lista della navbar-->
-					<!--Modifica impostazioni sicurezza  -->
-					@if( $current_user->getDescription() == User::PATIENT_DESCRIPTION)
-					<li>
-					
-					
-					
-					
-</head>
-<body>
-
 <div class="dropdown">
 <button onclick="myFunction()" class="dropbtn"><i class="icon-lock"></i>Impostazioni</button>
   <div id="myDropdown" class="dropdown-content">
@@ -149,6 +136,17 @@ window.onclick = function(event) {
   }
 }
 </script>
+					<!--USER SETTINGS SECTIONS -->
+					<!--rispetto alla versione originale si è tolta la classe dropdown  e si sono lasciate la modifica				
+					delle impostazioni di sicurezza ed il logout nella lista della navbar-->
+					<!--Modifica impostazioni sicurezza  -->
+					@if( $current_user->getDescription() == User::PATIENT_DESCRIPTION)
+					<li>
+					
+					
+					
+
+
 					</li>
 					<li><a href="http://fsem.di.uniba.it/modello%20PBAC/createPDF.php"><i class="icon-book"></i> Report</a>
 					</li>					
@@ -183,6 +181,6 @@ window.onclick = function(event) {
 				</ul>
 			</nav>
 		</div>
-		
+		<body>
 		
 		<!-- END HEADER SECTION -->

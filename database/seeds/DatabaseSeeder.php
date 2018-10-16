@@ -119,7 +119,7 @@ class DatabaseSeeder extends Seeder
         $this->call ( ATCSottogruppoChimicoSeeder::class );
         $this->call ( TrattamentiPazienteSeeder::class );
         $this->call ( TrattamentiCareProviderSeeder::class );
-        $this->call ( ConsensoPazienteSeeder::class );
+        
         
     }
 }
