@@ -103,7 +103,7 @@
 				<br>
 
 
-
+				<!-- Apre il modal incluso in includes.template_PrivacyPolicy -->
 				<div align="center">
 					<button type="button" class="btn btn-link " data-toggle="modal"
 						data-target="#myModal">
@@ -125,7 +125,7 @@
 					}}
 					<table style="font-size: 12"
 						; class="table table-striped table-bordered table-hover">
-						<tr>
+						<tr style="font-size: 14" >
 							<th>#ID</th>
 							<th>Trattamento</th>
 							<th align="center">Informativa</th>
@@ -142,7 +142,7 @@
 							<!-- Button per il Modal referenziato tramite #myModal più l'ID del trattamento -->
 							<td align="center"><button type="button" class="btn btn-info "
 									data-toggle="modal"
-									data-target="{{'#myModal'.$LC->getID_Trattamento()}}">Mostra</button></td>
+									data-target="{{'#myModal'.$LC->getID_Trattamento()}}">Show</button></td>
 
 							<td>{{$LC->getDataConsenso()}}</td>
 

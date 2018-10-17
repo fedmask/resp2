@@ -38,37 +38,37 @@ class ConsensiPazienteController extends Controller {
 	}
 	public function createCareProviderConsent($CareProviderAuth) {
 		$listaTrattamenti = \App\TrattamentiCareProvider::all ();
-		$CppCheck = \App\ConsensoCareProvider::where ( 'id_Cpp', Auth::id () );
+		$CppCheck = \App\ConsensoCareProvider::where ( 'id_Cpp', $CareProviderAuth);
 		
-		if ($CppCheck->count () == 0) {
+		
 			
 			foreach ( $listaTrattamenti as $TR ) {
 				
-				\App\ConsensoCareProvider::create ( [ 
-						'Id_Trattamento' => $TR->Id_Trattamento,
-						'Id_Cpp' => $CareProviderAuth,
+				\App\ConsensoCareProvider::firstOrcreate ( [ 
+						'Id_Trattamento' => $TR->Id_Trattamento],
+						['Id_Cpp' => $CareProviderAuth,
 						'Consenso' => false,
 						'data_consenso' => now () 
 				] )->save ();
 			}
-		}
+		
 	}
 	public function createPazienteConsent($PazienteAuth) {
 		$listaTrattamenti = \App\TrattamentiPaziente::all ();
-		$PazienteCheck = \App\ConsensoPaziente::where ( 'id_Paziente', Auth::id () );
+		$PazienteCheck = \App\ConsensoPaziente::where ( 'id_Paziente', $PazienteAuth);
 		
-		if ($PazienteCheck->count () == 0) {
+	
 			
 			foreach ( $listaTrattamenti as $TR ) {
 				
-				\App\ConsensoPaziente::create ( [ 
-						'Id_Trattamento' => $TR->Id_Trattamento,
-						'Id_Paziente' => $PazienteAuth,
+				\App\ConsensoPaziente::firstOrcreate ( [ 
+						'Id_Trattamento' => $TR->Id_Trattamento],
+						['Id_Paziente' => $PazienteAuth,
 						'Consenso' => false,
 						'data_consenso' => now () 
 				] )->save ();
 			}
-		}
+		
 	}
 	public function store(Request $request) {
 	}
