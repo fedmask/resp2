@@ -16,8 +16,11 @@ class AnamnesiController extends Controller
      */
     public function index()
     {
-        $anamnesiFamiliare = Anamnesi::all();
-        return view('pages.anamnesi',compact('anamnesiFamiliare'));
+
+        $userid = Pazienti::where('id_utente', Auth::id())->first()->id_paziente;
+        $anamnesiFamiliare = Anamnesi::where('id_paziente', Auth::id())->get();
+
+        return view('pages.anamnesi',compact('userid','anamnesiFamiliare'));
     }
 
     /**
@@ -38,9 +41,15 @@ class AnamnesiController extends Controller
      */
     public function store(Request $request)
     {
+        $userid = Pazienti::where('id_utente', Auth::id())->first()->id_paziente;
+        $anamnesi = Anamnesi::find($userid);
+        if(isset($anamnesi->id_paziente)){
+            $anamnesi->delete();
+        }
+
         //Create Anamensi
         $anamnesi = new Anamnesi;
-        $anamnesi->id_paziente = Pazienti::where('id_utente', Auth::id())->first()->id_paziente;
+        $anamnesi->id_paziente = $userid;
         $anamnesi->id_anamnesi_log = 123;
         $anamnesi->anamnesi_contenuto = $request->input('testofam');
         $anamnesi->save();
@@ -67,7 +76,7 @@ class AnamnesiController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -79,7 +88,10 @@ class AnamnesiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $anamnesi = Anamnesi::find($id);
+        $anamnesi->anamnesi_contenuto = $request->input('testofam');
+        $anamnesi->save();
+        return redirect('/anamnesi');
     }
 
     /**

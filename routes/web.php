@@ -270,7 +270,11 @@ Route::get ( '/ModIndCompletata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stat
 Route::post ( '/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient' );
 
 
-Route::resource('/anamnesi','AnamnesiController');
+Route::resource('/anamnesi','AnamnesiController',['except' => ['create', 'store', 'update', 'destroy']]);
+Route::post('/anamnesi','AnamnesiController@store');
+Route::post('/anamnesi/{id}','AnamnesiController@update');
+
+
     
     
     /**

@@ -37,7 +37,7 @@
                                                 class="icon-pencil icon-white"></i>Aggiorna</a>
 
                                     <button type="submit" class="btn btn-warning btn-sm" id="btn_salvafam"
-                                       style="display: none;"><i
+                                            style="display: none;"><i
                                                 class="icon-save"></i>Salva</button>
                                     <a type="submit" class="btn btn-info btn-sm" id="buttonCodiciFam"
                                        style="display: none;"
@@ -58,12 +58,7 @@
                                     <textarea class="col-md-12" id="testofam" name="testofam" cols="44" rows="10"
                                               readonly="true"
                                               style="resize:none; border: transparent; overflow-y: scroll; max-height: 200px;"
-                                              placeholder="qui puoi inserire il tuo testo...">
-                                        @foreach ($anamnesiFamiliare as $a)
-                                            {{ $a->anamnesi_contenuto }}
-                                        @endforeach
-
-                                    </textarea>
+                                              placeholder="qui puoi inserire il tuo testo...">@foreach($anamnesiFamiliare as $a){{ $a->anamnesi_contenuto }}@endforeach</textarea>
                                         </tr>
                                         </tbody>
                                     </table>
