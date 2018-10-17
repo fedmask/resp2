@@ -31,11 +31,11 @@
               },
               {
                 "language": "ru",
-                "value": "Бенгальский"
+                "value": "Ð‘ÐµÐ½Ð³Ð°Ð»ÑŒÑ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "孟加拉语"
+                "value": "å­ŸåŠ æ‹‰è¯­"
               },
               {
                 "language": "de",
@@ -61,11 +61,11 @@
               },
               {
                 "language": "ru",
-                "value": "Чешский"
+                "value": "Ð§ÐµÑˆÑ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "捷克语"
+                "value": "æ�·å…‹è¯­"
               },
               {
                 "language": "de",
@@ -91,15 +91,15 @@
               },
               {
                 "language": "ru",
-                "value": "Датский"
+                "value": "Ð”Ð°Ñ‚Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "丹麦语"
+                "value": "ä¸¹éº¦è¯­"
               },
               {
                 "language": "de",
-                "value": "Dänisch"
+                "value": "DÃ¤nisch"
               },
               {
                 "language": "da",
@@ -121,11 +121,11 @@
               },
               {
                 "language": "ru",
-                "value": "Немецкий"
+                "value": "Ð�ÐµÐ¼ÐµÑ†ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "德语"
+                "value": "å¾·è¯­"
               },
               {
                 "language": "de",
@@ -151,19 +151,19 @@
               },
               {
                 "language": "ru",
-                "value": "Немецкий (Австрия)"
+                "value": "Ð�ÐµÐ¼ÐµÑ†ÐºÐ¸Ð¹ (Ð�Ð²Ñ�Ñ‚Ñ€Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "德语 （奥地利）"
+                "value": "å¾·è¯­ ï¼ˆå¥¥åœ°åˆ©ï¼‰"
               },
               {
                 "language": "de",
-                "value": "Deutsch (Österreich)"
+                "value": "Deutsch (Ã–sterreich)"
               },
               {
                 "language": "da",
-                "value": "Tysk (Østrig"
+                "value": "Tysk (Ã˜strig"
               }
             ]
           },
@@ -181,11 +181,11 @@
               },
               {
                 "language": "ru",
-                "value": "Немецкий (Швейцария)"
+                "value": "Ð�ÐµÐ¼ÐµÑ†ÐºÐ¸Ð¹ (Ð¨Ð²ÐµÐ¹Ñ†Ð°Ñ€Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "德语 （瑞士）"
+                "value": "å¾·è¯­ ï¼ˆç‘žå£«ï¼‰"
               },
               {
                 "language": "de",
@@ -211,11 +211,11 @@
               },
               {
                 "language": "ru",
-                "value": "Немецкий (Германия)"
+                "value": "Ð�ÐµÐ¼ÐµÑ†ÐºÐ¸Ð¹ (Ð“ÐµÑ€Ð¼Ð°Ð½Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "德语 （德国）"
+                "value": "å¾·è¯­ ï¼ˆå¾·å›½ï¼‰"
               },
               {
                 "language": "de",
@@ -241,11 +241,11 @@
               },
               {
                 "language": "ru",
-                "value": "Греческий"
+                "value": "Ð“Ñ€ÐµÑ‡ÐµÑ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "希腊语"
+                "value": "å¸Œè…Šè¯­"
               },
               {
                 "language": "de",
@@ -253,7 +253,7 @@
               },
               {
                 "language": "da",
-                "value": "Græsk"
+                "value": "GrÃ¦sk"
               }
             ]
           },
@@ -271,11 +271,11 @@
               },
               {
                 "language": "ru",
-                "value": "Английский"
+                "value": "Ð�Ð½Ð³Ð»Ð¸Ð¹Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "英语"
+                "value": "è‹±è¯­"
               },
               {
                 "language": "de",
@@ -297,15 +297,15 @@
               },
               {
                 "language": "nl",
-                "value": "Engels (Australië)"
+                "value": "Engels (AustraliÃ«)"
               },
               {
                 "language": "ru",
-                "value": "Английский (Австралия)"
+                "value": "Ð�Ð½Ð³Ð»Ð¸Ð¹Ñ�ÐºÐ¸Ð¹ (Ð�Ð²Ñ�Ñ‚Ñ€Ð°Ð»Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "英语 （澳大利亚）"
+                "value": "è‹±è¯­ ï¼ˆæ¾³å¤§åˆ©äºšï¼‰"
               },
               {
                 "language": "de",
@@ -331,11 +331,11 @@
               },
               {
                 "language": "ru",
-                "value": "Английский (Канада)"
+                "value": "Ð�Ð½Ð³Ð»Ð¸Ð¹Ñ�ÐºÐ¸Ð¹ (ÐšÐ°Ð½Ð°Ð´Ð°)"
               },
               {
                 "language": "zh",
-                "value": "英语 （加拿大）"
+                "value": "è‹±è¯­ ï¼ˆåŠ æ‹¿å¤§ï¼‰"
               },
               {
                 "language": "de",
@@ -357,19 +357,19 @@
               },
               {
                 "language": "nl",
-                "value": "Engels (Groot Brittannië)"
+                "value": "Engels (Groot BrittanniÃ«)"
               },
               {
                 "language": "ru",
-                "value": "Английский (Великобритания)"
+                "value": "Ð�Ð½Ð³Ð»Ð¸Ð¹Ñ�ÐºÐ¸Ð¹ (Ð’ÐµÐ»Ð¸ÐºÐ¾Ð±Ñ€Ð¸Ñ‚Ð°Ð½Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "英语 （英国）"
+                "value": "è‹±è¯­ ï¼ˆè‹±å›½ï¼‰"
               },
               {
                 "language": "de",
-                "value": "Englisch (Großbritannien)"
+                "value": "Englisch (GroÃŸbritannien)"
               },
               {
                 "language": "da",
@@ -391,11 +391,11 @@
               },
               {
                 "language": "ru",
-                "value": "Английский (Индия)"
+                "value": "Ð�Ð½Ð³Ð»Ð¸Ð¹Ñ�ÐºÐ¸Ð¹ (Ð˜Ð½Ð´Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "英语 （印度）"
+                "value": "è‹±è¯­ ï¼ˆå�°åº¦ï¼‰"
               },
               {
                 "language": "de",
@@ -421,11 +421,11 @@
               },
               {
                 "language": "ru",
-                "value": "Английский (Новая Зеландия)"
+                "value": "Ð�Ð½Ð³Ð»Ð¸Ð¹Ñ�ÐºÐ¸Ð¹ (Ð�Ð¾Ð²Ð°Ñ� Ð—ÐµÐ»Ð°Ð½Ð´Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "英语 （新西兰）"
+                "value": "è‹±è¯­ ï¼ˆæ–°è¥¿å…°ï¼‰"
               },
               {
                 "language": "de",
@@ -451,11 +451,11 @@
               },
               {
                 "language": "ru",
-                "value": "Английский (Сингапур)"
+                "value": "Ð�Ð½Ð³Ð»Ð¸Ð¹Ñ�ÐºÐ¸Ð¹ (Ð¡Ð¸Ð½Ð³Ð°Ð¿ÑƒÑ€)"
               },
               {
                 "language": "zh",
-                "value": "英语 （新加坡）"
+                "value": "è‹±è¯­ ï¼ˆæ–°åŠ å�¡ï¼‰"
               },
               {
                 "language": "de",
@@ -481,11 +481,11 @@
               },
               {
                 "language": "ru",
-                "value": "Английский (США)"
+                "value": "Ð�Ð½Ð³Ð»Ð¸Ð¹Ñ�ÐºÐ¸Ð¹ (Ð¡Ð¨Ð�)"
               },
               {
                 "language": "zh",
-                "value": "英语 （美国）"
+                "value": "è‹±è¯­ ï¼ˆç¾Žå›½ï¼‰"
               },
               {
                 "language": "de",
@@ -511,11 +511,11 @@
               },
               {
                 "language": "ru",
-                "value": "Испанский"
+                "value": "Ð˜Ñ�Ð¿Ð°Ð½Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "西班牙语"
+                "value": "è¥¿ç�­ç‰™è¯­"
               },
               {
                 "language": "de",
@@ -537,15 +537,15 @@
               },
               {
                 "language": "nl",
-                "value": "Spaans (Argentinië)"
+                "value": "Spaans (ArgentiniÃ«)"
               },
               {
                 "language": "ru",
-                "value": "Испанский (Аргентина)"
+                "value": "Ð˜Ñ�Ð¿Ð°Ð½Ñ�ÐºÐ¸Ð¹ (Ð�Ñ€Ð³ÐµÐ½Ñ‚Ð¸Ð½Ð°)"
               },
               {
                 "language": "zh",
-                "value": "西班牙语 （阿根廷）"
+                "value": "è¥¿ç�­ç‰™è¯­ ï¼ˆé˜¿æ ¹å»·ï¼‰"
               },
               {
                 "language": "de",
@@ -571,11 +571,11 @@
               },
               {
                 "language": "ru",
-                "value": "Испанский (Испания)"
+                "value": "Ð˜Ñ�Ð¿Ð°Ð½Ñ�ÐºÐ¸Ð¹ (Ð˜Ñ�Ð¿Ð°Ð½Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "西班牙语 （西班牙）"
+                "value": "è¥¿ç�­ç‰™è¯­ ï¼ˆè¥¿ç�­ç‰™ï¼‰"
               },
               {
                 "language": "de",
@@ -601,11 +601,11 @@
               },
               {
                 "language": "ru",
-                "value": "Испанский (Уругвай)"
+                "value": "Ð˜Ñ�Ð¿Ð°Ð½Ñ�ÐºÐ¸Ð¹ (Ð£Ñ€ÑƒÐ³Ð²Ð°Ð¹)"
               },
               {
                 "language": "zh",
-                "value": "西班牙语 （乌拉圭）"
+                "value": "è¥¿ç�­ç‰™è¯­ ï¼ˆä¹Œæ‹‰åœ­ï¼‰"
               },
               {
                 "language": "de",
@@ -631,11 +631,11 @@
               },
               {
                 "language": "ru",
-                "value": "Финский"
+                "value": "Ð¤Ð¸Ð½Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "芬兰语"
+                "value": "èŠ¬å…°è¯­"
               },
               {
                 "language": "de",
@@ -661,15 +661,15 @@
               },
               {
                 "language": "ru",
-                "value": "Французский"
+                "value": "Ð¤Ñ€Ð°Ð½Ñ†ÑƒÐ·Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "法语"
+                "value": "æ³•è¯­"
               },
               {
                 "language": "de",
-                "value": "Französisch"
+                "value": "FranzÃ¶sisch"
               },
               {
                 "language": "da",
@@ -687,11 +687,11 @@
               },
               {
                 "language": "nl",
-                "value": "Frans (België)"
+                "value": "Frans (BelgiÃ«)"
               },
               {
                 "language": "de",
-                "value": "Französisch (Belgien)"
+                "value": "FranzÃ¶sisch (Belgien)"
               },
               {
                 "language": "da",
@@ -713,15 +713,15 @@
               },
               {
                 "language": "ru",
-                "value": "Французский (Швейцария)"
+                "value": "Ð¤Ñ€Ð°Ð½Ñ†ÑƒÐ·Ñ�ÐºÐ¸Ð¹ (Ð¨Ð²ÐµÐ¹Ñ†Ð°Ñ€Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "法语 （比利时）"
+                "value": "æ³•è¯­ ï¼ˆæ¯”åˆ©æ—¶ï¼‰"
               },
               {
                 "language": "de",
-                "value": "Französisch (Schweiz)"
+                "value": "FranzÃ¶sisch (Schweiz)"
               },
               {
                 "language": "da",
@@ -743,15 +743,15 @@
               },
               {
                 "language": "ru",
-                "value": "Французский (Франция)"
+                "value": "Ð¤Ñ€Ð°Ð½Ñ†ÑƒÐ·Ñ�ÐºÐ¸Ð¹ (Ð¤Ñ€Ð°Ð½Ñ†Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "法语 （瑞士）"
+                "value": "æ³•è¯­ ï¼ˆç‘žå£«ï¼‰"
               },
               {
                 "language": "de",
-                "value": "Französisch (Frankreich)"
+                "value": "FranzÃ¶sisch (Frankreich)"
               },
               {
                 "language": "da",
@@ -773,7 +773,7 @@
               },
               {
                 "language": "zh",
-                "value": "弗里士兰语"
+                "value": "å¼—é‡Œå£«å…°è¯­"
               },
               {
                 "language": "de",
@@ -799,7 +799,7 @@
               },
               {
                 "language": "zh",
-                "value": "弗里士兰语（荷兰）"
+                "value": "å¼—é‡Œå£«å…°è¯­ï¼ˆè�·å…°ï¼‰"
               },
               {
                 "language": "de",
@@ -843,11 +843,11 @@
               },
               {
                 "language": "ru",
-                "value": "Хорватский"
+                "value": "Ð¥Ð¾Ñ€Ð²Ð°Ñ‚Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "克罗地亚语"
+                "value": "å…‹ç½—åœ°äºšè¯­"
               },
               {
                 "language": "de",
@@ -861,7 +861,7 @@
           },
           {
             "code": "it",
-            "display": "Italian",
+            "display": "Italiensk",
             "designation": [
               {
                 "language": "en",
@@ -873,11 +873,11 @@
               },
               {
                 "language": "ru",
-                "value": "Итальянский"
+                "value": "Ð˜Ñ‚Ð°Ð»ÑŒÑ�Ð½Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "意大利语"
+                "value": "æ„�å¤§åˆ©è¯­"
               },
               {
                 "language": "de",
@@ -903,11 +903,11 @@
               },
               {
                 "language": "ru",
-                "value": "Итальянский (Швейцария)"
+                "value": "Ð˜Ñ‚Ð°Ð»ÑŒÑ�Ð½Ñ�ÐºÐ¸Ð¹ (Ð¨Ð²ÐµÐ¹Ñ†Ð°Ñ€Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "意大利语 （瑞士）"
+                "value": "æ„�å¤§åˆ©è¯­ ï¼ˆç‘žå£«ï¼‰"
               },
               {
                 "language": "de",
@@ -929,15 +929,15 @@
               },
               {
                 "language": "nl",
-                "value": "Italiaans (Italië)"
+                "value": "Italiaans (ItaliÃ«)"
               },
               {
                 "language": "ru",
-                "value": "Итальянский (Италия)"
+                "value": "Ð˜Ñ‚Ð°Ð»ÑŒÑ�Ð½Ñ�ÐºÐ¸Ð¹ (Ð˜Ñ‚Ð°Ð»Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "意大利语 （意大利）"
+                "value": "æ„�å¤§åˆ©è¯­ ï¼ˆæ„�å¤§åˆ©ï¼‰"
               },
               {
                 "language": "de",
@@ -963,11 +963,11 @@
               },
               {
                 "language": "ru",
-                "value": "Японский"
+                "value": "Ð¯Ð¿Ð¾Ð½Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "日语"
+                "value": "æ—¥è¯­"
               },
               {
                 "language": "de",
@@ -993,11 +993,11 @@
               },
               {
                 "language": "ru",
-                "value": "Корейский"
+                "value": "ÐšÐ¾Ñ€ÐµÐ¹Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "朝鲜语"
+                "value": "æœ�é²œè¯­"
               },
               {
                 "language": "de",
@@ -1023,15 +1023,15 @@
               },
               {
                 "language": "ru",
-                "value": "Нидерландский"
+                "value": "Ð�Ð¸Ð´ÐµÑ€Ð»Ð°Ð½Ð´Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "荷兰语"
+                "value": "è�·å…°è¯­"
               },
               {
                 "language": "de",
-                "value": "Niederländisch"
+                "value": "NiederlÃ¤ndisch"
               },
               {
                 "language": "da",
@@ -1049,15 +1049,15 @@
               },
               {
                 "language": "nl",
-                "value": "Nederlands (België)"
+                "value": "Nederlands (BelgiÃ«)"
               },
               {
                 "language": "zh",
-                "value": "荷兰语 （比利时）"
+                "value": "è�·å…°è¯­ ï¼ˆæ¯”åˆ©æ—¶ï¼‰"
               },
               {
                 "language": "de",
-                "value": "Niederländisch (Belgien)"
+                "value": "NiederlÃ¤ndisch (Belgien)"
               },
               {
                 "language": "da",
@@ -1079,15 +1079,15 @@
               },
               {
                 "language": "ru",
-                "value": "Нидерландский (Нидерланды)"
+                "value": "Ð�Ð¸Ð´ÐµÑ€Ð»Ð°Ð½Ð´Ñ�ÐºÐ¸Ð¹ (Ð�Ð¸Ð´ÐµÑ€Ð»Ð°Ð½Ð´Ñ‹)"
               },
               {
                 "language": "zh",
-                "value": "荷兰语 （荷兰）"
+                "value": "è�·å…°è¯­ ï¼ˆè�·å…°ï¼‰"
               },
               {
                 "language": "de",
-                "value": "Niederländisch (Niederlande)"
+                "value": "NiederlÃ¤ndisch (Niederlande)"
               },
               {
                 "language": "da",
@@ -1109,11 +1109,11 @@
               },
               {
                 "language": "ru",
-                "value": "Норвежский"
+                "value": "Ð�Ð¾Ñ€Ð²ÐµÐ¶Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "挪威语"
+                "value": "æŒªå¨�è¯­"
               },
               {
                 "language": "de",
@@ -1139,11 +1139,11 @@
               },
               {
                 "language": "ru",
-                "value": "Норвежский (Норвегия)"
+                "value": "Ð�Ð¾Ñ€Ð²ÐµÐ¶Ñ�ÐºÐ¸Ð¹ (Ð�Ð¾Ñ€Ð²ÐµÐ³Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "挪威语 （挪威）"
+                "value": "æŒªå¨�è¯­ ï¼ˆæŒªå¨�ï¼‰"
               },
               {
                 "language": "de",
@@ -1187,11 +1187,11 @@
               },
               {
                 "language": "ru",
-                "value": "Португальский"
+                "value": "ÐŸÐ¾Ñ€Ñ‚ÑƒÐ³Ð°Ð»ÑŒÑ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "葡萄牙语"
+                "value": "è‘¡è�„ç‰™è¯­"
               },
               {
                 "language": "de",
@@ -1213,15 +1213,15 @@
               },
               {
                 "language": "nl",
-                "value": "Portugees (Brazilië)"
+                "value": "Portugees (BraziliÃ«)"
               },
               {
                 "language": "ru",
-                "value": "Португальский (Бразилия)"
+                "value": "ÐŸÐ¾Ñ€Ñ‚ÑƒÐ³Ð°Ð»ÑŒÑ�ÐºÐ¸Ð¹ (Ð‘Ñ€Ð°Ð·Ð¸Ð»Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "葡萄牙语 （巴西）"
+                "value": "è‘¡è�„ç‰™è¯­ ï¼ˆå·´è¥¿ï¼‰"
               },
               {
                 "language": "de",
@@ -1247,11 +1247,11 @@
               },
               {
                 "language": "ru",
-                "value": "Русский"
+                "value": "Ð ÑƒÑ�Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "俄语"
+                "value": "ä¿„è¯­"
               },
               {
                 "language": "de",
@@ -1277,11 +1277,11 @@
               },
               {
                 "language": "ru",
-                "value": "Русский (Россия)"
+                "value": "Ð ÑƒÑ�Ñ�ÐºÐ¸Ð¹ (Ð Ð¾Ñ�Ñ�Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "俄语 （俄罗斯）"
+                "value": "ä¿„è¯­ ï¼ˆä¿„ç½—æ–¯ï¼‰"
               },
               {
                 "language": "de",
@@ -1307,11 +1307,11 @@
               },
               {
                 "language": "ru",
-                "value": "Сербский"
+                "value": "Ð¡ÐµÑ€Ð±Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "塞尔维亚语"
+                "value": "å¡žå°”ç»´äºšè¯­"
               },
               {
                 "language": "de",
@@ -1333,15 +1333,15 @@
               },
               {
                 "language": "nl",
-                "value": "Servisch (Servië)"
+                "value": "Servisch (ServiÃ«)"
               },
               {
                 "language": "ru",
-                "value": "Сербский (Сербия)"
+                "value": "Ð¡ÐµÑ€Ð±Ñ�ÐºÐ¸Ð¹ (Ð¡ÐµÑ€Ð±Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "塞尔维亚语 （塞尔维亚）"
+                "value": "å¡žå°”ç»´äºšè¯­ ï¼ˆå¡žå°”ç»´äºšï¼‰"
               },
               {
                 "language": "de",
@@ -1367,11 +1367,11 @@
               },
               {
                 "language": "ru",
-                "value": "Шведский"
+                "value": "Ð¨Ð²ÐµÐ´Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "瑞典语"
+                "value": "ç‘žå…¸è¯­"
               },
               {
                 "language": "de",
@@ -1397,11 +1397,11 @@
               },
               {
                 "language": "ru",
-                "value": "Шведский (Швеция)"
+                "value": "Ð¨Ð²ÐµÐ´Ñ�ÐºÐ¸Ð¹ (Ð¨Ð²ÐµÑ†Ð¸Ñ�)"
               },
               {
                 "language": "zh",
-                "value": "瑞典语 （瑞典）"
+                "value": "ç‘žå…¸è¯­ ï¼ˆç‘žå…¸ï¼‰"
               },
               {
                 "language": "de",
@@ -1427,11 +1427,11 @@
               },
               {
                 "language": "ru",
-                "value": "Телугу"
+                "value": "Ð¢ÐµÐ»ÑƒÐ³Ñƒ"
               },
               {
                 "language": "zh",
-                "value": "泰卢固语"
+                "value": "æ³°å�¢å›ºè¯­"
               },
               {
                 "language": "de",
@@ -1457,11 +1457,11 @@
               },
               {
                 "language": "ru",
-                "value": "Kитайский"
+                "value": "KÐ¸Ñ‚Ð°Ð¹Ñ�ÐºÐ¸Ð¹"
               },
               {
                 "language": "zh",
-                "value": "中文"
+                "value": "ä¸­æ–‡"
               },
               {
                 "language": "de",
@@ -1487,11 +1487,11 @@
               },
               {
                 "language": "ru",
-                "value": "Kитайский (Китай)"
+                "value": "KÐ¸Ñ‚Ð°Ð¹Ñ�ÐºÐ¸Ð¹ (ÐšÐ¸Ñ‚Ð°Ð¹)"
               },
               {
                 "language": "zh",
-                "value": "中文 （中国）"
+                "value": "ä¸­æ–‡ ï¼ˆä¸­å›½ï¼‰"
               },
               {
                 "language": "de",
@@ -1517,11 +1517,11 @@
               },
               {
                 "language": "ru",
-                "value": "Kитайский (Гонконг)"
+                "value": "KÐ¸Ñ‚Ð°Ð¹Ñ�ÐºÐ¸Ð¹ (Ð“Ð¾Ð½ÐºÐ¾Ð½Ð³)"
               },
               {
                 "language": "zh",
-                "value": "中文 （香港特别行政区）"
+                "value": "ä¸­æ–‡ ï¼ˆé¦™æ¸¯ç‰¹åˆ«è¡Œæ”¿åŒºï¼‰"
               },
               {
                 "language": "de",
@@ -1547,11 +1547,11 @@
               },
               {
                 "language": "ru",
-                "value": "Kитайский (Сингапур)"
+                "value": "KÐ¸Ñ‚Ð°Ð¹Ñ�ÐºÐ¸Ð¹ (Ð¡Ð¸Ð½Ð³Ð°Ð¿ÑƒÑ€)"
               },
               {
                 "language": "zh",
-                "value": "中文 （新加坡）"
+                "value": "ä¸­æ–‡ ï¼ˆæ–°åŠ å�¡ï¼‰"
               },
               {
                 "language": "de",
@@ -1577,11 +1577,11 @@
               },
               {
                 "language": "ru",
-                "value": "Kитайский (Тайвань)"
+                "value": "KÐ¸Ñ‚Ð°Ð¹Ñ�ÐºÐ¸Ð¹ (Ð¢Ð°Ð¹Ð²Ð°Ð½ÑŒ)"
               },
               {
                 "language": "zh",
-                "value": "中文 （台湾）"
+                "value": "ä¸­æ–‡ ï¼ˆå�°æ¹¾ï¼‰"
               },
               {
                 "language": "de",

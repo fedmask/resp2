@@ -93,16 +93,35 @@ class FHIRPractitioner
         ]);
     }
 
+    public function pathGen($storage){
+        $path = storage_path($storage);
+        $ret = str_replace("\\","/",$path);
+        return $ret;
+    }
+    
+    public function FHIRValidator($pathJar, $pathFile, $pathZip, $pathOutput){
+        $jar = $this->pathGen($pathJar);
+        $file = $this->pathGen($pathFile);
+        $zip = $this->pathGen($pathZip);
+        $output = $this->pathGen($pathOutput);
+        
+        $command = "java -jar ".$jar. " ".$file." -defn ".$zip." -output ".$output;
+        shell_exec($command);
+        //print_r($command);
+    }
+    
     public function store(Request $request)
     {
         $file = $request->file('file');
-        
-        try {
+        $request->file->storeAs('file', 'Practitioner.xml');
+     
+          try {
             // ottengo il nome del file compreso di espansione (file.xml)
             $name = $_FILES['file']['name'];
             $explode = explode(".", $name);
             $extension = $explode[1];
             
+            //controllo se il file è .xml
             if ($extension != EXTENSION) {
                 throw new ExtensionException("Error: file extension not valid. Please select .xml file");
             }
@@ -112,8 +131,30 @@ class FHIRPractitioner
             $sxe = new SimpleXMLElement($xmlfile);
             $name = $sxe->getName();
             
+            //controllo se il file contiente una risorsa Practitioner
             if ($name != NAME) {
                 throw new NameException("Error: type resource not valid. Please upload 'Practitioner' resource");
+            }
+            
+            $pathJar = "app/public/validator.jar";
+            $pathFile = "app/public/file/Practitioner.xml";
+            $pathZip = "app/public/definitions.xml.zip";
+            $pathOutput = "app/public/val.xml";
+            
+            $this->FHIRValidator($pathJar, $pathFile, $pathZip, $pathOutput);
+            
+            $f = storage_path('app/public/val.xml');
+            $f = str_replace("\\","/",$f);
+            
+            $xmlfile = file_get_contents($f);
+            $ob = simplexml_load_string($xmlfile);
+            $json = json_encode($ob);
+            $configData = json_decode($json, true);
+            
+            $s = $configData['text']['div'];
+            
+            if(!array_key_exists('p', $s)){
+                throw new Exception();
             }
             
             $xml = XmlParser::load($file->getRealPath());
@@ -130,13 +171,7 @@ class FHIRPractitioner
                     throw new IdFoundException("Practictioner already exists");
                 }
             }
-        } catch (ExtensionException $e) {
-            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
-        } catch (NameException $e) {
-            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
-        } catch (IdFoundException $e) {
-            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
-        }
+        
         
         $lettura = $xml->parse([
             'identifier' => [
@@ -340,6 +375,16 @@ class FHIRPractitioner
         $addCppPaz->save();
         
         return response()->json($lettura['identifier'], 201);
+        
+        } catch (ExtensionException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        } catch (NameException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        } catch (Exception $e) {
+            return response()->download($f);
+        }catch (IdFoundException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        }
     }
 
     public function update(Request $request, $id)
