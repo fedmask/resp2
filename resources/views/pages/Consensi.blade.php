@@ -1,7 +1,6 @@
 @extends('layouts.app') @extends('includes.template_head')
 
-
-@section('content')
+@include('includes.template_PrivacyPolicy') @section('content')
 
 
 <style>
@@ -75,15 +74,48 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 <!--PAGE CONTENT -->
 <div id="content">
 	<div class="inner" style="min-height: 1200px;">
 		<div class="row">
 			<div class="col-lg-12">
-				<h2>Trattamenti</h2>
+				<h2 align="center">
+					<img src="/img/GDPR/70008.png" width="50" height="50"> Trattamenti
+				</h2>
 
 				<br>
+
+				<p>
+					Il <strong>consenso,</strong>&nbsp;in base al nuovo Regolamento
+					Generale ( <a
+						title="Regolamento generale per la protezione dei dati"
+						href="http://www.privacy-regulation.eu/it/4.htm" target="_self">art.
+						4 GDPR</a>), e' qualsiasi <strong>manifestazione di volonta'
+						libera, specifica, informata e inequivocabile</strong> dell'<b>Interessato
+						del trattamento</b> (Persona fisica a cui si riferiscono i dati
+					personali.) con la quale lo stesso esprime il proprio assenso,
+					mediante dichiarazione o azione positiva inequivocabile, al <b>Trattamento
+						dei dati personali</b> dei <b>dati personali</b> che lo
+					riguardano. Il presupposto indefettibile e' che il soggetto che
+					conferisce il consenso abbia la capacita' giuridica&nbsp;per
+					farlo.&nbsp;
+				</p>
+				<br>
+
+
+
+				<div align="center">
+					<button type="button" class="btn btn-link " data-toggle="modal"
+						data-target="#myModal">
+						Leggi la nostra <b>Privacy Policy</b>
+					</button>
+
+
+				</div>
+				<br>
+
+
+
 
 				<!-- Apro il form per la gestione delle checkbox -->
 				<form class="form-horizontal"
@@ -122,16 +154,14 @@
 							</label> <label class="container">Acconsento <input type="radio"
 									name="{{'check'.$LC->getID_Trattamento()}}" value="acconsento">
 									<span class="checkmark"></span>
-							</label></td> 
-							@else
+							</label></td> @else
 							<td><label class="container">Nego il consenso <input type="radio"
 									name="{{'check'.$LC->getID_Trattamento()}}" value="nego"> <span
 									class="checkmark"></span>
 							</label> <label class="container">Acconsento <input type="radio"
 									checked="checked" name="{{'check'.$LC->getID_Trattamento()}}"
 									value="acconsento"> <span class="checkmark"></span>
-							</label></td> 
-							@endif
+							</label></td> @endif
 
 
 
@@ -150,9 +180,14 @@
 											{{$LC->getTrattamentoNome()}}</h4>
 									</div>
 									<div class="modal-body">
-										<h4><b>Finalita:</b></h4>
-										<p>{{$LC->getTrattamentoFinalita()}}</p><br>
-										<h4><b>Informativa:</b></h4>
+										<h4>
+											<b>Finalita:</b>
+										</h4>
+										<p>{{$LC->getTrattamentoFinalita()}}</p>
+										<br>
+										<h4>
+											<b>Informativa:</b>
+										</h4>
 										<p>{{$LC->getTrattamentoInformativa()}}</p>
 									</div>
 									<div class="modal-footer">

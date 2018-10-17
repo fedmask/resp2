@@ -166,6 +166,10 @@ Route::group ( [
 	 * Route per la gestione del controller dei Consensi
 	 */
 	Route::resource ( '/consent', 'ConsensiPazienteController' );
+	
+	Route::get ( '/PrivacyPolicy', function () {
+		return view ( 'includes.template_PrivacyPolicy' );
+	} );
 } );
 
 Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' );
