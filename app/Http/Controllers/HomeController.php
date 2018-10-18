@@ -33,8 +33,8 @@ class HomeController extends Controller
             return view('pages.taccuino')->with('records', $records);
         } else if($user->getRole() == $user::CAREPROVIDER_ID) {
             return redirect()->route('patients-list');
-        }else if($user->getRole() == $user::EMERGENCY_ID){
-			return redirect()->route('search-patient');
+        } else if($user->getRole() == $user::EMERGENCY_ID){
+            return redirect()->route('search-patient');
 		}
         return "Login Error Occured";
     }
