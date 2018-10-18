@@ -151,7 +151,7 @@ Route::group ( [
 	
 	Route::get ( '/diagnosi', 'PazienteController@showDiagnosi' )->name ( 'diagnosi' );
 	
-	Route::get ( '/indagini', 'PazienteController@showIndagini' )->name ( 'indagini' );
+	Route::get ( '/indagini', 'PazienteController@showIndagini' )->name ( 'indagini' ) ->middleware('consent:8');
 	
 	Route::get ( '/impostazioniSicurezza', 'PazienteController@showSecuritySettings' )->name ( 'securitySettings' );
 	
@@ -244,7 +244,7 @@ Route::get ( '/delInd/{getIdIndagine}/{idUtente}', 'IndaginiController@eliminaIn
 /**
  * Route per l'inserimeno di una nuova indagine richiesta da parte del paziente
  */
-Route::get ( '/addIndRichiesta/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}', 'IndaginiController@addIndagineRichiesta' );
+Route::get ( '/addIndRichiesta/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}', 'IndaginiController@addIndagineRichiesta' ); 
 
 /**
  * Route per l'inserimeno di una nuova indagine programmata da parte del paziente

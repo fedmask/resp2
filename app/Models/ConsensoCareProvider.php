@@ -59,6 +59,7 @@ class ConsensoCareProvider extends Model
 		
 	}
 	
+	
 	public function getTrattamentoNome(){
 		
 		return   \App\TrattamentiCareProvider::where('Id_Trattamento', $this->getID_Trattamento())->first()->Nome_T;
