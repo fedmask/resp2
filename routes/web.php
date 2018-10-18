@@ -272,7 +272,6 @@ Route::post ( '/fhirPatient/uploadPatient', 'UploadResourceFhirController@upload
 
 Route::resource('/anamnesi','AnamnesiController',['except' => ['create', 'store', 'update', 'destroy']]);
 Route::post('/anamnesi','AnamnesiController@store');
-Route::post('/anamnesi/{id}','AnamnesiController@update');
 
 
     

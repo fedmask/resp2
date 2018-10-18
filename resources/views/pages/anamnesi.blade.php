@@ -6,10 +6,12 @@
     <div id="content">
         <div class="inner">
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-8">
                     <h2> Anamnesi </h2>
                 </div>
-
+                <div class="col-lg-2" style="text-align:right">
+                    <a class="quick-btn" href="#"><i class="icon-print icon-2x"></i><span>Stampa</span></a>
+                </div>
             </div><!--row-->
             <hr/>
             <!-- script per la manipolazione delle anamnesi familiari-->
@@ -280,13 +282,14 @@
 
                         <br>
 
-                        <form id="formA" action="#" method="POST" class="form-horizontal">
-
+                        <form id="formA" action="{{ action('AnamnesiController@store') }}" method="post" class="form-horizontal">
+                            <input name="input_name" value="Parente" hidden />
+                            {{csrf_field()}}
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Nome componente:</label>
                                     <div class="col-lg-6">
-                                        <input id="nome_componenteA" type="text" class="form-control"/>
+                                        <input id="nome_componenteA" name="nome_componente" type="text" class="form-control"/>
                                     </div>
                                 </div>
                             </div>
@@ -295,7 +298,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Grado parentela:</label>
                                     <div class="col-lg-6">
-                                        <select id="gradoParentela" class="form-control">
+                                        <select id="gradoParentela" name="grado_parentela" class="form-control">
                                             <option value="fratello">Fratello</option>
                                             <option value="genitore">Genitore</option>
                                             <option value="nonno">Nonno/a</option>
@@ -311,7 +314,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Sesso:</label>
                                     <div class="col-lg-6">
-                                        <select id="sessoA" class="form-control">
+                                        <select id="sessoA" name="sesso" class="form-control">
                                             <option selected value="M">Uomo</option>
                                             <option value="F">Donna</option>
                                             <option value="O">Altro</option>
@@ -325,7 +328,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Anni:</label>
                                     <div class="col-lg-6">
-                                        <input id="anni_componenteA" type="text" class="form-control"/>
+                                        <input id="anni_componenteA" type="text" name="età" class="form-control"/>
                                     </div>
                                 </div>
                             </div>
@@ -334,31 +337,31 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Data decesso:</label>
                                     <div class="col-lg-6">
-                                        <input type="date" name="data_morteA" id="data_morteA"
-                                               class="form-control col-lg-6"/>
+                                        <input type="date" name="data_decesso" id="data_morteA"
+                                               class="form-control col-lg-6" />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="control-label col-lg-4"> Annotazioni
-                                        :</label>
+                                    <label class="control-label col-lg-4"> Annotazioni:</label>
                                     <div class="col-lg-6">
-                                <textarea id="annotazioniA" type="text" class="form-control">
-								</textarea>
+                                        <textarea id="annotazioni" name="annotazioni" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button type="btn" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                                <button type="submit" class="btn btn-primary" id="concludiA">Aggiungi</button>
+                            </div>
                         </form>
-                        <div class="modal-footer">
-                            <button type="btn" class="btn btn-default" data-dismiss="modal">Annulla</button>
-                            <button class="btn btn-primary" id="concludiA">Aggiungi</button>
-                        </div>
+
 
                     </div>
                 </div>
             </div>
+
             <!-- chiusura modal per l'aggiunta della nuova anamnesi -->
 
             <!-- modal per l'aggiornamento delle anamnesi familiari -->
@@ -399,6 +402,28 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+
+                                    @foreach($parente as $p)
+                                        <tr>
+                                            <td>{{$p->nome}}</td>
+                                            <td>{{$p->sesso}}</td>
+                                            <td>{{$p->età}}</td>
+                                            <td>{{$p->annotazioni}}</td>
+                                            @if($p->id_paziente == $userid)
+                                                <td>
+                                                    <div id="row"><div id="col-lg-12"><div id="btn-group">
+                                                                <button class="btn btn-primary" data-toggle="modal"
+                                                                        data-target="#update_anamnesifam" data-dismiss="modal"><i class="icon-pencil icon-white"></i></button>
+                                                                <button id="eliminaanamnesifam_' . $ids[$i] . '" class="elimina btn btn-danger"><i class="icon-remove icon-white"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+
                                     </tbody>
                                 </table>
 
@@ -409,7 +434,101 @@
                     </div>
                 </div>
             </div>
+            @foreach($parente as $p)
+            <div class="modal fade" id="update_anamnesifam" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                    id="chiudianamnesifam">&times;
+                            </button>
+                            <h4 class="modal-title" id="H2">Aggiorna anamnesi familiare FHIR</h4>
+                        </div>
 
+                        <br>
+
+                        <form id="formA" action="{{ action('AnamnesiController@store') }}" method="post" class="form-horizontal">
+                            <input name="input_name" value="Parente" hidden />
+                            {{csrf_field()}}
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Nome componente:</label>
+                                    <div class="col-lg-6">
+                                        <input id="nome_componenteA" name="nome_componente" type="text" class="form-control" value="{{$p->nome}}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Grado :</label>
+                                    <div class="col-lg-6">
+                                        <select id="gradoParentela" name="grado_parentela" class="form-control">
+                                            <option value="fratello">Fratello</option>
+                                            <option value="genitore">Genitore</option>
+                                            <option value="nonno">Nonno/a</option>
+                                            <option value="zio">Zio/a</option>
+                                            <option value="nipote">Nipote</option>
+                                            <option value="cugino">Cugino/a</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Sesso:</label>
+                                    <div class="col-lg-6">
+                                        <select id="sessoA" name="sesso" class="form-control">
+                                            <option selected value="M">Uomo</option>
+                                            <option value="F">Donna</option>
+                                            <option value="O">Altro</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Anni:</label>
+                                    <div class="col-lg-6">
+                                        <input id="anni_componenteA" type="text" name="età" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Data decesso:</label>
+                                    <div class="col-lg-6">
+                                        <input type="date" name="data_decesso" id="data_morteA"
+                                               class="form-control col-lg-6" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4"> Annotazioni:</label>
+                                    <div class="col-lg-6">
+                                        <textarea id="annotazioni" name="annotazioni" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="btn" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                                <button type="submit" class="btn btn-primary" id="concludiA">Aggiungi</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+            @endforeach
             <!-- chiusura modal per l'aggiornamento delle anamnesi familiari -->
 
 
