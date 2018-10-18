@@ -111,7 +111,7 @@ class DatabaseSeeder extends Seeder
         $this->call ( CppQualificationTableSeeder::class );
 
         
-        
+        $this->call (EmergencyTableSeeder::class);
         
         
         $this->call ( Cpp_SpecializationSeeder::class );
