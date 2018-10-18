@@ -119,7 +119,7 @@
 
 				<!-- Apro il form per la gestione delle checkbox -->
 				<form class="form-horizontal"
-					action="{{action('ConsensiPazienteController@update')}}"
+					action="{{action('ConsensiController@update')}}"
 					method="post">
 					{{ Form::open(array('url' => '/consent/update')) }} {{ csrf_field()
 					}}

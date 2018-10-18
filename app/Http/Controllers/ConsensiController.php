@@ -10,7 +10,7 @@ use Input;
 use Carbon\Carbon;
 
 // use Illuminate\Support\Facades\Input;
-class ConsensiPazienteController extends Controller {
+class ConsensiController extends Controller {
 	//
 	public function index() {
 		$user_type = \App\Models\CurrentUser\User::find ( Auth::id () )->id_tipologia;

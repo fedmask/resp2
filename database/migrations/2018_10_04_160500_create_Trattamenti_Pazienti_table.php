@@ -15,7 +15,7 @@ class CreateTrattamentiPazientiTable extends Migration {
 		Schema::create('Trattamenti_Pazienti', function(Blueprint $table)
 		{
 			$table->integer('Id_Trattamento')->unsigned()->primary();
-			$table->string('Nome_T');
+			$table->string('Nome_T')->unique();
 			$table->string('Finalita_T');
 			$table->string('Modalita_T');
 			$table->string('Informativa');
