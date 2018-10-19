@@ -145,7 +145,7 @@ class CareProvider extends Eloquent
 	}
 	
 	public function getTelecom() {
-	    return $this->getPhone()." - ".$this->getMail();
+	    return $this->getPhone()." ".$this->getMail();
 	}
 	
 	public function getGender()

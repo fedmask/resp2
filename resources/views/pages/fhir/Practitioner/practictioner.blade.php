@@ -6,9 +6,6 @@ $narrative_practictioner_qualifications = $data_output["narrative_practictioner_
 $extensions = $data_output["extensions"];
 $practictioner = $data_output["practictioner"];
 $practictioner_qualifiations = $data_output["practictioner_qualifiations"];
-$comune = $extensions["Comune"];
-$idUtente = $extensions["Id_Utente"];
-
 ?>
 
 
@@ -46,16 +43,21 @@ $idUtente = $extensions["Id_Utente"];
     </div>
   </text>
 
+
+@if(array_key_exists('Comune', $extensions))
 <!--Comune Residenza-->
   <extension url="http://resp.local/resources/extensions/practictioner/practitioner-comune.xml">
-    <valueString value="{{$comune}}"/>
+    <valueString value="{{$extensions['Comune']}}"/>
   </extension>
+@endif
 
+
+@if(array_key_exists('Id_Utente', $extensions))
 <!--Id Persona Cpp-->
   <extension url="http://resp.local/resources/extensions/practictioner/cpp-persona-id.xml">
-    <valueString value="{{$idUtente}}"/>
+    <valueString value="{{$extensions['Id_Utente']}}"/>
   </extension>
-
+@endif
 
   <identifier>
     <use value="official"/>
@@ -71,20 +73,27 @@ $idUtente = $extensions["Id_Utente"];
     <prefix value="Dr"/>
   </name>
 
+@if(!empty($practictioner->getPhone()))
   <telecom>
     <system value="phone"/>
     <value value="{{$practictioner->getPhone()}}"/>
     <use value="home"/>
   </telecom>
+@endif  
+
+@if(!empty($practictioner->getMail()))
   <telecom>
     <system value="email"/>
     <value value="{{$practictioner->getMail()}}"/>
     <use value="home"/>
   </telecom>
+@endif
   
   <address>
     <use value="home"/>
+    @if(!empty($practictioner->getLine()))
     <line value="{{$practictioner->getLine()}}"/>
+    @endif
     <city value="{{$practictioner->getCity()}}"/>
     <state value="{{$practictioner->getCountryName()}}"/>
     <postalCode value="{{$practictioner->getPostalCode()}}"/>
@@ -104,13 +113,21 @@ $idUtente = $extensions["Id_Utente"];
       </coding>
 			<text value="{{$pq->getQualificationDisplay()}}"/>
 		</code>
+		@if(!empty($pq->getStartPeriod()) && !empty($pq->getEndPeriod()))
 		<period>
+		@if(!empty($pq->getStartPeriod()))
 			<start value="{{$pq->getStartPeriod()}}"/>
+		@endif
+		@if(!empty($pq->getEndPeriod()))
 			<end value="{{$pq->getEndPeriod()}}"/>
+		@endif
 		</period>
+		@endif
+		@if(!empty($pq->getIssuer()))
 		<issuer>
 			<display value="{{$pq->getIssuer()}}"/>
 		</issuer>
+		@endif
 	</qualification>
 @endforeach
 

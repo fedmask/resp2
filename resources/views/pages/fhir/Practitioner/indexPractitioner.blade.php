@@ -31,6 +31,7 @@ $patient = $data_output['patient'];
                                             	{{ csrf_field() }}
                                                 <input id="file" name="file" type="file" />
                                                 <input hidden id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
+                                                <input hidden id="patient_id" name="patient_id" type="text" value="{{$patient->id_paziente}}"/>
                                                 <input id="import-file" type="submit" value="Import" class="btn btn-primary" disabled>
                                                 <input id="import-annulla" type="button" value="Annulla" class="btn btn-default">
                                             </form>

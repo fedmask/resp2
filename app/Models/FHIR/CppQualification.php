@@ -62,11 +62,29 @@ class CppQualification extends Eloquent
     }
     
     public function getStartPeriod(){
-        return date_format($this->Start_Period,"Y-m-d");
+        $y = date_format($this->Start_Period,"Y");
+        $m = date_format($this->Start_Period,"m");
+        $d = date_format($this->Start_Period,"d");
+        
+        $date = "";
+        
+        if(checkdate($m , $d , $y)){
+            $date = date_format($this->Start_Period,"Y-m-d");
+        }
+        return $date;
     }
     
     public function getEndPeriod(){
-        return date_format($this->End_Period,"Y-m-d");
+        $y = date_format($this->End_Period,"Y");
+        $m = date_format($this->End_Period,"m");
+        $d = date_format($this->End_Period,"d");
+        
+        $date = "";
+        
+        if(checkdate($m , $d , $y)){
+            $date = date_format($this->End_Period,"Y-m-d");
+        }
+        return $date;
     }
     
     public function getIssuer(){
