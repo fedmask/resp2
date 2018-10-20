@@ -18,6 +18,9 @@ use App\Models\Diagnosis\DiagnosiEliminate;
 use App\Models\InvestigationCenter\Indagini;
 use App\Models\InvestigationCenter\CentriIndagini;
 use App\Models\InvestigationCenter\CentriContatti;
+
+use App\Models\Emergency\Emergency;
+
 use DB;
 use Auth;
 
@@ -36,6 +39,8 @@ class User extends Authenticatable
     const PATIENT_DESCRIPTION = "Assistito";
 
     const CAREPROVIDER_ID = "cpp";
+
+    const EMERGENCY_ID = "118";
 
     protected $casts = [
         'utente_tipologia' => 'int',
@@ -90,12 +95,12 @@ class User extends Authenticatable
     }
 
     /**
-     * Al momento ho voluto disattivare la funzionalità per ricordare l'accesso via token.
+     * Al momento ho voluto disattivare la funzionalitï¿½ per ricordare l'accesso via token.
      * Attualmente si memorizza il token in una colonna, soluzione che rischia di avere
      * tanti valori NULL su molti utenti che NON desiderano memorizzare il proprio login.
-     * E' necessario informarsi meglio per capire se via DB è l'unico modo "(sicuro)" di
-     * consentire questa funzionalità.
-     * Rimuovere questa funzione per riattivare il RememberMe. Ci sarà un errore di DB
+     * E' necessario informarsi meglio per capire se via DB ï¿½ l'unico modo "(sicuro)" di
+     * consentire questa funzionalitï¿½.
+     * Rimuovere questa funzione per riattivare il RememberMe. Ci sarï¿½ un errore di DB
      * in fase di logout.
      */
     public function setAttribute($key, $value)
@@ -121,6 +126,8 @@ class User extends Authenticatable
                 return $this->data_patient()->first()->paziente_nome;
             case $this::CAREPROVIDER_ID:
                 return $this->care_providers()->first()->cpp_nome;
+            case $this::EMERGENCY_ID:
+                return $this->emergency()->first()->emer_nome;
             default:
                 break;
         }
@@ -136,6 +143,8 @@ class User extends Authenticatable
                 return $this->data_patient()->first()->paziente_cognome;
             case $this::CAREPROVIDER_ID:
                 return $this->care_providers()->first()->cpp_cognome;
+            case $this::EMERGENCY_ID:
+                return $this->emergency()->first()->emer_cognome;
             default:
                 break;
         }
@@ -151,6 +160,8 @@ class User extends Authenticatable
                 return $this->data_patient()->first()->paziente_codfiscale;
             case $this::CAREPROVIDER_ID:
                 return $this->care_providers()->first()->cpp_codfiscale;
+            case $this::EMERGENCY_ID:
+                return $this->emergency()->first()->emer_codfiscale;
             default:
                 break;
         }
@@ -166,13 +177,15 @@ class User extends Authenticatable
                 return $this->data_patient()->first()->paziente_nascita;
             case $this::CAREPROVIDER_ID:
                 return $this->care_providers()->first()->cpp_nascita_data;
+            case $this::EMERGENCY_ID:
+                return $this->emergency()->first()->emer_nascita_data;
             default:
                 break;
         }
     }
 
     /**
-     * Ritorna l'età dell'utente loggato calcolandola dall'anno attuale e dalla data di nascita
+     * Ritorna l'etï¿½ dell'utente loggato calcolandola dall'anno attuale e dalla data di nascita
      */
     public function getAge($date)
     {
@@ -189,6 +202,8 @@ class User extends Authenticatable
             case $this::PATIENT_ID:
                 return isset($this->contacts()->first()->contatto_telefono) ? $this->contacts()->first()->contatto_telefono : 'Non pervenuto';
             case $this::CAREPROVIDER_ID:
+                return isset($this->contacts()->first()->contatto_telefono) ? $this->contacts()->first()->contatto_telefono : 'Non pervenuto';
+            case $this::EMERGENCY_ID:
                 return isset($this->contacts()->first()->contatto_telefono) ? $this->contacts()->first()->contatto_telefono : 'Non pervenuto';
             default:
                 break;
@@ -213,13 +228,15 @@ class User extends Authenticatable
                 return $this->data_patient()->first()->paziente_sesso;
             case $this::CAREPROVIDER_ID:
                 return $this->care_providers()->first()->cpp_sesso;
+            case $this::EMERGENCY_ID:
+                return $this->emergency()->first()->emer_sesso;
             default:
                 break;
         }
     }
 
     /**
-     * Ritorna la città di nascita dell'utente loggato
+     * Ritorna la cittï¿½ di nascita dell'utente loggato
      */
     public function getBirthTown()
     {
@@ -228,7 +245,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Ritorna la città dove risiede l'utente loggato
+     * Ritorna la cittï¿½ dove risiede l'utente loggato
      */
     public function getLivingTown()
     {
@@ -331,6 +348,15 @@ class User extends Authenticatable
     public function auditlog_logs()
     {
         return $this->hasMany(\App\Models\Log\AuditlogLog::class, 'id_visitato');
+    }
+
+    /**
+     * Gestisce la relazione con il model del emergency nel caso in cui l'utente loggato
+     * sia un emergency.
+     */
+    public function emergencys()
+    {
+        return $this->hasMany(\App\Models\Emergency\Emergency::class, 'id_utente');
     }
 
     /**
@@ -569,7 +595,7 @@ class User extends Authenticatable
     }
 
     /**
-     * restituisce il nome del centro dove avrà luogo l'indagine
+     * restituisce il nome del centro dove avrï¿½ luogo l'indagine
      */
     public function nomeCentroInd($idCentroInd)
     {

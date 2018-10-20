@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\ Http\ Request;
+use App\ Http\ Controllers\ Controller;
+use Illuminate\Support\Facades\Validator;
+use Hash;
+use Input;
+use Redirect;
+use Auth;
 use App\Models\Patient\Pazienti;
 
 class EmergencyController extends Controller
