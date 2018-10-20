@@ -23,7 +23,9 @@ class RedirectifConsentChecked {
 				
 				$CareProviderAuth = \App\Models\CareProviders\CareProvider::where ( 'id_utente', Auth::id () )->first ()->id_cpp;
 				$CppCheck = \App\ConsensoCareProvider::where ( 'id_Cpp', $CareProviderAuth );
-				if ($this->search ( $CppCheck, $trattamento )) {
+				
+				\App\Http\Controllers\ConsensiController::createCPConsent ($CareProviderAuth);
+				if ($this->search ( $CppCheck, $trattamento)) {
 					return $next ( $request );
 				}
 				break;
@@ -31,27 +33,26 @@ class RedirectifConsentChecked {
 			case 'ass' :
 				
 				$PazienteAuth = \App\Models\Patient\Pazienti::where ( 'id_utente', Auth::id () )->first ()->id_paziente;
-				$PazienteCheck = \App\ConsensoPaziente::where ( 'id_paziente', $PazienteAuth )->get();
+				$PazienteCheck = \App\ConsensoPaziente::where ( 'id_paziente', $PazienteAuth )->get ();
 				
-				$ConsentInstance = $PazienteCheck->where('Id_Trattamento', $trattamento)->first();
-				if ($this->search ( $ConsentInstance, $trattamento )) {
+				$ConsentInstance = $PazienteCheck->where ( 'Id_Trattamento', $trattamento )->first ();
+				\App\Http\Controllers\ConsensiController::createPConsent ($PazienteAuth);
+				if ($this->search ( $ConsentInstance, $trattamento)) {
 					return $next ( $request );
 				}
 				
 				break;
 		}
 		$data = array ();
-		$data ['trattamento'] = $ConsentInstance->getTrattamentoNome();
+		$data ['trattamento'] = $ConsentInstance->getTrattamentoNome ();
 		return response ( view ( 'includes.warningConsent', $data ) );
 		// return view ( 'includes.warningConsent', [$trattamento] ); //Deprecato
 	}
-	
-
 	public function search($ConsensiArray, $Trattamento) {
 		
 		$Consenso = $ConsensiArray->Consenso;
 		
-		if($Consenso){
+		if ($Consenso) {
 			return true;
 		}
 		return false;

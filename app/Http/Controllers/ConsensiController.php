@@ -22,21 +22,21 @@ class ConsensiController extends Controller {
 				$data ['listaTrattamenti'] = \App\TrattamentiPaziente::all ();
 				
 				$PazienteAuth = \App\Models\Patient\Pazienti::where ( 'id_utente', Auth::id () )->first ()->id_paziente;
-				$this->createPazienteConsent ( $PazienteAuth );
+				$this::createPConsent ( $PazienteAuth );
 				$data ['listaConsensi'] = \App\ConsensoPaziente::where ( 'Id_Paziente', $PazienteAuth )->get ();
 				
 				break;
 			case 'mos' :
 				$data ['listaTrattamenti'] = \App\TrattamentiCareProvider::all ();
 				$CareProviderAuth = \App\Models\CareProviders\CareProvider::where ( 'id_utente', Auth::id () )->first ()->id_cpp;
-				$this->createCareProviderConsent( $CareProviderAuth);
+				$this::createCPConsent( $CareProviderAuth);
 				$data ['listaConsensi'] = \App\ConsensoCareProvider::where ( 'Id_Cpp', $CareProviderAuth)->get ();
 				break;
 		}
 		
 		return view ( 'pages.Consensi', $data );
 	}
-	public function createCareProviderConsent($CareProviderAuth) {
+	public static function createCPConsent($CareProviderAuth) {
 		$listaTrattamenti = \App\TrattamentiCareProvider::all ();
 		$CppCheck = \App\ConsensoCareProvider::where ( 'id_Cpp', $CareProviderAuth);
 		
@@ -53,7 +53,7 @@ class ConsensiController extends Controller {
 			}
 		
 	}
-	public function createPazienteConsent($PazienteAuth) {
+	public static function createPConsent($PazienteAuth) {
 		$listaTrattamenti = \App\TrattamentiPaziente::all ();
 		$PazienteCheck = \App\ConsensoPaziente::where ( 'id_Paziente', $PazienteAuth);
 		

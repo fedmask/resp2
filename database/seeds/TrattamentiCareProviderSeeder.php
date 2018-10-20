@@ -22,7 +22,7 @@ class TrattamentiCareProviderSeeder extends Seeder
     	
     	DB::table('Trattamenti_CP')->insert([
     			[ 'Id_Trattamento' => 2,
-    					'Nome_T' => 'Prova',
+    					'Nome_T' => 'Prova1',
     					'Finalita_T' => 1,
     					'Modalita_T' => 1,
     					'Informativa' => 'Nome Centro 1',
@@ -31,7 +31,7 @@ class TrattamentiCareProviderSeeder extends Seeder
     	
     	DB::table('Trattamenti_CP')->insert([
     			[ 'Id_Trattamento' => 3,
-    					'Nome_T' => 'Prova',
+    					'Nome_T' => 'Prova2',
     					'Finalita_T' => 1,
     					'Modalita_T' => 1,
     					'Informativa' => 'Nome Centro 1',
@@ -40,7 +40,7 @@ class TrattamentiCareProviderSeeder extends Seeder
     	
     	DB::table('Trattamenti_CP')->insert([
     			[ 'Id_Trattamento' => 4,
-    					'Nome_T' => 'Prova',
+    					'Nome_T' => 'Prova3',
     					'Finalita_T' => 1,
     					'Modalita_T' => 1,
     					'Informativa' => 'Nome Centro 1',
