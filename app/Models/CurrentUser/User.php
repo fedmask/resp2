@@ -127,7 +127,7 @@ class User extends Authenticatable
             case $this::CAREPROVIDER_ID:
                 return $this->care_providers()->first()->cpp_nome;
             case $this::EMERGENCY_ID:
-                return $this->emergency()->first()->emer_nome;
+                return $this->emergencys()->first()->emer_nome;
             default:
                 break;
         }
@@ -144,7 +144,7 @@ class User extends Authenticatable
             case $this::CAREPROVIDER_ID:
                 return $this->care_providers()->first()->cpp_cognome;
             case $this::EMERGENCY_ID:
-                return $this->emergency()->first()->emer_cognome;
+                return $this->emergencys()->first()->emer_cognome;
             default:
                 break;
         }
@@ -161,7 +161,7 @@ class User extends Authenticatable
             case $this::CAREPROVIDER_ID:
                 return $this->care_providers()->first()->cpp_codfiscale;
             case $this::EMERGENCY_ID:
-                return $this->emergency()->first()->emer_codfiscale;
+                return $this->emergencys()->first()->emer_codfiscale;
             default:
                 break;
         }
@@ -178,7 +178,7 @@ class User extends Authenticatable
             case $this::CAREPROVIDER_ID:
                 return $this->care_providers()->first()->cpp_nascita_data;
             case $this::EMERGENCY_ID:
-                return $this->emergency()->first()->emer_nascita_data;
+                return $this->emergencys()->first()->emer_nascita_data;
             default:
                 break;
         }
@@ -229,7 +229,7 @@ class User extends Authenticatable
             case $this::CAREPROVIDER_ID:
                 return $this->care_providers()->first()->cpp_sesso;
             case $this::EMERGENCY_ID:
-                return $this->emergency()->first()->emer_sesso;
+                return $this->emergencys()->first()->emer_sesso;
             default:
                 break;
         }
