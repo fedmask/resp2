@@ -1,5 +1,7 @@
-<?php 
-$id_paz = $current_user->data_patient()->first()->id_paziente;
+<?php
+if (!empty($current_user->data_patient()->first()->id_paziente)) {
+    $id_paz = $current_user->data_patient()->first()->id_paziente;
+}
 ?>
 
 <link href="/css/icon_chat.css" rel="stylesheet">
