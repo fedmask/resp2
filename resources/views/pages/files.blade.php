@@ -9,7 +9,7 @@
             <div class="inner" style="min-height:1200px;">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2>Files</h2>
+                        <h3>Files</h3>
 						<p>In questa pagina sarà possibile visualizzare ed inviare files di immagini di lesioni cliniche immagini di indagini diagnostiche,
 						registrazioni, brevi video, risultati di esami o documenti testuali. </p>
 						<hr/>
@@ -18,11 +18,11 @@
 		<div class="accordion-group">
 		    <div class="accordion-heading centered">
 				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-		            <h2>Files Caricati   &nbsp &nbsp &nbsp &nbsp
+		            <h3>Files Caricati   &nbsp &nbsp &nbsp &nbsp
 						<span >
                           <i  class="icon-angle-down"></i>
                         </span>           	
-					</h2>
+					</h3>
                 </a>
 			</div><!--accordion- group heading centered-->
 			<div id="collapseOne" class="accordion-body collapse">
@@ -117,10 +117,10 @@
 						<div class="accordion-heading centered">
 							<a class="accordion-toggle" data-toggle="collapse"
 								data-parent="#accordion2" href="#collapseDoc">
-								<h2>
+								<h3>
 									Scarica la modulistica &nbsp <span> <i class="icon-angle-down"></i>
 									</span>
-								</h2>
+								</h3>
 							</a>
 						</div>
 						<!--accordion- group heading centered-->
@@ -225,53 +225,58 @@
 					</div>
 					
 		
-		
+		<hr>
 		
 		<div class="accordion-group">
 		    <div class="accordion-heading centered">
 		         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-					<h2>Carica nuovi files &nbsp 
+					<h3>Carica nuovi files &nbsp 
 						<span >
                           <i  class="icon-angle-down"></i>
                         </span>      
-					</h2>
+					</h3>
 				</a>
 			</div><!--accordion- group heading centered-->
 			<div id="collapseTwo" class="accordion-body collapse">
-		         <div class="accordion-inner">
+		         <div class="accordion-inner" >
 					<div class="accordion ac"id = "collapseTwo_A" ><!--accordion ac interno-->
 						<div class="accordion-group">
-							<div class="accordion-heading centered">
-								<div class ="row">
+							<div class="accordion-heading centered" >
+								<div class ="row"  >
 									<div class="col-lg-4"> 
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseFoto">
-											<h2>Foto del paziente </h2>
+											<h4 >Foto del paziente </h4>
 										</a>
 									</div><!--col-lg-4-->
 									<div class="col-lg-4"> 
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseVideo">
-											<h2>Video del paziente</h2>
+											<h4>Video del paziente</h4>
 										</a>
 									</div><!--col-lg-4-->
 									<div class="col-lg-4"> 
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseReg">
-											<h2>Registrazioni</h2>
+											<h4>Registrazioni</h4>
 										</a>
 									</div><!--col-lg-4-->
 									<hr>
 									<div class="col-lg-4"> 	
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseStrum">
-											<h2>Video Esami Strumentali</h2>
+											<h4>Video Esami Strumentali</h4>
 										</a>
 									</div><!--col-lg-4-->
 									<div class="col-lg-4"> 	
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseDicom">
-											<h2>Immagini Dicom</h2>
+											<h4>Immagini Dicom</h4>
 										</a>
 									</div><!--col-lg-4-->
 									<div class="col-lg-4"> 	
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseDocuments">
-											<h2>Documenti di testo</h2>
+											<h4>Documenti di testo</h4>
+										</a>
+									</div><!--col-lg-4-->
+									<div class="col-lg-4"> 	
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseMod">
+											<h4>Modulistica</h4>
 										</a>
 									</div><!--col-lg-4-->
 									
@@ -520,6 +525,51 @@
 								</div>	<!--panelwarning-->	
 							</div>	<!--col lg12-->	
 							</div> <!--collapse Documents-->
+							
+							
+							
+							
+			<!-- Collapse Moduli -->				<div id = "collapseMod" class="accordion-body collapse" >
+								<div class="col-lg-12"> 
+								<div class="panel panel-info">
+									<div class="panel-body">
+										<h3>Modulistica</h3>
+										<h4>scansione di moduli pre compilati</h4>
+										<p>accetta i formati: pdf, doc, docx ,txt, odt.
+										Nel caso i files contengano informazioni sensibili &egrave raccomandata la protezione con password.</p>
+										<hr/>
+										<form method = "post" action = "" enctype = "multipart/form-data">
+											{{ csrf_field() }}
+												<input  type = "file" name = "nomefile"/>
+												<br>
+												<label for "comm">Note sul file caricato:
+												</label>
+												<textarea name="comm"  cols = "60" rows = "2"  > 
+												</textarea>
+												@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
+															<br><br>
+															<label for="conf_1">visibilità</label>
+															<select name="conf_1">
+																	
+																	<option value="5" selected = "true">Riservato</option>
+																	
+															  </select>
+													@endif
+												  <br> <br>
+												<input  type = "hidden" name = "fileClass6" value = "6"/> <!--classe per scansioni referti, lettere di dimissioni -->
+												<input  type = "hidden" name = "idPaz" value = "{{$id_patient}}" />
+												<input  type = "hidden" name = "idLog" value = "{{$log->id_audit}}" />
+												<input type = "submit" name = "invia" value = "Invia"/>
+												<input type='reset' value='Reset' name='reset'>
+										</form>
+									</div>	<!--panelbody-->
+								</div>	<!--panelwarning-->	
+							</div>	<!--col lg12-->	
+							</div> <!-- Collapse Moduli -->
+							
+							
+							
+							
 						</div>	<!--row-->
 							</div><!--fine accordion heading centered collapseTwo_A-->
 						</div><!--fine accordion-group collapseTwo_A-->
