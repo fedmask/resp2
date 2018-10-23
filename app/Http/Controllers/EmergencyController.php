@@ -13,12 +13,37 @@ use App\Models\Patient\Pazienti;
 
 class EmergencyController extends Controller
 {
+
     /**
 	* Mostra la pagina contenente la casella di ricerca Pazienti
-	* alll' Emergency attualmente loggato.
+	* all'utente Emergency attualmente loggato. Se ci sono parametri nell'url filtra i pazienti
 	*/
-	public function showPatientSearch(){
-		$patients = Pazienti::All();
-        return view('pages.emergency.patientSearch')->with('patients', $patients);
+	public function showPatientSearch(Request $request){
+        //acquisizione dati GET dal form di ricerca paziente
+	    $nome_paziente = $request->input('nome_paziente');
+        $cognome_paziente = $request->input('cognome_paziente');
+        $gender = $request->input('Gender');
+
+        //querybuilder per il filtraggio dei pazienti
+        $query = Pazienti::orderBY("paziente_cognome");
+
+        if($nome_paziente != NULL){
+            $query->like('paziente_nome', $nome_paziente);
+        }
+
+        if($cognome_paziente != NULL){
+            $query->like('paziente_cognome', $cognome_paziente);
+        }
+
+        if($gender != NULL){
+            $query->where('paziente_Sesso', "=", $gender);
+        }
+
+        $patients = $query->get();
+        return view('pages.emergency.patientSearch')
+            ->with('patients', $patients)
+            ->with('nome_paziente', $nome_paziente)
+            ->with('cognome_paziente', $cognome_paziente)
+            ->with('gender', $gender);
 	}
 }
