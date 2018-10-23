@@ -112,6 +112,121 @@
 			</div><!--accordion-body collapse-->	
 		</div><!--accordion-group-->
 		<hr>
+		
+		<div class="accordion-group">
+						<div class="accordion-heading centered">
+							<a class="accordion-toggle" data-toggle="collapse"
+								data-parent="#accordion2" href="#collapseDoc">
+								<h2>
+									Scarica la modulistica &nbsp <span> <i class="icon-angle-down"></i>
+									</span>
+								</h2>
+							</a>
+						</div>
+						<!--accordion- group heading centered-->
+
+						<div id="collapseDoc" class="accordion-body collapse">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+							<table style="font-size: 12"
+								 class="table table-striped table-bordered table-hover">
+								<tr style="font-size: 14" align="center">
+									<th>#ID</th>
+									<th>Nome Documento</th>
+									<th align="center">Tipo Documento</th>
+									<th align="center">Info</th>
+									<th align="center">Scarica</th>
+								</tr>
+
+
+
+								<tr >
+									<td align="center">1</td>
+									<td>Modulo di accesso ai servizi Sanitari Online per un
+										minorenne</td>
+									<td align="center">Modulo</td>
+									<td align="center">
+											<button   type="button"
+										class="btn btn-primary " data-toggle="modal"
+										data-target="#myModal"><i class="fa fa-info-circle" style="font-size:16px"></i> 
+
+											</button></td>
+	
+
+
+									<td align="center"><button type="button"
+											class="btn btn-primary" data-dismiss="modal"
+											onclick="window.location.href='/informative/Modulo_accesso_ai_Servizi_Sanitari_Online_per_un_minorenne.docx'"><i class="fa fa-download" style="font-size:16px"></i></button></td>
+
+								</tr>
+								
+								<tr>
+									<td align="center">2</td>
+									<td>Modulo di disattivazione ai servizi Sanitari Online per un
+										minorenne</td>
+									<td align="center">Modulo</td>
+									<td align="center">
+											<button   type="button"
+										class="btn btn-primary " data-toggle="modal"
+										data-target="#myModal"><i class="fa fa-info-circle" style="font-size:16px"></i> 
+
+											</button></td>
+	
+
+
+									<td align="center"><button type="button"
+											class="btn btn-primary" data-dismiss="modal"
+											onclick="window.location.href='/informative/Modulo di disattivazione ai Servizi Sanitari Online per un minorenne.docx'"><i class="fa fa-download" style="font-size:16px"></i></button></td>
+
+								</tr>
+							</table>
+
+						</div>
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal" role="dialog">
+							<div class="modal-dialog">
+
+								<!-- Modal content-->
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title" text-align: justify>Informativa sul
+											trattamento dei dati personali (Art. 12 del GDPR 2016/679)</h4>
+									</div>
+									<div class="modal-body">
+
+
+										<p>L'azienda RESP, operante nel settore sanitario, ricevente
+											la richiesta, in qualita' di titolare del trattamento dei dati
+											personali, informa che i dati conferiti verranno utilizzati
+											esclusivamente allo scopo di fornire al genitore l'accesso al
+											Registro Sanitario Elettronico Personale (RESP) e ai servizi
+											da esso forniti. Il trattamento potra' essere eseguito usando
+											supporti cartacei, nonche' strumenti informatici. I dati non
+											verranno in nessun modo diffusi ne' comunicati ad alcuni
+											terzi. I diritti di cui all' Art. 15 del GDPR 2016/679
+											(accesso, aggiornamento, cancellazione, trasformazione,
+											ecc.), potranno essere esercitati rivolgendosi all'incaricato
+											del trattamento ricevente la richiesta. <br>
+											<b>IN LUOGO DI AUTENTICA
+											DI SOTTOSCRIZIONE, SI ALLEGA COPIA DI DOCUMENTO DI IDENTITA'
+											IN CORSO DI VALIDITA'.</b><br> (Il modulo, compilato e firmato, dovra'
+											essere inviato alla mail privacy@fsem.eu o inviato accedendo
+											all'apposita sezione presente in Files).</p>
+
+
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+					
+		
+		
+		
 		<div class="accordion-group">
 		    <div class="accordion-heading centered">
 		         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
