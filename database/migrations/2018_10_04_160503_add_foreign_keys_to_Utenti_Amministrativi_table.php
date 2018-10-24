@@ -18,8 +18,7 @@ class AddForeignKeysToUtentiAmministrativiTable extends Migration {
 			$table->foreign('Comune_Nascita', 'Tit-Nascita')->references('id_comune')->on('tbl_comuni')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('Comune_Residenza', 'Tit-Residenza')->references('id_comune')->on('tbl_comuni')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('Ruolo', 'Utenti_Amministrativi_ibfk_1')->references('Ruolo')->on('Ruoli_amministratori')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('Stato_Civile', 'Utenti_Amministrativi_ibfk_2')->references('code')->on('Stati_matrimoniali')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-		});
+			});
 	}
 
 
@@ -36,8 +35,7 @@ class AddForeignKeysToUtentiAmministrativiTable extends Migration {
 			$table->dropForeign('Tit-Nascita');
 			$table->dropForeign('Tit-Residenza');
 			$table->dropForeign('Utenti_Amministrativi_ibfk_1');
-			$table->dropForeign('Utenti_Amministrativi_ibfk_2');
-		});
+			});
 	}
 
 }

@@ -335,6 +335,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Gestisce la relazione con l'Amministratore nel caso lo fosse
+     * @return unknown
+     */
+    public function amministratore()
+    {
+    	return $this->hasOne(\App\Models\Amministration::class, 'id_utente');
+    }
+    
+    
+    /**
      * Gestisce la relazione con il model dei care provider nel caso in cui l'utente loggato
      * sia un care provider.
      */

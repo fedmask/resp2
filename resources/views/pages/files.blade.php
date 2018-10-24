@@ -534,7 +534,7 @@
 								<div class="panel panel-info">
 									<div class="panel-body">
 										<h3>Modulistica</h3>
-										<h4>scansione di moduli pre compilati</h4>
+										<h4>Scansione moduli pre compilati</h4>
 										<p>accetta i formati: pdf, doc, docx ,txt, odt.
 										Nel caso i files contengano informazioni sensibili &egrave raccomandata la protezione con password.</p>
 										<hr/>
