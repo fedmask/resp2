@@ -10,8 +10,7 @@ use App\Models\Patient\PazientiDescessi;
 use App\Models\CodificheFHIR\MaritalStatus;
 use App\Models\FHIR\PatientContact;
 use App\Models\CodificheFHIR\Language;
-
-
+use Carbon\Carbon;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -183,7 +182,14 @@ class Pazienti extends Eloquent {
 	    $data = date_format($this->paziente_nascita,"Y-m-d");
 	    return $data;
 	}
-	
+    /**
+     * Restituisce l'età del paziente
+     */
+    public function getAge()
+    {
+        return Carbon::parse($this->getBirth())->diffInYears(Carbon::now());
+    }
+
 	/**
 	 * Restituisce la via dell'indirizzo del paziente loggato
 	 */
