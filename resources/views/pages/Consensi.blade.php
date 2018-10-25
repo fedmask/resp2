@@ -119,13 +119,12 @@
 
 				<!-- Apro il form per la gestione delle checkbox -->
 				<form class="form-horizontal"
-					action="{{action('ConsensiController@update')}}"
-					method="post">
+					action="{{action('ConsensiController@update')}}" method="post">
 					{{ Form::open(array('url' => '/consent/update')) }} {{ csrf_field()
 					}}
 					<table style="font-size: 12"
 						; class="table table-striped table-bordered table-hover">
-						<tr style="font-size: 14" >
+						<tr style="font-size: 14">
 							<th>#ID</th>
 							<th>Trattamento</th>
 							<th align="center">Informativa</th>
@@ -188,7 +187,14 @@
 										<h4>
 											<b>Informativa:</b>
 										</h4>
+
+
+										@if($LC->getID_Trattamento()==6)
+										<iframe src="/informative/donazioneorgani.html"
+											class="col-lg-12" height="500"> </iframe>
+										@else{
 										<p>{{$LC->getTrattamentoInformativa()}}</p>
+										@endif
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default"

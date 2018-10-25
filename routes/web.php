@@ -143,7 +143,7 @@ Route::group ( [
 	
 	Route::get ( '/taccuino', 'PazienteController@showTaccuino' )->name ( 'taccuino' );
 	
-	Route::get ( '/careproviders', 'PazienteController@showCareProviders' )->name ( 'careproviders' );
+	Route::get ( '/careproviders', 'PazienteController@showCareProviders' )->name ( 'careproviders' )->middleware('consent:2');
 	
 	Route::get ( '/files', 'PazienteController@showFiles' )->name ( 'files' );
 	
@@ -172,8 +172,14 @@ Route::group ( [
 	} );
 } );
 
+Route::get ( '/cookies_s', function () {
+	return view ( 'layouts.cookies-s' );
+} );
+
+
 Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' );
 
+Route::get( '/administration', 'AdministratorController@index' )->name('amm');
 /*
  * Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');
  *
@@ -211,7 +217,7 @@ Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' )
  * /**
  * Route per l'inserimeno di una nuova visita da parte del paziente
  */
-Route::post ( '/visite/addVisita', 'VisiteController@addVisita' );
+Route::post ( '/visite/addVisita', 'VisiteController@addVisita' )->middleware('consent:3');
 
 Route::post ( '/consent/update', 'ConsensiController@update');
 
@@ -224,7 +230,7 @@ Route::get ( '/del/{getIdDiagnosi}/{idPaziente}', 'DiagnosiController@eliminaDia
 /**
  * Route per l'inserimeno di una nuova diagnosi da parte del paziente
  */
-Route::get ( '/addDiagn/{stato}/{cpp}/{idPaz}/{conf}/{patol}', 'DiagnosiController@aggiungiDiagnosi' );
+Route::get ( '/addDiagn/{stato}/{cpp}/{idPaz}/{conf}/{patol}', 'DiagnosiController@aggiungiDiagnosi' )->middleware('consent:3');
 
 /**
  * Route per la modifica di una diagnosi da parte del paziente
@@ -244,17 +250,17 @@ Route::get ( '/delInd/{getIdIndagine}/{idUtente}', 'IndaginiController@eliminaIn
 /**
  * Route per l'inserimeno di una nuova indagine richiesta da parte del paziente
  */
-Route::get ( '/addIndRichiesta/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}', 'IndaginiController@addIndagineRichiesta' ); 
+Route::get ( '/addIndRichiesta/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}', 'IndaginiController@addIndagineRichiesta' )->middleware('consent:3'); 
 
 /**
  * Route per l'inserimeno di una nuova indagine programmata da parte del paziente
  */
-Route::get ( '/addIndProgrammata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}', 'IndaginiController@addIndagineProgrammata' );
+Route::get ( '/addIndProgrammata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}', 'IndaginiController@addIndagineProgrammata' )->middleware('consent:3');
 
 /**
  * Route per l'inserimeno di una nuova indagine completata da parte del paziente
  */
-Route::get ( '/addIndCompletata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@addIndagineCompletata' );
+Route::get ( '/addIndCompletata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@addIndagineCompletata' )->middleware('consent:3');
 
 /**
  * Route per la modifica di una indagine richiesta da parte del paziente

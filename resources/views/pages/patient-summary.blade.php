@@ -212,67 +212,7 @@
 				<!--FINE MODIFICA PASSWORD-->
 
 
-
-				<!--DONAZIONE ORGANI-->
-				<div class="col-lg-6">
-					<div class="panel panel-warning">
-						<div class="panel-body">
-							<ul class="list-unstyled">
-								<li> <strong>Donazione d'organi</strong>:
-									<span>
-									{{$current_user->getOrgansDonor() === false ? 'Nega il consenso' : 'Acconsente alla donazione'}}
-									</span>
-								</li>
-							</ul>
-						</div>
-						@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
-						<div class="panel-footer" style="text-align:right">
-							<button class="btn btn-primary btn-sm btn-line" data-toggle="modal" data-target="#modpatdonorgmodal"><i class="icon-pencil icon-white"></i> Modifica</button>
-						</div>
-						@endif
-					</div>
-				</div>
-
-
-				<!--MODALE MODIFICA CONSENSO DONAZIONE ORGANI-->
-				<div class="col-lg-12">
-					<div class="modal fade" id="modpatdonorgmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="chiudimodpatdonorg">&times;</button>
-									<h4 class="modal-title" id="H2">Modifica consenso donazione organi</h4>
-								</div>
-								<form class="form-horizontal" action="{{action('PazienteController@updateOrgansDonor')}}" method="post">
-								{{ Form::open(array('url' => '/pazienti/updateOrgansDonor')) }}
-								{{ csrf_field() }}
-									<div class="modal-body">
-										<iframe src="/informative/donazioneorgani.html" class="col-lg-12" height="500">
-												</iframe>
-										<div class="form-group">
-											<label class="control-label col-lg-4">Dichiarazione di consenso alla donazione d'organi</label>
-											<div class="col-lg-8">
-												<label>
-												{{Form::radio('patdonorg', 'nego', $current_user->getOrgansDonor() === false ? true : false )}} Nego il consenso
-												</label>
-												<label>
-												{{Form::radio('patdonorg', 'acconsento', $current_user->getOrgansDonor() === true ? true : false )}} Acconsento alla donazione d'organi
-												</label>
-											</div>
-										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-										{{ Form::submit('Salva', ['class' => 'btn btn-primary'])}}
-									</div>
-									{{ Form::close() }}
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--col-lg-6-->
+</div>
 
 
 			<!-- CONTATTI DI EMERGENZA-->
