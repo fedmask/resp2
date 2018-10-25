@@ -14,6 +14,8 @@ class AmministrativeUserSeeder extends Seeder
     {
     	DB::table('Utenti_Amministrativi')->insert([
     			'id_utente' => '4',
+    			'Nome'=>'Mario',
+    			'Cognome'=>'Rossi',
     			'Ruolo'=> 'Personale di Supporto',
     			'Sesso'=>'M',
     			'Data_Nascita'=>'1956-08-02',

@@ -39,5 +39,14 @@ class ContactsTableSeeder extends Seeder
             'contatto_indirizzo' => 'via orabona',
         ]);
         
+        DB::table('tbl_recapiti')->insert([
+        		'id_contatto' => '4',
+        		'id_utente' => '4',
+        		'id_comune_residenza' => '767',
+        		'id_comune_nascita' => '767',
+        		'contatto_telefono' => '3386984521',
+        		'contatto_indirizzo' => 'via Roma, 15',
+        ]);
+        
     }
 }

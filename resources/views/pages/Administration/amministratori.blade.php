@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 
-<head>
-@include('includes.template_head')
-@include('pages.Administration.template_header_amm')
+<head>@include('includes.template_head')
+@include('pages.Administration.template_header_Amm')
+@include('pages.Administration.template_menu_Amm')
 </head>
 
 <body>
@@ -82,19 +82,25 @@
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!--PAGE CONTENT -->
-	<div align="center">
 
 
-		<h1>Ciao funziona</h1>
 
-		<a href="{{ route('logout') }}"
-			onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><i
-			class="icon-signout"></i> Logout </a>
 
-		<form id="logout-form" action="{{ route('logout') }}" method="POST"
-			style="display: none;">{{ csrf_field() }}</form>
+
+	<div id="content">
+		<div class="inner" style="min-height: 1200px;">
+			
+				<div class="col-lg-12">
+					<br>
+					<br>
+					<br>
+					<p>Ciao</p>
+				</div>
+		
+		</div>
 	</div>
+
+
 
 
 	<!--END PAGE CONTENT -->

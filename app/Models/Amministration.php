@@ -3,13 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Amministration extends Model
 
 
 {
-	protected $table = 'Consenso_Paziente';
-	protected $primaryKey = 'Id_Consenso_P';
+	protected $table = 'Utenti_Amministrativi';
+	protected $primaryKey = 'id_utente';
 	public $timestamps = false;
 	protected $casts = [ 
 			'id_utente' => 'int',
@@ -22,6 +23,8 @@ class Amministration extends Model
 	];
 	protected $fillable = [ 
 			'id_utente',
+			'Nome',
+			'Cognome',
 			'Tipi_Dati_Trattati',
 			'Sesso',
 			'Data_Nascita',
@@ -37,12 +40,25 @@ class Amministration extends Model
 	public function getSesso() {
 		return $this->Sesso;
 	}
-	public function getDataConsenso() {
-		return date ( 'd/m/y H:m', strtotime ( $this->Data_Nascita ) );
+	public function getDataN() {
+		return $this->Data_nascita;
+	}
+	
+	public function getRecapito() {
+		return $this->Recapito_Telefonico;
 	}
 	public function getIndirizzo() {
 		return $this->Indirizzo;
 	}
+	
+	public function getName() {
+		return $this->Nome;
+	}
+	
+	public function getSurname() {
+		return $this->Cognome;
+	}
+	
 		
 	
 	
@@ -69,7 +85,7 @@ class Amministration extends Model
 	}
 	
 	public function ruolo() {
-		return $this->belongsTo ( \App\Models\CurrentUser\User::class, 'id_utente' );
+		return $this->belongsTo ( \App\AmministrationRoule::class, 'Ruolo' );
 	}
 	
 }

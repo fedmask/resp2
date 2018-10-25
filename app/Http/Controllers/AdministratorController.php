@@ -7,6 +7,7 @@ use App\Http\Requests;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Auth;
 
 class AdministratorController extends Controller {
 	//
@@ -17,9 +18,11 @@ class AdministratorController extends Controller {
 	 * - @return Response
 	 */
 	public function index() {
-		
-		
-		return view ( 'pages.Administration.amministratori',[] );
+		$current_user_id = Auth::id ();
+		$current_administrator = \App\Amministration::find($current_user_id)->first();
+		$data = array();
+		$data['current_administrator']= $current_administrator;
+		return view ( 'pages.Administration.amministratori',$data );
 		
 		
 	}

@@ -25,7 +25,7 @@ class AmministrationRoule extends Model
 
 	public function Amministration()
 	{
-		return $this->hasMany(\App\Models\Amministration::class, 'Ruolo');
+		return $this->hasMany(\App\Amministration::class, 'Ruolo');
 	}
 	
 	

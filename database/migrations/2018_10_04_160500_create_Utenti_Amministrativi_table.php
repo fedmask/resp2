@@ -15,6 +15,8 @@ class CreateUtentiAmministrativiTable extends Migration {
 		Schema::create('Utenti_Amministrativi', function(Blueprint $table)
 		{
 			$table->integer('id_utente')->unsigned()->index('Tit-Audit');
+			$table->string('Nome');
+			$table->string('Cognome');
 			$table->string('Ruolo', 30)->index('Ruolo');
 			$table->string('Tipi_Dati_Trattati', 45) ->nullable();
 			$table->char('Sesso', 1);
