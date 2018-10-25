@@ -179,7 +179,10 @@ Route::get ( '/cookies_s', function () {
 
 Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' );
 
-Route::get( '/administration', 'AdministratorController@index' )->name('amm');
+Route::get( '/administration/ControlPanel', 'AdministratorController@indexControlPanel' )->name('amm');
+
+
+Route::get( '/administration/CareProviders', 'AdministratorController@indexCareProviders' );
 /*
  * Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');
  *

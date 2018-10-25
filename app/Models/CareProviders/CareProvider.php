@@ -64,7 +64,8 @@ class CareProvider extends Eloquent
 		'cpp_n_iscrizione',
 		'cpp_localita_iscrizione',
 	    'active',
-	    'cpp_lingua'
+	    'cpp_lingua',
+		'specializzation'
 	];
 
 	public function users()
