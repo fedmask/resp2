@@ -9,9 +9,12 @@
 	<!-- Include il template dell'header -->
 	@include('includes.template_header')
 
-	<!-- Include il template del menu laterale sinistro -->
-	@include('includes.template_menu')
-	
+	<!-- Include il template del menu laterale sinistro solo se si è loggati come utente diverso da emergency -->
+	@if(Auth::user()->getRole() != Auth::user()::EMERGENCY_ID)
+		<!-- Include il template del menu laterale sinistro -->
+		@include('includes.template_menu')
+	@endif
+
 	<!-- Carica il contenuto delle sezioni principali -->
 	@yield('content')
 	
