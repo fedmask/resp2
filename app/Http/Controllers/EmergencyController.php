@@ -10,6 +10,7 @@ use Input;
 use Redirect;
 use Auth;
 use App\Models\Patient\Pazienti;
+use App\Models\Patient\PazientiContatti;
 
 class EmergencyController extends Controller
 {
@@ -46,4 +47,22 @@ class EmergencyController extends Controller
             ->with('cognome_paziente', $cognome_paziente)
             ->with('gender', $gender);
 	}
+
+    /**
+     * Mostra la pagina report del paziente
+     * all'utente Emergency attualmente loggato.
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showPatientReport(Request $request){
+        //recuper id_patient dall'url
+        $id_patient = $request->input('id-patient');
+
+        //querybuilder per la selezione del paziente
+        $patient_info = Pazienti::where('id_paziente', $id_patient)->get();
+        $contacts = PazientiContatti::where('id_paziente', $id_patient)->get();
+        return view('pages.emergency.patientReport')
+            ->with('contacts', $contacts)
+            ->with('patient_info', $patient_info);
+    }
 }
