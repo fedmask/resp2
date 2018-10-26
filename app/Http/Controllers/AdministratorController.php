@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Input;
 
 class AdministratorController extends Controller {
 	//
@@ -46,15 +47,31 @@ class AdministratorController extends Controller {
 					$CP->cpp_codfiscale,
 					$CP->cpp_sesso,
 					$CP->specializzation,
+					$CP->getQualifications (), // Restituisce un array bidimensionale
 					$CP->cpp_n_iscrizione,
 					$CP->cpp_localita_iscrizione,
 					$CP->getLanguage (),
-					$CP->active 
+					$CP->isActive () 
 			);
 			$CppArray [$i ++] = $temp;
 		}
 		
 		return $CppArray;
+	}
+	public function updateCppStatus(Request $request) {
+		$CPs = \App\Models\CareProviders\CareProvider::all ();
+		foreach ( $CPs as $CP ) {
+			if ((Input::get ( 'check' . $CP->id_cpp )) === 'Attivo') {
+				
+				$CP->active = true;
+				$CP->save();
+			}else{
+				$CP->active = false;
+				$CP->save();
+			}
+		}
+		
+		return redirect ( '/administration/CareProviders' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
 	}
 	/**
 	 * Method unused

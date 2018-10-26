@@ -7,8 +7,8 @@
 .container {
 	display: block;
 	position: relative;
-	padding-left: 50px;
-	margin-bottom: 12px;
+	padding-left: 30px;
+	margin-bottom: 14px;
 	cursor: pointer;
 	font-size: 10px;
 	-webkit-user-select: none;
@@ -101,7 +101,7 @@
 @media ( min-width : 768px) {
 	.inner {
 		float: left;
-		width: 140%;
+		width: 145%;
 	}
 }
 
@@ -155,8 +155,6 @@ th, td {
 	text-align: left;
 	padding: 8px;
 }
-
-
 </style>
 
 
@@ -176,50 +174,117 @@ th, td {
 <div id="content">
 	<div class="inner" style="min-height: 1200px;">
 		<br>
-		<h1>Gestione Care Providers</h1>
 
-		<br> <input type="text" id="myInput" onkeyup="myFunction()"
-			placeholder="Ricerca per Nome..." title="Inserisci un nome">
-		<div style="overflow-x: auto;">
-			<table id="myTable">
-				<tr style="font-size: 12" ; class="header">
-					<th style="width: 40%;">#ID</th>
-					<th style="width: 40%;">Nome e Cognome</th>
-					<th style="width: 40%;">E-Mail</th>
 
-					<th>Data Nascita</th>
-					<th>Codice Fiscale</th>
-					<th>Sesso</th>
-					<th>Specializzazioni</th>
-					<th>N. iscrizione albo</th>
-					<th>Localita' iscrizione</th>
-					<th>Lingua</th>
+		<form class="form-horizontal"
+			action="{{action('AdministratorController@updateCppStatus')}}"
+			method="post">
+			{{ Form::open(array('url' => '/administration/CareProviders/Update'))
+			}} {{ csrf_field() }}
+			<h1>Gestione Care Providers</h1>
 
-					<th>Stato</th>
+			<br> <input type="text" id="myInput" onkeyup="myFunction()"
+				placeholder="Ricerca per Nome..." title="Inserisci un nome">
+			<div style="overflow-x: auto;">
+				<table id="myTable">
+					<tr style="font-size: 12" ; class="header">
+						<th style="width: 40%;">#ID</th>
+						<th style="width: 40%;">Nome e Cognome</th>
+						<th style="width: 40%;">E-Mail</th>
 
-				</tr>
+						<th>Data Nascita</th>
+						<th>Codice Fiscale</th>
+						<th>Sesso</th>
+						<th>Specializzazioni</th>
+
+						<th>N. iscrizione albo</th>
+						<th>Localita' iscrizione</th>
+						<th>Lingua</th>
+
+						<th>Stato</th>
+
+					</tr>
+					@foreach($CppArray as $Cpp)
+
+					<tr>
+						<td>{{$Cpp[0]}}</td>
+						<td>{{$Cpp[1]}}</td>
+						<td>{{$Cpp[2]}}</td>
+						<td>{{$Cpp[3]}}</td>
+						<td>{{$Cpp[4]}}</td>
+						<td>{{$Cpp[5]}}</td>
+						<td>{{$Cpp[6]}}</td>
+						<td>{{$Cpp[8]}}</td>
+						<td>{{$Cpp[9]}}</td>
+						<td>{{$Cpp[10]}}</td>
+						
+						@if($Cpp[11] == 'true')
+						<td><label class="container">Non Convalidato <input type="radio"
+								checked="checked" name="{{'check'.$Cpp[0]}}" value="Disattivo">
+								<span class="checkmark"></span>
+						</label> <label class="container">Convalidato <input type="radio"
+								name="{{'check'.$Cpp[0]}}" value="Attivo"> <span
+								class="checkmark"></span>
+						</label></td> @else
+						<td><label class="container">Non Convalidato <input type="radio"
+								name="{{'check'.$Cpp[0]}}" value="Disattivo"> <span
+								class="checkmark"></span>
+						</label> <label class="container">Convalidato <input type="radio"
+								checked="checked" name="{{'check'.$Cpp[0]}}" value="Attivo"> <span
+								class="checkmark"></span>
+						</label></td> @endif
+
+
+
+					</tr>
+					@endforeach
+				</table>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						onclick="window.location.reload()";>Annulla</button>
+					{{ Form::submit('Salva', ['class' => 'btn btn-primary'])}}
+				</div>
+				{{ Form::close() }}
+		
+		</form>
+
+
+		<table id="myTable">
+			<tr style="font-size: 12" ; class="header">
+				<th style="width: 40%;">#ID</th>
+				<th style="width: 40%;">Nome e Cognome</th>
+				<th style="width: 40%;">Codice Specializzazione</th>
+				<th style="width: 40%;">Descrizione Specializzazione</th>
+
+
+
 				@foreach($CppArray as $Cpp)
 
-				<tr>
-					<td>{{$Cpp[0]}}</td>
-					<td>{{$Cpp[1]}}</td>
-					<td>{{$Cpp[2]}}</td>
-					<td>{{$Cpp[3]}}</td>
-					<td>{{$Cpp[4]}}</td>
-					<td>{{$Cpp[5]}}</td>
-					<td>{{$Cpp[6]}}</td>
+			</tr>
+			<tr>
 
-					<td>{{$Cpp[7]}}</td>
-					<td>{{$Cpp[8]}}</td>
-					<td>{{$Cpp[9]}}</td>
-					<td>{{$Cpp[10]}}</td>
-				
+				@for($i =0; $i < count($Cpp[7]); $i++)
 
-				</tr>
-				@endforeach
-			</table>
-		</div>
-		<script>
+
+				<td>{{$Cpp[0]}}</td>
+				<td>{{$Cpp[1]}}</td>
+
+				<td>{{($Cpp[7])[$i]['Code']}}</td>
+
+
+				<td>{{($Cpp[7])[$i]['Descrption']}}</td>
+
+				</th> @endfor
+
+
+			</tr>
+			@endforeach
+		</table>
+
+
+	</div>
+	<script>
 function myFunction() {
   var input, filter, table, tr, td, i;
   input = document.getElementById("myInput");
@@ -237,11 +302,13 @@ function myFunction() {
     }       
   }
 }
+
+
 </script>
 
 
 
-	</div>
+</div>
 </div>
 
 
