@@ -218,14 +218,14 @@ class PazienteController extends Controller
     */
     public function showPatientSummary(Request $request){
     	if ($request->has('id_visiting')) {
-		    $id_visiting = request()->input('id_visiting');
-		} else {
-			$id_visiting = Auth::user()->id_utente;
-		}
-
-		$this->buildLog('Patient summary', $request->ip(), $id_visiting);
+    		$id_visiting = request()->input('id_visiting');
+    	} else {
+    		$id_visiting = Auth::user()->id_utente;
+    	}
+    	
+    	$this->buildLog('Patient summary', $request->ip(), $id_visiting);
     	$contacts = PazientiContatti::where('id_paziente', Auth::user()->patient()->first()->id_paziente)->get();
-        return view('pages.patient-summary')->with('contacts', $contacts);
+    	return view('pages.patient-summary')->with('contacts', $contacts);
     }
 
     /**

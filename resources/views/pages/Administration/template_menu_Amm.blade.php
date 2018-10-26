@@ -43,6 +43,10 @@
 				class='fas fa-file-medical' style='font-size: 18px; color: blue'></i>
 				Care Providers
 		</a></li>
+		<li class="panel"><a href="/administration/PatientsList"> <i
+				class='fa fa-address-book' style='font-size: 18px; color: blue'></i>
+				Pazienti
+		</a></li>
 
 </div>
 <!--FINE ANAGRAFICA RIDOTTA-->

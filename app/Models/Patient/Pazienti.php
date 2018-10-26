@@ -138,6 +138,8 @@ class Pazienti extends Eloquent {
 	    return $this->paziente_cognome;
 	}
 	
+	
+	
 	/**
 	 * Restituisce nome e cognome del paziente logggato
 	 */
@@ -167,6 +169,15 @@ class Pazienti extends Eloquent {
 	    return $this->getPhone()." - ".$this->getMail();
 	}
 	
+	
+	
+	/**
+	 * Restituisce il codice fiscale del Paziente
+	 */
+	public function getFiscalCode(){
+		return $this->paziente_codfiscale;
+		
+	}
 	/**
 	 * Restituisce il sesso del paziente loggato secondo la codfica del FHIR
 	 */
@@ -182,6 +193,16 @@ class Pazienti extends Eloquent {
 	{
 	    $data = date_format($this->paziente_nascita,"Y-m-d");
 	    return $data;
+	}
+	
+	/**
+	 * Restituisce la data di nascita del Paziente
+	 * @return unknown
+	 */
+	public function getBirthdayDate()
+	{
+		return $this->paziente_nascita;
+		
 	}
 	
 	/**

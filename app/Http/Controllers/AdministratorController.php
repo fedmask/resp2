@@ -64,14 +64,58 @@ class AdministratorController extends Controller {
 			if ((Input::get ( 'check' . $CP->id_cpp )) === 'Attivo') {
 				
 				$CP->active = true;
-				$CP->save();
-			}else{
+				$CP->save ();
+			} else {
 				$CP->active = false;
-				$CP->save();
+				$CP->save ();
 			}
 		}
 		
 		return redirect ( '/administration/CareProviders' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
+	}
+	public function searchCP($nome) {
+		try {
+			$CPs = \App\Models\CareProviders\CareProvider::where ( 'cpp_nome', $nome )->get ();
+			
+			$temp = array ();
+			
+			foreach ( $CPs as $CP ) {
+				
+				$temp ['Cp_nome'] = $CP->cpp_nome;
+				$temp ['Qualifications'] = $CP->getQualifications (); // Restituisce un array bidimensionale
+			}
+			
+			return $temp;
+		} catch ( Exception $e ) {
+			
+			return null;
+		}
+	}
+	
+	
+	public function getPatients(Request $request){
+		
+		$this->buildLog('Patient summary', $request->ip(), $id_visiting = Auth::user()->id_utente);
+		$Patients = \App\Models\Patient\Pazienti::all();
+		$current_user_id = Auth::id ();
+		$current_administrator = \App\Amministration::find ( $current_user_id )->first ();
+		return view ( 'pages.Administration.Patients_Administrator', ['Patients'=>$Patients, 'current_administrator'=>$current_administrator]);
+	}
+	
+	
+	
+	/*
+	 * Costruisce un nuovo record log per la pagina che si sta per visualizzare
+	 */
+	public function buildLog($actionName, $ip, $id_visiting){
+		$log = \App\Models\Log\AuditlogLog::create([ 'audit_nome' => $actionName,
+				'audit_ip' => $ip,
+				'id_visitato' => $id_visiting,
+				'id_visitante' => Auth::user()->id_utente,
+				'audit_data' => date('Y-m-d H:i:s'),
+		]);
+		$log->save();
+		return $log;
 	}
 	/**
 	 * Method unused

@@ -155,6 +155,46 @@ th, td {
 	text-align: left;
 	padding: 8px;
 }
+
+#myTable1 {
+	border-collapse: collapse;
+	width: 50%;
+	border: 1px solid #ddd;
+	font-size: 12px;
+}
+
+#myTable1 th, #myTable1 td {
+	text-align: left;
+	padding: 12px;
+}
+
+#myTable1 tr {
+	border-bottom: 1px solid #ddd;
+}
+
+#myTable1 tr.header, #myTable1 tr:hover {
+	background-color: #f1f1f1;
+}
+
+#myTable1 th.header {
+	background-color: #f1f1f1;
+}
+
+th, td {
+	text-align: left;
+	padding: 8px;
+}
+
+#myInput1 {
+	background-image: url('/css/searchicon.png');
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+	width: 50%;
+	font-size: 12px;
+	padding: 12px 20px 12px 40px;
+	border: 1px solid #ddd;
+	margin-bottom: 12px;
+}
 </style>
 
 
@@ -166,7 +206,7 @@ th, td {
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!--PAGE CONTENT -->
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 
 
 
@@ -216,9 +256,7 @@ th, td {
 						<td>{{$Cpp[6]}}</td>
 						<td>{{$Cpp[8]}}</td>
 						<td>{{$Cpp[9]}}</td>
-						<td>{{$Cpp[10]}}</td>
-						
-						@if($Cpp[11] == 'true')
+						<td>{{$Cpp[10]}}</td> @if($Cpp[11] == 'true')
 						<td><label class="container">Non Convalidato <input type="radio"
 								checked="checked" name="{{'check'.$Cpp[0]}}" value="Disattivo">
 								<span class="checkmark"></span>
@@ -239,7 +277,7 @@ th, td {
 					</tr>
 					@endforeach
 				</table>
-
+</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal"
 						onclick="window.location.reload()";>Annulla</button>
@@ -249,19 +287,27 @@ th, td {
 		
 		</form>
 
+		<hr>
 
-		<table id="myTable">
-			<tr style="font-size: 12" ; class="header">
-				<th style="width: 40%;">#ID</th>
-				<th style="width: 40%;">Nome e Cognome</th>
-				<th style="width: 40%;">Codice Specializzazione</th>
-				<th style="width: 40%;">Descrizione Specializzazione</th>
+		<br>
+
+		<h2>Specializzazioni Care Provider</h2>
+		<input type="text" id="myInput1" onkeyup="myFunction1()"
+			placeholder="Ricerca per Nome..." title="Inserisci un nome">
 
 
-
-				@foreach($CppArray as $Cpp)
+		<table id="myTable1" style="overflow-x: auto;>
+			<tr  class="header">
+			<th style="width: 60%;">#ID</th>
+			<th style="width: 60%;">Nome e Cognome</th>
+			<th style="width: 60%;">Codice Specializzazione</th>
+			<th style="width: 60%;">Descrizione Specializzazione</th>
 
 			</tr>
+
+			@foreach($CppArray as $Cpp)
+
+
 			<tr>
 
 				@for($i =0; $i < count($Cpp[7]); $i++)
@@ -281,15 +327,16 @@ th, td {
 			</tr>
 			@endforeach
 		</table>
-
-
 	</div>
-	<script>
-function myFunction() {
+</div>
+</div>
+</div>
+<script>
+function myFunction1() {
   var input, filter, table, tr, td, i;
-  input = document.getElementById("myInput");
+  input = document.getElementById("myInput1");
   filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
+  table = document.getElementById("myTable1");
   tr = table.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[1];
@@ -303,13 +350,30 @@ function myFunction() {
   }
 }
 
+function myFunction() {
+	  var input, filter, table, tr, td, i;
+	  input = document.getElementById("myInput");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("myTable");
+	  tr = table.getElementsByTagName("tr");
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("td")[1];
+	    if (td) {
+	      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	        tr[i].style.display = "";
+	      } else {
+	        tr[i].style.display = "none";
+	      }
+	    }       
+	  }
+	}
+
 
 </script>
 
 
 
-</div>
-</div>
+
 
 
 

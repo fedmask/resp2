@@ -185,6 +185,9 @@ Route::get( '/administration/ControlPanel', 'AdministratorController@indexContro
 Route::get( '/administration/CareProviders', 'AdministratorController@indexCareProviders' );
 
 Route::post ( '/administration/CareProviders/Update', 'AdministratorController@updateCppStatus');
+Route::get( '/administration/PatientsList', 'AdministratorController@getPatients' );
+
+
 /*
  * Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');
  *
