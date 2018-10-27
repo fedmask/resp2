@@ -18,24 +18,24 @@ class AdministratorController extends Controller {
 	 * - @return Response
 	 */
 	public function indexControlPanel() {
-		$current_user_id = Auth::id ();
-		$current_administrator = \App\Amministration::find ( $current_user_id )->first ();
+		$current_user_id = Auth::user ()->id_utente;
+		$current_administrator = \App\Amministration::where('id_utente',  $current_user_id )->first();
 		$data = array ();
 		$data ['current_administrator'] = $current_administrator;
 		$data ['LogsArray'] = $this->getAuditLogs ();
 		return view ( 'pages.Administration.ControlPanel_Administrator', $data );
 	}
 	public function indexCareProviders() {
-		$current_user_id = Auth::id ();
-		$current_administrator = \App\Amministration::find ( $current_user_id )->first ();
+		$current_user_id = Auth::user ()->id_utente;
+		$current_administrator = \App\Amministration::where('id_utente',  $current_user_id )->first();
 		$data = array ();
 		$data ['current_administrator'] = $current_administrator;
 		$data ['CppArray'] = $this->getCareProviders ();
 		return view ( 'pages.Administration.CareProviders_Administrator', $data );
 	}
 	public function indexAmministration() {
-		$current_user_id = Auth::id ();
-		$current_administrator = \App\Amministration::find ( $current_user_id )->first ();
+		$current_user_id = Auth::user ()->id_utente;
+		$current_administrator = \App\Amministration::where('id_utente',  $current_user_id )->first();
 		
 		$data ['current_administrator'] = $current_administrator;
 		return view ( 'pages.Administration.Administration_Administrator', $data );
@@ -131,8 +131,8 @@ class AdministratorController extends Controller {
 	public function getPatients(Request $request) {
 		$this->buildLog ( 'Patient summary', $request->ip (), $id_visiting = Auth::user ()->id_utente );
 		$Patients = \App\Models\Patient\Pazienti::all ();
-		$current_user_id = Auth::id ();
-		$current_administrator = \App\Amministration::find ( $current_user_id )->first ();
+		$current_user_id = Auth::user ()->id_utente;
+		$current_administrator = \App\Amministration::where('id_utente',  $current_user_id )->first();
 		$Patients18 = $this->getPatientUnder18 ();
 		return view ( 'pages.Administration.Patients_Administrator', [ 
 				'Patients' => $Patients,

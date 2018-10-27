@@ -88,4 +88,8 @@ class Amministration extends Model
 		return $this->belongsTo ( \App\AmministrationRoule::class, 'Ruolo' );
 	}
 	
+	public function activity() {
+		return $this->belongsTo ( \App\AdminActivity::class, 'id_utente' );
+	}
+	
 }

@@ -156,7 +156,7 @@ style>* {
 		<h2>Gestione amministrazione</h2>
 		<button class="btn1" style="width: 100%" data-toggle="modal"
 			data-target="#myModalRegisterOP">
-			<i class="fa fa-floppy-o"></i> Registra Operazione
+			<i class="fa fa-floppy-o"></i> Registra Operazione su un Utente
 		</button>
 
 
@@ -193,6 +193,51 @@ style>* {
 				</div>
 			</div>
 		</div>
+
+
+<br>
+		<h2>Gestione amministrazione</h2>
+		<button class="btn1" style="width: 100%" data-toggle="modal"
+			data-target="#myModalRegisterOPA">
+			<i class="fa fa-floppy-o"></i> Registra Operazione Amministrativa
+		</button>
+
+
+		<div class="modal fade" id="myModalRegisterOPA" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">Registra Operazione Amministrativa</div>
+
+					<div class="modal-body">
+
+<!-- Continuare da qui -->
+						{{ Form::open(['url' => '/administration/SA']) }}
+
+
+						<div class="form-group">{{ Form::label('Descrizione', 'Descrizione
+							Operazione')}} {{ Form::text('Descrizione', null, ['class' =>
+							'form-control']) }} {{ Form::label('Utente','ID Utente
+							Coinvolto') }} {{ Form::text('Utente', null, ['class'
+							=>'form-control']) }} {{ Form::label('Data', 'Data Operazione')}}
+							{{Form::date('date','', ['id'=>"add_data", 'name'=>"add_data",
+							'class' => 'form-control col-lg-6'])}}</div>
+
+
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							onclick="window.location.reload()";>Annulla</button>
+						{{ Form::submit('Salva', ['class' => 'btn btn-primary'])}}
+					</div>
+					{{ Form::close() }}
+				</div>
+			</div>
+		</div>
+
+
 
 
 
