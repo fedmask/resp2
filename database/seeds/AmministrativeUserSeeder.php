@@ -24,6 +24,19 @@ class AmministrativeUserSeeder extends Seeder
     			'Indirizzo'=>'via Roma, 15',
     			'Recapito_Telefonico'=>'3386984521'
     	]);
+    	
+    	DB::table('Utenti_Amministrativi')->insert([
+    			'id_utente' => '5',
+    			'Nome'=>'Luca',
+    			'Cognome'=>'Rossi',
+    			'Ruolo'=> 'Amministratore_di_sistema',
+    			'Sesso'=>'M',
+    			'Data_Nascita'=>'1956-08-02',
+    			'Comune_Nascita'=>'767',
+    			'Comune_Residenza'=>'767',
+    			'Indirizzo'=>'via Roma, 15',
+    			'Recapito_Telefonico'=>'3386984521'
+    	]);
         
     }
 }

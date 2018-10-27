@@ -21,5 +21,6 @@ class RuoliAmministrativiSeeder extends Seeder {
 		] );
 		
 		
+		
 	}
 }

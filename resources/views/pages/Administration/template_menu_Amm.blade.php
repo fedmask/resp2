@@ -47,6 +47,11 @@
 				class='fa fa-address-book' style='font-size: 18px; color: blue'></i>
 				Pazienti
 		</a></li>
+		
+		<li class="panel"><a href="/administration/Administrators"> <i
+				class='fa fa-pie-chart' style='font-size: 18px; color: blue'></i>
+				Gestione Amministratori
+		</a></li>
 
 </div>
 <!--FINE ANAGRAFICA RIDOTTA-->

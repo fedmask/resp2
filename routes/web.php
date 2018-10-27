@@ -34,6 +34,7 @@ Route::post ( '/register/patient', 'Auth\RegisterController@registerPatient' );
 Route::get ( '/register/careprovider', 'Auth\RegisterController@showCareProviderRegistrationForm' )->name ( 'register_careprovider' );
 Route::post ( '/register/careprovider', 'Auth\RegisterController@registerCareprovider' );
 
+
 /*
  *
  * Auth::routes(); chiama e istanzia le seguenti funzioni/url
@@ -189,6 +190,9 @@ Route::get( '/administration/PatientsList', 'AdministratorController@getPatients
 
 Route ::post('/administration/PatientsList/Active', 'AdministratorController@updatePStatus');
 
+Route::get( '/administration/Administrators', 'AdministratorController@indexAmministration' );
+
+Route ::post('/administration/SA', 'AdministratorController@addAufitLog');
 
 /*
  * Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');

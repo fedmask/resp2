@@ -1,14 +1,15 @@
  @extends('pages.Administration.app_Admin') @section('content')
 
-
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
 /* The container */
 .container {
 	display: block;
 	position: relative;
-	padding-left: 50px;
-	margin-bottom: 12px;
+	padding-left: 30px;
+	margin-bottom: 14px;
 	cursor: pointer;
 	font-size: 10px;
 	-webkit-user-select: none;
@@ -101,7 +102,7 @@
 @media ( min-width : 768px) {
 	.inner {
 		float: left;
-		width: 140%;
+		width: 145%;
 	}
 }
 
@@ -109,11 +110,31 @@
 	margin-right: 0px;
 	margin-left: -15px;
 }
+
 p.round2 {
-    border: 2px solid blue;
-    border-radius: 8px;
+	border: 2px solid blue;
+	border-radius: 8px;
 }
 
+<
+style>* {
+	box-sizing: border-box;
+}
+
+.btn1 {
+	background-color: DodgerBlue;
+	border: none;
+	color: white;
+	padding: 12px 30px;
+	cursor: pointer;
+	font-size: 20px;
+}
+
+/* Darker background on mouse-over */
+.btn1:hover {
+	background-color: RoyalBlue;
+}
+</style>
 
 
 /* END CONTENT STYLES */
@@ -128,50 +149,57 @@ p.round2 {
 
 
 
+
 <div id="content">
 	<div class="inner" style="min-height: 1200px;">
-	<br>
-<h1>Pannello di Controllo</h1>
-<!-- @TODO Bisogna completare questa sezione  -->
-<br><br>
-<h6>Bisogna implementare i tentativi di accesso e di numero di utenti che hanno eseguito l'accesso lato server</h6>
-<br>
+		<br>
+		<h2>Gestione amministrazione</h2>
+		<button class="btn1" style="width: 100%" data-toggle="modal"
+			data-target="#myModalRegisterOP">
+			<i class="fa fa-floppy-o"></i> Registra Operazione
+		</button>
 
-		<div class="col-lg-12">
-			<br> <br> 
-<h3>Accessi Log</h3>
-<div class="panel panel-warning">
-					<div class="panel-body">
-						
-			<table style="font-size: 12"
-				; class="table table-striped table-bordered table-hover">
-				<tr style="font-size: 14">
-					<th>#ID_Audit</th>
-					<th>Nome Attivita'</th>
-					<th align="center">Indirizzo IP</th>
-					<th>#ID_Visitante</th>
-					<th>Nome_Utente</th>
-					<th>Data</th>
-				</tr>
 
-				<!-- Ciclo sui Consensi -->
-				@foreach($LogsArray as $Log)
-				<tr>
-					<td align="center">{{$Log[0]}}</td>
-					<td><b>{{$Log[1]}}</b></td>
-					<td>{{$Log[2]}}</td>
-					<td>{{$Log[3]}}</td>
-					<td>{{$Log[4]}}</td>
-					<td>{{$Log[5]}}</td>
-				</tr>
-				@endforeach
-			</table>
+		<div class="modal fade" id="myModalRegisterOP" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">Registra Operazione</div>
+
+					<div class="modal-body">
+
+
+						{{ Form::open(['url' => '/administration/SA']) }}
+
+
+						<div class="form-group">{{ Form::label('Descrizione', 'Descrizione
+							Operazione')}} {{ Form::text('Descrizione', null, ['class' =>
+							'form-control']) }} {{ Form::label('Utente','ID Utente
+							Coinvolto') }} {{ Form::text('Utente', null, ['class'
+							=>'form-control']) }} {{ Form::label('Data', 'Data Operazione')}}
+							{{Form::date('date','', ['id'=>"add_data", 'name'=>"add_data",
+							'class' => 'form-control col-lg-6'])}}</div>
+
+
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							onclick="window.location.reload()";>Annulla</button>
+						{{ Form::submit('Salva', ['class' => 'btn btn-primary'])}}
+					</div>
+					{{ Form::close() }}
+				</div>
+			</div>
 		</div>
-</div>
-</div>
-<
+
+
+
+
 	</div>
 </div>
+
 
 
 

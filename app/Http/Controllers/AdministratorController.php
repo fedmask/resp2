@@ -33,6 +33,25 @@ class AdministratorController extends Controller {
 		$data ['CppArray'] = $this->getCareProviders ();
 		return view ( 'pages.Administration.CareProviders_Administrator', $data );
 	}
+	public function indexAmministration() {
+		$current_user_id = Auth::id ();
+		$current_administrator = \App\Amministration::find ( $current_user_id )->first ();
+		
+		$data ['current_administrator'] = $current_administrator;
+		return view ( 'pages.Administration.Administration_Administrator', $data );
+	}
+	public function addAufitLog(Request $request) {
+		$log = \App\Models\Log\AuditlogLog::create ( [ 
+				'audit_nome' => Input::get ( 'Descrizione' ),
+				'audit_ip' => $request->ip (),
+				'id_visitato' => Input::get ( 'Utente' ),
+				'id_visitante' => Auth::user ()->id_utente,
+				'audit_data' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'date' ) ) ) ) 
+		] );
+		$log->save ();
+		
+		return $this->indexAmministration ();
+	}
 	public function create() {
 	}
 	public function getCareProviders() {
@@ -62,6 +81,9 @@ class AdministratorController extends Controller {
 	public function updateCppStatus(Request $request) {
 		$CPs = \App\Models\CareProviders\CareProvider::all ();
 		foreach ( $CPs as $CP ) {
+			
+			$this->buildLog ( 'Modifica dello status', $request->ip (), $CP->getIdCpp () );
+			
 			if ((Input::get ( 'check' . $CP->id_cpp )) === 'Attivo') {
 				
 				$CP->active = true;
@@ -82,6 +104,8 @@ class AdministratorController extends Controller {
 			
 			foreach ( $CPs as $CP ) {
 				
+				$this->buildLog ( 'Accesso lettura Care Provider', $request->ip (), $CP->getIdCpp () );
+				
 				$temp ['Cp_nome'] = $CP->cpp_nome;
 				$temp ['Qualifications'] = $CP->getQualifications (); // Restituisce un array bidimensionale
 			}
@@ -92,22 +116,18 @@ class AdministratorController extends Controller {
 			return null;
 		}
 	}
-	
-	public function updatePStatus(Request $request){
+	public function updatePStatus(Request $request) {
+		$this->buildLog ( 'Modifica dello status', $request->ip (), Input::get ( 'Id_Paziente' ) );
 		
-		$Patient = \App\Models\Patient\Pazienti::where('id_paziente', Input::get('Id_Paziente'))->first();
+		$Patient = \App\Models\Patient\Pazienti::where ( 'id_paziente', Input::get ( 'Id_Paziente' ) )->first ();
 		
-		if($Patient!=null){
+		if ($Patient != null) {
 			
-			$Patient->user()->utente_stato = true;
+			$Patient->user ()->utente_stato = true;
 			return redirect ( '/administration/PatientsList' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
-			
-			
 		}
 		return null;
-		
 	}
-	
 	public function getPatients(Request $request) {
 		$this->buildLog ( 'Patient summary', $request->ip (), $id_visiting = Auth::user ()->id_utente );
 		$Patients = \App\Models\Patient\Pazienti::all ();
@@ -120,7 +140,9 @@ class AdministratorController extends Controller {
 				'patients18' => $Patients18 
 		] );
 	}
-	public static function getFile($file_id, $paziente_id) {
+	public static function getFile($file_id, $paziente_id, Request $request) {
+		$this->buildLog ( 'Files', $request->ip (), $paziente_id );
+		
 		$is_owner = File::where ( 'id_file', $file_id )->where ( 'id_paziente', $paziente_id )->first ();
 		
 		$img_name = $is_owner->file_nome;

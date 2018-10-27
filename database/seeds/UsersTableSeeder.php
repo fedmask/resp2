@@ -59,6 +59,17 @@ class UsersTableSeeder extends Seeder
         		'utente_dati_condivisione' => '0',
         		'utente_token_accesso' => ''
         ]);
+        
+        DB::table('tbl_utenti')->insert([
+        		'utente_nome' => 'Luca Rossi',
+        		'id_tipologia'=> 'amm',
+        		'utente_password' => bcrypt('test1234'),
+        		'utente_stato' => '1',
+        		'utente_scadenza' => '2030-01-01',
+        		'utente_email' => 'administration@fsem.com',
+        		'utente_dati_condivisione' => '0',
+        		'utente_token_accesso' => ''
+        ]);
 
 
     }
