@@ -22,7 +22,7 @@ class CreateTblPazientiTable extends Migration {
 			$table->date('paziente_nascita');
 			$table->char('paziente_codfiscale', 16)->nullable()->unique('paziente_codfiscale_UNIQUE');
 			$table->char('paziente_sesso', 10)->index('paziente_sesso');
-			$table->boolean('paziente_gruppo')->nullable();
+			$table->char('paziente_gruppo')->nullable();
 			$table->char('paziente_rh', 3)->nullable();
 			$table->boolean('paziente_donatore_organi')->nullable();
 			$table->string('paziente_lingua', 5)->index('paziente_lingua');

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use Input;
+use DB;
 
 class AdministratorController extends Controller {
 	//
@@ -92,29 +93,68 @@ class AdministratorController extends Controller {
 		}
 	}
 	
-	
-	public function getPatients(Request $request){
+	public function updatePStatus(Request $request){
 		
-		$this->buildLog('Patient summary', $request->ip(), $id_visiting = Auth::user()->id_utente);
-		$Patients = \App\Models\Patient\Pazienti::all();
-		$current_user_id = Auth::id ();
-		$current_administrator = \App\Amministration::find ( $current_user_id )->first ();
-		return view ( 'pages.Administration.Patients_Administrator', ['Patients'=>$Patients, 'current_administrator'=>$current_administrator]);
+		$Patient = \App\Models\Patient\Pazienti::where('id_paziente', Input::get('Id_Paziente'))->first();
+		
+		if($Patient!=null){
+			
+			$Patient->user()->utente_stato = true;
+			return redirect ( '/administration/PatientsList' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
+			
+			
+		}
+		return null;
+		
 	}
 	
-	
+	public function getPatients(Request $request) {
+		$this->buildLog ( 'Patient summary', $request->ip (), $id_visiting = Auth::user ()->id_utente );
+		$Patients = \App\Models\Patient\Pazienti::all ();
+		$current_user_id = Auth::id ();
+		$current_administrator = \App\Amministration::find ( $current_user_id )->first ();
+		$Patients18 = $this->getPatientUnder18 ();
+		return view ( 'pages.Administration.Patients_Administrator', [ 
+				'Patients' => $Patients,
+				'current_administrator' => $current_administrator,
+				'patients18' => $Patients18 
+		] );
+	}
+	public static function getFile($file_id, $paziente_id) {
+		$is_owner = File::where ( 'id_file', $file_id )->where ( 'id_paziente', $paziente_id )->first ();
+		
+		$img_name = $is_owner->file_nome;
+		$path_file = "app/public/patient/" . $paziente_id . "/" . $img_name;
+		
+		return storage_path ( $path_file );
+	}
+	public function getPatientUnder18() {
+		$Patients = \App\Models\Patient\Pazienti::all ();
+		$Patients18 = array ();
+		$i = 0;
+		foreach ( $Patients as $Patient ) {
+			$years = Auth::user ()->getAge ( date ( 'd-m-Y', strtotime ( str_replace ( '/', '-', $Patient->paziente_nascita ) ) ) );
+			
+			if ($years <= 18) {
+				
+				$Pateients18 [$i ++] = $Patient;
+			}
+		}
+		return $Patients18;
+	}
 	
 	/*
 	 * Costruisce un nuovo record log per la pagina che si sta per visualizzare
 	 */
-	public function buildLog($actionName, $ip, $id_visiting){
-		$log = \App\Models\Log\AuditlogLog::create([ 'audit_nome' => $actionName,
+	public function buildLog($actionName, $ip, $id_visiting) {
+		$log = \App\Models\Log\AuditlogLog::create ( [ 
+				'audit_nome' => $actionName,
 				'audit_ip' => $ip,
 				'id_visitato' => $id_visiting,
-				'id_visitante' => Auth::user()->id_utente,
-				'audit_data' => date('Y-m-d H:i:s'),
-		]);
-		$log->save();
+				'id_visitante' => Auth::user ()->id_utente,
+				'audit_data' => date ( 'Y-m-d H:i:s' ) 
+		] );
+		$log->save ();
 		return $log;
 	}
 	/**

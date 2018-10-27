@@ -13,7 +13,7 @@ use App\Models\CodificheFHIR\Language;
 
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+use DB;
 /**
  * Class Pazienti
  *
@@ -70,7 +70,7 @@ class Pazienti extends Eloquent {
 			'paziente_codfiscale',
 			'paziente_sesso',
 			'paziente_gruppo',
-			'pazinte_rh',
+			'paziente_rh',
 			'paziente_donatore_organi',
 	        'paziente_lingua'
 	];
@@ -303,7 +303,7 @@ class Pazienti extends Eloquent {
 	
 	public function tbl_utenti()
 	{
-	    return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+		return $this->belongsTo(\App\Models\tbl_utenti::class, 'id_utente');
 	}
 	
 	public function tbl_stati_matrimoniali()
@@ -338,7 +338,7 @@ class Pazienti extends Eloquent {
 	
 	public function moduli__gruppo__sanguignos()
 	{
-	    return $this->hasMany(\App\Models\ModuliGruppoSanguigno::class, 'Id_Paziente');
+		return DB::table('Moduli_Gruppo_Sanguigno')->where('Id_Paziente', $this->getID_Paziente())->get();
 	}
 	
 	public function patient_contact()
