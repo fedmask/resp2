@@ -4,7 +4,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
-/* The container */
+/* The container*/
 .container {
 	display: block;
 	position: relative;
@@ -18,14 +18,14 @@
 	user-select: none;
 }
 
-/* Hide the browser's default radio button */
+/* Hide the browser's default radio button*/
 .container input {
 	position: absolute;
 	opacity: 0;
 	cursor: pointer;
 }
 
-/* Create a custom radio button */
+/* Create a custom radio button*/
 .checkmark {
 	position: absolute;
 	top: 0;
@@ -36,29 +36,29 @@
 	border-radius: 50%;
 }
 
-/* On mouse-over, add a grey background color */
+/* On mouse-over, add a grey background color*/
 .container:hover input ~ .checkmark {
 	background-color: #ccc;
 }
 
-/* When the radio button is checked, add a blue background */
+/* When the radio button is checked, add a blue background*/
 .container input:checked ~ .checkmark {
 	background-color: #2196F3;
 }
 
-/* Create the indicator (the dot/circle - hidden when not checked) */
+/* Create the indicator (the dot/circle - hidden when not checked)*/
 .checkmark:after {
 	content: "";
 	position: absolute;
 	display: none;
 }
 
-/* Show the indicator (dot/circle) when checked */
+/* Show the indicator (dot/circle) when checked*/
 .container input:checked ~ .checkmark:after {
 	display: block;
 }
 
-/* Style the indicator (dot/circle) */
+/* Style the indicator (dot/circle)*/
 .container .checkmark:after {
 	top: 7px;
 	left: 7px;
@@ -68,7 +68,7 @@
 	background: white;
 }
 
-/* BEGIN CONTENT STYLES */
+/* BEGIN CONTENT STYLES*/
 #content {
 	-webkit-transition: margin 0.4s;
 	transition: margin 0.4s;
@@ -130,14 +130,14 @@ style>* {
 	font-size: 20px;
 }
 
-/* Darker background on mouse-over */
+/* Darker background on mouse-over*/
 .btn1:hover {
 	background-color: RoyalBlue;
 }
 </style>
 
 
-/* END CONTENT STYLES */
+/* END CONTENT STYLES*/
 </style>
 <!-- Use scripts for Modal -->
 <script
@@ -195,8 +195,8 @@ style>* {
 		</div>
 
 
-<br>
-		<h2>Gestione amministrazione</h2>
+		<br>
+		<hr>
 		<button class="btn1" style="width: 100%" data-toggle="modal"
 			data-target="#myModalRegisterOPA">
 			<i class="fa fa-floppy-o"></i> Registra Operazione Amministrativa
@@ -212,18 +212,166 @@ style>* {
 
 					<div class="modal-body">
 
-<!-- Continuare da qui -->
-						{{ Form::open(['url' => '/administration/SA']) }}
+						<!-- Continuare da qui -->
+						{{ Form::open(['url' => '/administration/ActivityCreate']) }}
 
 
-						<div class="form-group">{{ Form::label('Descrizione', 'Descrizione
-							Operazione')}} {{ Form::text('Descrizione', null, ['class' =>
-							'form-control']) }} {{ Form::label('Utente','ID Utente
-							Coinvolto') }} {{ Form::text('Utente', null, ['class'
-							=>'form-control']) }} {{ Form::label('Data', 'Data Operazione')}}
-							{{Form::date('date','', ['id'=>"add_data", 'name'=>"add_data",
-							'class' => 'form-control col-lg-6'])}}</div>
+						<div class="form-group">
+							{{ Form::label('DataStart', 'Data Inizio Operazione*')}} <br>{{Form::date('dateStart','',
+							['id'=>"add_data", 'name'=>"add_data", 'class' => 'form-control
+							col-lg-6'])}}<br> {{ Form::label('DataEnd', 'Data Fine
+							Operazione')}}<br> {{Form::date('DateEndD','', ['id'=>"add_data",
+							'name'=>"add_data", 'class' => 'form-control col-lg-6'])}} <br> <br>
+							<h5>
+								<b>Tipologia operazione*</b>
+							</h5>
+							{{ Form::text('Attivita', null, ['class' => 'form-control']) }}
+							{{ Form::label('Description', 'Descrizione')}} {{
+							Form::text('Descrizione', null, ['class' => 'form-control']) }}
+							{{Form::label('Anomalie', 'Anomalie Riscontrate')}} {{
+							Form::text('AnomalieR', null, ['class' => 'form-control']) }}
+						</div>
+						<br> <b><p>I campi contrassegnati dal simbolo* sono obbligatori.</p></b>
+					</div>
 
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							onclick="window.location.reload()";>Annulla</button>
+						{{ Form::submit('Salva', ['class' => 'btn btn-primary'])}}
+					</div>
+					{{ Form::close() }}
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+		<hr>
+		<button class="btn1" style="width: 100%" data-toggle="modal"
+			data-target="#myModalRegisterAdmin">
+			<i class="fa fa-floppy-o"></i> Registra Nuovo Amministratore
+		</button>
+
+
+		<div class="modal fade" id="myModalRegisterAdmin" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">Registra nuovo Amministratore</div>
+
+					<div class="modal-body">
+
+
+						{{ Form::open(['url' => '/administration/ActivityCreate']) }}
+
+
+						<div class="form-group">
+
+							{{ csrf_field() }} <label for="userName"
+								class="control-label col-lg-3">Username*</label> <input
+								id="userName" name="username" type="text" class="form-control">
+							@if ($errors->has('username'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('username') }}</div>
+							@endif <br> <label for="email" class="control-label col-lg-3">Email*</label>
+							<input id="email" name="email" type="email" class="form-control">
+							@if ($errors->has('email'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('email') }}</div>
+							@endif <br> <label for="confirmEmail"
+								class="control-label col-lg-5">Conferma Email*</label> <input
+								id="confirmEmail" name="confirmEmail" type="email"
+								class="form-control"> @if ($errors->has('confirmEmail'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('confirmEmail') }}</div>
+							@endif <br> <label for="password" class="control-label col-lg-5">Password*</label>
+							<input id="password" name="password" type="password"
+								class="form-control"
+								placeholder="almeno 8 caratteri tra cui una cifra"> @if
+							($errors->has('password'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('password') }}</div>
+							@endif <br> <label for="confirmPassword"
+								class="control-label col-lg-5">Conferma Password*</label> <input
+								id="confirmPassword" name="confirmPassword" type="password"
+								class="form-control"> @if ($errors->has('confirmPassword'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('confirmPassword') }}</div>
+							@endif <br> <label for="surname" class="control-label col-lg-3">Cognome*</label>
+							<input id="surname" name="surname" type="text"
+								class="form-control"> @if ($errors->has('surname'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('surname') }}</div>
+							@endif <br> <label for="name" class="control-label col-lg-3">Nome*</label>
+							<input id="name" name="name" type="text" class="form-control">
+							@if ($errors->has('name'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('name') }}</div>
+							@endif <br>
+							<div>
+
+								<label for="gender" class="control-label col-lg-3">Sesso*</label>
+
+								<label class="radio-inline"> <input type="radio" name="gender"
+									id="genderM" value="M">M
+								</label> <label class="radio-inline"> <input type="radio"
+									name="gender" id="genderF" value="F">F
+								</label> @if ($errors->has('gender'))
+								<div class="alert alert-danger" role="alert">{{
+									$errors->first('gender') }}</div>
+								@endif
+							</div>
+							<br> <label for="birthCity" class="control-label col-lg-5">Comune
+								di nascita*</label> <input id="birthCity" name="birthCity"
+								type="text" class="typeahead form-control"> @if
+							($errors->has('birthCity'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('birthCity') }}</div>
+							@endif <br> <label for="birthDate" class="control-label col-lg-5">Data
+								di nascita*</label> <input id="birthDate" name="birthDate"
+								type="text" class="form-control"
+								placeholder="Inserisci  gg-mm-aaaa "> @if
+							($errors->has('birthDate'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('birthDate') }}</div>
+							@endif <br> <label for="livingCity"
+								class="control-label col-lg-5">Comune di residenza*</label> <input
+								id="livingCity" name="livingCity" type="text"
+								class="typeahead form-control"> @if ($errors->has('livingCity'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('livingCity') }}</div>
+							@endif <br> <label for="address" class="control-label col-lg-5">Via/Corso/Piazza*</label>
+							<input id="address" name="address" type="text"
+								class="form-control"> @if ($errors->has('address'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('address') }}</div>
+							@endif <br> <label for="telephone" class="control-label col-lg-5">Recapito
+								telefonico*</label> <input id="telephone" name="telephone"
+								type="tel" class="form-control"> @if ($errors->has('telephone'))
+							<div class="alert alert-danger" role="alert">{{
+								$errors->first('telephone') }}</div>
+							@endif <br> <label for="telephone" class="control-label col-lg-5">Ruolo
+								Amministratore*</label>
+
+							<div allign="left">{{ Form::select('Ruolo', array('DPO' => 'DPO',
+								'Responsabile al Trattamento' => 'Responsabile al
+								Trattamento','Personale di Supporto' => 'Personale di
+								Supporto'))}}</div>
+
+
+
+
+
+
+						</div>
+
+						<p class="pull-right">(*) Campi obbligatori</p>
 
 					</div>
 
@@ -236,6 +384,9 @@ style>* {
 				</div>
 			</div>
 		</div>
+
+
+
 
 
 

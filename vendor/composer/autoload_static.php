@@ -402,6 +402,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\ATCSottogruppoChimico' => __DIR__ . '/../..' . '/app/Models/ATCSottogruppoChimico.php',
         'App\\ATCSottogruppoChimicoTF' => __DIR__ . '/../..' . '/app/Models/ATCSottogruppoChimicoTF.php',
         'App\\ATCSottogruppoTerapeuticoF' => __DIR__ . '/../..' . '/app/Models/ATCSottogruppoTerapeuticoF.php',
+        'App\\AdminActivity' => __DIR__ . '/../..' . '/app/Models/AdminActivity.php',
         'App\\Amministration' => __DIR__ . '/../..' . '/app/Models/Amministration.php',
         'App\\AmministrationRoule' => __DIR__ . '/../..' . '/app/Models/AmministrationRoule.php',
         'App\\AnamnesiF' => __DIR__ . '/../..' . '/app/Models/AnamnesiF.php',

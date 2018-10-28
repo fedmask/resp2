@@ -192,7 +192,9 @@ Route ::post('/administration/PatientsList/Active', 'AdministratorController@upd
 
 Route::get( '/administration/Administrators', 'AdministratorController@indexAmministration' );
 
-Route ::post('/administration/SA', 'AdministratorController@addAufitLog');
+Route ::post('/administration/SA', 'AdministratorController@addAuditLog');
+
+Route ::post('/administration/ActivityCreate', 'AdministratorController@createActivityAdmin');
 
 /*
  * Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');

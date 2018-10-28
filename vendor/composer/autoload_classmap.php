@@ -27,6 +27,7 @@ return array(
     'App\\ATCSottogruppoChimico' => $baseDir . '/app/Models/ATCSottogruppoChimico.php',
     'App\\ATCSottogruppoChimicoTF' => $baseDir . '/app/Models/ATCSottogruppoChimicoTF.php',
     'App\\ATCSottogruppoTerapeuticoF' => $baseDir . '/app/Models/ATCSottogruppoTerapeuticoF.php',
+    'App\\AdminActivity' => $baseDir . '/app/Models/AdminActivity.php',
     'App\\Amministration' => $baseDir . '/app/Models/Amministration.php',
     'App\\AmministrationRoule' => $baseDir . '/app/Models/AmministrationRoule.php',
     'App\\AnamnesiF' => $baseDir . '/app/Models/AnamnesiF.php',

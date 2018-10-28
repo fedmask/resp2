@@ -40,7 +40,7 @@ class AdministratorController extends Controller {
 		$data ['current_administrator'] = $current_administrator;
 		return view ( 'pages.Administration.Administration_Administrator', $data );
 	}
-	public function addAufitLog(Request $request) {
+	public function addAuditLog(Request $request) {
 		$log = \App\Models\Log\AuditlogLog::create ( [ 
 				'audit_nome' => Input::get ( 'Descrizione' ),
 				'audit_ip' => $request->ip (),
@@ -78,6 +78,28 @@ class AdministratorController extends Controller {
 		
 		return $CppArray;
 	}
+	
+	
+	public function createActivityAdmin(Request $request){
+	
+				
+		$Activity= \App\AdminActivity::create ( [
+				'id_utente' => Auth::user ()->id_utente,
+				'Start_Period' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'dateStart') ) ) ),
+				'End_Period' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'DateEndD') ) ) ),
+				'Tipologia_attivita' => Input::get ( 'Attivita' ),
+				'Descrizione' => Input::get ( 'Descrizione' ),
+				'Anomalie_riscontrate' => Input::get ( 'AnomalieR' )
+					] );
+		
+		$Activity->save();
+		
+		return redirect ( '/administration/Administrators' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
+		
+	}
+	
+	
+	
 	public function updateCppStatus(Request $request) {
 		$CPs = \App\Models\CareProviders\CareProvider::all ();
 		foreach ( $CPs as $CP ) {
@@ -128,6 +150,26 @@ class AdministratorController extends Controller {
 		}
 		return null;
 	}
+	
+	
+	public function addAdmin(Request $request){
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	public function getPatients(Request $request) {
 		$this->buildLog ( 'Patient summary', $request->ip (), $id_visiting = Auth::user ()->id_utente );
 		$Patients = \App\Models\Patient\Pazienti::all ();
