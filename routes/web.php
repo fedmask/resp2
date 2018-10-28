@@ -195,6 +195,10 @@ Route::get( '/administration/Administrators', 'AdministratorController@indexAmmi
 Route ::post('/administration/SA', 'AdministratorController@addAuditLog');
 
 Route ::post('/administration/ActivityCreate', 'AdministratorController@createActivityAdmin');
+Route ::post('/administration/AdminCreate', 'AdministratorController@addAdmin');
+Route:: post('/administration/AdminDelete', 'AdministratorController@destroy');
+
+
 
 /*
  * Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');

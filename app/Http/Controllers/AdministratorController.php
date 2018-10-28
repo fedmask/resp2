@@ -19,7 +19,7 @@ class AdministratorController extends Controller {
 	 */
 	public function indexControlPanel() {
 		$current_user_id = Auth::user ()->id_utente;
-		$current_administrator = \App\Amministration::where('id_utente',  $current_user_id )->first();
+		$current_administrator = \App\Amministration::where ( 'id_utente', $current_user_id )->first ();
 		$data = array ();
 		$data ['current_administrator'] = $current_administrator;
 		$data ['LogsArray'] = $this->getAuditLogs ();
@@ -27,7 +27,7 @@ class AdministratorController extends Controller {
 	}
 	public function indexCareProviders() {
 		$current_user_id = Auth::user ()->id_utente;
-		$current_administrator = \App\Amministration::where('id_utente',  $current_user_id )->first();
+		$current_administrator = \App\Amministration::where ( 'id_utente', $current_user_id )->first ();
 		$data = array ();
 		$data ['current_administrator'] = $current_administrator;
 		$data ['CppArray'] = $this->getCareProviders ();
@@ -35,7 +35,7 @@ class AdministratorController extends Controller {
 	}
 	public function indexAmministration() {
 		$current_user_id = Auth::user ()->id_utente;
-		$current_administrator = \App\Amministration::where('id_utente',  $current_user_id )->first();
+		$current_administrator = \App\Amministration::where ( 'id_utente', $current_user_id )->first ();
 		
 		$data ['current_administrator'] = $current_administrator;
 		return view ( 'pages.Administration.Administration_Administrator', $data );
@@ -78,28 +78,20 @@ class AdministratorController extends Controller {
 		
 		return $CppArray;
 	}
-	
-	
-	public function createActivityAdmin(Request $request){
-	
-				
-		$Activity= \App\AdminActivity::create ( [
+	public function createActivityAdmin(Request $request) {
+		$Activity = \App\AdminActivity::create ( [ 
 				'id_utente' => Auth::user ()->id_utente,
-				'Start_Period' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'dateStart') ) ) ),
-				'End_Period' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'DateEndD') ) ) ),
+				'Start_Period' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'dateStart' ) ) ) ),
+				'End_Period' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'DateEndD' ) ) ) ),
 				'Tipologia_attivita' => Input::get ( 'Attivita' ),
 				'Descrizione' => Input::get ( 'Descrizione' ),
-				'Anomalie_riscontrate' => Input::get ( 'AnomalieR' )
-					] );
+				'Anomalie_riscontrate' => Input::get ( 'AnomalieR' ) 
+		] );
 		
-		$Activity->save();
+		$Activity->save ();
 		
 		return redirect ( '/administration/Administrators' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
-		
 	}
-	
-	
-	
 	public function updateCppStatus(Request $request) {
 		$CPs = \App\Models\CareProviders\CareProvider::all ();
 		foreach ( $CPs as $CP ) {
@@ -150,31 +142,72 @@ class AdministratorController extends Controller {
 		}
 		return null;
 	}
-	
-	
-	public function addAdmin(Request $request){
+	public function addAdmin(Request $request) {
+		$validator = Validator::make ( Input::all (), [ 
+				'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
+				'name' => 'required|string|max:40',
+				'surname' => 'required|string|max:40',
+				'gender' => 'required',
+				'email' => 'required|string|email|max:50|unique:tbl_utenti,utente_email',
+				'confirmEmail' => 'required|same:email',
+				'password' => 'required|min:8|max:16',
+				'confirmPassword' => 'required|same:password',
+				'birthCity' => 'required|string|max:40',
+				'birthDate' => 'required|date|before:-18 years',
+				'livingCity' => 'required|string|max:40',
+				'address' => 'required|string|max:90',
+				'telephone' => 'required|numeric',
+				'Ruolo' => 'required|string|max:90',
+				'TypeData' => 'required|string|max:90' 
 		
+		] );
 		
+		if ($validator->fails ()) {
+			return Redirect::back ()->withErrors ( $validator )->withInput ();
+		}
 		
+		$user = \App\Models\CurrentUser\User::create ( [ 
+				'utente_nome' => Input::get ( 'username' ),
+				'utente_email' => Input::get ( 'email' ),
+				'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
+				'id_tipologia' => 'amm',
+				'utente_email' => Input::get ( 'email' ),
+				'utente_password' => bcrypt ( Input::get ( 'password' ) ) 
+		] );
 		
+		$user_contacts = \App\Models\CurrentUser\Recapiti::create ( [ 
+				'id_utente' => $user->id_utente,
+				'id_comune_residenza' => $this->getTown ( Input::get ( 'livingCity' ) ),
+				'id_comune_nascita' => $this->getTown ( Input::get ( 'birthCity' ) ),
+				'contatto_telefono' => Input::get ( 'telephone' ),
+				'contatto_indirizzo' => Input::get ( 'address' ) 
+		] );
 		
+		$admin = \App\Amministration::create ( [ 
+				'id_utente' => $user->id_utente,
+				'Comune_Nascita' => $this->getTown ( Input::get ( 'birthCity' ) ),
+				'Comune_Residenza' => $this->getTown ( Input::get ( 'livingCity' ) ),
+				'Cognome' => Input::get ( 'surname' ),
+				'Nome' => Input::get ( 'name' ),
+				'Data_Nascita' => date ( 'Y-m-d', strtotime ( Input::get ( 'birthDate' ) ) ),
+				'Tipi_Dati_Trattati' => Input::get ( 'TypeData' ),
+				'Sesso' => Input::get ( 'gender' ),
+				'Indirizzo' => Input::get ( 'gender' ),
+				'Recapito_Telefonico' => Input::get ( 'telephone' ),
+				'Ruolo' => Input::get ( 'Ruolo' ) 
+		] );
 		
+		$user->save ();
+		$user_contacts->save ();
+		$admin->save ();
 		
-		
-		
+		return redirect ( '/administration/Administrators' );
 	}
-	
-	
-	
-	
-	
-	
-	
 	public function getPatients(Request $request) {
 		$this->buildLog ( 'Patient summary', $request->ip (), $id_visiting = Auth::user ()->id_utente );
 		$Patients = \App\Models\Patient\Pazienti::all ();
 		$current_user_id = Auth::user ()->id_utente;
-		$current_administrator = \App\Amministration::where('id_utente',  $current_user_id )->first();
+		$current_administrator = \App\Amministration::where ( 'id_utente', $current_user_id )->first ();
 		$Patients18 = $this->getPatientUnder18 ();
 		return view ( 'pages.Administration.Patients_Administrator', [ 
 				'Patients' => $Patients,
@@ -259,6 +292,14 @@ class AdministratorController extends Controller {
 		
 		return $LogsArray;
 	}
+	
+	/**
+	 * Identifica l'id di una città presente nel database
+	 * a partire dal nome
+	 */
+	private function getTown($name) {
+		return Comuni::where ( 'comune_nominativo', '=', $name )->first ()->id_comune;
+	}
 	public function store(Request $request) {
 	}
 	public function show($id) {
@@ -283,10 +324,23 @@ class AdministratorController extends Controller {
 	/**
 	 * - Remove the specified resource from storage.
 	 *
-	 * - @param int $id
+	 * -
 	 * - @return Response
 	 */
-	public function destroy($id) {
-		//
+	public function destroy() {
+		if (\App\Amministration::find ( Input::get ( 'Id_Admin2' ) )) {
+			
+			$user = \App\Models\CurrentUser\User::where ( 'id_utente', Input::get ( 'Id_Admin2' ) )->first ();
+			$contacts = $user->contacts ();
+			foreach ( $contacts as $contact ) {
+				
+				$contact->delete ();
+			}
+			
+			$admin = \App\Amministration::where ( 'id_utente', Input::get ( 'Id_Admin2' ) )->first ();
+			
+			$admin->delete ();
+		}
+		return redirect ( '/administration/Administrators' );
 	}
 }
