@@ -163,6 +163,72 @@ style>* {
 	background-color: #d80606;
 }
 
+#tableP1 td, #tableP1 th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+#tableP1 tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+#tableP1 tr:hover {
+	background-color: #ddd;
+}
+
+#tableP1 th {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: left;
+	background-color: #cccccc;
+	color: #000000;
+}
+
+#tableP2 td, #tableP2 th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+#tableP2 tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+#tableP2 tr:hover {
+	background-color: #ddd;
+}
+
+#tableP2 th {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: left;
+	background-color: #cccccc;
+	color: #000000;
+}
+
+
+
+
+#myInput1 {
+	background-image: url('/css/searchicon.png');
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+	width: 100%;
+	font-size: 12px;
+	padding: 12px 20px 12px 40px;
+	border: 1px solid #ddd;
+	margin-bottom: 12px;
+}
+
+#myInput2 {
+	background-image: url('/css/searchicon.png');
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+	width: 100%;
+	font-size: 12px;
+	padding: 12px 20px 12px 40px;
+	border: 1px solid #ddd;
+	margin-bottom: 12px;
+}
 </style>
 
 
@@ -283,7 +349,7 @@ style>* {
 <hr>
 		<button class="btn2" style="width: 100%" data-toggle="modal"
 			data-target="#myModalRegisterAdmin">
-			<i class="fa fa-floppy-o"></i> Registra Nuovo Amministratore
+			<i class="fa fa-address-card-o"></i> Registra Nuovo Amministratore
 		</button>
 
 
@@ -454,7 +520,7 @@ style>* {
 
 				<button type="button" style="width: 100%" class="btn3" data-toggle="modal"
 					style="font-size: 16" data-target="#myModalCancel">
-					<i class="fa fa-check-square-o"></i> Cancella Account Amministrativo
+					<i class="fa fa-bitbucket"></i> Cancella Account Amministrativo
 				</button>
 			</div>
 
@@ -482,10 +548,153 @@ style>* {
 
 
 
+
+
+
+
+
+
+
+<br>
+		<h2>Amministratori Registrati</h2>
+		<br> <input type="text" id="myInput1" onkeyup="myFunction1()" style="width: 100%"
+			placeholder="Ricerca per Cognome..." title="Inserisci un cognome">
+
+		<table id="tableP1" style="width: 100%">
+			<tr   
+
+			
+			class="header">
+			<th>#ID</th>
+			<th>Cognome</th>
+			<th>Nome</th>
+			<th>Ruolo</th>
+
+
+
+			</tr>
+
+			@foreach($Admin as $activity)
+
+
+			<tr>
+
+
+				<td allign="center">{{$activity->id_utente}}</td>
+				<td>{{$activity->Cognome}}</td>
+				<td>{{$activity->Nome}}</td>
+				<td>{{$activity->Ruolo}}</td>
+
+			</tr>
+			
+			@endforeach
+		</table>
+
+
+
+
+<br>
+		<h2>Attivita' registrate</h2>
+		<br> <input type="text" id="myInput2" onkeyup="myFunction2()" style="width: 100%"
+			placeholder="Ricerca per Tipologia..." title="Inserisci una tipologia">
+
+		<table id="tableP2" style="width: 100%">
+			<tr   
+
+			
+			class="header">
+			<th>#ID</th>
+			<th>#ID Utente</th>
+			<th>Inizio</th>
+			<th>Fine</th>
+			<th>Tipologia_attivita</th>
+			<th>Descrizione</th>
+			<th>Anomalie_riscontrate</th>
+
+
+			</tr>
+
+			@foreach($Activitys as $activity)
+
+
+			<tr>
+
+
+				<td allign="center">{{$activity->id_attivita}}</td>
+				<td>{{$activity->id_utente}}</td>
+				<td>{{$activity->Start_Period}}</td>
+				<td>{{$activity->End_Period}}</td>
+				<td>{{$activity->Tipologia_attivita}}</td>
+				<td>{{$activity->Descrizione}}</td>
+				<td>{{$activity->Anomalie_riscontrate}}</td>
+				
+
+			</tr>
+			
+			@endforeach
+		</table>
+
+
+
+
+
+
+
+
 	</div>
+	
+	
+	
+	
+	
+	
+	
+	
 </div>
 
 
+			<script>
+
+
+function myFunction1() {
+	  var input, filter, table, tr, td, i;
+	  input = document.getElementById("myInput1");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("tableP1");
+	  tr = table.getElementsByTagName("tr");
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("td")[1];
+	    if (td) {
+	      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	        tr[i].style.display = "";
+	      } else {
+	        tr[i].style.display = "none";
+	      }
+	    }       
+	  }
+	}
+
+
+function myFunction2() {
+		  var input, filter, table, tr, td, i;
+		  input = document.getElementById("myInput2");
+		  filter = input.value.toUpperCase();
+		  table = document.getElementById("tableP2");
+		  tr = table.getElementsByTagName("tr");
+		  for (i = 0; i < tr.length; i++) {
+		    td = tr[i].getElementsByTagName("td")[4];
+		    if (td) {
+		      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		        tr[i].style.display = "";
+		      } else {
+		        tr[i].style.display = "none";
+		      }
+		    }       
+		  }
+		}
+
+
+</script>
 
 
 

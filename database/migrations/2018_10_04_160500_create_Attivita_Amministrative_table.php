@@ -14,7 +14,7 @@ class CreateAttivitaAmministrativeTable extends Migration {
 	{
 		Schema::create('Attivita_Amministrative', function(Blueprint $table)
 		{
-			$table->integer('id_attivita')->increments();
+			$table->integer('id_attivita')->autoIncrement();
 			$table->integer('id_utente')->unsigned();
 			$table->date('Start_Period');
 			$table->date('End_Period')->nullable();

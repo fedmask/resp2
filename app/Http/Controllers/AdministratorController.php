@@ -36,8 +36,9 @@ class AdministratorController extends Controller {
 	public function indexAmministration() {
 		$current_user_id = Auth::user ()->id_utente;
 		$current_administrator = \App\Amministration::where ( 'id_utente', $current_user_id )->first ();
-		
+		$data ['Activitys'] = \App\AdminActivity::all();
 		$data ['current_administrator'] = $current_administrator;
+		$data['Admin'] = \App\Amministration::all();
 		return view ( 'pages.Administration.Administration_Administrator', $data );
 	}
 	public function addAuditLog(Request $request) {
