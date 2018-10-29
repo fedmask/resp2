@@ -12,7 +12,7 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
     DB::table('tbl_utenti_tipologie')->insert([
-      ['id_tipologia' => '118','tipologia_nome' => 'cpp','tipologia_descrizione' => 'Medico 118'],
+      ['id_tipologia' => '118','tipologia_nome' => '118','tipologia_descrizione' => 'Medico 118'],
       ['id_tipologia' => 'amm','tipologia_nome' => 'amm','tipologia_descrizione' => 'Amministratore'],
       ['id_tipologia' => 'ass','tipologia_nome' => 'ass','tipologia_descrizione' => 'Assistito'],
       ['id_tipologia' => 'aud','tipologia_nome' => 'cpp','tipologia_descrizione' => 'Audiometrista'],

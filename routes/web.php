@@ -156,6 +156,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/structures', 'CareProviderController@showStructures')->name('structures');
     
     Route::get('/fhirPatient', 'ResourceFHIRController@indexPatient');
+	
+	//Inizio Routes Emergency
+	Route::get('/search-patient', 'EmergencyController@showPatientSearch')->name('search-patient');
+
+    Route::get('/report-patient', 'EmergencyController@showPatientReport')->name('report-patient');
     
 });
     

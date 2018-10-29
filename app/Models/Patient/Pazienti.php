@@ -10,8 +10,7 @@ use App\Models\Patient\PazientiDescessi;
 use App\Models\CodificheFHIR\MaritalStatus;
 use App\Models\FHIR\PatientContact;
 use App\Models\CodificheFHIR\Language;
-
-
+use Carbon\Carbon;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -89,7 +88,7 @@ class Pazienti extends Eloquent {
 	}
 	
 	/**
-	 * Restituisce "false" se il paziente non è decesso, true altrimenti
+	 * Restituisce "false" se il paziente non ï¿½ decesso, true altrimenti
 	 */
 	public function getDeceased()
 	{
@@ -106,7 +105,7 @@ class Pazienti extends Eloquent {
 	}
 	
 	/**
-	 * Restituisce "true" se non è decesso ed attivo, "false" altrimenti
+	 * Restituisce "true" se non ï¿½ decesso ed attivo, "false" altrimenti
 	 */
 	public function isActive()
 	{
@@ -183,7 +182,14 @@ class Pazienti extends Eloquent {
 	    $data = date_format($this->paziente_nascita,"Y-m-d");
 	    return $data;
 	}
-	
+    /**
+     * Restituisce l'etÃ  del paziente
+     */
+    public function getAge()
+    {
+        return Carbon::parse($this->getBirth())->diffInYears(Carbon::now());
+    }
+
 	/**
 	 * Restituisce la via dell'indirizzo del paziente loggato
 	 */
@@ -192,7 +198,7 @@ class Pazienti extends Eloquent {
 	}
 	
 	/**
-	 * Restituisce la città dell'indirizzo del paziente loggato
+	 * Restituisce la cittï¿½ dell'indirizzo del paziente loggato
 	 */
 	public function getCity() {
 	    return $this->user ()->first ()->getLivingTown ();
@@ -272,10 +278,11 @@ class Pazienti extends Eloquent {
 	/**
 	 * END FHIR *
 	 */
-	
-	
-	
-	
+
+
+    public  function scopeLike($query, $field, $value){
+        return $query->where($field, 'LIKE', "%$value%");
+    }
 	
 	
 	
