@@ -18,7 +18,7 @@
     function today(){
         let today = new Date();
         let dd = today.getDate() < 10 ? '0'+today.getDate():today.getDate();
-        let mm = (today.getMonth()+1) < 10 ? '0'+today.getMonth():today.getMonth();
+        let mm = (today.getMonth()) < 10 ? today.getMonth()+1:today.getMonth()+1;
         let yyyy = today.getFullYear();
         let hh = today.getHours();
         let min = today.getMinutes() < 10 ? '0'+today.getMinutes():today.getMinutes();

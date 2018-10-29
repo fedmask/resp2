@@ -17,10 +17,10 @@ class AmministrationRoule extends Model
 	protected $dates = [
 	];
 	protected $fillable = [
-			'ruolo'
+			'Ruolo'
 	];
 	public function getRuolo() {
-		return $this->ruolo;
+		return $this->Ruolo;
 	}
 
 	public function Amministration()

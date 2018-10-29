@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Input;
 use DB;
+use Illuminate\Support\Facades\Validator;
+use Redirect;
 
 class AdministratorController extends Controller {
 	//
@@ -159,7 +161,7 @@ class AdministratorController extends Controller {
 				'address' => 'required|string|max:90',
 				'telephone' => 'required|numeric',
 				'Ruolo' => 'required|string|max:90',
-				'TypeData' => 'required|string|max:90' 
+				'TypeData' => 'required|string|max:200' 
 		
 		] );
 		
@@ -193,7 +195,7 @@ class AdministratorController extends Controller {
 				'Data_Nascita' => date ( 'Y-m-d', strtotime ( Input::get ( 'birthDate' ) ) ),
 				'Tipi_Dati_Trattati' => Input::get ( 'TypeData' ),
 				'Sesso' => Input::get ( 'gender' ),
-				'Indirizzo' => Input::get ( 'gender' ),
+				'Indirizzo' => Input::get ( 'address' ),
 				'Recapito_Telefonico' => Input::get ( 'telephone' ),
 				'Ruolo' => Input::get ( 'Ruolo' ) 
 		] );
@@ -299,7 +301,7 @@ class AdministratorController extends Controller {
 	 * a partire dal nome
 	 */
 	private function getTown($name) {
-		return Comuni::where ( 'comune_nominativo', '=', $name )->first ()->id_comune;
+		return 	\App\Models\Domicile\Comuni::where ( 'comune_nominativo', $name )->first ()->id_comune;
 	}
 	public function store(Request $request) {
 	}

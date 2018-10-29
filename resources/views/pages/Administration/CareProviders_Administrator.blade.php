@@ -226,7 +226,7 @@ th, td {
 			<br> <input type="text" id="myInput" onkeyup="myFunction()"
 				placeholder="Ricerca per Nome..." title="Inserisci un nome">
 			<div style="overflow-x: auto;">
-				<table id="myTable">
+				<table id="myTable" style="width: 100%;">
 					<tr style="font-size: 12" ; class="header">
 						<th style="width: 40%;">#ID</th>
 						<th style="width: 40%;">Nome e Cognome</th>
@@ -292,16 +292,16 @@ th, td {
 		<br>
 
 		<h2>Specializzazioni Care Provider</h2>
-		<input type="text" id="myInput1" onkeyup="myFunction1()"
+		<input type="text" id="myInput1" onkeyup="myFunction1()" style="width: 100%;"
 			placeholder="Ricerca per Nome..." title="Inserisci un nome">
 
 
-		<table id="myTable1" style="overflow-x: auto;>
+		<table id="myTable1" style="width: 100%;">
 			<tr  class="header">
-			<th style="width: 60%;">#ID</th>
-			<th style="width: 60%;">Nome e Cognome</th>
-			<th style="width: 60%;">Codice Specializzazione</th>
-			<th style="width: 60%;">Descrizione Specializzazione</th>
+			<th ">#ID</th>
+			<th >Nome e Cognome</th>
+			<th >Codice Specializzazione</th>
+			<th >Descrizione Specializzazione</th>
 
 			</tr>
 

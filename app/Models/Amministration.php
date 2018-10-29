@@ -26,10 +26,13 @@ class Amministration extends Model
 			'Nome',
 			'Cognome',
 			'Tipi_Dati_Trattati',
+			'Comune_Nascita',
+			'Comune_Residenza',
 			'Sesso',
 			'Data_Nascita',
 			'Indirizzo',
-			'Recapito_Telefonico' 
+			'Recapito_Telefonico' ,
+			'Ruolo'
 	];
 	public function getUtente() {
 		return $this->id_utente;

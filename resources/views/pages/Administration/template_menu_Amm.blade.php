@@ -5,6 +5,15 @@
 	href='https://use.fontawesome.com/releases/v5.4.1/css/all.css'
 	integrity='sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz'
 	crossorigin='anonymous'>
+
+
+
+<!-- Use scripts for Modal -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--PAGE CONTENT -->
 <div id="left">
 	<div class="media user-media well-small">
 		<a class="user-link" href="/home"> <!-- TODO: Aggiungere controllo se l'immagine del profilo è stata impostata -->
@@ -33,12 +42,15 @@
 	</div>
 	<ul id="menu" class="collapse">
 
+		@switch($current_administrator->Ruolo) 
+		
+		@case("Responsabile al Trattamento")
 
 		<li class="panel"><a href="/administration/ControlPanel"> <i
 				class='fas fa-tachometer-alt' style='font-size: 18px; color: blue'></i>
 				Pannello di Controllo
 		</a></li>
-		
+
 		<li class="panel"><a href="/administration/CareProviders"> <i
 				class='fas fa-file-medical' style='font-size: 18px; color: blue'></i>
 				Care Providers
@@ -47,11 +59,25 @@
 				class='fa fa-address-book' style='font-size: 18px; color: blue'></i>
 				Pazienti
 		</a></li>
-		
+
 		<li class="panel"><a href="/administration/Administrators"> <i
 				class='fa fa-pie-chart' style='font-size: 18px; color: blue'></i>
 				Gestione Amministratori
+		</a></li> @break @case("Amministratore_di_sistema")
+
+		<li class="panel"><a href="/administration/ControlPanel"> <i
+				class='fas fa-tachometer-alt' style='font-size: 18px; color: blue'></i>
+				Pannello di Controllo
 		</a></li>
+		<li class="panel"><a href="/administration/Administrators"> <i
+				class='fa fa-pie-chart' style='font-size: 18px; color: blue'></i>
+				Gestione Amministratori
+		</a></li> @break @case("Personale di Supporto")
+
+		<li class="panel"><a href="/administration/PatientsList"> <i
+				class='fa fa-address-book' style='font-size: 18px; color: blue'></i>
+				Pazienti
+		</a></li> @break @endswitch
 
 </div>
 <!--FINE ANAGRAFICA RIDOTTA-->
