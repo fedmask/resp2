@@ -3,6 +3,7 @@
 
 @section( 'pageTitle', 'Registrazione Paziente' )
 @section('register_content')
+@include('includes.Informative')
 	<!--REGISTER SECTION-->
 
 	<section id="register" class="register-section">
@@ -169,13 +170,13 @@
 							</div>
 
 							<div class="form-group">
-								<div class="col-lg-4">
+								<div class="col-lg-5">
 									</br>
 									</br>
 									</br>
 									</br>
 									</br>
-									<label for="profilePic" class="control-label">Carica una immagine per il tuo profilo.(Opzionale)</label>
+									<label for="profilePic" class="control-label">Carica una immagine per il tuo profilo. (OP)</label>
 								</div>
 
 								<div class="col-lg-4">
@@ -188,17 +189,18 @@
 							<p class="pull-right">(*) Campi obbligatori</p>
 						</fieldset>
 
-						<h3>Termini e condizioni</h3>
+						
 						<fieldset>
-							<article>
-								<center id="consensus"></center>
-							</article>
-
+						
+							
+							
+							
 							<div class="form-group">
-								<div class="col-lg-4">
-									<label for="acceptTerms">Accetto i termini e le condizioni.</label>
-									<input id="acceptTerms" name="acceptTerms" type="checkbox">
-									@if ($errors->has('acceptTerms'))
+								<div class="col-lg-6">
+								<input id="acceptInfo" name="acceptInfo" type="checkbox">
+									<label for="acceptInfoDoc">Ho letto <a href="/informative/Informativa.html" >l'Informativa relativa al Trattamento dei Dati Personali</a>.  </label>
+									
+									@if ($errors->has('acceptInfo'))
     									<div class="alert alert-danger" role="alert">{{ $errors->first('acceptTerms') }}</div>
 									@endif
 								</div>

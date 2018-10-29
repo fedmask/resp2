@@ -77,7 +77,7 @@ class RegisterController extends Controller
     protected function registerPatient(){
         $this->getBloodType(Input::get('bloodType'));
         $validator = Validator::make(Input::all(), [
-            'acceptTerms' => 'bail|accepted',
+            'acceptInfo' => 'bail|accepted',
             'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
             'name' => 'required|string|max:40',
             'surname' => 'required|string|max:40',
@@ -94,6 +94,7 @@ class RegisterController extends Controller
             'telephone' => 'required|numeric',
             'bloodType' => 'required',
             'maritalStatus' => 'required',
+        		 
         ]);
 
         if ($validator->fails()) {
@@ -197,7 +198,7 @@ class RegisterController extends Controller
 
     public function registerCareprovider(){
         $validator = Validator::make(Input::all(), [
-            'acceptTerms' => 'bail|accepted',
+        		'acceptInfo' => 'bail|accepted',
             'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
             'email' => 'required|string|email|max:50|unique:tbl_utenti,utente_email',
             'confirmEmail' => 'required|same:email',
