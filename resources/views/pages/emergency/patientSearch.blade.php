@@ -65,7 +65,7 @@
                             <table class="table table-striped table-bordered table-hover" id="dataTables-elencopaz">
                                 <thead>
                                 <tr>
-                                    <th>Registro</th>
+                                    <th>Report</th>
                                     <th>Cognome</th>
                                     <th>Nome</th>
                                     <th>Data di nascita</th>
