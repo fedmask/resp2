@@ -2,7 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;	
+
 use DB;
 
 class Amministration extends Model
@@ -18,6 +19,9 @@ class Amministration extends Model
 			'Comune_Residenza' => 'int' 
 	
 	];
+	
+
+
 	protected $dates = [ 
 			'Data_Nascita' 
 	];

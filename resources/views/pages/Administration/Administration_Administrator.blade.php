@@ -4,7 +4,7 @@
 
 
 
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 
 <div id="content">
@@ -302,9 +302,9 @@
 				<td>{{$activity->id_utente}}</td>
 				<td>{{$activity->Start_Period}}</td>
 				<td>{{$activity->End_Period}}</td>
-				<td>{{$activity->Tipologia_attivita}}</td>
-				<td>{{$activity->Descrizione}}</td>
-				<td>{{$activity->Anomalie_riscontrate}}</td>
+				<td> <?php echo $activity->Tipologia_attivita ?></td>
+				<td> <?php echo $activity->Descrizione ?> </td>
+				<td> <?php echo $activity->Anomalie_riscontrate ?> </td>
 				
 
 			</tr>

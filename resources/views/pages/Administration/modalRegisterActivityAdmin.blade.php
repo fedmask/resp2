@@ -1,7 +1,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
 /* The container*/
 .container {
@@ -285,21 +285,25 @@ style>* {
 
 
 						<div class="form-group">
-							{{ Form::label('DataStart', 'Data Inizio Operazione*')}} <br>{{Form::date('dateStart','',
-							['id'=>"add_data", 'name'=>"add_data", 'class' => 'form-control
-							col-lg-6'])}}<br> {{ Form::label('DataEnd', 'Data Fine
-							Operazione')}}<br> {{Form::date('DateEndD','', ['id'=>"add_data",
-							'name'=>"add_data", 'class' => 'form-control col-lg-6'])}} <br> <br>
+							{{ Form::label('DataStart', 'Data Inizio Operazione*')}} <br>
+							{{Form::date('date','',['id'=>"dateStart", 'name'=>"dateStart", 'class' => 'form-control col-lg-6'])}}<br> 
+							{{ Form::label('DataEnd', 'Data Fine Operazione')}}<br> 
+							{{Form::date('date','', ['id'=>"DateEndD",'name'=>"DateEndD", 'class' => 'form-control col-lg-6'])}} <br> <br>
 							<h5>
 								<b>Tipologia operazione*</b>
 							</h5>
 							{{ Form::text('Attivita', null, ['class' => 'form-control']) }}
-							{{ Form::label('Description', 'Descrizione')}} {{
-							Form::text('Descrizione', null, ['class' => 'form-control']) }}
-							{{Form::label('Anomalie', 'Anomalie Riscontrate')}} {{
-							Form::text('AnomalieR', null, ['class' => 'form-control']) }}
+							{{ Form::label('Description', 'Descrizione')}} 
+							{{Form::text('Descrizione', null, ['class' => 'form-control']) }}
+							{{Form::label('Anomalie', 'Anomalie Riscontrate')}} 
+							{{Form::text('AnomalieR', null, ['class' => 'form-control']) }}
 						</div>
 						<br> <b><p>I campi contrassegnati dal simbolo* sono obbligatori.</p></b>
+						
+						
+						@if ($errors->has('Attivita'))
+    									<div class="alert alert-danger" role="alert">{{ $errors->first('Attivita') }}</div>
+									@endif
 					</div>
 
 					<div class="modal-footer">

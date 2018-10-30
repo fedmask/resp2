@@ -203,6 +203,7 @@ return array(
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Specialization' => $baseDir . '/app/Models/Specialization.php',
+    'App\\Traits\\Encryptable' => $baseDir . '/app/Traits/Encryptable.php',
     'App\\TrattamentiCareProvider' => $baseDir . '/app/Models/TrattamentiCareProvider.php',
     'App\\TrattamentiPaziente' => $baseDir . '/app/Models/TrattamentiPaziente.php',
     'App\\VaccinazioniReaction' => $baseDir . '/app/Models/VaccinazioniReaction.php',

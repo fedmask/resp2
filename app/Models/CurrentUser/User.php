@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models\CurrentUser;
-
+use \App\Traits\Encryptable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
@@ -41,6 +41,7 @@ class User extends Authenticatable {
 	protected $hidden = [ 
 			'utente_password' 
 	];
+
 	protected $fillable = [ 
 			'id_tipologia',
 			'utente_nome',

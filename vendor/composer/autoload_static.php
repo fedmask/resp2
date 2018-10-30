@@ -578,6 +578,7 @@ class ComposerStaticInit5889db985653313b97973c50fe0cf956
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Specialization' => __DIR__ . '/../..' . '/app/Models/Specialization.php',
+        'App\\Traits\\Encryptable' => __DIR__ . '/../..' . '/app/Traits/Encryptable.php',
         'App\\TrattamentiCareProvider' => __DIR__ . '/../..' . '/app/Models/TrattamentiCareProvider.php',
         'App\\TrattamentiPaziente' => __DIR__ . '/../..' . '/app/Models/TrattamentiPaziente.php',
         'App\\VaccinazioniReaction' => __DIR__ . '/../..' . '/app/Models/VaccinazioniReaction.php',

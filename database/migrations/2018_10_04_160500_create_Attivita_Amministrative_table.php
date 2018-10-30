@@ -18,9 +18,9 @@ class CreateAttivitaAmministrativeTable extends Migration {
 			$table->integer('id_utente')->unsigned();
 			$table->date('Start_Period');
 			$table->date('End_Period')->nullable();
-			$table->char('Tipologia_attivita', 30);
-			$table->char('Descrizione', 30)->nullable();
-			$table->char('Anomalie_riscontrate', 30)->nullable();
+			$table->longText('Tipologia_attivita');
+			$table->longText('Descrizione')->nullable();
+			$table->longText('Anomalie_riscontrate')->nullable();
 		});
 	}
 

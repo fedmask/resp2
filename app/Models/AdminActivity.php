@@ -3,29 +3,39 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Encryptable;
 
 class AdminActivity extends Model {
+	
+	use Encryptable;
 	//
 	protected $table = 'Attivita_Amministrative';
 	protected $primaryKey = 'id_attivita';
 	public $timestamps = false;
 	protected $casts = [ 
 			'id_attivita' => 'int',
-			'id_amministratore' => 'int' 
+			'id_amministratore' => 'int' ,
 	
+	];
+	
+	protected $encryptable = [
+			'Tipologia_attivita',
+			'Descrizione',
+			'Anomalie_riscontrate',
+			
 	];
 	protected $dates = [ 
 			'Start_Period',
-			'End_Period' 
+			'End_Period' ,
 	];
 	protected $fillable = [ 
+			'Start_Period',
+			'End_Period' ,
 			'id_attivita',
 			'id_utente',
-			'Start_Period',
-			'End_Period',
 			'Tipologia_attivita',
 			'Descrizione',
-			'Anomalie_riscontrate' 
+			'Anomalie_riscontrate',
 	];
 	
 	
@@ -37,6 +47,7 @@ class AdminActivity extends Model {
 	public function admin() {
 		return $this->belongsTo ( \App\Amministration::class, 'id_utente' );
 	}
+	
 	
 	
 }

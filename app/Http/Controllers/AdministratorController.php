@@ -38,9 +38,9 @@ class AdministratorController extends Controller {
 	public function indexAmministration() {
 		$current_user_id = Auth::user ()->id_utente;
 		$current_administrator = \App\Amministration::where ( 'id_utente', $current_user_id )->first ();
-		$data ['Activitys'] = \App\AdminActivity::all();
+		$data ['Activitys'] = \App\AdminActivity::all ();
 		$data ['current_administrator'] = $current_administrator;
-		$data['Admin'] = \App\Amministration::all();
+		$data ['Admin'] = \App\Amministration::all ();
 		return view ( 'pages.Administration.Administration_Administrator', $data );
 	}
 	public function addAuditLog(Request $request) {
@@ -54,8 +54,6 @@ class AdministratorController extends Controller {
 		$log->save ();
 		
 		return $this->indexAmministration ();
-	}
-	public function create() {
 	}
 	public function getCareProviders() {
 		$CPs = \App\Models\CareProviders\CareProvider::all ();
@@ -82,15 +80,28 @@ class AdministratorController extends Controller {
 		return $CppArray;
 	}
 	public function createActivityAdmin(Request $request) {
+		/*
+		 * $validator = Validator::make ( Input::all (), [
+		 * 'Tipologia_attivita' => 'required',
+		 *
+		 * 'Start_Period' => 'required|date',
+		 * 'End_Period' => 'required|date'
+		 *
+		 * ] );
+		 *
+		 * if ($validator->fails ()) {
+		 * return Redirect::back ()->withErrors ( $validator )->withInput ();
+		 * }
+		 */
 		$Activity = \App\AdminActivity::create ( [ 
 				'id_utente' => Auth::user ()->id_utente,
 				'Start_Period' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'dateStart' ) ) ) ),
 				'End_Period' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'DateEndD' ) ) ) ),
-				'Tipologia_attivita' => Input::get ( 'Attivita' ),
-				'Descrizione' => Input::get ( 'Descrizione' ),
-				'Anomalie_riscontrate' => Input::get ( 'AnomalieR' ) 
+				'Tipologia_attivita' =>   Input::get ( 'Attivita' )  ,
+				'Descrizione' =>   Input::get ( 'Descrizione' )  ,
+				'Anomalie_riscontrate' =>   Input::get ( 'AnomalieR' )  
 		] );
-		
+	
 		$Activity->save ();
 		
 		return redirect ( '/administration/Administrators' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
@@ -301,27 +312,7 @@ class AdministratorController extends Controller {
 	 * a partire dal nome
 	 */
 	private function getTown($name) {
-		return 	\App\Models\Domicile\Comuni::where ( 'comune_nominativo', $name )->first ()->id_comune;
-	}
-	public function store(Request $request) {
-	}
-	public function show($id) {
-		//
-	}
-	public function edit($id) {
-		
-		//
-	}
-	
-	/**
-	 * - Update the specified resource in storage.
-	 *
-	 * - @param Request $request
-	 * - @param int $id
-	 * - @return Response
-	 */
-	public function update(Request $request, $id) {
-		//
+		return \App\Models\Domicile\Comuni::where ( 'comune_nominativo', $name )->first ()->id_comune;
 	}
 	
 	/**
