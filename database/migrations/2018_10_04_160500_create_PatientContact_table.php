@@ -16,10 +16,10 @@ class CreatePatientContactTable extends Migration {
 		{
 			$table->integer('Id_Patient')->unsigned()->nullable()->index('Id_Patient');
 			$table->char('Relationship', 3)->index('Relationship');
-			$table->char('Name', 30);
-			$table->char('Surname', 30);
-			$table->string('Telephone', 15)->nullable();
-			$table->string('Mail', 50)->nullable();
+			$table->longText('Name');
+			$table->longText('Surname');
+			$table->longText('Telephone')->nullable();
+			$table->longText('Mail')->nullable();
 		});
 	}
 

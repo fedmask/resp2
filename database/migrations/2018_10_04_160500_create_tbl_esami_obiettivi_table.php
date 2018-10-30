@@ -20,8 +20,8 @@ class CreateTblEsamiObiettiviTable extends Migration {
 			$table->integer('id_diagnosi');
 			$table->date('esame_data');
 			$table->date('esame_aggiornamento');
-			$table->string('esame_stato', 15)->nullable();
-			$table->string('esame_risultato', 15)->nullable();
+			$table->longText('esame_stato')->nullable();
+			$table->longText('esame_risultato', 15)->nullable();
 		});
 	}
 

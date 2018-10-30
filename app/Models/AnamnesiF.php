@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Encryptable;
 
 class AnamnesiF extends Model {
 	//
+	
+	use Encryptable;
 	protected $table = 'tbl_AnamnesiF';
 	protected $primaryKey = 'id_anamnesiF';
 	public $incrementing = true;
@@ -19,6 +22,10 @@ class AnamnesiF extends Model {
 	protected $dates = [ 
 			'data' 
 	
+	];
+	protected $encryptable = [ 
+			'descrizione',
+			
 	];
 	protected $fillable = [ 
 			'codice',
@@ -96,9 +103,6 @@ class AnamnesiF extends Model {
 	public function setData($Data) {
 		$this->data = $Data;
 	}
-	
-	
-	
 	public function tbl_Parente() {
 		return $this->belongTo ( \App\Models\Parente::class, 'id_parente' );
 	}

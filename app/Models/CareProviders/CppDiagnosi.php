@@ -8,6 +8,7 @@
 namespace App\Models\CareProviders;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Traits\Encryptable;
 
 /**
  * Class CppDiagnosi
@@ -28,10 +29,16 @@ class CppDiagnosi extends Eloquent
 	protected $primaryKey = 'id_diagnosi';
 	public $incrementing = false;
 	public $timestamps = false;
-
+	use Encryptable;
+	
 	protected $casts = [
 		'id_diagnosi' => 'int',
 		'id_cpp' => 'int'
+	];
+	
+	protected $encryptable = [
+			
+			'diagnosi_stato',
 	];
 
 	protected $fillable = [

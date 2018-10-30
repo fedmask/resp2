@@ -4,14 +4,15 @@
  * Created by Reliese Model.
  * Date: Mon, 25 Dec 2017 12:47:05 +0000.
  */
-
 namespace App\Models\InvestigationCenter;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Traits\Encryptable;
 use DateTime;
+
 /**
  * Class Indagini
- * 
+ *
  * @property int $id_indagine
  * @property int $id_centro_indagine
  * @property int $id_diagnosi
@@ -33,62 +34,54 @@ use DateTime;
  *
  * @package App\Models
  */
-class Indagini extends Eloquent
-{
+class Indagini extends Eloquent {
+	
+	use Encryptable;
 	protected $table = 'tbl_indagini';
 	protected $primaryKey = 'id_indagine';
 	public $incrementing = false;
 	public $timestamps = false;
-
-	protected $casts = [
-		'id_indagine' => 'int',
-		'id_centro_indagine' => 'int',
-		'id_diagnosi' => 'int',
-		'id_paziente' => 'int',
-	    'id_cpp' => 'int',
+	protected $casts = [ 
+			'id_indagine' => 'int',
+			'id_centro_indagine' => 'int',
+			'id_diagnosi' => 'int',
+			'id_paziente' => 'int',
+			'id_cpp' => 'int' 
 	];
-
-	protected $dates = [
-		'indagine_data',
-		'indagine_aggiornamento'
+	protected $dates = [ 
+			'indagine_data',
+			'indagine_aggiornamento' 
 	];
+	protected $encryptable = [ 
 
-	protected $fillable = [
-		'id_centro_indagine',
-		'id_diagnosi',
-		'id_paziente',
-	    'id_cpp',
-	    'careprovider',
-		'indagine_data',
-		'indagine_aggiornamento',
-		'indagine_stato',
-		'indagine_tipologia',
-		'indagine_motivo',
-		'indagine_referto',
-		'indagine_allegato'
+			'indagine_tipologia',
+			'indagine_motivo',
+			
 	];
-
-
-
-
-	public function tbl_centri_indagini()
-	{
-		return $this->belongsTo(\App\Models\InvestigationCenter\CentriIndagini::class, 'id_centro_indagine');
+	protected $fillable = [ 
+			'id_centro_indagine',
+			'id_diagnosi',
+			'id_paziente',
+			'id_cpp',
+			'careprovider',
+			'indagine_data',
+			'indagine_aggiornamento',
+			'indagine_stato',
+			'indagine_tipologia',
+			'indagine_motivo',
+			'indagine_referto',
+			'indagine_allegato' 
+	];
+	public function tbl_centri_indagini() {
+		return $this->belongsTo ( \App\Models\InvestigationCenter\CentriIndagini::class, 'id_centro_indagine' );
 	}
-
-	public function tbl_diagnosi()
-	{
-		return $this->belongsTo(\App\Models\Diagnosis\Diagnosi::class, 'id_diagnosi');
+	public function tbl_diagnosi() {
+		return $this->belongsTo ( \App\Models\Diagnosis\Diagnosi::class, 'id_diagnosi' );
 	}
-
-	public function tbl_pazienti()
-	{
-		return $this->belongsTo(\App\Models\Patient\Pazienti::class, 'id_paziente');
+	public function tbl_pazienti() {
+		return $this->belongsTo ( \App\Models\Patient\Pazienti::class, 'id_paziente' );
 	}
-	
-	public function tbl_care_provider()
-	{
-	    return $this->belongsTo(App\Models\CareProviders\CareProvider::class, 'id_cpp');
+	public function tbl_care_provider() {
+		return $this->belongsTo ( App\Models\CareProviders\CareProvider::class, 'id_cpp' );
 	}
-	
 }

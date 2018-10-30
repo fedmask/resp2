@@ -8,7 +8,7 @@
 namespace App\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+use App\Traits\Encryptable;
 /**
  * Class EffettiCollaterali
  * 
@@ -24,6 +24,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class EffettiCollaterali extends Eloquent
 {
+	
+	
+	use Encryptable;
+	
 	protected $table = 'tbl_effetti_collaterali';
 	protected $primaryKey = 'id_effetto_collaterale';
 	public $timestamps = false;
@@ -32,6 +36,9 @@ class EffettiCollaterali extends Eloquent
 		'id_paziente' => 'int',
 		'id_audit_log' => 'int'
 	];
+	
+	
+	protected $encryptable = ['effetto_collaterale_descrizione'];
 
 	protected $fillable = [
 		'id_paziente',

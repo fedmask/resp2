@@ -10,6 +10,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use App\Models\CodificheFHIR\Language;
 use App\Models\FHIR\CppQualification;
 use DB;
+use App\Traits\Encryptable;
 
 /**
  * Class CareProvider
@@ -35,6 +36,8 @@ use DB;
  * @package App\Models
  */
 class CareProvider extends Eloquent {
+	
+	use Encryptable;
 	protected $table = 'tbl_care_provider';
 	protected $primaryKey = 'id_cpp';
 	public $incrementing = false;
@@ -44,6 +47,12 @@ class CareProvider extends Eloquent {
 			'id_cpp_tipologia' => 'int',
 			'id_utente' => 'int',
 			'active' => 'bool' 
+	];
+	protected $encryptable = [ 
+			'cpp_nome',
+			'cpp_cognome',
+			'cpp_n_iscrizione',
+			
 	];
 	protected $dates = [ 
 			'cpp_nascita_data' 

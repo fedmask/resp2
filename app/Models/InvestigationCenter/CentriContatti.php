@@ -8,6 +8,7 @@
 namespace App\Models\InvestigationCenter;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Traits\Encryptable;
 
 /**
  * Class CentriContatti
@@ -24,6 +25,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class CentriContatti extends Eloquent
 {
+	
+	use Encryptable;
+	
 	protected $table = 'tbl_centri_contatti';
 	protected $primaryKey = 'id_contatto';
 	public $incrementing = false;
@@ -34,7 +38,7 @@ class CentriContatti extends Eloquent
 		'id_centro' => 'int',
 		'id_modalita_contatto' => 'int'
 	];
-
+	protected $encryptable = ['contatto_valore'];
 	protected $fillable = [
 		'id_centro',
 		'id_modalita_contatto',

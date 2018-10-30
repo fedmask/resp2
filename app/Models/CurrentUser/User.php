@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models\CurrentUser;
-use \App\Traits\Encryptable;
+use App\Traits\Encryptable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
@@ -24,6 +24,8 @@ use Auth;
 
 class User extends Authenticatable {
 	use Notifiable;
+	use Encryptable;
+	
 	protected $table = 'tbl_utenti';
 	protected $primaryKey = 'id_utente';
 	public $timestamps = false;
@@ -41,6 +43,9 @@ class User extends Authenticatable {
 	protected $hidden = [ 
 			'utente_password' 
 	];
+	protected $encryptable = [
+			'utente_nome',
+			'utente_email'];
 
 	protected $fillable = [ 
 			'id_tipologia',

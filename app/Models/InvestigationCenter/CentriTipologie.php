@@ -8,6 +8,7 @@
 namespace App\Models\InvestigationCenter;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Traits\Encryptable;
 
 /**
  * Class CentriTipologie
@@ -21,6 +22,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class CentriTipologie extends Eloquent
 {
+	
+	
+	use Encryptable;
+	
 	protected $table = 'tbl_centri_tipologie';
 	protected $primaryKey = 'id_centro_tipologia';
 	public $timestamps = false;
@@ -28,7 +33,7 @@ class CentriTipologie extends Eloquent
 	protected $fillable = [
 		'tipologia_nome'
 	];
-	
+	protected $encryptable = ['tipologia_nome'];
 	
 	public function getID(){
 	    return $this->$primaryKey;

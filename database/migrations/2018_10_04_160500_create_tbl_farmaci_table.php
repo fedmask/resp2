@@ -16,7 +16,7 @@ class CreateTblFarmaciTable extends Migration {
 		{
 			$table->string('id_farmaco', 8)->nullable()->index('fk_tbl_farmaci_tbl_farmaci_vietati_idx');
 			$table->string('id_categoria_farmaco', 6)->nullable()->index('fk_tbl_farmaci_tbl_farmaci_categorie1_idx');
-			$table->string('farmaco_nome', 50)->nullable();
+			$table->longText('farmaco_nome')->nullable();
 		});
 	}
 

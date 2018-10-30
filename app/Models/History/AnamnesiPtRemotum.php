@@ -8,7 +8,7 @@
 namespace App\Models\History;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+use App\Traits\Encryptable;
 /**
  * Class AnamnesiPtRemotum
  * 
@@ -21,6 +21,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class AnamnesiPtRemotum extends Eloquent
 {
+	
+	
+	
+	use Encryptable;
+	
 	protected $primaryKey = 'id_anamnesi_remota';
 	public $timestamps = false;
 
@@ -28,6 +33,9 @@ class AnamnesiPtRemotum extends Eloquent
 		'id_paziente' => 'int',
 		'id_anamnesi_log' => 'int'
 	];
+	
+	
+	protected $encryptable = ['anamnesi_remota_contenuto'];
 
 	protected $fillable = [
 		'id_paziente',

@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Encryptable;
 
 class Parente extends Model {
 	//
+	
+	use Encryptable;
 	protected $table = 'tbl_Parente';
 	protected $primaryKey = 'id_parente';
 	public $incrementing = true;
@@ -20,6 +23,12 @@ class Parente extends Model {
 			'data_nascita',
 			'data_decesso' 
 	
+	];
+	protected $encryptable = [ 
+			'descrizione',
+			'nome',
+			'cognome',
+			
 	];
 	protected $fillable = [ 
 			'descrizione',
@@ -62,7 +71,6 @@ class Parente extends Model {
 	}
 	
 	// Set Methods
-	
 	public function setCF($CF) {
 		$this->codice_fiscale = $CF;
 	}
@@ -90,14 +98,10 @@ class Parente extends Model {
 	public function setDataDecesso($DD) {
 		$this->data_decesso = $DD;
 	}
-	
-	public function tbl_Parente()
-	{
-		return $this->hasMany(\App\Models\AnamnesiF::class, 'id_parente');
+	public function tbl_Parente() {
+		return $this->hasMany ( \App\Models\AnamnesiF::class, 'id_parente' );
 	}
-	
-	public function	FamilyCondition()
-	{
-		return $this->hasOne(\App\Models\History\FamilyCondiction::class, 'id_parente');
+	public function FamilyCondition() {
+		return $this->hasOne ( \App\Models\History\FamilyCondiction::class, 'id_parente' );
 	}
 }

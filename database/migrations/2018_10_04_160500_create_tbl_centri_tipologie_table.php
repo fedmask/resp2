@@ -15,7 +15,7 @@ class CreateTblCentriTipologieTable extends Migration {
 		Schema::create('tbl_centri_tipologie', function(Blueprint $table)
 		{
 			$table->smallInteger('id_centro_tipologia')->index('fk_tbl_cpp_persona_tbl_centri_indagini1_idx');
-			$table->string('tipologia_nome', 60)->nullable();
+			$table->longText('tipologia_nome')->nullable();
 			$table->char('code_fhir', 6)->nullable()->default('other')->index('code_fhir');
 		});
 	}

@@ -122,7 +122,7 @@ class DatabaseSeeder extends Seeder
         $this->call ( RuoliAmministrativiSeeder::class );
         $this->call ( AmministrativeUserSeeder::class );
         
-        
+        $this->call ( AuditLogTest::class );
        
         
         

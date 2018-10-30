@@ -16,12 +16,12 @@ class CreateTblCareProviderTable extends Migration {
 		{
 			$table->increments('id_cpp');
 			$table->integer('id_utente')->unsigned()->index('id_utente');
-			$table->string('cpp_nome', 45)->nullable();
-			$table->string('cpp_cognome', 45)->nullable();
+			$table->longText('cpp_nome')->nullable();
+			$table->longText('cpp_cognome')->nullable();
 			$table->date('cpp_nascita_data');
 			$table->char('cpp_codfiscale', 16)->nullable()->unique('cpp_codfiscale_UNIQUE');
 			$table->char('cpp_sesso', 10)->index('cpp_sesso');
-			$table->string('cpp_n_iscrizione', 7)->nullable();
+			$table->longText('cpp_n_iscrizione')->nullable();
 			$table->string('cpp_localita_iscrizione', 50)->nullable();
 			$table->string('specializzation', 45)->nullable();
 			$table->string('cpp_lingua', 10)->nullable()->index('cpp_lingua');
