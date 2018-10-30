@@ -16,7 +16,7 @@ class AddForeignKeysToTblCentriIndaginiTable extends Migration {
 		{
 			$table->foreign('id_tipologia', 'fk_tbl_centri_indagini_tbl_centri_tipologie1_idx')->references('id_centro_tipologia')->on('tbl_centri_tipologie')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('id_comune', 'fk_tbl_centri_indagini_tbl_comuni1_idx')->references('id_comune')->on('tbl_comuni')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('id_ccp_persona', 'fk_tbl_centri_indagini_tbl_cpp_persona1_idx')->references('id_persona')->on('tbl_cpp_persona')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('id_ccp_persona', 'fk_tbl_centri_indagini_tbl_cpp_persona1_idx')->references('id_persona')->on('tbl_cpp_persona')->onUpdate('NO ACTION')->onDelete('cascade');
 		});
 	}
 

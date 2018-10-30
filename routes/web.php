@@ -198,7 +198,7 @@ Route ::post('/administration/ActivityCreate', 'AdministratorController@createAc
 Route ::post('/administration/AdminCreate', 'AdministratorController@addAdmin');
 Route:: post('/administration/AdminDelete', 'AdministratorController@destroy');
 
-
+Route::post( '/user/deleating', 'UserController@deleteUser' );
 
 /*
  * Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');

@@ -15,7 +15,7 @@ class CreateTblPazientiTable extends Migration {
 		Schema::create('tbl_pazienti', function(Blueprint $table)
 		{
 			$table->increments('id_paziente');
-			$table->integer('id_utente')->unsigned()->index('FOREIGN_UTENTE_idx');
+			$table->integer('id_utente')->unsigned()->index('FOREIGN_UTENTE_idx')->onDelete('cascade');
 			$table->string('id_stato_matrimoniale', 5)->index('id_stato_matrimoniale');
 			$table->longText('paziente_nome')->nullable();
 			$table->longText('paziente_cognome')->nullable();

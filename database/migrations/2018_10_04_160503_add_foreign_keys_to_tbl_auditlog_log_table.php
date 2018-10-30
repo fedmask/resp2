@@ -14,8 +14,8 @@ class AddForeignKeysToTblAuditlogLogTable extends Migration {
 	{
 		Schema::table('tbl_auditlog_log', function(Blueprint $table)
 		{
-			$table->foreign('id_visitante', 'fk_tbl_auditlog_log_tbl_utenti1_idx')->references('id_utente')->on('tbl_utenti')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('id_visitato', 'fk_tbl_auditlog_log_tbl_utenti2_idx')->references('id_utente')->on('tbl_utenti')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('id_visitante', 'fk_tbl_auditlog_log_tbl_utenti1_idx')->references('id_utente')->on('tbl_utenti')->onUpdate('NO ACTION')->onDelete('cascade');
+			$table->foreign('id_visitato', 'fk_tbl_auditlog_log_tbl_utenti2_idx')->references('id_utente')->on('tbl_utenti')->onUpdate('NO ACTION')->onDelete('cascade');
 		});
 	}
 

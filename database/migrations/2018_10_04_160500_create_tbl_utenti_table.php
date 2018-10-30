@@ -20,7 +20,7 @@ class CreateTblUtentiTable extends Migration {
 			$table->string('utente_password', 130)->nullable();
 			$table->boolean('utente_stato');
 			$table->date('utente_scadenza');
-			$table->string('utente_email', 100)->nullable()->unique('utente_email_UNIQUE');
+			$table->string('utente_email', 100)->nullable()->unique('utente_email_UNIQUE')->onDelete('cascade');
 			$table->string('utente_token_accesso', 60)->nullable();
 			$table->boolean('utente_dati_condivisione')->default(0);
 		});

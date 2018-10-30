@@ -14,7 +14,7 @@ class AddForeignKeysToTblCareProviderTable extends Migration {
 	{
 		Schema::table('tbl_care_provider', function(Blueprint $table)
 		{
-			$table->foreign('id_utente', 'tbl_care_provider_ibfk_1')->references('id_utente')->on('tbl_utenti')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('id_utente', 'tbl_care_provider_ibfk_1')->references('id_utente')->on('tbl_utenti')->onUpdate('NO ACTION')->onDelete('cascade');
 			$table->foreign('cpp_lingua', 'tbl_care_provider_ibfk_2')->references('Code')->on('Languages')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('cpp_sesso', 'tbl_care_provider_ibfk_3')->references('Code')->on('Gender')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 		});
