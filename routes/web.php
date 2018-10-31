@@ -148,7 +148,7 @@ Route::group ( [
 	
 	Route::get ( '/files', 'PazienteController@showFiles' )->name ( 'files' );
 	
-	Route::get ( '/visits', 'PazienteController@showVisits' )->name ( 'visite' );
+	Route::get ( '/visits', 'PazienteController@showVisits' )->name ( 'visite' )->middleware('consent:3');
 	
 	Route::get ( '/diagnosi', 'PazienteController@showDiagnosi' )->name ( 'diagnosi' );
 	
@@ -171,6 +171,38 @@ Route::group ( [
 	Route::get ( '/PrivacyPolicy', function () {
 		return view ( 'includes.template_PrivacyPolicy' );
 	} );
+	
+	
+		/**
+		 * Route per la gestione della sezione Amministratori
+		 */
+		Route::get( '/administration/ControlPanel', 'AdministratorController@indexControlPanel' )->name('amm');
+		
+		
+		Route::get( '/administration/CareProviders', 'AdministratorController@indexCareProviders' );
+		
+		Route::post ( '/administration/CareProviders/Update', 'AdministratorController@updateCppStatus');
+		Route::get( '/administration/PatientsList', 'AdministratorController@getPatients' );
+		
+		Route ::post('/administration/PatientsList/Active', 'AdministratorController@updatePStatus');
+		
+		Route::get( '/administration/Administrators', 'AdministratorController@indexAmministration' );
+		
+		Route ::post('/administration/SA', 'AdministratorController@addAuditLog');
+		
+		Route ::post('/administration/ActivityCreate', 'AdministratorController@createActivityAdmin');
+		Route ::post('/administration/AdminCreate', 'AdministratorController@addAdmin');
+		Route:: post('/administration/AdminDelete', 'AdministratorController@destroy');
+		
+		Route::post( '/user/deleating', 'UserController@deleteUser' );
+		
+		
+		Route::get( '/administration/Trattamenti', 'AdministratorController@indexTrattamenti' );
+		
+		Route::post( '/administration/updateTrattamentiP', 'AdministratorController@updateTrattamentiP' );
+		Route::post( '/administration/updateTrattamentiCP', 'AdministratorController@updateTrattamentiCP' );
+		
+	
 } );
 
 Route::get ( '/cookies_s', function () {
@@ -179,32 +211,6 @@ Route::get ( '/cookies_s', function () {
 
 
 Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' );
-
-Route::get( '/administration/ControlPanel', 'AdministratorController@indexControlPanel' )->name('amm');
-
-
-Route::get( '/administration/CareProviders', 'AdministratorController@indexCareProviders' );
-
-Route::post ( '/administration/CareProviders/Update', 'AdministratorController@updateCppStatus');
-Route::get( '/administration/PatientsList', 'AdministratorController@getPatients' );
-
-Route ::post('/administration/PatientsList/Active', 'AdministratorController@updatePStatus');
-
-Route::get( '/administration/Administrators', 'AdministratorController@indexAmministration' );
-
-Route ::post('/administration/SA', 'AdministratorController@addAuditLog');
-
-Route ::post('/administration/ActivityCreate', 'AdministratorController@createActivityAdmin');
-Route ::post('/administration/AdminCreate', 'AdministratorController@addAdmin');
-Route:: post('/administration/AdminDelete', 'AdministratorController@destroy');
-
-Route::post( '/user/deleating', 'UserController@deleteUser' );
-
-
-Route::get( '/administration/Trattamenti', 'AdministratorController@indexTrattamenti' );
-
-Route::post( '/administration/updateTrattamentiP', 'AdministratorController@updateTrattamentiP' );
-Route::post( '/administration/updateTrattamentiCP', 'AdministratorController@updateTrattamentiCP' );
 /*
  * Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');
  *
