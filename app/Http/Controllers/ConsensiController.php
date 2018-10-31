@@ -64,7 +64,7 @@ class ConsensiController extends Controller {
 				\App\ConsensoPaziente::firstOrcreate ( [ 
 						'Id_Trattamento' => $TR->Id_Trattamento],
 						['Id_Paziente' => $PazienteAuth,
-						'Consenso' => false,
+								'Consenso' => ($TR->Id_Trattamento == 1 ?  true : false),
 						'data_consenso' => now () 
 				] )->save ();
 			}

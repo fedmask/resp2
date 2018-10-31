@@ -43,6 +43,70 @@ class AdministratorController extends Controller {
 		$data ['Admin'] = \App\Amministration::all ();
 		return view ( 'pages.Administration.Administration_Administrator', $data );
 	}
+	public function indexTrattamenti() {
+		$current_user_id = Auth::user ()->id_utente;
+		$current_administrator = \App\Amministration::where ( 'id_utente', $current_user_id )->first ();
+		
+		$data = array ();
+		
+		$data ['current_administrator'] = $current_administrator;
+		$data ['TrattamentiP'] = \App\TrattamentiPaziente::all ();
+		$data ['TrattamentiCP'] = \App\TrattamentiCareProvider::all ();
+		
+		return view ( 'pages.Administration.TrattamentiAdmin', $data );
+	}
+	public function updateTrattamentiP(Request $request) {
+		$Trattamenti = \App\TrattamentiPaziente::all ();
+		foreach ( $Trattamenti as $Tr ) {
+			
+			\App\TrattamentiPaziente::where ( "Id_Trattamento", Input::get ( "TrattamentoID" . $Tr->getId () ) )->update ( [ 
+					'Nome_T' => Input::get ( "Nome_T" . $Tr->getId () ),
+					
+					'Finalita_T' => Input::get ( "Finalita_T" . $Tr->getId () ) 
+			
+			] );
+			
+			try {
+				\App\TrattamentiPaziente::where ( "Id_Trattamento", Input::get ( "TrattamentoID" . $Tr->getId () ) )->update ( [ 
+						'Informativa' => Input::get ("Informativa_T" . $Tr->getId () ) 
+				] );
+			} catch ( \Exception $e ) {
+			}
+			
+			$Tr->save ();
+		}
+		
+		return redirect ( '/administration/Trattamenti' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
+		
+	}
+	
+	public function updateTrattamentiCP(Request $request) {
+		$Trattamenti = \App\TrattamentiCareProvider::all ();
+		foreach ( $Trattamenti as $Tr ) {
+			
+			\App\TrattamentiCareProvider::where ( "Id_Trattamento", Input::get ( "TrattamentoIDCP" . $Tr->getId () ) )->update ( [
+					'Nome_T' => Input::get ( "Nome_TCP" . $Tr->getId () ),
+					
+					'Finalita_T' => Input::get ( "Finalita_TCP" . $Tr->getId () )
+					
+			] );
+			
+			try {
+				\App\TrattamentiCareProvider::where ( "Id_Trattamento", Input::get ( "TrattamentoIDCP" . $Tr->getId () ) )->update ( [
+						'Informativa' => Input::get ("Informativa_TCP" . $Tr->getId () )
+				] );
+			} catch ( \Exception $e ) {
+			}
+			
+			$Tr->save ();
+		}
+		
+		return redirect ( '/administration/Trattamenti' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
+		
+	}
+	
+	
+	
 	public function addAuditLog(Request $request) {
 		$log = \App\Models\Log\AuditlogLog::create ( [ 
 				'audit_nome' => Input::get ( 'Descrizione' ),
@@ -97,11 +161,11 @@ class AdministratorController extends Controller {
 				'id_utente' => Auth::user ()->id_utente,
 				'Start_Period' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'dateStart' ) ) ) ),
 				'End_Period' => date ( 'Y-m-d', strtotime ( str_replace ( '/', '-', Input::get ( 'DateEndD' ) ) ) ),
-				'Tipologia_attivita' =>   Input::get ( 'Attivita' )  ,
-				'Descrizione' =>   Input::get ( 'Descrizione' )  ,
-				'Anomalie_riscontrate' =>   Input::get ( 'AnomalieR' )  
+				'Tipologia_attivita' => Input::get ( 'Attivita' ),
+				'Descrizione' => Input::get ( 'Descrizione' ),
+				'Anomalie_riscontrate' => Input::get ( 'AnomalieR' ) 
 		] );
-	
+		
 		$Activity->save ();
 		
 		return redirect ( '/administration/Administrators' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );

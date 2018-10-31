@@ -37,6 +37,8 @@
 				<span> {{Auth::user()->getAge($time)}} </span></li>
 			<li><strong>Telefono</strong>:
 				{{$current_administrator->getRecapito()}}</li>
+				<li><strong>Ruolo</strong>:
+				{{$current_administrator->Ruolo}}</li>
 		</ul>
 
 	</div>
@@ -63,7 +65,16 @@
 		<li class="panel"><a href="/administration/Administrators"> <i
 				class='fa fa-pie-chart' style='font-size: 18px; color: blue'></i>
 				Gestione Amministratori
-		</a></li> @break @case("Amministratore_di_sistema")
+		</a></li>
+		
+		<li class="panel"><a href="/administration/Trattamenti"> <i
+				class='fas fa-file-signature' style='font-size: 18px; color: blue'></i>
+				Gestione Trattamenti
+		</a></li>
+		
+		
+		
+		 @break @case("Amministratore_di_sistema")
 
 		<li class="panel"><a href="/administration/ControlPanel"> <i
 				class='fas fa-tachometer-alt' style='font-size: 18px; color: blue'></i>
@@ -77,7 +88,21 @@
 		<li class="panel"><a href="/administration/PatientsList"> <i
 				class='fa fa-address-book' style='font-size: 18px; color: blue'></i>
 				Pazienti
-		</a></li> @break @endswitch
+		</a></li> @break 
+		
+		@case("DPO")
+		
+		
+		<li class="panel"><a href="/administration/Trattamenti"> <i
+				class='fa fa-pie-chart' style='font-size: 18px; color: blue'></i>
+				Gestione Trattamenti
+		</a></li>
+		
+		
+		@break
+		
+		
+		@endswitch
 
 </div>
 <!--FINE ANAGRAFICA RIDOTTA-->

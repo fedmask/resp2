@@ -200,6 +200,11 @@ Route:: post('/administration/AdminDelete', 'AdministratorController@destroy');
 
 Route::post( '/user/deleating', 'UserController@deleteUser' );
 
+
+Route::get( '/administration/Trattamenti', 'AdministratorController@indexTrattamenti' );
+
+Route::post( '/administration/updateTrattamentiP', 'AdministratorController@updateTrattamentiP' );
+Route::post( '/administration/updateTrattamentiCP', 'AdministratorController@updateTrattamentiCP' );
 /*
  * Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');
  *

@@ -149,20 +149,18 @@
 							@if($LC['Consenso'] === 0)
 							<td><label class="container">Nego il consenso <input type="radio"
 									checked="checked" name="{{'check'.$LC->getID_Trattamento()}}"
-									value="nego"> <span class="checkmark"></span>
+									value="nego" @if($LC->getID_Trattamento() == 1 ) disabled @endif > <span class="checkmark"></span>
 							</label> <label class="container">Acconsento <input type="radio"
-									name="{{'check'.$LC->getID_Trattamento()}}" value="acconsento">
+									name="{{'check'.$LC->getID_Trattamento()}}" value="acconsento" @if($LC->getID_Trattamento() == 1 ) disabled @endif>
 									<span class="checkmark"></span>
 							</label></td> @else
 							<td><label class="container">Nego il consenso <input type="radio"
-									name="{{'check'.$LC->getID_Trattamento()}}" value="nego"> <span
+									name="{{'check'.$LC->getID_Trattamento()}}" value="nego" @if($LC->getID_Trattamento() == 1 ) disabled @endif> <span
 									class="checkmark"></span>
 							</label> <label class="container">Acconsento <input type="radio"
 									checked="checked" name="{{'check'.$LC->getID_Trattamento()}}"
-									value="acconsento"> <span class="checkmark"></span>
+									value="acconsento" @if($LC->getID_Trattamento() == 1 ) disabled @endif> <span class="checkmark"></span>
 							</label></td> @endif
-
-
 
 						</tr>
 
@@ -192,7 +190,7 @@
 										@if($LC->getID_Trattamento()==6)
 										<iframe src="/informative/donazioneorgani.html"
 											class="col-lg-12" height="500"> </iframe>
-										@else{
+										@else
 										<p>{{$LC->getTrattamentoInformativa()}}</p>
 										@endif
 									</div>

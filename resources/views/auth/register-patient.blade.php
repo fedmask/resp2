@@ -205,6 +205,19 @@
 									@endif
 								</div>
 							</div>
+							
+							
+							
+							<div class="form-group">
+								<div class="col-lg-6">
+								<input id="acceptCons" name="acceptCons" type="checkbox">
+									<label for="acceptConsoCh">Acconsento alla "Consultazione" dei miei dati sanitari all'operatore sanitario associatomi. </label>
+									
+									@if ($errors->has('acceptCons'))
+    									<div class="alert alert-danger" role="alert">{{ $errors->first('acceptTerms') }}</div>
+									@endif
+								</div>
+							</div>
 						</fieldset>
 						{{ Form::submit('Registrazione', array('class' => 'btn btn-large btn-primary center')) }}
 					{{ Form::close() }}
