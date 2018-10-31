@@ -27,6 +27,11 @@ class AdministratorController extends Controller {
 		$data ['LogsArray'] = $this->getAuditLogs ();
 		return view ( 'pages.Administration.ControlPanel_Administrator', $data );
 	}
+	
+	/**
+	 * 
+	 * @return unknown
+	 */
 	public function indexCareProviders() {
 		$current_user_id = Auth::user ()->id_utente;
 		$current_administrator = \App\Amministration::where ( 'id_utente', $current_user_id )->first ();
@@ -35,6 +40,11 @@ class AdministratorController extends Controller {
 		$data ['CppArray'] = $this->getCareProviders ();
 		return view ( 'pages.Administration.CareProviders_Administrator', $data );
 	}
+	
+	/**
+	 * 
+	 * @return unknown
+	 */
 	public function indexAmministration() {
 		$current_user_id = Auth::user ()->id_utente;
 		$current_administrator = \App\Amministration::where ( 'id_utente', $current_user_id )->first ();
@@ -43,6 +53,11 @@ class AdministratorController extends Controller {
 		$data ['Admin'] = \App\Amministration::all ();
 		return view ( 'pages.Administration.Administration_Administrator', $data );
 	}
+	
+	/**
+	 * 
+	 * @return unknown
+	 */
 	public function indexTrattamenti() {
 		$current_user_id = Auth::user ()->id_utente;
 		$current_administrator = \App\Amministration::where ( 'id_utente', $current_user_id )->first ();
@@ -55,6 +70,13 @@ class AdministratorController extends Controller {
 		
 		return view ( 'pages.Administration.TrattamentiAdmin', $data );
 	}
+	
+	
+	/**
+	 * Metodo per l'aggiornamento deii Trattamenti dei Pazienti
+	 * @param Request $request
+	 * @return unknown
+	 */
 	public function updateTrattamentiP(Request $request) {
 		$Trattamenti = \App\TrattamentiPaziente::all ();
 		foreach ( $Trattamenti as $Tr ) {
@@ -80,6 +102,12 @@ class AdministratorController extends Controller {
 		
 	}
 	
+	
+	/**
+	 * Metodo per l'aggiornamento dei Trattamenti dei Care Provider
+	 * @param Request $request
+	 * @return unknown
+	 */
 	public function updateTrattamentiCP(Request $request) {
 		$Trattamenti = \App\TrattamentiCareProvider::all ();
 		foreach ( $Trattamenti as $Tr ) {
@@ -106,7 +134,11 @@ class AdministratorController extends Controller {
 	}
 	
 	
-	
+	/**
+	 * Metodo per l'aggiunta di una nuova operazione di Log
+	 * @param Request $request
+	 * @return unknown
+	 */
 	public function addAuditLog(Request $request) {
 		$log = \App\Models\Log\AuditlogLog::create ( [ 
 				'audit_nome' => Input::get ( 'Descrizione' ),
@@ -119,6 +151,12 @@ class AdministratorController extends Controller {
 		
 		return $this->indexAmministration ();
 	}
+	
+	
+	/**
+	 * Metodo che restituisce i Care Providers
+	 * @return NULL[][]
+	 */
 	public function getCareProviders() {
 		$CPs = \App\Models\CareProviders\CareProvider::all ();
 		$CppArray = array ();
@@ -143,6 +181,13 @@ class AdministratorController extends Controller {
 		
 		return $CppArray;
 	}
+	
+	
+	/**
+	 * Metodo per la creazione di un'attività di admin
+	 * @param Request $request
+	 * @return unknown
+	 */
 	public function createActivityAdmin(Request $request) {
 		/*
 		 * $validator = Validator::make ( Input::all (), [
@@ -170,6 +215,13 @@ class AdministratorController extends Controller {
 		
 		return redirect ( '/administration/Administrators' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
 	}
+	
+	
+	/**
+	 * Metodo per l'aggiornamento dello Status di un Cpp
+	 * @param Request $request
+	 * @return unknown
+	 */
 	public function updateCppStatus(Request $request) {
 		$CPs = \App\Models\CareProviders\CareProvider::all ();
 		foreach ( $CPs as $CP ) {
@@ -188,6 +240,13 @@ class AdministratorController extends Controller {
 		
 		return redirect ( '/administration/CareProviders' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
 	}
+	
+	
+	/**
+	 * Metodo per la ricerca di un Care Provider
+	 * @param unknown $nome
+	 * @return NULL[]|NULL
+	 */
 	public function searchCP($nome) {
 		try {
 			$CPs = \App\Models\CareProviders\CareProvider::where ( 'cpp_nome', $nome )->get ();
@@ -208,6 +267,12 @@ class AdministratorController extends Controller {
 			return null;
 		}
 	}
+	
+	/**
+	 * Metodo per l'aggironamenot dello Status di un Paziente 
+	 * @param Request $request
+	 * @return unknown|NULL
+	 */
 	public function updatePStatus(Request $request) {
 		$this->buildLog ( 'Modifica dello status', $request->ip (), Input::get ( 'Id_Paziente' ) );
 		
@@ -220,6 +285,12 @@ class AdministratorController extends Controller {
 		}
 		return null;
 	}
+	
+	/**
+	 * Aggiunge un amministratore 
+	 * @param Request $request
+	 * @return unknown
+	 */
 	public function addAdmin(Request $request) {
 		$validator = Validator::make ( Input::all (), [ 
 				'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
@@ -281,6 +352,12 @@ class AdministratorController extends Controller {
 		
 		return redirect ( '/administration/Administrators' );
 	}
+	
+	/**
+	 * Restituisce i Pazienti 
+	 * @param Request $request
+	 * @return unknown
+	 */
 	public function getPatients(Request $request) {
 		$this->buildLog ( 'Patient summary', $request->ip (), $id_visiting = Auth::user ()->id_utente );
 		$Patients = \App\Models\Patient\Pazienti::all ();
@@ -293,6 +370,15 @@ class AdministratorController extends Controller {
 				'patients18' => $Patients18 
 		] );
 	}
+	
+	
+	/**
+	 * Ottiene i file per un paziente minore
+	 * @param unknown $file_id
+	 * @param unknown $paziente_id
+	 * @param Request $request
+	 * @return unknown
+	 */
 	public static function getFile($file_id, $paziente_id, Request $request) {
 		$this->buildLog ( 'Files', $request->ip (), $paziente_id );
 		
@@ -303,6 +389,11 @@ class AdministratorController extends Controller {
 		
 		return storage_path ( $path_file );
 	}
+	
+	/**
+	 * Ottiene i Pazienti con età inferiore ad 18
+	 * @return array
+	 */
 	public function getPatientUnder18() {
 		$Patients = \App\Models\Patient\Pazienti::all ();
 		$Patients18 = array ();
@@ -338,6 +429,13 @@ class AdministratorController extends Controller {
 	 * @param unknown $CP        	
 	 * @return string
 	 */
+	
+	/**
+	 * 
+	 * Metodo privato per l'ottenimento delle Specializzazioni di un CP
+	 * @param unknown $CP
+	 * @return string
+	 */
 	private function getSpecializationsCPString($CP) {
 		$specializzations = $CP->getQualifications ();
 		
@@ -350,6 +448,12 @@ class AdministratorController extends Controller {
 		}
 		return $SpecializationString;
 	}
+	
+	
+	/**
+	 * Restituisce i dati di Log
+	 * @return NULL[][]
+	 */
 	public function getAuditLogs() {
 		$Logs = \App\Models\Log\AuditlogLog::all ();
 		
