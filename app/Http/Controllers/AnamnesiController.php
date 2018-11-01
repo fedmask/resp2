@@ -135,7 +135,6 @@ class AnamnesiController extends Controller
 
             $fisiologica = new AnamnesiFisiologica;
             $fisiologica->id_paziente = $userid;
-            $fisiologica->id_anamnesi_log = 123;
             $fisiologica->dataAggiornamento = Carbon::now();
             $fisiologica->save();
         }
@@ -144,14 +143,12 @@ class AnamnesiController extends Controller
 
             $remota = new AnamnesiPtRemotum;
             $remota->id_paziente = $userid;
-            $remota->id_anamnesi_log = 123;
             $remota->save();
         }
         if($anamnesiPatologicaProssima == null){
 
             $prossima = new AnamnesiPtProssima;
             $prossima->id_paziente = $userid;
-            $prossima->id_anamnesi_log = 123;
             $prossima->save();
         }
     }
@@ -201,7 +198,6 @@ class AnamnesiController extends Controller
         //Create Anamensi
         $anamnesi = new Anamnesi;
         $anamnesi->id_paziente = $userid;
-        $anamnesi->id_anamnesi_log = 123;
         $anamnesi->anamnesi_contenuto = $request->input('testofam');
         $anamnesi->save();
 
@@ -237,7 +233,6 @@ class AnamnesiController extends Controller
 
         $fisiologica = new AnamnesiFisiologica;
         $fisiologica->id_paziente = $userid;
-        $fisiologica->id_anamnesi_log = 123;
         $fisiologica->dataAggiornamento = Carbon::now();
 
         //Infanzia
@@ -315,7 +310,6 @@ class AnamnesiController extends Controller
         //Create Anamensi
         $anamnesi = new AnamnesiPtRemotum;
         $anamnesi->id_paziente = $userid;
-        $anamnesi->id_anamnesi_log = 123;
         $anamnesi->anamnesi_remota_contenuto = $request->input('testopat');
         $anamnesi->icd9_group_code = $oldanamPtRemota;
         $anamnesi->save();
@@ -333,7 +327,6 @@ class AnamnesiController extends Controller
 
         $anamnesiPtRemota = new AnamnesiPtRemotum;
         $anamnesiPtRemota->id_paziente = $userid;
-        $anamnesiPtRemota->id_anamnesi_log = 123;
         $anamnesiPtRemota->anamnesi_remota_contenuto = $oldanamPtRemota;
 
 
@@ -361,7 +354,6 @@ class AnamnesiController extends Controller
         //Create Anamensi
         $anamnesi = new AnamnesiPtProssima();
         $anamnesi->id_paziente = $userid;
-        $anamnesi->id_anamnesi_log = 123;
         $anamnesi->anamnesi_prossima_contenuto = $request->input('testopatpp');
         $anamnesi->icd9_group_code = $oldanamPtRemota;
         $anamnesi->save();
@@ -379,7 +371,6 @@ class AnamnesiController extends Controller
 
         $anamnesiPtProssima = new AnamnesiPtProssima;
         $anamnesiPtProssima->id_paziente = $userid;
-        $anamnesiPtProssima->id_anamnesi_log = 123;
         $anamnesiPtProssima->anamnesi_prossima_contenuto = $oldanamPtProssima;
 
         if($request->get('icd9groupcode') != null){
@@ -408,7 +399,6 @@ class AnamnesiController extends Controller
 
         $anamnesiPtRemota = new AnamnesiPtRemotum;
         $anamnesiPtRemota->id_paziente = $userid;
-        $anamnesiPtRemota->id_anamnesi_log = 123;
 
         if ($request->input('testoSposta') != null) {
             $anamnesiPtRemota->anamnesi_remota_contenuto = $oldanamPtRemota_cont . ', ' . $request->input('testoSposta');
@@ -442,7 +432,6 @@ class AnamnesiController extends Controller
         if($newanamPtProssima_icd9 != " "){
             $anamPtProssima = new AnamnesiPtProssima;
             $anamPtProssima->id_paziente = $userid;
-            $anamPtProssima->id_anamnesi_log = 123;
             $anamPtProssima->icd9_group_code = $newanamPtProssima_icd9;
             $anamPtProssima->save();
         }

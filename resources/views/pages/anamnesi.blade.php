@@ -96,8 +96,8 @@
                                 </div>
                             </div>
                         </div>
-                    </form><!--CHIUSURA ANAMNESI FAMILIARE-->
-                </div>
+                    </form>
+                </div><!--CHIUSURA ANAMNESI FAMILIARE-->
 
                 <!-- TABELLA RELATIVA ALL'ANAMNESI FISIOLOGICA -->
                 <div class="col-6">
@@ -139,7 +139,7 @@
 
                         </div>
                     </form>
-                </div>
+                </div><!--CHIUSURA ANAMNESI FISIOLOGICA-->
                 <!--inner-->
 
             </div><!--content-->
@@ -211,7 +211,7 @@
                             </div><!--panel warning-->
                         </div><!--col-md-6-->
                     </form>
-                </div>
+                </div><!--CHIUSURA ANAMNESI PATOLOGICA REMOTA-->
 
                 <!-- TABELLA RELATIVA ALL'ANAMNESI PATOLOGICA PROSSIMA-->
                 <div class="col-6">
@@ -290,16 +290,15 @@
                             </div> <!--panel danger-->
                         </div>
                     </form><!--col-md-6 patologica prossima-->
-                </div>
+                </div><!--CHIUSURA ANAMNESI PATOLOGICA PROSSIMA-->
             </div> <!--row-prossima e remota--->
+
+
+
 
             <!-- MODAL PER LE ANAMNESI-->
 
-            <!--ANAMNESI FAMILIARE-->
-
-
             <!-- MODAL per l'inserimento di una anamnesi familiare -->
-
             <div class="modal fade" id="table_add_anamnesifam" tabindex="-1" role="dialog"
                  aria-labelledby="myModalLabel"
                  aria-hidden="true">
@@ -355,7 +354,6 @@
                                 </div>
                             </div>
 
-
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="control-label col-lg-4">Anni:</label>
@@ -392,9 +390,9 @@
 
                     </div>
                 </div>
-            </div>
+            </div><!-- chiusura modal per l'aggiunta della nuova anamnesi -->
 
-            <!-- chiusura modal per l'aggiunta della nuova anamnesi -->
+
 
             <!-- modal per l'aggiornamento delle anamnesi familiari -->
             <div class="modal fade" id="table_update_anamnesifam" tabindex="-1" role="dialog"
@@ -573,8 +571,7 @@
                         </div>
                     </div>
                 </form>
-        @endforeach
-        <!-- chiusura modal per l'aggiornamento delle anamnesi familiari -->
+        @endforeach <!-- chiusura modal per l'aggiornamento delle anamnesi familiari -->
 
 
 
@@ -1628,8 +1625,7 @@
                 </div>
             </div>
             </form>
-            @endforeach
-            <!--CHIUSURA MODAL EDIT GRAVIDANZE-->
+            @endforeach <!--CHIUSURA MODAL EDIT GRAVIDANZE-->
 
             <!--MODAL DELETE GRAVIDANZE-->
             @foreach($gravidanza as $g)
@@ -1659,8 +1655,7 @@
                     </div>
                 </div>
             </form>
-            @endforeach
-            <!--CHIUSURA MODAL DELETE GRAVIDANZE-->
+            @endforeach <!--CHIUSURA MODAL DELETE GRAVIDANZE-->
 
             <!--MODAL MODIFICA PATOLOGIE PREGRESSE-->
             <div class="col-md-4">
@@ -1736,7 +1731,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> <!--CHIUSURA MODAL MODIFICA PATOLOGIE RECENTI-->
 
 
             <!--MODAL SPOSTA da prossima a remota-->
@@ -1783,7 +1778,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><!--CHIUSURA MODAL SPOSTA DA PROSSIMA A REMOTA-->
 
 
             <!-- &#224; -->

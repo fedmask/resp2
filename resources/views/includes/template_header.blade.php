@@ -1,5 +1,7 @@
-<?php 
-$id_paz = $current_user->data_patient()->first()->id_paziente;
+<?php
+if (!empty($current_user->data_patient()->first()->id_paziente)) {
+    $id_paz = $current_user->data_patient()->first()->id_paziente;
+}
 ?>
 
 <link href="/css/icon_chat.css" rel="stylesheet">
@@ -87,14 +89,20 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
 				<!-- LOGO SECTION -->
 				<header class="navbar-header">
 				<a href="/home" class="navbar-brand" style="color:#1d71b8; font-size:22px"><img src="/img/logo_icona.png" alt="">&nbsp;
-                           R<span style="color:#36a9e1">egistro</span>
-                           E<span style="color:#36a9e1">lettronico</span>
-						   S<span style="color:#36a9e1">anitario</span>
-                           P<span style="color:#36a9e1">ersonale</span>
-						   M<span style="color:#36a9e1">ultimediale</span>
-						</a>
+				   R<span style="color:#36a9e1">egistro</span>
+				   E<span style="color:#36a9e1">lettronico</span>
+				   S<span style="color:#36a9e1">anitario</span>
+				   P<span style="color:#36a9e1">ersonale</span>
+				   M<span style="color:#36a9e1">ultimediale</span>
+				</a>
 				</header>
 				<!-- END LOGO SECTION -->
+				@if($current_user->getRole() == Auth::user()::EMERGENCY_ID)
+					<span class="navbar-text">
+					  <strong>{{$current_user->getName()}} {{$current_user->getSurname()}}</strong> - {{$current_user->getFiscalCode()}} (<?php echo date('d/m/y', strtotime($current_user->getBirthdayDate())); ?> - {{$current_user->getAge($current_user->getBirthdayDate())}} anni)
+					</span>
+				@endif
+
 				<ul class="nav navbar-top-links navbar-right">
 					<!-- HOME SECTION -->
 					@if( $current_user->getDescription() == User::PATIENT_DESCRIPTION)

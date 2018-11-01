@@ -108,18 +108,22 @@ class DatabaseSeeder extends Seeder
         $this->call ( ProcedureStatusSeeder::class );
         $this->call ( ProcTerapSeeder::class );
 
-        $this->call ( CppQualificationTableSeeder::class );  
+        $this->call ( CppQualificationTableSeeder::class );
+
+        
+        $this->call (EmergencyTableSeeder::class);
+        
         
         $this->call ( Cpp_SpecializationSeeder::class );
-
+        
+        
+        
         $this->call ( ATCGruppoAnatomicoPSeeder::class );
         $this->call (ATCGruppoTerapeuticoPSeeder::class );
         $this->call ( ATCSottogruppoTerapeuticoFSeeder::class );
         $this->call ( ATCSottogruppoChimicoTFSeeder::class );
         $this->call ( ATCSottogruppoChimicoSeeder::class );
-        $this->call ( TrattamentiPazienteSeeder::class );
-        $this->call ( TrattamentiCareProviderSeeder::class );
-        $this->call ( ConsensoPazienteSeeder::class );
         
+       
     }
 }
