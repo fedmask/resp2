@@ -22,17 +22,19 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class AnamnesiPtProssima extends Eloquent
 {
 	protected $table = 'tbl_anamnesi_pt_prossima';
-	protected $primaryKey = 'id_anamnesi_prossima';
+	protected $primaryKey = 'id_paziente';
 	public $timestamps = false;
 
 	protected $casts = [
 		'id_paziente' => 'int',
-		'id_anamnesi_log' => 'int'
+		'id_anamnesi_log' => 'int',
+        'icd9_group_code' => 'string'
 	];
 
 	protected $fillable = [
 		'id_paziente',
 		'id_anamnesi_log',
-		'anamnesi_prossima_contenuto'
+		'anamnesi_prossima_contenuto',
+        'icd9_group_code'
 	];
 }

@@ -166,7 +166,7 @@ return [
 		Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Orchestra\Parser\XmlServiceProvider::class,
-        
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -244,7 +244,7 @@ return [
         'CareProvider' => App\Models\CareProviders\CareProvider::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'XmlParser' => Orchestra\Parser\Xml\Facade::class,
-        
+        'PDF' => Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
 ];

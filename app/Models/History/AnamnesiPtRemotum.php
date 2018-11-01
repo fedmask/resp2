@@ -21,17 +21,20 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class AnamnesiPtRemotum extends Eloquent
 {
-	protected $primaryKey = 'id_anamnesi_remota';
+    protected $table = 'tbl_anamnesi_pt_remota';
+	protected $primaryKey = 'id_paziente';
 	public $timestamps = false;
 
 	protected $casts = [
 		'id_paziente' => 'int',
-		'id_anamnesi_log' => 'int'
+		'id_anamnesi_log' => 'int',
+        'icd9_group_code' => 'string'
 	];
 
 	protected $fillable = [
 		'id_paziente',
 		'id_anamnesi_log',
-		'anamnesi_remota_contenuto'
+		'anamnesi_remota_contenuto',
+        'icd9_group_code'
 	];
 }

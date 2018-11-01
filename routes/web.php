@@ -15,7 +15,7 @@
  * Route per l'index
  */
 Route::get ( '/', function () {
-	return view ( 'welcome' );
+    return view ( 'welcome' );
 } );
 
 /**
@@ -27,7 +27,7 @@ Route::get ( '/home', 'HomeController@index' )->name ( 'home' );
  * Routes per la registrazione di Pazienti e Care Provider
  */
 Route::get ( '/register', function () {
-	return view ( 'auth.register' );
+    return view ( 'auth.register' );
 } );
 Route::get ( '/register/patient', 'Auth\RegisterController@showPatientRegistrationForm' )->name ( 'register_patient' );
 Route::post ( '/register/patient', 'Auth\RegisterController@registerPatient' );
@@ -126,46 +126,46 @@ Route::post ( '/addstructure', 'CareProviderController@addStructure' );
 /*
  * Routes base per le varie pagine e reindirizza gli utenti non loggati alla homepage
  */
-Route::group ( [ 
-		'middleware' => [ 
-				'auth' 
-		] 
+Route::group ( [
+    'middleware' => [
+        'auth'
+    ]
 ], function () {
-	
-	// Inizio Route Paziente
-	Route::get ( '/utility', function () {
-		return view ( 'pages.utility' );
-	} )->name ( 'utility' );
-	
-	Route::get ( '/calcolatrice-medica', 'PazienteController@showCalcolatriceMedica' )->name ( 'calcolatrice-medica' );
-	
-	Route::get ( '/patient-summary', 'PazienteController@showPatientSummary' )->name ( 'patient-summary' );
-	
-	Route::get ( '/taccuino', 'PazienteController@showTaccuino' )->name ( 'taccuino' );
-	
-	Route::get ( '/careproviders', 'PazienteController@showCareProviders' )->name ( 'careproviders' );
-	
-	Route::get ( '/files', 'PazienteController@showFiles' )->name ( 'files' );
-	
-	Route::get ( '/visits', 'PazienteController@showVisits' )->name ( 'visite' );
-	
-	Route::get ( '/diagnosi', 'PazienteController@showDiagnosi' )->name ( 'diagnosi' );
-	
-	Route::get ( '/indagini', 'PazienteController@showIndagini' )->name ( 'indagini' );
-	
-	Route::get ( '/impostazioniSicurezza', 'PazienteController@showSecuritySettings' )->name ( 'securitySettings' );
-	
-	// Inizio Routes Care Provider
-	Route::get ( '/patients-list', 'CareProviderController@showPatientsList' )->name ( 'patients-list' );
-	
-	Route::get ( '/structures', 'CareProviderController@showStructures' )->name ( 'structures' );
-	
-	Route::get ( '/fhirPatient', 'ResourceFHIRController@indexPatient' );
-	
-	/**
-	 * Route per la gestione del controller dei Consensi
-	 */
-	Route::resource ( '/consent', 'ConsensiPazienteController' );
+
+    // Inizio Route Paziente
+    Route::get ( '/utility', function () {
+        return view ( 'pages.utility' );
+    } )->name ( 'utility' );
+
+    Route::get ( '/calcolatrice-medica', 'PazienteController@showCalcolatriceMedica' )->name ( 'calcolatrice-medica' );
+
+    Route::get ( '/patient-summary', 'PazienteController@showPatientSummary' )->name ( 'patient-summary' );
+
+    Route::get ( '/taccuino', 'PazienteController@showTaccuino' )->name ( 'taccuino' );
+
+    Route::get ( '/careproviders', 'PazienteController@showCareProviders' )->name ( 'careproviders' );
+
+    Route::get ( '/files', 'PazienteController@showFiles' )->name ( 'files' );
+
+    Route::get ( '/visits', 'PazienteController@showVisits' )->name ( 'visite' );
+
+    Route::get ( '/diagnosi', 'PazienteController@showDiagnosi' )->name ( 'diagnosi' );
+
+    Route::get ( '/indagini', 'PazienteController@showIndagini' )->name ( 'indagini' );
+
+    Route::get ( '/impostazioniSicurezza', 'PazienteController@showSecuritySettings' )->name ( 'securitySettings' );
+
+    // Inizio Routes Care Provider
+    Route::get ( '/patients-list', 'CareProviderController@showPatientsList' )->name ( 'patients-list' );
+
+    Route::get ( '/structures', 'CareProviderController@showStructures' )->name ( 'structures' );
+
+    Route::get ( '/fhirPatient', 'ResourceFHIRController@indexPatient' );
+
+    /**
+     * Route per la gestione del controller dei Consensi
+     */
+    Route::resource ( '/consent', 'ConsensiPazienteController' );
 } );
 
 Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' );
@@ -270,14 +270,20 @@ Route::get ( '/ModIndCompletata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stat
 Route::post ( '/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient' );
 
 
-Route::resource('/anamnesi','AnamnesiController',['except' => ['create', 'store', 'update', 'destroy']]);
+Route::resource('/anamnesi','AnamnesiController',['except' => ['create', 'show','store', 'destroy']]);
 Route::post('/anamnesi','AnamnesiController@store');
+Route::patch('/anamnesi/{id}', 'AnamnesiController@update')->name('Update');
+Route::delete('/anamnesi/{id}', 'AnamnesiController@delete')->name('Delete');
+
+Route::get('/anamnesiprint','AnamnesiController@printAnamnesi');
 
 
-    
-    
-    /**
-     * RESTful for Patient
-     */
-    //   Route::resource('fhir/Patient','Fhir\Modules\FHIRPatient');
+
+
+
+
+/**
+ * RESTful for Patient
+ */
+//   Route::resource('fhir/Patient','Fhir\Modules\FHIRPatient');
     

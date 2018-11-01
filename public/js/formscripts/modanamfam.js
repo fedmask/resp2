@@ -5,55 +5,55 @@
 $(document).ready(function(){
 
 
-	 settaOption("#fumoQuantita","#fumoAnnoInizio","#fumoAnnoFine","","#fumo");
+    settaOption("#fumoQuantita","#fumoAnnoInizio","#fumoAnnoFine","","#fumo");
     settaOption("#alcoolQuantita","#alcoolAnnoInizio","#alcoolAnnoFine","#alcoolTipo","#alcool");
     settaOption("#drogaQuantita","#drogaAnnoInizio","#drogaAnnoFine","#drogaTipo","#droghe");
 
-	//TABELLA ANAMNESI FAMILIARE
-    	$('#btn_annullafam').click(function(){
-		if (confirm('Eliminare le modifiche correnti?') == true)
-		{
+    //TABELLA ANAMNESI FAMILIARE
+    $('#btn_annullafam').click(function(){
+        if (confirm('Eliminare le modifiche correnti?') == true)
+        {
 
             $('#testofam').prop('readonly',true)
             $('#testofam').prop('value'," ")
             $('#testofam').prop('value', testo)
             $('#buttonHiddenfam').show()
             $('#btn_annullafam').hide()
-           	$('#btn_codicifam').hide()
+            $('#btn_codicifam').hide()
 
         }
-	});
+    });
 
     $('#buttonHiddenfam').click(function(){
         testo = $("#testofam").val()
-	     $('#btnmodfam').show()
-		$('#btnmodfam').prop('style',"cursor:pointer")
-		//  $('#buttonHiddenfam').hide();
-          $('#btn_salvafam').show();
-          $('#btn_annullafam').show();
-		  $('#btn_codicifam').show();
-          $('#testofam').prop('readonly',false)
-	});
+        $('#btnmodfam').show()
+        $('#btnmodfam').prop('style',"cursor:pointer")
+        //  $('#buttonHiddenfam').hide();
+        $('#btn_salvafam').show();
+        $('#btn_annullafam').show();
+        $('#btn_codicifam').show();
+        $('#testofam').prop('readonly',false)
+    });
 
     $('#btn_salvafam').click(function(){
-          $('#buttonHiddenfam').show()
-         // $('#btn_salvafam').hide()
-          $('#btn_annullafam').hide()
-		  $('#btn_codicifam').hide()
-          $('#testofam').prop('readonly',true)
+        $('#buttonHiddenfam').show()
+        // $('#btn_salvafam').hide()
+        $('#btn_annullafam').hide()
+        $('#btn_codicifam').hide()
+        $('#testofam').prop('readonly',true)
 
-          $.post("formscripts/testofam.php",
-			{
+        $.post("formscripts/testofam.php",
+            {
 
-				testofam:	$("#testofam").val(),
+                testofam:	$("#testofam").val(),
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Salvataggio avvenuto correttamente");
+                alert("Status: " + "Salvataggio avvenuto correttamente");
                 window.location.reload();
-  			});
-	});
+            });
+    });
 
 
 
@@ -65,21 +65,21 @@ $(document).ready(function(){
 
 
 
-   //TABELLA PATOLOGICA REMOTA
+    //TABELLA PATOLOGICA REMOTA
     $('#buttonHiddenPatRem').click(function(){
         testopat = $("#testopat").val()
-          $('#btnmodrem').show()
-          $('#btnmodrem').prop('style',"cursor:pointer")
-          $('#buttonHiddenPatRem').hide()
-          $('#btn_salvapatrem').show()
-          $('#btn_annullapatrem').show()
-		   $('#btn_codicipatrem').show()
-          $('#testopat').prop('readonly',false)
-	});
+        $('#btnmodrem').show()
+        $('#btnmodrem').prop('style',"cursor:pointer")
+        $('#buttonHiddenPatRem').hide()
+        $('#btn_salvapatrem').show()
+        $('#btn_annullapatrem').show()
+        $('#btn_codicipatrem').show()
+        $('#testopat').prop('readonly',false)
+    });
 
     $('#btn_annullapatrem').click(function(){
-		if (confirm('Eliminare le modifiche correnti?') == true)
-		{
+        if (confirm('Eliminare le modifiche correnti?') == true)
+        {
 
             $('#btnmodrem').hide()
             $('#testopat').prop('readonly',true)
@@ -88,95 +88,95 @@ $(document).ready(function(){
             $('#buttonHiddenPatRem').show()
             $('#btn_annullapatrem').hide()
             $('#btn_salvapatrem').hide()
-			$('#btn_codicipatrem').hide()
+            $('#btn_codicipatrem').hide()
         }
-	});
+    });
 
     $('#btn_salvapatrem').click(function(){
         $('#btnmodrem').hide()
-          $('#buttonHiddenPatRem').show()
-          $('#btn_salvapatrem').hide()
-          $('#btn_annullapatrem').hide()
-          $('#testopat').prop('readonly',true)
-          $('#btn_codicipatrem').hide()
-          $.post("formscripts/testopat.php",
-			{
+        $('#buttonHiddenPatRem').show()
+        $('#btn_salvapatrem').hide()
+        $('#btn_annullapatrem').hide()
+        $('#testopat').prop('readonly',true)
+        $('#btn_codicipatrem').hide()
+        $.post("formscripts/testopat.php",
+            {
 
-				testopat:	$("#testopat").val(),
+                testopat:	$("#testopat").val(),
                 testopatpp:	$("#testopatpp").val(),
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Salvataggio avvenuto correttamente");
+                alert("Status: " + "Salvataggio avvenuto correttamente");
                 window.location.reload();
-  			});
-	});
+            });
+    });
 
 
 
 
 
-	//TABELLA PATOLOGICA PROSSIMA
+    //TABELLA PATOLOGICA PROSSIMA
     $('#buttonHiddenpp').click(function(){
         testopatpp = $("#testopatpp").val()
 
-          $('#modbtnpp').show()
-          $('#modbtnpp').prop('style',"cursor:pointer")
-          $('#buttonHiddenpp').hide()
-          $('#btn_salvapp').show()
-          $('#btn_annullapp').show()
-		   $('#btn_codicipatpross').show()
-          $('#testopatpp').prop('readonly',false)
-	});
+        $('#modbtnpp').show()
+        $('#modbtnpp').prop('style',"cursor:pointer")
+        $('#buttonHiddenpp').hide()
+        $('#btn_salvapp').show()
+        $('#btn_annullapp').show()
+        $('#btn_codicipatpross').show()
+        $('#testopatpp').prop('readonly',false)
+    });
 
     $('#btn_annullapp').click(function(){
-		if (confirm('Eliminare le modifiche correnti?') == true)
-		{
+        if (confirm('Eliminare le modifiche correnti?') == true)
+        {
             $('#modbtnpp').hide()
             $('#testopatpp').prop('readonly',true)
             $('#testopatpp').prop('value'," ")
             $('#testopatpp').prop('value', testopatpp)
             $('#buttonHiddenpp').show()
             $('#btn_annullapp').hide()
-			 $('#btn_salvapp').hide()
-               $('#btn_codicipatpross').hide()
+            $('#btn_salvapp').hide()
+            $('#btn_codicipatpross').hide()
         }
-	});
+    });
 
     $('#btn_salvapp').click(function(){
         $('#modbtnpp').hide()
-          $('#buttonHiddenpp').show()
-          $('#btn_salvapp').hide()
-          $('#btn_annullapp').hide()
-		  $('#btn_codicipatpross').hide()
-          $('#testopatpp').prop('readonly',true)
+        $('#buttonHiddenpp').show()
+        $('#btn_salvapp').hide()
+        $('#btn_annullapp').hide()
+        $('#btn_codicipatpross').hide()
+        $('#testopatpp').prop('readonly',true)
 
-          $.post("formscripts/testopat.php",
-			{
+        $.post("formscripts/testopat.php",
+            {
 
-				testopatpp:	$("#testopatpp").val(),
+                testopatpp:	$("#testopatpp").val(),
                 testopat:	$("#testopat").val(),
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Salvataggio avvenuto correttamente");
+                alert("Status: " + "Salvataggio avvenuto correttamente");
                 window.location.reload();
-  			});
-	});
+            });
+    });
 
     //TABELLA ANAMNESI FISIOLOGICA
     //INFANZIA
     $('#inf').click(function(){
 
-         parto = $("#parto").val()
-         tipoparto = $("#tipoparto").val()
-         allattamento = $("#allattamento").val()
-         sviluppoVegRel = $("#sviluppoVegRel").val()
-         noteinfanzia = $("#noteinfanzia").val()
+        parto = $("#parto").val()
+        tipoparto = $("#tipoparto").val()
+        allattamento = $("#allattamento").val()
+        sviluppoVegRel = $("#sviluppoVegRel").val()
+        noteinfanzia = $("#noteinfanzia").val()
 
-         if($('#inf').val()!='aperto'){
+        if($('#inf').val()!='aperto'){
             $('#inf').val('aperto');
             $('#inf').prop('style', 'color:#FF7F50;');
             $('#inf2').prop('class', 'hidden');
@@ -186,7 +186,7 @@ $(document).ready(function(){
             $('#inf6').prop('class', 'hidden');
             $('#inf7').prop('class', 'hidden');
 
-         }else{
+        }else{
             $('#inf').val('chiuso');
             $('#inf').prop('style', 'color:#551A8B;');
             $('#inf2').prop('class', 'accordion-toggle');
@@ -195,50 +195,50 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'accordion-toggle');
             $('#inf6').prop('class', 'accordion-toggle');
             $('#inf7').prop('class', 'accordion-toggle');
-         }
+        }
 
 
-		});
+    });
 
     $('#btn_salvainf').click(function(){
         $('#btnannullainfanzia').prop('style',"visibility:hidden")
-		});
+    });
 
-        $('#prova').click(function(){
-            $.post("formscripts/testofis.php",
-			{
+    $('#prova').click(function(){
+        $.post("formscripts/testofis.php",
+            {
 
-				noteinfanzia: $("#noteinfanzia").val(),
+                noteinfanzia: $("#noteinfanzia").val(),
                 parto: $("#parto").val(),
                 tipoparto: $("#tipoparto").val(),
                 allattamento: $("#allattamento").val(),
                 sviluppoVegRel: $("#sviluppoVegRel").val(),
 
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Salvataggio avvenuto correttamente");
+                alert("Status: " + "Salvataggio avvenuto correttamente");
                 window.location.reload();
-  			});
-		});
+            });
+    });
 
     $('#btnannullainfanzia').click(function(){
         if (confirm('Sei sicuro di annullare? Tutte le modifiche non salvate andranno perse.') == true)
-		{
-         $('#parto').prop('value', parto)
-         $('#tipoparto').prop('value', tipoparto)
-         $('#allattamento').prop('value', allattamento)
-         $('#sviluppoVegRel').prop('value', sviluppoVegRel)
-         $('#noteinfanzia').prop('value', noteinfanzia)
-         }
-		});
+        {
+            $('#parto').prop('value', parto)
+            $('#tipoparto').prop('value', tipoparto)
+            $('#allattamento').prop('value', allattamento)
+            $('#sviluppoVegRel').prop('value', sviluppoVegRel)
+            $('#noteinfanzia').prop('value', noteinfanzia)
+        }
+    });
 
 
     //SCOLARITA
     $('#inf2').click(function(){
-         livelloScol = $("#livelloScol").val()
-         if($('#inf2').val()!='aperto'){
+        livelloScol = $("#livelloScol").val()
+        if($('#inf2').val()!='aperto'){
             $('#inf2').val('aperto');
             $('#inf2').prop('style', 'color:#FF7F50;');
             $('#inf').prop('class', 'hidden');
@@ -247,7 +247,7 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'hidden');
             $('#inf6').prop('class', 'hidden');
             $('#inf7').prop('class', 'hidden');
-         }else{
+        }else{
             $('#inf2').val('chiuso');
             $('#inf2').prop('style', 'color:#551A8B;');
             $('#inf').prop('class', 'accordion-toggle');
@@ -256,56 +256,56 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'accordion-toggle');
             $('#inf6').prop('class', 'accordion-toggle');
             $('#inf7').prop('class', 'accordion-toggle');
-         }
-		});
+        }
+    });
 
     $('#btnannullascolarita').click(function(){
         if (confirm('Sei sicuro di annullare? Tutte le modifiche non salvate andranno perse.') == true)
-		{
-         $('#livelloScol').prop('value', livelloScol)
-         }
-		});
+        {
+            $('#livelloScol').prop('value', livelloScol)
+        }
+    });
 
 
     $('#btnsalvascolarita').click(function(){
-            $.post("formscripts/testofis.php",
-			{
+        $.post("formscripts/testofis.php",
+            {
 
                 livelloScol:	$("#livelloScol").val(),
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Salvataggio avvenuto correttamente");
+                alert("Status: " + "Salvataggio avvenuto correttamente");
                 window.location.reload();
-  			});
+            });
     });
 
 
     //STILE DI VITA
     $('#inf3').click(function(){
-         attivitaFisica = $("#attivitaFisica").val()
-         abitudAlim = $("#abitudAlim").val()
-         ritmoSV = $("#ritmoSV").val()
+        attivitaFisica = $("#attivitaFisica").val()
+        abitudAlim = $("#abitudAlim").val()
+        ritmoSV = $("#ritmoSV").val()
         stress = $("#stress").val()
-         fumo = $("#fumo").val()
-         fumoAnnoInizio = $("#fumoAnnoInizio").val()
-         fumoAnnoFine = $("#fumoAnnoFine").val()
-         fumoQuantita = $("#fumoQuantita").val()
-         alcool = $("#alcool").val()
-         alcoolAnnoInizio = $("#alcoolAnnoInizio").val()
-         alcoolAnnoFine = $("#alcoolAnnoFine").val()
-         alcoolQuantita = $("#alcoolQuantita").val()
-         alcoolTipo = $("#alcoolTipo").val()
-         droghe = $("#droghe").val()
-         drogaAnnoInizio = $("#drogaAnnoInizio").val()
-         drogaAnnoFine = $("#drogaAnnoFine").val()
-         drogaQuantita = $("#drogaQuantita").val()
-         drogaTipo = $("#drogaTipo").val()
-         caffeina = $("#caffeina").val()
-         caffeinaQuantita = $("#caffeinaQuantita").val()
-         noteStileVita = $("#noteStileVita").val()
-		if($('#inf3').val()!='aperto'){
+        fumo = $("#fumo").val()
+        fumoAnnoInizio = $("#fumoAnnoInizio").val()
+        fumoAnnoFine = $("#fumoAnnoFine").val()
+        fumoQuantita = $("#fumoQuantita").val()
+        alcool = $("#alcool").val()
+        alcoolAnnoInizio = $("#alcoolAnnoInizio").val()
+        alcoolAnnoFine = $("#alcoolAnnoFine").val()
+        alcoolQuantita = $("#alcoolQuantita").val()
+        alcoolTipo = $("#alcoolTipo").val()
+        droghe = $("#droghe").val()
+        drogaAnnoInizio = $("#drogaAnnoInizio").val()
+        drogaAnnoFine = $("#drogaAnnoFine").val()
+        drogaQuantita = $("#drogaQuantita").val()
+        drogaTipo = $("#drogaTipo").val()
+        caffeina = $("#caffeina").val()
+        caffeinaQuantita = $("#caffeinaQuantita").val()
+        noteStileVita = $("#noteStileVita").val()
+        if($('#inf3').val()!='aperto'){
             $('#inf3').val('aperto');
             $('#inf3').prop('style', 'color:#FF7F50;');
             $('#inf2').prop('class', 'hidden');
@@ -314,7 +314,7 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'hidden');
             $('#inf6').prop('class', 'hidden');
             $('#inf7').prop('class', 'hidden');
-         }else{
+        }else{
             $('#inf3').val('chiuso');
             $('#inf3').prop('style', 'color:#551A8B;');
             $('#inf2').prop('class', 'accordion-toggle');
@@ -323,45 +323,45 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'accordion-toggle');
             $('#inf6').prop('class', 'accordion-toggle');
             $('#inf7').prop('class', 'accordion-toggle');
-         }
-		});
-
-
-	$('#btnannullavita').click(function(){
-        if (confirm('Sei sicuro di annullare? Tutte le modifiche non salvate andranno perse.') == true)
-		{
-         $('#attivitaFisica').prop('value', attivitaFisica)
-         $('#abitudAlim').prop('value', abitudAlim)
-         $('#ritmoSV').prop('value', ritmoSV)
-		  $('#stress').prop('value', stress)
-         $('#fumo').prop('value', fumo)
-         $('#fumoAnnoInizio').prop('value', fumoAnnoInizio)
-         $('#fumoAnnoFine').prop('value', fumoAnnoFine)
-         $('#fumoQuantita').prop('value', fumoQuantita)
-         $('#alcool').prop('value', alcool)
-         $('#alcoolAnnoInizio').prop('value', alcoolAnnoInizio)
-         $('#alcoolAnnoFine').prop('value', alcoolAnnoFine)
-         $('#alcoolQuantita').prop('value', alcoolQuantita)
-         $('#alcoolTipo').prop('value', alcoolTipo)
-         $('#droghe').prop('value', droghe)
-         $('#drogaAnnoInizio').prop('value', drogaAnnoInizio)
-         $('#drogaAnnoFine').prop('value', drogaAnnoFine)
-         $('#drogaQuantita').prop('value', drogaQuantita)
-         $('#drogaTipo').prop('value', drogaTipo)
-         $('#caffeina').prop('value', caffeina)
-         $('#caffeinaQuantita').prop('value', caffeinaQuantita)
-         $('#noteStileVita').prop('value', noteStileVita)
         }
-		});
+    });
+
+
+    $('#btnannullavita').click(function(){
+        if (confirm('Sei sicuro di annullare? Tutte le modifiche non salvate andranno perse.') == true)
+        {
+            $('#attivitaFisica').prop('value', attivitaFisica)
+            $('#abitudAlim').prop('value', abitudAlim)
+            $('#ritmoSV').prop('value', ritmoSV)
+            $('#stress').prop('value', stress)
+            $('#fumo').prop('value', fumo)
+            $('#fumoAnnoInizio').prop('value', fumoAnnoInizio)
+            $('#fumoAnnoFine').prop('value', fumoAnnoFine)
+            $('#fumoQuantita').prop('value', fumoQuantita)
+            $('#alcool').prop('value', alcool)
+            $('#alcoolAnnoInizio').prop('value', alcoolAnnoInizio)
+            $('#alcoolAnnoFine').prop('value', alcoolAnnoFine)
+            $('#alcoolQuantita').prop('value', alcoolQuantita)
+            $('#alcoolTipo').prop('value', alcoolTipo)
+            $('#droghe').prop('value', droghe)
+            $('#drogaAnnoInizio').prop('value', drogaAnnoInizio)
+            $('#drogaAnnoFine').prop('value', drogaAnnoFine)
+            $('#drogaQuantita').prop('value', drogaQuantita)
+            $('#drogaTipo').prop('value', drogaTipo)
+            $('#caffeina').prop('value', caffeina)
+            $('#caffeinaQuantita').prop('value', caffeinaQuantita)
+            $('#noteStileVita').prop('value', noteStileVita)
+        }
+    });
     $('#btnsalvavita').click(function(){
-            $.post("formscripts/testofis.php",
-			{
+        $.post("formscripts/testofis.php",
+            {
 
 
                 attivitaFisica:	$("#attivitaFisica").val(),
                 abitudAlim: $("#abitudAlim").val(),
                 ritmoSV: $("#ritmoSV").val(),
-                 stress: $("#stress").val(),
+                stress: $("#stress").val(),
                 fumo: $("#fumo").val(),
                 fumoAnnoInizio: $("#fumoAnnoInizio").val(),
                 fumoAnnoFine: $("#fumoAnnoFine").val(),
@@ -381,20 +381,20 @@ $(document).ready(function(){
                 noteStileVita: $("#noteStileVita").val(),
 
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Salvataggio avvenuto correttamente");
+                alert("Status: " + "Salvataggio avvenuto correttamente");
                 window.location.reload();
-  			});
-		});
+            });
+    });
 
 
     //ATTIVITA' LAVORATIVA
     $('#inf6').click(function(){
-         professione = $("#professione").val()
-         noteAttLav = $("#noteAttLav").val()
-         if($('#inf6').val()!='aperto'){
+        professione = $("#professione").val()
+        noteAttLav = $("#noteAttLav").val()
+        if($('#inf6').val()!='aperto'){
             $('#inf6').val('aperto');
             $('#inf6').prop('style', 'color:#FF7F50;');
             $('#inf2').prop('class', 'hidden');
@@ -403,7 +403,7 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'hidden');
             $('#inf').prop('class', 'hidden');
             $('#inf7').prop('class', 'hidden');
-         }else{
+        }else{
             $('#inf6').val('chiuso');
             $('#inf6').prop('style', 'color:#551A8B;');
             $('#inf2').prop('class', 'accordion-toggle');
@@ -412,36 +412,36 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'accordion-toggle');
             $('#inf').prop('class', 'accordion-toggle');
             $('#inf7').prop('class', 'accordion-toggle');
-         }
-		});
+        }
+    });
 
-     $('#btnannullalavoro').click(function(){
+    $('#btnannullalavoro').click(function(){
         if (confirm('Sei sicuro di annullare? Tutte le modifiche non salvate andranno perse.') == true)
-		{
-         $('#professione').prop('value', professione)
-         $('#noteAttLav').prop('value', noteAttLav)
-         }
-		});
+        {
+            $('#professione').prop('value', professione)
+            $('#noteAttLav').prop('value', noteAttLav)
+        }
+    });
     $('#btnsalvalavoro').click(function(){
-            $.post("formscripts/testofis.php",
-			{
+        $.post("formscripts/testofis.php",
+            {
                 professione:	$("#professione").val(),
                 noteAttLav: $("#noteAttLav").val(),
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Salvataggio avvenuto correttamente");
+                alert("Status: " + "Salvataggio avvenuto correttamente");
                 window.location.reload();
-  			});
-		});
+            });
+    });
 
     //ALVO E MINZIONE
     $('#inf7').click(function(){
-         alvo = $("#alvo").val()
-         minzione = $("#minzione").val()
-         noteAlvoMinz = $("#noteAlvoMinz").val()
-         if($('#inf7').val()!='aperto'){
+        alvo = $("#alvo").val()
+        minzione = $("#minzione").val()
+        noteAlvoMinz = $("#noteAlvoMinz").val()
+        if($('#inf7').val()!='aperto'){
             $('#inf7').val('aperto');
             $('#inf7').prop('style', 'color:#FF7F50;');
             $('#inf2').prop('class', 'hidden');
@@ -450,7 +450,7 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'hidden');
             $('#inf6').prop('class', 'hidden');
             $('#inf').prop('class', 'hidden');
-         }else{
+        }else{
             $('#inf7').val('chiuso');
             $('#inf7').prop('style', 'color:#551A8B;');
             $('#inf2').prop('class', 'accordion-toggle');
@@ -459,40 +459,40 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'accordion-toggle');
             $('#inf6').prop('class', 'accordion-toggle');
             $('#inf').prop('class', 'accordion-toggle');
-         }
-		});
+        }
+    });
 
-     $('#btnannullaminzione').click(function(){
+    $('#btnannullaminzione').click(function(){
         if (confirm('Sei sicuro di annullare? Tutte le modifiche non salvate andranno perse.') == true)
-		{
-         $('#alvo').prop('value', alvo)
-         $('#minzione').prop('value', minzione)
-         $('#noteAlvoMinz').prop('value', noteAlvoMinz)
-         }
-		});
+        {
+            $('#alvo').prop('value', alvo)
+            $('#minzione').prop('value', minzione)
+            $('#noteAlvoMinz').prop('value', noteAlvoMinz)
+        }
+    });
     $('#btnsalvaminzione').click(function(){
-            $.post("formscripts/testofis.php",
-			{
+        $.post("formscripts/testofis.php",
+            {
                 alvo: $("#alvo").val(),
                 minzione: $("#minzione").val(),
                 noteAlvoMinz: $("#noteAlvoMinz").val(),
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Salvataggio avvenuto correttamente");
+                alert("Status: " + "Salvataggio avvenuto correttamente");
                 window.location.reload();
-  			});
-		});
+            });
+    });
 
     //CICLO MESTRUALE
     $('#inf5').click(function(){
-         etaMenarca = $("#etaMenarca").val()
-         ciclo = $("#ciclo").val()
-         etaMenopausa = $("#etaMenopausa").val()
-         menopausa = $("#menopausa").val()
-         noteCicloMes = $("#noteCicloMes").val()
-         if($('#inf5').val()!='aperto'){
+        etaMenarca = $("#etaMenarca").val()
+        ciclo = $("#ciclo").val()
+        etaMenopausa = $("#etaMenopausa").val()
+        menopausa = $("#menopausa").val()
+        noteCicloMes = $("#noteCicloMes").val()
+        if($('#inf5').val()!='aperto'){
             $('#inf5').val('aperto');
             $('#inf5').prop('style', 'color:#FF7F50;');
             $('#inf2').prop('class', 'hidden');
@@ -501,7 +501,7 @@ $(document).ready(function(){
             $('#inf').prop('class', 'hidden');
             $('#inf6').prop('class', 'hidden');
             $('#inf7').prop('class', 'hidden');
-         }else{
+        }else{
             $('#inf5').val('chiuso');
             $('#inf5').prop('style', 'color:#551A8B;');
             $('#inf2').prop('class', 'accordion-toggle');
@@ -510,36 +510,36 @@ $(document).ready(function(){
             $('#inf').prop('class', 'accordion-toggle');
             $('#inf6').prop('class', 'accordion-toggle');
             $('#inf7').prop('class', 'accordion-toggle');
-         }
+        }
 
-		});
+    });
 
-     $('#btnannullaciclo').click(function(){
+    $('#btnannullaciclo').click(function(){
         if (confirm('Sei sicuro di annullare? Tutte le modifiche non salvate andranno perse.') == true)
-		{
-         $('#etaMenarca').prop('value', etaMenarca)
-         $('#ciclo').prop('value', ciclo)
-         $('#etaMenopausa').prop('value', etaMenopausa)
-         $('#menopausa').prop('value', menopausa)
-         $('#noteCicloMes').prop('value', noteCicloMes)
-         }
-		});
+        {
+            $('#etaMenarca').prop('value', etaMenarca)
+            $('#ciclo').prop('value', ciclo)
+            $('#etaMenopausa').prop('value', etaMenopausa)
+            $('#menopausa').prop('value', menopausa)
+            $('#noteCicloMes').prop('value', noteCicloMes)
+        }
+    });
     $('#btnsalvaciclo').click(function(){
-            $.post("formscripts/testofis.php",
-			{
+        $.post("formscripts/testofis.php",
+            {
                 etaMenarca: $("#etaMenarca").val(),
                 ciclo: $("#ciclo").val(),
                 etaMenopausa: $("#etaMenopausa").val(),
                 menopausa: $("#menopausa").val(),
                 noteCicloMes: $("#noteCicloMes").val(),
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Salvataggio avvenuto correttamente");
+                alert("Status: " + "Salvataggio avvenuto correttamente");
                 window.location.reload();
-  			});
-		});
+            });
+    });
 
     //GRAVIDANZE
     $('#inf4').click(function(){
@@ -553,7 +553,7 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'hidden');
             $('#inf6').prop('class', 'hidden');
             $('#inf7').prop('class', 'hidden');
-         }else{
+        }else{
             $('#inf4').val('chiuso');
             $('#inf4').prop('style', 'color:#551A8B;');
             $('#inf2').prop('class', 'accordion-toggle');
@@ -562,27 +562,27 @@ $(document).ready(function(){
             $('#inf5').prop('class', 'accordion-toggle');
             $('#inf6').prop('class', 'accordion-toggle');
             $('#inf7').prop('class', 'accordion-toggle');
-         }
+        }
 
-	});
+    });
 
     $('#btnannullagrav').click(function(){
         if (confirm('Sei sicuro di annullare? Tutte le modifiche non salvate andranno perse.') == true)
-		{
+        {
 
-         $('#nuovegrav').collapse('hide');
-         $('#esito').prop('value', '')
-         $('#etaGravidanza').prop('value', '')
-         $('#dataInizioGrav').prop('value', '')
-         $('#dataFineGrav').prop('value', '')
-         $('#sessoBambino').prop('value', '')
-         $('#noteGravidanza').prop('value', '')
-         }
-		});
+            $('#nuovegrav').collapse('hide');
+            $('#esito').prop('value', '')
+            $('#etaGravidanza').prop('value', '')
+            $('#dataInizioGrav').prop('value', '')
+            $('#dataFineGrav').prop('value', '')
+            $('#sessoBambino').prop('value', '')
+            $('#noteGravidanza').prop('value', '')
+        }
+    });
 
     $('#btnsalvagrav').click(function(){
-            $.post("formscripts/testofis.php",
-			{
+        $.post("formscripts/testofis.php",
+            {
 
                 esito: $("#esito").val(),
                 etaGravidanza: $("#etaGravidanza").val(),
@@ -591,32 +591,32 @@ $(document).ready(function(){
                 sessoBambino: $("#sessoBambino").val(),
                 noteGravidanza: $("#noteGravidanza").val(),
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Salvataggio avvenuto correttamente");
+                alert("Status: " + "Salvataggio avvenuto correttamente");
                 window.location.reload();
-  			});
-		});
+            });
+    });
 
-      $('#btnannullagrav2').click(function(){
+    $('#btnannullagrav2').click(function(){
         if (confirm('Sei sicuro di annullare? Tutte le modifiche non salvate andranno perse.') == true)
-		{
+        {
 
-          $('#insgrav').prop('class', 'accordion-toggle;');
-		  $('#nuovegrav').collapse('hide');
-         $('#esito').prop('value', '')
-         $('#etaGravidanza').prop('value', '')
-         $('#dataInizioGrav').prop('value', '')
-         $('#dataFineGrav').prop('value', '')
-         $('#sessoBambino').prop('value', '')
-         $('#noteGravidanza').prop('value', '')
-         }
-		});
-     $('#btnsalvagrav2').click(function(){
-            $.post("formscripts/testofis.php",
-			{
-				hiddenid: $("#hiddenid").val(),
+            $('#insgrav').prop('class', 'accordion-toggle;');
+            $('#nuovegrav').collapse('hide');
+            $('#esito').prop('value', '')
+            $('#etaGravidanza').prop('value', '')
+            $('#dataInizioGrav').prop('value', '')
+            $('#dataFineGrav').prop('value', '')
+            $('#sessoBambino').prop('value', '')
+            $('#noteGravidanza').prop('value', '')
+        }
+    });
+    $('#btnsalvagrav2').click(function(){
+        $.post("formscripts/testofis.php",
+            {
+                hiddenid: $("#hiddenid").val(),
                 esit: $("#esito").val(),
                 etaGravidanz: $("#etaGravidanza").val(),
                 dataInizioGra: $("#dataInizioGrav").val(),
@@ -624,18 +624,17 @@ $(document).ready(function(){
                 sessoBambin: $("#sessoBambino").val(),
                 noteGravidanz: $("#noteGravidanza").val(),
 
-			},
-  			function(status){
+            },
+            function(status){
 
-    			alert("Status: " + "Modifica avvenuta correttamente");
+                alert("Status: " + "Modifica avvenuta correttamente");
                 window.location.reload();
-  			});
-		});
+            });
+    });
 
 
- });
+});
 
-//let contatoreChiamate2 = 0;
 
 
 /*
@@ -649,16 +648,16 @@ function codiciAnam(recupero_id, id_anam, grado_parentela, nome_componente){
     document.getElementById("lblJsonAnam").innerHTML = "Attendere... "+imgLoader+" Caricamento dati!";
     $('#labelICD').prop('value', recupero_id);
     switch (recupero_id) {
-            case "btn_codicifam":
-                document.getElementById("titolo").innerHTML = "Codifica ICD9 - Anamnesi familiare";
+        case "btn_codicifam":
+            document.getElementById("titolo").innerHTML = "Codifica ICD9 - Anamnesi familiare";
             break;
-            case "btn_codicipatrem":
-                document.getElementById("titolo").innerHTML = "Codifica ICD9 - Anamnesi patologica remota";
+        case "btn_codicipatrem":
+            document.getElementById("titolo").innerHTML = "Codifica ICD9 - Anamnesi patologica remota";
             break;
-            case "btn_codicipatpross":
-                document.getElementById("titolo").innerHTML = "Codifica ICD9 - Anamnesi patologica prossima";
+        case "btn_codicipatpross":
+            document.getElementById("titolo").innerHTML = "Codifica ICD9 - Anamnesi patologica prossima";
             break;
-        }
+    }
     $("#btnElimina").attr("onclick","eliminaCheckAnam('"+id_anam+"')");
 
 
@@ -675,7 +674,7 @@ function jsonAnamnesi(id, id_anam, grado_parentela, nome_componente){
     $('#btnInserisci').prop('class', 'btn btn-info');
     if(id == "btn_codicifam"){
         $("#btnInserisci").attr("onclick","jsonCodeICD('" + id_anam + "')");
-         $('#labelICD').append(" per " + grado_parentela + " " + nome_componente);
+        $('#labelICD').append(" per " + grado_parentela + " " + nome_componente);
     }else
         $("#btnInserisci").attr("onclick","jsonCodeICD(\'\')");
     $('#btnInserisci').prop("disabled",false);
@@ -687,10 +686,10 @@ function jsonAnamnesi(id, id_anam, grado_parentela, nome_componente){
     url2 =  url2 + "?codiceICD=" + id + "&idAnam=" + id_anam;
 
     $.get(url2, function( data ) {
-        document.getElementById("lblJsonAnam").innerHTML = "";
+            document.getElementById("lblJsonAnam").innerHTML = "";
             for(var i=0;i<data.length;i++){
                 var element2 = data[i];
-                    document.getElementById("lblJsonAnam").innerHTML += '<div><input id="checkSposta'+element2.codice+'" type="checkbox" name="id" class="checkAnamesi" value="'+ element2.codice + '"/>    ' + element2.descrizione + '</div>';
+                document.getElementById("lblJsonAnam").innerHTML += '<div><input id="checkSposta'+element2.codice+'" type="checkbox" name="id" class="checkAnamesi" value="'+ element2.codice + '"/>    ' + element2.descrizione + '</div>';
             }
         }
     );
@@ -719,27 +718,27 @@ function jsonCodeICD(id_anam){
     }
 
     $.get(url2, function( data ) {
-        document.getElementById("lblJsonAnam").innerHTML = "";
-        for(var i=0;i<data.length;i++){
-            var element2 = data[i];
-            document.getElementById("lblJsonAnam").innerHTML += '<div><input id="codeICD" type="radio" onclick="jsonCodeICD(\'\')" name="icd" class="radioIcdAnam" value="'+ element2.codice + '"/>    ' + element2.descrizione + '</div>';
-        }
-        if(contatoreChiamate2==0){
-            document.getElementById("labelICD").innerHTML = "Seleziona un gruppo ICD9 1/4";
-            $('#btnInserisci').prop("disabled",true);
-            $('#btnInserisci').prop('class', 'btn btn-success');
-            $("#btnInserisci").attr("onclick","salvaRadioAnam('"+id_anam+"')");
-            document.getElementById("btnInserisci").innerHTML = "Salva";
-        } else if(contatoreChiamate2==1){
-            document.getElementById("labelICD").innerHTML = "Seleziona un blocco ICD9 2/4";
-        } else if(contatoreChiamate2==2){
-            document.getElementById("labelICD").innerHTML = "Seleziona una categoria ICD9 3/4";
-        } else if(contatoreChiamate2>=3){
-            document.getElementById("labelICD").innerHTML = "Seleziona una diagnosi o sintomo ICD9 4/4";
-            $('#btnInserisci').prop("disabled",false);
-            $(".radioIcdAnam").attr("onclick","");
-        }
-        flag2 = 1;
+            document.getElementById("lblJsonAnam").innerHTML = "";
+            for(var i=0;i<data.length;i++){
+                var element2 = data[i];
+                document.getElementById("lblJsonAnam").innerHTML += '<div><input id="codeICD" type="radio" onclick="jsonCodeICD(\'\')" name="icd" class="radioIcdAnam" value="'+ element2.codice + '"/>    ' + element2.descrizione + '</div>';
+            }
+            if(contatoreChiamate2==0){
+                document.getElementById("labelICD").innerHTML = "Seleziona un gruppo ICD9 1/4";
+                $('#btnInserisci').prop("disabled",true);
+                $('#btnInserisci').prop('class', 'btn btn-success');
+                $("#btnInserisci").attr("onclick","salvaRadioAnam('"+id_anam+"')");
+                document.getElementById("btnInserisci").innerHTML = "Salva";
+            } else if(contatoreChiamate2==1){
+                document.getElementById("labelICD").innerHTML = "Seleziona un blocco ICD9 2/4";
+            } else if(contatoreChiamate2==2){
+                document.getElementById("labelICD").innerHTML = "Seleziona una categoria ICD9 3/4";
+            } else if(contatoreChiamate2>=3){
+                document.getElementById("labelICD").innerHTML = "Seleziona una diagnosi o sintomo ICD9 4/4";
+                $('#btnInserisci').prop("disabled",false);
+                $(".radioIcdAnam").attr("onclick","");
+            }
+            flag2 = 1;
         }
     );
 }
@@ -923,5 +922,6 @@ function settaOption(idQuantita,idAnnoInizio,idAnnoFine,idTipo,idSection){
         $(idTipo).prop("disabled",false);
     }
 }
+
 
 

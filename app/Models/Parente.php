@@ -12,8 +12,8 @@ class Parente extends Model {
 	public $timestamps = false;
 	protected $casts = [ 
 			'id_parente' => 'int',
-			'età' => 'int',
-			'età_decesso' => 'int' 
+			'etï¿½' => 'int',
+			'etï¿½_decesso' => 'int' 
 	
 	];
 	protected $dates = [ 
@@ -21,11 +21,14 @@ class Parente extends Model {
 			'data_decesso' 
 	
 	];
-	protected $fillable = [ 
-			'descrizione',
+	protected $fillable = [
 			'nome',
 			'cognome',
-			'sesso' 
+            'grado_parentela',
+			'sesso',
+            'eta',
+            'annotazioni',
+            'data_decesso'
 	
 	];
 	
@@ -49,13 +52,13 @@ class Parente extends Model {
 		return $this->data_nascita;
 	}
 	public function getEta() {
-		return $this->età;
+		return $this->etï¿½;
 	}
 	public function getDecesso() {
 		return $this->decesso;
 	}
 	public function getEDecesso() {
-		return $this->età_decesso;
+		return $this->etï¿½_decesso;
 	}
 	public function getDataDecesso() {
 		return $this->data_decesso;
@@ -79,13 +82,13 @@ class Parente extends Model {
 		$this->data_nascita = $DataN;
 	}
 	public function setEta($Eta) {
-		$this->età = $Eta;
+		$this->etï¿½ = $Eta;
 	}
 	public function setDecesso($Decesso) {
 		$this->decesso = $Decesso;
 	}
 	public function setEDecesso($ED) {
-		$this->età_decesso = $ED;
+		$this->etï¿½_decesso = $ED;
 	}
 	public function setDataDecesso($DD) {
 		$this->data_decesso = $DD;

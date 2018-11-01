@@ -14,10 +14,11 @@ class CreateTblAnamnesiPtRemotaTable extends Migration {
 	{
 		Schema::create('tbl_anamnesi_pt_remota', function(Blueprint $table)
 		{
-			$table->increments('id_anamnesi_remota');
-			$table->integer('id_paziente');
+            $table->integer('id_paziente')->unsigned();
+            $table->primary('id_paziente');
 			$table->integer('id_anamnesi_log');
 			$table->text('anamnesi_remota_contenuto', 65535)->nullable();
+            $table->text('icd9_group_code', 65535)->nullable();
 		});
 	}
 
