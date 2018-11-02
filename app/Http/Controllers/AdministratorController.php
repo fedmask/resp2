@@ -502,6 +502,7 @@ class AdministratorController extends Controller {
 			$admin = \App\Amministration::where ( 'id_utente', Input::get ( 'Id_Admin2' ) )->first ();
 			
 			$admin->delete ();
+			Mail::to($user->utente_email)->send(new sendMail($user->utente_nome, 'Avviso di cancellazione Account', 'Gent.mo utente, la informaimo che il suo account è stato cancellato in data: '.now().'. Se non ha effettuato lei la cancellazione la preghiamo di riolgersi ai nostri operatori di Supporto alla mail "privacy@fsem.com" .'));
 		}
 		return redirect ( '/administration/Administrators' );
 	}

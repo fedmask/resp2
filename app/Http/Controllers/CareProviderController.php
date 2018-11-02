@@ -22,7 +22,19 @@ class CareProviderController extends Controller {
 	*/
 	public function showPatientsList(){
 		$patients = Pazienti::All();
-        return view('pages.careprovider.patients')->with('patients', $patients);
+		$i = 0;
+		
+		$patientArray = array();
+		foreach($patients as $Patient){
+			try{
+				if(\App\ConsensoPaziente::where('Id_Trattamento', 1)->where('Id_Paziente', $Patient->id_paziente)->first()){
+				$patientArray[$i]= $Patient;
+			}
+			$i++;
+			}catch (\Exception $e){}
+			
+		}
+			return view('pages.careprovider.patients')->with('patients', $patientArray);
 	}
 
 	/**

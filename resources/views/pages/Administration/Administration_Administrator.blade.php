@@ -26,7 +26,7 @@
 
 <hr>
 
-@if($current_administrator->Ruolo == 'Responsabile al Trattamento')
+@if($current_administrator->Ruolo == 'Responsabile al Trattamento' && $current_administrator->Ruolo == 'Responsabile al Trattamento')
 		<button class="btn2" style="width: 100%" data-toggle="modal"
 			data-target="#myModalRegisterAdmin">
 			<i class="fa fa-address-card-o"></i> Registra Nuovo Amministratore

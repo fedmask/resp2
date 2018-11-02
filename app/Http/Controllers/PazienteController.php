@@ -292,7 +292,18 @@ class PazienteController extends Controller
 		if($user->getDescription() == User::PATIENT_DESCRIPTION){
 			$files = File::where('id_paziente', $id_patient = $user->patient()->first()->id_paziente)->get();
 		}
-		return view('pages.files')->with('files', $files)->with('log', $log);
+		
+
+		$under18 = true;
+		
+		if($user->getAge ( date ( 'd-m-Y', strtotime ( str_replace ( '/', '-', $user->patient()->first()->paziente_nascita) ) ) )<18){
+			
+			$under18 = false;
+			
+		}
+			
+		
+		return view('pages.files')->with('files', $files)->with('log', $log)->with('under18', $under18);
 	}
 
 	/**

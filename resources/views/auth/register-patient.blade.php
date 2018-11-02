@@ -211,7 +211,7 @@
 							<div class="form-group">
 								<div class="col-lg-7">
 								<input id="acceptCons" name="acceptCons" type="checkbox">
-									<label for="acceptConsoCh">Acconsento alla "Consultazione" dei miei dati sanitari all'operatore sanitario associatomi. </label>
+									<label for="acceptConsoCh">Acconsento alla "Consultazione" dei miei dati sanitari agli operatori sanitari. </label>
 									
 									@if ($errors->has('acceptCons'))
     									<div class="alert alert-danger" role="alert">{{ $errors->first('acceptTerms') }}</div>

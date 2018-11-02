@@ -88,7 +88,13 @@
 		<li class="panel"><a href="/administration/PatientsList"> <i
 				class='fa fa-address-book' style='font-size: 18px; color: blue'></i>
 				Pazienti
-		</a></li> @break 
+		</a></li> 
+		
+		
+		<li class="panel"><a href="/administration/Administrators"> <i
+				class='fa fa-pie-chart' style='font-size: 18px; color: blue'></i>
+				Gestione Amministratori
+		</a></li>
 		
 		@case("DPO")
 		

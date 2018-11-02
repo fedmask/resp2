@@ -113,6 +113,7 @@
 		</div><!--accordion-group-->
 		<hr>
 		
+		@if($under18)
 		<div class="accordion-group">
 						<div class="accordion-heading centered">
 							<a class="accordion-toggle" data-toggle="collapse"
@@ -223,7 +224,7 @@
 
 
 					</div>
-					
+			@endif		
 		
 		<hr>
 		
@@ -526,7 +527,7 @@
 							</div>	<!--col lg12-->	
 							</div> <!--collapse Documents-->
 							
-							
+		@if($under18)					
 							
 							
 			<!-- Collapse Moduli -->				<div id = "collapseMod" class="accordion-body collapse" >
@@ -567,7 +568,7 @@
 							</div>	<!--col lg12-->	
 							</div> <!-- Collapse Moduli -->
 							
-							
+			@endif				
 							
 							
 						</div>	<!--row-->

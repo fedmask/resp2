@@ -14,7 +14,7 @@ class AddForeignKeysToConsensoCPTable extends Migration {
 	{
 		Schema::table('Consenso_CP', function(Blueprint $table)
 		{
-			$table->foreign('Id_Trattamento', 'Consenso_CP_ibfk_1')->references('Id_Trattamento')->on('Trattamenti_CP')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('Id_Trattamento', 'Consenso_CP_ibfk_1')->references('Id_Trattamento')->on('Trattamenti_CP')->onUpdate('NO ACTION')->onDelete('CASCADE');
 			$table->foreign('Id_Cpp', 'Consenso_CP_ibfk_2')->references('id_cpp')->on('tbl_care_provider')->onUpdate('NO ACTION')->onDelete('CASCADE');
 		});
 	}

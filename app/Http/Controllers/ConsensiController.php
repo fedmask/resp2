@@ -53,6 +53,7 @@ class ConsensiController extends Controller {
 			}
 		
 	}
+	
 	public static function createPConsent($PazienteAuth) {
 		$listaTrattamenti = \App\TrattamentiPaziente::all ();
 		$PazienteCheck = \App\ConsensoPaziente::where ( 'id_Paziente', $PazienteAuth);
@@ -64,14 +65,13 @@ class ConsensiController extends Controller {
 				\App\ConsensoPaziente::firstOrcreate ( [ 
 						'Id_Trattamento' => $TR->Id_Trattamento],
 						['Id_Paziente' => $PazienteAuth,
-								'Consenso' => ($TR->Id_Trattamento == 1 ?  true : false),
+								'Consenso' => ($TR->Id_Trattamento == 1 ?  true : false),	//IF da eliminare 
 						'data_consenso' => now () 
 				] )->save ();
 			}
 		
 	}
-	public function store(Request $request) {
-	}
+
 	public function show($id) {
 		$data ['listaTrattamenti'] = \App\TrattamentiPaziente::where ( 'Id_Trattamento', $id )->first ();
 		return view ( 'pages.Consensi', $data );

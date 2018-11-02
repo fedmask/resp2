@@ -192,7 +192,7 @@ window.onclick = function(event) {
 
 				<!-- Modal content-->
 				<div class="modal-content">
-					<div class="modal-header"><h4>Elimina Account Account</h4></div>
+					<div class="modal-header"><h4>Elimina Account</h4></div>
 					{{ Form::open(['url' => '/user/deleating']) }}
 					<div class="modal-body">
 

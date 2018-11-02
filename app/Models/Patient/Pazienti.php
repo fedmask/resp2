@@ -399,6 +399,6 @@ class Pazienti extends Eloquent {
 		return $this->hasMany ( \App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche' );
 	}
 	public function tbl_Consenso_Trattamento() {
-		return $this->hasMany ( \App\Models\Patient\ConsensoPaziente::class, 'id_paziente' );
+		return $this->hasMany ( \App\Models\ConsensoPaziente::class, 'id_paziente' );
 	}
 }

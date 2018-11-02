@@ -27,6 +27,7 @@ class AnamnesiF extends Model {
 			'descrizione',
 			
 	];
+	
 	protected $fillable = [ 
 			'codice',
 			'codice_descrizione',

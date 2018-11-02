@@ -74,7 +74,6 @@ class RegisterController extends Controller {
 		$this->getBloodType ( Input::get ( 'bloodType' ) );
 		$validator = Validator::make ( Input::all (), [ 
 				'acceptInfo' => 'bail|accepted',
-				'acceptacceptCons' => 'bail|accepted',
 				'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
 				'name' => 'required|string|max:40',
 				'surname' => 'required|string|max:40',
@@ -128,9 +127,19 @@ class RegisterController extends Controller {
 				'paziente_stato_matrimoniale' => Input::get ( 'maritalStatus' ) 
 		] );
 		
+		
+		
 		$user->save ();
-		$user_contacts->save ();
+		$user_contacts->save ();                 
 		$user_patient->save ();
+		
+		/**
+		 * Creo i consensi per un Paziente
+		 */
+		\App\Http\Controllers\ConsensiController::createPConsent($user_patient->id_paziente);
+		
+		
+		
 		
 		$credentials = array (
 				'email' => Input::get ( 'email' ),
@@ -150,6 +159,7 @@ class RegisterController extends Controller {
 	private function getTown($name) {
 		return Comuni::where ( 'comune_nominativo', '=', $name )->first ()->id_comune;
 	}
+	
 	
 	/**
 	 * Identifica un gruppo sanguigno e l'rh in fase di registrazione
