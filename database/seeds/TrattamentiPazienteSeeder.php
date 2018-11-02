@@ -15,9 +15,9 @@ class TrattamentiPazienteSeeder extends Seeder
         DB::table('Trattamenti_Pazienti')->insert([
             [ 'Id_Trattamento' => 1,
                 'Nome_T' => 'Consultazione',
-                'Finalita_T' => 'Accesso delle informazioni personali e sanitarie da parte dei Care Provider seezionati',
+                'Finalita_T' => 'Accesso delle informazioni personali e sanitarie da parte dei Care Provider selezionati',
                 'Modalita_T' => 'Accesso in lettura.',
-                'Informativa' => 'Acconsenendo si dichiara la volonta alla consultazone dei prori dati personali e sanitari da parte dei Care Provider selezionati. Il consenso a tale trattamento è obbligatorio per pter accedere ai nostri servizi.',
+                'Informativa' => 'Acconsenendo si dichiara la volonta alla consultazone dei propri dati personali e sanitari da parte dei Care Provider selezionati. Il consenso a tale trattamento è obbligatorio per poter accedere ai nostri servizi.',
                 'Incaricati' => 'Care Provider associati alla sua utenza.'
        ] ]);
 
@@ -34,7 +34,7 @@ class TrattamentiPazienteSeeder extends Seeder
        DB::table('Trattamenti_Pazienti')->insert([
        		[ 'Id_Trattamento' => 3,
        				'Nome_T' => 'Raccolta di informazioni sanitarie',
-       				'Finalita_T' => 'FInalità di governo di tali informaizoni',
+       				'Finalita_T' => 'Finalità di governo di tali informazioni',
        				'Modalita_T' => 'Accesso in lettura e in scrittura',
        				'Informativa' => 'Acconsentendo permette al sistema di effettare la raccolta delle informazioni per la creazione di un registro complessivo di tutte le Patologie, Vaccini, Procedure Terapeutiche personali ',
        				'Incaricati' => 'Paziente'
@@ -55,7 +55,7 @@ class TrattamentiPazienteSeeder extends Seeder
        				'Nome_T' => 'Prenotazione',
        				'Finalita_T' => 'Accesso alle informazioni personali per usufruire del servizio di prenotazione.',
        				'Modalita_T' => 'Accesso in lettura',
-       				'Informativa' => 'Acconsentendo si dichiara la volonta rendere disponibili le proprie informazioni al servizio "prenotazioni".',
+       				'Informativa' => 'Acconsentendo si dichiara la volonta di rendere disponibili le proprie informazioni al servizio "prenotazioni".',
        				'Incaricati' => 'Care Provider, Paziente'
        		] ]);
        
@@ -64,7 +64,7 @@ class TrattamentiPazienteSeeder extends Seeder
        				'Nome_T' => 'Donazione organi',
        				'Finalita_T' => 'Conservazione della volonta di donare gli organi. La volontà sarà resa disponibile all ente regionali di competenza.',
        				'Modalita_T' => 'Accesso in lettura',
-       				'Informativa' => 'Acconsentendo la volonta di donare gl organi sarà consenservata nel nostro database e sarà comunicata all ente regionale di competenza.',
+       				'Informativa' => 'Acconsentendo, la volonta di donare gl organi sarà consenservata nel nostro database e sarà comunicata all ente regionale di competenza.',
        				'Incaricati' => 'Care Provider, Paziente'
        		] ]);
        

@@ -10,7 +10,7 @@ class TrattamentiCareProviderSeeder extends Seeder {
 		DB::table ( 'Trattamenti_CP' )->insert ( [ 
 				[ 
 						'Id_Trattamento' => 1,
-						'Nome_T' => 'Meggaggistica',
+						'Nome_T' => 'Messaggistica',
 						'Finalita_T' => 'Conservazione dei messaggi scambiati con un Pazinete ',
 						'Modalita_T' => 'Conservazione',
 						'Informativa' => 'Acconsentendo i messaggi scambiati con un Paziente saranno conservati e crittografati per permettere la creazione di una chat con messaggi persistenti.',
