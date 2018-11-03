@@ -10,6 +10,8 @@ use Input;
 use DB;
 use Illuminate\Support\Facades\Validator;
 use Redirect;
+use App\Mail\SendMail;
+use Mail;
 
 class AdministratorController extends Controller {
 	//
@@ -29,7 +31,7 @@ class AdministratorController extends Controller {
 	}
 	
 	/**
-	 * 
+	 *
 	 * @return unknown
 	 */
 	public function indexCareProviders() {
@@ -42,7 +44,7 @@ class AdministratorController extends Controller {
 	}
 	
 	/**
-	 * 
+	 *
 	 * @return unknown
 	 */
 	public function indexAmministration() {
@@ -55,7 +57,7 @@ class AdministratorController extends Controller {
 	}
 	
 	/**
-	 * 
+	 *
 	 * @return unknown
 	 */
 	public function indexTrattamenti() {
@@ -71,10 +73,10 @@ class AdministratorController extends Controller {
 		return view ( 'pages.Administration.TrattamentiAdmin', $data );
 	}
 	
-	
 	/**
 	 * Metodo per l'aggiornamento deii Trattamenti dei Pazienti
-	 * @param Request $request
+	 *
+	 * @param Request $request        	
 	 * @return unknown
 	 */
 	public function updateTrattamentiP(Request $request) {
@@ -90,7 +92,7 @@ class AdministratorController extends Controller {
 			
 			try {
 				\App\TrattamentiPaziente::where ( "Id_Trattamento", Input::get ( "TrattamentoID" . $Tr->getId () ) )->update ( [ 
-						'Informativa' => Input::get ("Informativa_T" . $Tr->getId () ) 
+						'Informativa' => Input::get ( "Informativa_T" . $Tr->getId () ) 
 				] );
 			} catch ( \Exception $e ) {
 			}
@@ -99,29 +101,28 @@ class AdministratorController extends Controller {
 		}
 		
 		return redirect ( '/administration/Trattamenti' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
-		
 	}
-	
 	
 	/**
 	 * Metodo per l'aggiornamento dei Trattamenti dei Care Provider
-	 * @param Request $request
+	 *
+	 * @param Request $request        	
 	 * @return unknown
 	 */
 	public function updateTrattamentiCP(Request $request) {
 		$Trattamenti = \App\TrattamentiCareProvider::all ();
 		foreach ( $Trattamenti as $Tr ) {
 			
-			\App\TrattamentiCareProvider::where ( "Id_Trattamento", Input::get ( "TrattamentoIDCP" . $Tr->getId () ) )->update ( [
+			\App\TrattamentiCareProvider::where ( "Id_Trattamento", Input::get ( "TrattamentoIDCP" . $Tr->getId () ) )->update ( [ 
 					'Nome_T' => Input::get ( "Nome_TCP" . $Tr->getId () ),
 					
-					'Finalita_T' => Input::get ( "Finalita_TCP" . $Tr->getId () )
-					
+					'Finalita_T' => Input::get ( "Finalita_TCP" . $Tr->getId () ) 
+			
 			] );
 			
 			try {
-				\App\TrattamentiCareProvider::where ( "Id_Trattamento", Input::get ( "TrattamentoIDCP" . $Tr->getId () ) )->update ( [
-						'Informativa' => Input::get ("Informativa_TCP" . $Tr->getId () )
+				\App\TrattamentiCareProvider::where ( "Id_Trattamento", Input::get ( "TrattamentoIDCP" . $Tr->getId () ) )->update ( [ 
+						'Informativa' => Input::get ( "Informativa_TCP" . $Tr->getId () ) 
 				] );
 			} catch ( \Exception $e ) {
 			}
@@ -130,13 +131,12 @@ class AdministratorController extends Controller {
 		}
 		
 		return redirect ( '/administration/Trattamenti' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
-		
 	}
-	
 	
 	/**
 	 * Metodo per l'aggiunta di una nuova operazione di Log
-	 * @param Request $request
+	 *
+	 * @param Request $request        	
 	 * @return unknown
 	 */
 	public function addAuditLog(Request $request) {
@@ -152,9 +152,9 @@ class AdministratorController extends Controller {
 		return $this->indexAmministration ();
 	}
 	
-	
 	/**
 	 * Metodo che restituisce i Care Providers
+	 *
 	 * @return NULL[][]
 	 */
 	public function getCareProviders() {
@@ -182,10 +182,10 @@ class AdministratorController extends Controller {
 		return $CppArray;
 	}
 	
-	
 	/**
 	 * Metodo per la creazione di un'attività di admin
-	 * @param Request $request
+	 *
+	 * @param Request $request        	
 	 * @return unknown
 	 */
 	public function createActivityAdmin(Request $request) {
@@ -216,10 +216,10 @@ class AdministratorController extends Controller {
 		return redirect ( '/administration/Administrators' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
 	}
 	
-	
 	/**
 	 * Metodo per l'aggiornamento dello Status di un Cpp
-	 * @param Request $request
+	 *
+	 * @param Request $request        	
 	 * @return unknown
 	 */
 	public function updateCppStatus(Request $request) {
@@ -241,10 +241,10 @@ class AdministratorController extends Controller {
 		return redirect ( '/administration/CareProviders' )->with ( 'ok_message', 'Tutto aggiornato correttamente' );
 	}
 	
-	
 	/**
 	 * Metodo per la ricerca di un Care Provider
-	 * @param unknown $nome
+	 *
+	 * @param unknown $nome        	
 	 * @return NULL[]|NULL
 	 */
 	public function searchCP($nome) {
@@ -269,8 +269,9 @@ class AdministratorController extends Controller {
 	}
 	
 	/**
-	 * Metodo per l'aggironamenot dello Status di un Paziente 
-	 * @param Request $request
+	 * Metodo per l'aggironamenot dello Status di un Paziente
+	 *
+	 * @param Request $request        	
 	 * @return unknown|NULL
 	 */
 	public function updatePStatus(Request $request) {
@@ -287,8 +288,9 @@ class AdministratorController extends Controller {
 	}
 	
 	/**
-	 * Aggiunge un amministratore 
-	 * @param Request $request
+	 * Aggiunge un amministratore
+	 *
+	 * @param Request $request        	
 	 * @return unknown
 	 */
 	public function addAdmin(Request $request) {
@@ -354,8 +356,9 @@ class AdministratorController extends Controller {
 	}
 	
 	/**
-	 * Restituisce i Pazienti 
-	 * @param Request $request
+	 * Restituisce i Pazienti
+	 *
+	 * @param Request $request        	
 	 * @return unknown
 	 */
 	public function getPatients(Request $request) {
@@ -371,12 +374,12 @@ class AdministratorController extends Controller {
 		] );
 	}
 	
-	
 	/**
 	 * Ottiene i file per un paziente minore
-	 * @param unknown $file_id
-	 * @param unknown $paziente_id
-	 * @param Request $request
+	 *
+	 * @param unknown $file_id        	
+	 * @param unknown $paziente_id        	
+	 * @param Request $request        	
 	 * @return unknown
 	 */
 	public static function getFile($file_id, $paziente_id, Request $request) {
@@ -392,6 +395,7 @@ class AdministratorController extends Controller {
 	
 	/**
 	 * Ottiene i Pazienti con età inferiore ad 18
+	 *
 	 * @return array
 	 */
 	public function getPatientUnder18() {
@@ -431,9 +435,10 @@ class AdministratorController extends Controller {
 	 */
 	
 	/**
-	 * 
+	 *
 	 * Metodo privato per l'ottenimento delle Specializzazioni di un CP
-	 * @param unknown $CP
+	 *
+	 * @param unknown $CP        	
 	 * @return string
 	 */
 	private function getSpecializationsCPString($CP) {
@@ -449,9 +454,9 @@ class AdministratorController extends Controller {
 		return $SpecializationString;
 	}
 	
-	
 	/**
 	 * Restituisce i dati di Log
+	 *
 	 * @return NULL[][]
 	 */
 	public function getAuditLogs() {
@@ -493,6 +498,8 @@ class AdministratorController extends Controller {
 		if (\App\Amministration::find ( Input::get ( 'Id_Admin2' ) )) {
 			
 			$user = \App\Models\CurrentUser\User::where ( 'id_utente', Input::get ( 'Id_Admin2' ) )->first ();
+			$mail = $user->utente_email;
+			
 			$contacts = $user->contacts ();
 			foreach ( $contacts as $contact ) {
 				
@@ -502,8 +509,19 @@ class AdministratorController extends Controller {
 			$admin = \App\Amministration::where ( 'id_utente', Input::get ( 'Id_Admin2' ) )->first ();
 			
 			$admin->delete ();
-			Mail::to($user->utente_email)->send(new sendMail($user->utente_nome, 'Avviso di cancellazione Account', 'Gent.mo utente, la informaimo che il suo account è stato cancellato in data: '.now().'. Se non ha effettuato lei la cancellazione la preghiamo di riolgersi ai nostri operatori di Supporto alla mail "privacy@fsem.com" .'));
+			
+			//Se si cancella il proprio account viene effettuato il logout e il redirect alla welcome page
+			if ($id == Auth::user ()->id_utente) {
+				\Auth::logout ();
+				return redirect ( '/' );
+			}
+			try {
+				//Cerca di inviare una mail all'utente eliminato
+				Mail::to ( $mail )->send ( new sendMail ( $mail, 'Avviso di cancellazione Account', 'Gent.mo utente, la informaimo che il suo account è stato cancellato in data: ' . now () . '. Se non ha effettuato lei la cancellazione la preghiamo di riolgersi ai nostri operatori di Supporto alla mail "privacy@fsem.com" .' ) );
+			} catch ( \Exception $E ) {
+			} // Da eliminare appena si crea un account smtp.mailtrap.io da aggiungere al file .env
 		}
+		
 		return redirect ( '/administration/Administrators' );
 	}
 }

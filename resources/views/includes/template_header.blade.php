@@ -121,7 +121,7 @@ $id_paz = $current_user->data_patient ()->first ()->id_paziente;
 							<i class="icon-lock"></i>Impostazioni
 						</button>
 						<div id="myDropdown" class="dropdown-content">
-							<a href="/impostazioniSicurezza">Sicurezza</a> <a href="/consent"><i class="fas fa-file-signature"></i>Trattamenti</a>
+							<a href="/impostazioniSicurezza">Sicurezza</a> <a href="/consent"><i class="fas fa-file-signature"></i>Trattamenti</a><a href="/cookie-page">Cookie</a>
 							<a data-toggle="modal" data-target="#myModalDelete"><i class="fa fa-sign-out"></i>Elimina Account</a>
 						</div>
 					</div>

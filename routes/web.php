@@ -205,9 +205,8 @@ Route::group ( [
 	
 } );
 
-Route::get ( '/cookies_s', function () {
-	return view ( 'layouts.cookies-s' );
-} );
+	Route::get('/cookie-page', 'CookieController@index');
+
 
 
 Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' );

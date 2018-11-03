@@ -30,7 +30,7 @@
 	<!--ANAGRAFICA RIDOTTA-->
 	<div class="well well-sm">
 		<ul class="list-small">
-			<li><strong>C.F.</strong>: <span> Non Prevenuto </span></li>
+			<li><strong>C.F.</strong>: <span> Non Pervenuto </span></li>
 			<li><strong>Data di nascita</strong>: <span> {{$time=date('d-m-Y',
 					strtotime(str_replace('/', '-',
 					$current_administrator->Data_Nascita)))}} </span> <strong>Età</strong>:

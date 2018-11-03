@@ -4,6 +4,8 @@
         let cookies = document.getElementById("cookiescript_in");
         cookies.remove();
        	window.location.reload();
+
+     
         
     }
 

@@ -43,7 +43,7 @@ class TrattamentiPazienteSeeder extends Seeder
        
        DB::table('Trattamenti_Pazienti')->insert([
        		[ 'Id_Trattamento' => 4,
-       				'Nome_T' => 'Messagistica',
+       				'Nome_T' => 'Messaggistica',
        				'Finalita_T' => 'Conservazione dei messaggi scambiati tra gli operatori sanitari e il paziente.',
        				'Modalita_T' => 'Accesso in lettura',
        				'Informativa' => 'Acconsentendo si dichiara la volonta di accedere al servizio di messaggistica. I messaggi scambiati saranno conservati per un periodo non superiore ad un anno dalla loro creazione.',

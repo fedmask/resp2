@@ -26,7 +26,7 @@
 
 <hr>
 
-@if($current_administrator->Ruolo == 'Responsabile al Trattamento' && $current_administrator->Ruolo == 'Responsabile al Trattamento')
+@if($current_administrator->Ruolo == 'Responsabile al Trattamento' || $current_administrator->Ruolo == 'Amministratore_di_sistema')
 		<button class="btn2" style="width: 100%" data-toggle="modal"
 			data-target="#myModalRegisterAdmin">
 			<i class="fa fa-address-card-o"></i> Registra Nuovo Amministratore
@@ -127,13 +127,16 @@
 									@endif
 								<br>
 								<label for="birthDate" class="control-label col-lg-5">Data di nascita*</label>
-								 <input id="birthDate" name="birthDate" type="text" class="form-control" placeholder="Inserisci  gg-mm-aaaa ">
-									@if ($errors->has('birthDate'))
+								{{Form::date('birthDate','', ['id'=>"birthDate", 'name'=>"birthDate", 'class' => 'form-control col-lg-6'])}}
+								 	
+								 	@if ($errors->has('birthDate'))
     									<div class="alert alert-danger" role="alert">{{ $errors->first('birthDate') }}</div>
 									@endif
 								
 						<br>
-
+						<br>
+						<br>
+						<br>
 						
 								<label for="livingCity" class="control-label col-lg-5">Comune di residenza*</label>
 								 <input id="livingCity" name="livingCity" type="text" class="typeahead form-control">
@@ -195,7 +198,7 @@
 
 <hr>
 
-
+@if($current_administrator->Ruolo != 'Amministratore_di_sistema')
 <div align="center">
 
 				<button type="button" style="width: 100%" class="btn3" data-toggle="modal"
@@ -226,7 +229,7 @@
 				</div>
 			</div>
 
-
+@endif
 
 @endif
 

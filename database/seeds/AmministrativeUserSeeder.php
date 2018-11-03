@@ -16,7 +16,7 @@ class AmministrativeUserSeeder extends Seeder
     			'id_utente' => '4',
     			'Nome'=>'Mario',
     			'Cognome'=>'Rossi',
-    			'Ruolo'=> 'Personale di Supporto',
+    			'Ruolo'=> 'Responsabile al Trattamento',
     			'Sesso'=>'M',
     			'Data_Nascita'=>'1956-08-02',
     			'Comune_Nascita'=>'767',
