@@ -24,16 +24,12 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            @include('pages.anamnesi_print')
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-                            <a href="{{url('/anamnesiprint')}}" target="_blank" type="button" class="btn btn-primary">Stampa</a>
-                        </div>
+                        @include('pages.anamnesi_print')
                     </div>
                 </div>
+
             </div>
+
 
             <!-- script per la manipolazione delle anamnesi familiari-->
             <script src="{{url('https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js')}}"></script>
@@ -920,7 +916,7 @@
                                                                                                     name="alcool"
                                                                                                     id="alcool">
                                                                                                 <option @if( $anamnesiFisiologica->alcool == "") value="{{$anamnesiFisiologica->alcool}}" selected="selected" @endif></option>
-                                                                                                <option @if( $anamnesiFisiologica->fumo == "no") value="{{$anamnesiFisiologica->alcool}}" selected="selected" @endif id="noalcool">
+                                                                                                <option @if( $anamnesiFisiologica->alcool == "no") value="{{$anamnesiFisiologica->alcool}}" selected="selected" @endif id="noalcool">
                                                                                                     no
                                                                                                 </option>
                                                                                                 <option @if( $anamnesiFisiologica->fumo == "si") value="{{$anamnesiFisiologica->alcool}}" selected="selected" @endif id="sialcool">
