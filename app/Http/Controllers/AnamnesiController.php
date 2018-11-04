@@ -521,21 +521,27 @@ class AnamnesiController extends Controller
         $parente = Parente::where('id_paziente', Auth::id())->get();
         $gravidanza = Gravidanza::where('id_paziente', Auth::id())->get();
 
+        //PRINT ANAMNESI FAMILIARE
         $anamFamiliare_cont  = $request->input('anamFamiliare');
         if ($anamFamiliare_cont != null){
             $anamFamiliare_cont = "- " . $anamFamiliare_cont;
         }
 
         $Parente = "";
-        for($i=1; $i<=count($parente); $i++){
-            $Parente = $Parente . "<strong>Componente: </strong>". $request->input('anamComponente'.$i) . "<br>
-                                   <strong> Sesso: </strong>". $request->input('anamSesso'.$i) . "<br>
-                                   <strong>Anni: </strong>". $request->input('anamEta'.$i). "<br>
-                                   <strong>Annotazioni: </strong>" .$request->input('anamAnnotazioni'.$i). "<br><br>";
+        foreach($parente as $p){
+            $Parente = $Parente . "<strong>Componente: </strong>". $request->input('anamComponente'.$p->id_parente) . "<br>
+                                   <strong> Sesso: </strong>". $request->input('anamSesso'.$p->id_parente) . "<br>
+                                   <strong>Anni: </strong>". $request->input('anamEta'.$p->id_parente). "<br>
+                                   <strong>Annotazioni: </strong>" .$request->input('anamAnnotazioni'.$p->id_parente). "<br><br>";
+        }
+
+        if($Parente != null){
+            $Parente = "<h3>Anamnesi familiare FHIR</h3>" . $Parente;
         }
         $pathLogo = public_path('img/logo.png');
-        $anamnesifamiliare = " <br><h2>Anamnesi familiare</h2><hr><br> " . $anamFamiliare_cont . "<h3>Anamnesi familiare FHIR</h3>" . $Parente;
+        $anamnesifamiliare = " <br><h2>Anamnesi familiare</h2><hr><br> " . $anamFamiliare_cont . $Parente;
 
+        //PRINT ANAMNESI FISIOLOGICA
         $parto = "";
         if($request->input('Parto') != null){
            $parto = "<strong>Nato da parto: </strong>" . $request->input('Parto') . "<br>";
@@ -655,12 +661,18 @@ class AnamnesiController extends Controller
                 $etaMenopausa= "<strong>Età menopausa: </strong>" . $request->input('etaMenopausa') . "<br>";
             }
 
+            $menopausa = "";
+            if($request->input('menopausa') != null){
+                $menopausa= "<strong>Menopausa: </strong>" . $request->input('menopausa') . "<br>";
+            }
+
             $noteCiclo = "";
             if($request->input('noteCiclo') != null){
                 $noteCiclo= "<strong>Note: </strong>" . $request->input('noteCiclo') . "<br>";
             }
 
-            $cicloMesturale = "<br><h3>Ciclo mestruale</h3>" . $etaMenarca . $ciclo .$etaMenopausa . $noteCiclo;
+            if($etaMenarca != null or $ciclo != null or $etaMenopausa != null or $menopausa != null or $noteCiclo)
+                $cicloMesturale = "<br><h3>Ciclo mestruale</h3>" . $etaMenarca . $ciclo . $etaMenopausa . $menopausa . $noteCiclo;
 
             $Gravidanze = "";
             foreach ($gravidanza as $g){
@@ -672,35 +684,69 @@ class AnamnesiController extends Controller
                                             <strong>Note: </strong>" . $request->input('noteGrav'.$g->id_gravidanza) . "<br><br>";
             }
 
-            $Gravidanze = "<br><h3>Gravidanze</h3>" . $Gravidanze;
+            if($Gravidanze != null)
+                $Gravidanze = "<br><h3>Gravidanze</h3>" . $Gravidanze;
         }
 
-        $anamnesifisiologica = "<h2>Anamnesi fisiologica</h2><hr><h3>Infanzia</h3>" . $parto . $tipoParto . $allattamento . $sviluppoVegRel . $noteInfanzia ."<br><h3>Scolarità</h3>" . $livelloScol . "<br><h3>Stile di vita</h3>" . $attivitaFisica . $abitudAlim . $fumo . $freqFumo .$alcool . $freqAlcool . $droghe . $freqDroghe . $noteStileVita . "<br><h3>Attività lavorativa</h3>" . $professione . $noteAttLav . "<br><h3>Alvo e minzione</h3>" . $alvo . $minzione . $noteAlvoMinz . $cicloMesturale . $Gravidanze;
+        $infanzia = "";
+        $scolarita = "";
+        $stileVita = "";
+        $attivitaLavorativa = "";
+        $alvominzione = "";
+        if($parto != null or $tipoParto != null or $allattamento != null or $sviluppoVegRel != null or $noteInfanzia)
+            $infanzia = "<h3>Infanzia</h3>";
 
+        if($livelloScol != null)
+            $scolarita = "<br><h3>Scolarità</h3>";
+
+        if($attivitaFisica != null or $abitudAlim != null or $fumo != null or $freqFumo != null or $alcool != null or $freqAlcool != null or $droghe != null or $freqDroghe != null or $noteStileVita)
+            $stileVita = "<br><h3>Stile di vita</h3>";
+
+        if($professione != null or $noteAttLav)
+            $attivitaLavorativa = "<br><h3>Attività lavorativa</h3>";
+
+        if($alvo != null or $minzione != null or $noteAlvoMinz)
+            $alvominzione = "<br><h3>Alvo e minzione</h3>";
+
+
+
+        $anamnesifisiologica = "<h2>Anamnesi fisiologica</h2><hr>" . $infanzia . $parto . $tipoParto . $allattamento . $sviluppoVegRel . $noteInfanzia .$scolarita . $livelloScol . $stileVita . $attivitaFisica . $abitudAlim . $fumo . $freqFumo . $alcool . $freqAlcool . $droghe . $freqDroghe . $noteStileVita . $attivitaLavorativa . $professione . $noteAttLav . $alvominzione . $alvo . $minzione . $noteAlvoMinz . $cicloMesturale . $Gravidanze;
+
+
+        //PRINT ANAMNESI PAT. REMOTA
         $anamPatRemota_cont  = $request->input('anamPatRemota');
         if ($anamPatRemota_cont != null){
             $anamPatRemota_cont = "- " . $anamPatRemota_cont;
         }
 
-        $anamPatRemota_icd9  = "<br><h4>Patologie remote raggruppate per Categorie Diagnostiche (MDC):</h4>". $request->input('icd9PatRemota');
+        if($request->input('icd9PatRemota') != null)
+            $anamPatRemota_icd9  = "<br><h4>Patologie remote raggruppate per Categorie Diagnostiche (MDC):</h4>". $request->input('icd9PatRemota');
 
 
+        $anamnesipatologicaremota = "<h2>Anamnesi patologica remota</h2><hr>" . $anamPatRemota_cont . $anamPatRemota_icd9;
 
-        $anamnesipatologicaremota = "<br><br><br><h2>Anamnesi patologica remota</h2><hr>" . $anamPatRemota_cont . $anamPatRemota_icd9;
 
-
+        //PRINT ANAMNESI PAT. PROSSIMA
         $anamPatProssima_cont  = $request->input('anamPatProssima');
         if ($anamPatProssima_cont != null){
             $anamPatProssima_cont = "- " . $anamPatProssima_cont;
         }
 
-        $anamPatProssima_icd9  = "<br><br><h4>Patologie prossime raggruppate per Categorie Diagnostiche (MDC):</h4>". $request->input('icd9PatProssima');
+        if($request->input('icd9PatProssima') != null)
+            $anamPatProssima_icd9  = "<br><br><h4>Patologie prossime raggruppate per Categorie Diagnostiche (MDC):</h4>". $request->input('icd9PatProssima');
 
 
 
         $anamnesipatologicaprossima = "<br><br><h2>Anamnesi patologica prossima</h2><hr>" . $anamPatProssima_cont . $anamPatProssima_icd9;
 
-        $print = "<img src=$pathLogo>" . "<br><h1>Sig. $user->paziente_nome $user->paziente_cognome</h1>" .  $anamnesifamiliare . $anamnesifisiologica . $anamnesipatologicaremota . $anamnesipatologicaprossima;
+        $nomePaziente = "";
+        if($user->paziente_sesso == "female" or $user->paziente_sesso == "F"){
+            $nomePaziente = "<br><h1>Sig.ra $user->paziente_nome $user->paziente_cognome</h1>";
+        }else{
+            $nomePaziente = "<br><h1>Sig. $user->paziente_nome $user->paziente_cognome</h1>";
+        }
+
+        $print = "<img src=$pathLogo>" . $nomePaziente .  $anamnesifamiliare . $anamnesifisiologica . $anamnesipatologicaremota . $anamnesipatologicaprossima;
 
         $pdf = PDF::loadhtml($print);
         return $pdf->stream('result.pdf');
