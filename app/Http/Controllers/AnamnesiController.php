@@ -700,7 +700,7 @@ class AnamnesiController extends Controller
 
         $anamnesipatologicaprossima = "<br><br><h2>Anamnesi patologica prossima</h2><hr>" . $anamPatProssima_cont . $anamPatProssima_icd9;
 
-        $print = "<img src=$pathLogo>" . $anamnesifamiliare . $anamnesifisiologica . $anamnesipatologicaremota . $anamnesipatologicaprossima;
+        $print = "<img src=$pathLogo>" . "<br><h1>Sig. $user->paziente_nome $user->paziente_cognome</h1>" .  $anamnesifamiliare . $anamnesifisiologica . $anamnesipatologicaremota . $anamnesipatologicaprossima;
 
         $pdf = PDF::loadhtml($print);
         return $pdf->stream('result.pdf');

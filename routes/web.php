@@ -275,7 +275,7 @@ Route::resource('/anamnesi','AnamnesiController',['except' => ['create', 'show',
 Route::post('/anamnesi','AnamnesiController@store');
 Route::patch('/anamnesi/{id}', 'AnamnesiController@update')->name('Update');
 Route::delete('/anamnesi/{id}', 'AnamnesiController@delete')->name('Delete');
-Route::get('/anamnesiprint','AnamnesiController@printAnamnesi');
+Route::post('/anamnesiprint','AnamnesiController@printAnamnesi');
 
 
 

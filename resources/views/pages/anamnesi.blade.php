@@ -18,12 +18,7 @@
             <div class="modal fade" tabindex="-1" role="dialog" id="Print">
                 <div class="modal-dialog" role="document" style="width:90%;">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title">Anteprima di stampa</h3>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
+
                         @include('pages.anamnesi_print')
                     </div>
                 </div>
