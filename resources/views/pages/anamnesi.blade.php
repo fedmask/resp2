@@ -322,6 +322,7 @@
                                     <div class="col-lg-6">
                                         <select id="gradoParentela" name="grado_parentela" class="form-control">
                                             <option value="fratello">Fratello</option>
+                                            <option value="sorella">Sorella</option>
                                             <option value="genitore">Genitore</option>
                                             <option value="nonno">Nonno/a</option>
                                             <option value="zio">Zio/a</option>
@@ -502,6 +503,7 @@
                                         <div class="col-lg-6">
                                             <select id="gradoParentela" name="grado_parentela" class="form-control">
                                                 <option @if( $p->grado_parentela == "fratello") value="{{$p->grado_parentela}}" selected="selected" @else value="fratello" @endif>Fratello</option>
+                                                <option @if( $p->grado_parentela == "sorella") value="{{$p->grado_parentela}}" selected="selected" @else value="sorella" @endif>Sorella</option>
                                                 <option @if( $p->grado_parentela == "genitore") value="{{$p->grado_parentela}}" selected="selected" @else value="genitore" @endif>Genitore</option>
                                                 <option @if( $p->grado_parentela == "nonno") value="{{$p->grado_parentela}}" selected="selected" @else value="nonno" @endif>Nonno/a</option>
                                                 <option @if( $p->grado_parentela == "zio") value="{{$p->grado_parentela}}" selected="selected" @else value="zio" @endif>Zio/a</option>
