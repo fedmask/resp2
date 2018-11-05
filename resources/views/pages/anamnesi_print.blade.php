@@ -144,7 +144,7 @@
             @endforeach
 
             @foreach($anamnesiPatologicaProssima as $app)
-                @if($app->anamnesi_remota_contenuto != null)
+                @if($app->anamnesi_prossima_contenuto != null)
                     document.getElementById("anamPatProssima").value = "{!! $app->anamnesi_prossima_contenuto !!}";
                 @endif
             @endforeach
