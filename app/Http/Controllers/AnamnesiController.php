@@ -637,7 +637,7 @@ class AnamnesiController extends Controller
         }
 
         $cicloMesturale = "";
-
+        $Gravidanze = "";
         if($user->paziente_sesso == "F" or $user->paziente_sesso == "female"){
 
             $etaMenarca = "";
@@ -667,7 +667,7 @@ class AnamnesiController extends Controller
 
             $cicloMesturale = $etaMenarca . $ciclo . $etaMenopausa . $menopausa . $noteCiclo;
 
-            $Gravidanze = "";
+
             foreach ($gravidanza as $g){
                 $Gravidanze = $Gravidanze . "Gravidanza con esito " . $request->input('esitoGrav'.$g->id_gravidanza) . " all'età di " . $request->input('etaGrav'.$g->id_gravidanza) . " anni, " .
                                             "inizio gravidanza " . $request->input('inizioGrav'.$g->id_gravidanza) . ", fine gravidanza " . $request->input('fineGrav'.$g->id_gravidanza) . ", sesso bambino " . $request->input('sessoBambinoGrav'.$g->id_gravidanza) . ", note gravidanza" . $request->input('noteGrav'.$g->id_gravidanza) . ".<br>";
@@ -691,6 +691,7 @@ class AnamnesiController extends Controller
             $anamPatRemota_icd9  = "<br><br><strong>Patologie remote raggruppate per Categorie Diagnostiche (MDC): </strong><br>". $request->input('icd9PatRemota');
 
 
+        $anamnesipatologicaremota = "";
         if($anamPatRemota_cont != null or $anamPatRemota_icd9 != null) {
             $anamnesipatologicaremota = "<h2>Anamnesi patologica remota</h2><hr>" . $anamPatRemota_cont . $anamPatRemota_icd9;
         }
@@ -701,6 +702,7 @@ class AnamnesiController extends Controller
             $anamPatProssima_cont = "- " . $anamPatProssima_cont;
         }
 
+        $anamPatProssima_icd9 = "";
         if($request->input('icd9PatProssima') != null)
             $anamPatProssima_icd9  = "<br><br><strong>Patologie prossime raggruppate per Categorie Diagnostiche (MDC): </strong><br>". $request->input('icd9PatProssima');
 
