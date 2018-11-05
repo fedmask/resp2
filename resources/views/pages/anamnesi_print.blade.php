@@ -5,24 +5,180 @@
 
         })
     });
-    $(document).ready(function ( e) {
-        $(document).on("click", "#cancelPrint", function (e) {
-            location.reload();
-        })
-    });
+
 </script>
-<img src="{{url('/img/logo.png')}}"><br>
+
+<script>
+    function cancel() {
+        if (confirm('Sei sicuro di annullare le modifiche effettuate in precedenza? Tutte le modifiche andranno perse!')) {
+
+            @foreach($anamnesiFamiliare as $aFam)
+                @if($aFam->anamnesi_contenuto != null)
+                    document.getElementById('anamFamiliare').value = "{!! $aFam->anamnesi_contenuto !!}";
+                @endif
+            @endforeach
+
+            @foreach($parente as $p)
+                @if($p->nome != null)
+                    document.getElementById("anamComponente" + "{!! $p->id_parente !!}").value = "{!! $p->nome !!}";
+                @endif
+                @if($p->sesso)
+                    document.getElementById("anamSesso" + "{!! $p->id_parente !!}").value = "{!! $p->sesso !!}";
+                @endif
+                @if($p->età)
+                    document.getElementById("anamEta" + "{!! $p->id_parente !!}").value = "{!! $p->età !!}";
+                @endif
+                @if($p->annotazioni)
+                    document.getElementById("anamAnnotazioni" + "{!! $p->id_parente !!}").value = "{!! $p->annotazioni !!}";
+                @endif
+            @endforeach
+
+            @if($anamnesiFisiologica->tempoParto!= null)
+                document.getElementById("Parto").value = "{!! $anamnesiFisiologica->tempoParto !!}";
+            @endif
+            @if($anamnesiFisiologica->tipoParto != null)
+                document.getElementById("tipoParto").value = "{!! $anamnesiFisiologica->tipoParto !!}";
+            @endif
+            @if($anamnesiFisiologica->allattamento != null)
+                document.getElementById("Allattamento").value = "{!! $anamnesiFisiologica->allattamento !!}";
+            @endif
+            @if($anamnesiFisiologica->sviluppoVegRel !=null)
+                document.getElementById("sviluppoVegRel").value = "{!! $anamnesiFisiologica->sviluppoVegRel !!}";
+            @endif
+            @if($anamnesiFisiologica->noteInfanzia != null)
+                document.getElementById("noteInfanzia").value = "{!! $anamnesiFisiologica->noteInfanzia !!}";
+            @endif
+            @if($anamnesiFisiologica->livelloScol != null)
+                document.getElementById("livScol").value = "{!! $anamnesiFisiologica->livelloScol !!}";
+            @endif
+            @if($anamnesiFisiologica->attivitaFisica != null)
+                document.getElementById("attivitaFisica").value = "{!! $anamnesiFisiologica->attivitaFisica !!}";
+            @endif
+            @if($anamnesiFisiologica->abitudAlim != null)
+                document.getElementById("abitudAlim").value = "{!! $anamnesiFisiologica->abitudAlim !!}";
+            @endif
+            @if($anamnesiFisiologica->fumo != null)
+                document.getElementById("fumo").value = "{!! $anamnesiFisiologica->fumo !!}";
+            @endif
+            @if($anamnesiFisiologica->freqFumo != null)
+                document.getElementById("freqFumo").value = "{!! $anamnesiFisiologica->freqFumo !!}";
+            @endif
+            @if($anamnesiFisiologica->alcool != null)
+                document.getElementById("alcool").value = "{!! $anamnesiFisiologica->alcool !!}";
+            @endif
+            @if($anamnesiFisiologica->freqAlcool != null)
+                document.getElementById("freqAlcool").value = "{!! $anamnesiFisiologica->freqAlcool !!}";
+            @endif
+            @if($anamnesiFisiologica->droghe != null)
+                document.getElementById("droghe").value = "{!! $anamnesiFisiologica->droghe !!}";
+            @endif
+            @if($anamnesiFisiologica->freqDroghe != null)
+                document.getElementById("freqDroghe").value = "{!! $anamnesiFisiologica->freqDroghe !!}";
+            @endif
+            @if($anamnesiFisiologica->noteStileVita != null)
+                document.getElementById("noteStileVita").value = "{!! $anamnesiFisiologica->noteStileVita !!}";
+            @endif
+            @if($anamnesiFisiologica->professione != null)
+                document.getElementById("professione").value = "{!! $anamnesiFisiologica->professione !!}";
+            @endif
+            @if($anamnesiFisiologica->noteAttLav != null)
+                document.getElementById("noteAttLav").value = "{!! $anamnesiFisiologica->noteAttLav !!}";
+            @endif
+            @if($anamnesiFisiologica->alvo != null)
+                document.getElementById("alvo").value = "{!! $anamnesiFisiologica->alvo !!}";
+            @endif
+            @if($anamnesiFisiologica->minzione != null)
+                document.getElementById("minzione").value = "{!! $anamnesiFisiologica->minzione !!}";
+            @endif
+            @if($anamnesiFisiologica->noteAlvoMinz != null)
+                document.getElementById("noteAlvoMinz").value = "{!! $anamnesiFisiologica->noteAlvoMinz !!}";
+            @endif
+            @if($anamnesiFisiologica->etaMenarca != null)
+                document.getElementById("etaMenarca").value = "{!! $anamnesiFisiologica->etaMenarca !!}";
+            @endif
+            @if($anamnesiFisiologica->ciclo != null)
+                document.getElementById("ciclo").value = "{!! $anamnesiFisiologica->ciclo !!}";
+            @endif
+            @if($anamnesiFisiologica->etaMenopausa != null)
+                document.getElementById("etaMenopausa").value = "{!! $anamnesiFisiologica->etaMenopausa !!}";
+            @endif
+            @if($anamnesiFisiologica->menopausa != null)
+                document.getElementById("menopausa").value = "{!! $anamnesiFisiologica->menopausa !!}";
+            @endif
+            @if($anamnesiFisiologica->noteCicloMes != null)
+                document.getElementById("noteCiclo").value = "{!! $anamnesiFisiologica->noteCicloMes !!}";
+            @endif
+
+
+            @foreach($gravidanza as $g)
+                @if($g->esito != null)
+                    document.getElementById("esitoGrav" + "{!! $g->id_gravidanza !!}").value = "{!! $g->esito !!}";
+                @endif
+                @if($g->eta != null)
+                    document.getElementById("etaGrav" + "{!! $g->id_gravidanza !!}").value = "{!! $g->eta !!}";
+                @endif
+                @if($g->inizio_gravidanza != null)
+                    document.getElementById("inizioGrav" + "{!! $g->id_gravidanza !!}").value = "{!! date('d/m/Y', strtotime($g->inizio_gravidanza)) !!}";
+                @endif
+                @if($g->fine_gravidanza != null)
+                    document.getElementById("fineGrav" + "{!! $g->id_gravidanza !!}").value = "{!! date('d/m/Y', strtotime($g->fine_gravidanza)) !!}";
+                @endif
+                @if($g->sesso_bambino != null)
+                    document.getElementById("sessoBambinoGrav" + "{!! $g->id_gravidanza !!}").value = "{!! $g->sesso_bambino !!}";
+                @endif
+                @if($g->note_gravidanza != null)
+                    document.getElementById("noteGrav" + "{!! $g->id_gravidanza !!}").value = "{!! $g->note_gravidanza !!}";
+                @endif
+            @endforeach
+
+            @foreach($anamnesiPatologicaRemota as $apr)
+                    @if($apr->anamnesi_remota_contenuto != null)
+                        document.getElementById("anamPatRemota").value = "{!! $apr->anamnesi_remota_contenuto !!}";
+                    @endif
+            @endforeach
+
+            @foreach($anamnesiPatologicaRemota as $apr)
+                @if($apr->icd9_group_code != null)
+                    document.getElementById("icd9PatRemota").value = "{!! str_replace("_", ", ", rtrim($apr->icd9_group_code,"_")) !!}";
+                @endif
+            @endforeach
+
+            @foreach($anamnesiPatologicaProssima as $app)
+                @if($app->anamnesi_remota_contenuto != null)
+                    document.getElementById("anamPatProssima").value = "{!! $app->anamnesi_prossima_contenuto !!}";
+                @endif
+            @endforeach
+
+            @foreach($anamnesiPatologicaProssima as $app)
+                @if($app->icd9_group_code != null)
+                    document.getElementById("icd9PatProssima").value = "{!! str_replace("_", ", ", rtrim($app->icd9_group_code,"_")) !!}";
+                @endif
+            @endforeach
+        }
+    }
+</script>
+<div class="modal-header">
+    <img src="{{url('/img/logo.png')}}">
+
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 <form action="{{url('/anamnesiprint')}}" method="post" target="_blank" class="form-horizontal">
     {{csrf_field()}}
         <div class="modal-header">
             <div class="row">
                 <div class="col-md-9">
+                    <br>
                     <h3 class="modal-title">Anteprima di stampa</h3>
+
                 </div>
+                <br>
                 <div class="col-md-3">
+
                     <button type="submit" id="editPrint" class="btn btn-primary" >Stampa</button>
                     <button type="button" name="editPrint" id="editPrint" class="btn btn-success">Modifica</button>
-                    <button type="button" name="cancelPrint" id="cancelPrint" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                    <button type="button" name="cancelPrint" id="cancelPrint" onclick="cancel()" class="btn btn-default" >Annulla</button>
                 </div>
 
             </div>
@@ -43,10 +199,10 @@
 
             <h3>Anamnesi familiare FHIR</h3>
             @foreach($parente as $p)
-                <label>Componente: <input type="text" name="anamComponente{{$p->id_parente}}" id="anamComponente" value="{{$p->nome}}" size="100" style="border: transparent;" disabled></label>
-                <label>Sesso: <input type="text" name="anamSesso{{$p->id_parente}}" id="anamSesso" value="{{$p->sesso}}" size="100" style="border: transparent;" disabled></label>
-                <label>Anni: <input type="text" name="anamEta{{$p->id_parente}}" id="anamEta" value="{{$p->età}}" size="100" style="border: transparent;" disabled></label>
-                <label>Annotazioni: <input type="text" name="anamAnnotazioni{{$p->id_parente}}" id="anamAnnotazioni" value="{{$p->annotazioni}}" size="100" style="border: transparent;" disabled></label>
+                <label>Componente: <input type="text" name="anamComponente{{$p->id_parente}}" id="anamComponente{{$p->id_parente}}" value="{{$p->nome}}" size="100" style="border: transparent;" disabled></label>
+                <label>Sesso: <input type="text" name="anamSesso{{$p->id_parente}}" id="anamSesso{{$p->id_parente}}" value="{{$p->sesso}}" size="100" style="border: transparent;" disabled></label>
+                <label>Anni: <input type="text" name="anamEta{{$p->id_parente}}" id="anamEta{{$p->id_parente}}" value="{{$p->età}}" size="100" style="border: transparent;" disabled></label>
+                <label>Annotazioni: <input type="text" name="anamAnnotazioni{{$p->id_parente}}" id="anamAnnotazioni{{$p->id_parente}}" value="{{$p->annotazioni}}" size="100" style="border: transparent;" disabled></label>
                 <br><br>
             @endforeach
             <h2>Anamnesi fisiologica</h2>
@@ -105,12 +261,12 @@
 
                 <h3>Gravidanze</h3>
                 @foreach($gravidanza as $g)
-                    <label>Esito gravidanza: <input type="text" name="esitoGrav{{$g->id_gravidanza}}" id="esitoGrav" value="{{$g->esito}}" size="100" style="border: transparent;" disabled></label>
-                    <label>Età gravidanza: <input type="text" name="etaGrav{{$g->id_gravidanza}}" id="etaGrav" value="{{$g->eta}}" size="100" style="border: transparent;" disabled></label>
-                    <label>Inizio gravidanza: <input type="text" name="inizioGrav{{$g->id_gravidanza}}" id="inizioGrav" @if($g->inizio_gravidanza != null) value="{{date('d/m/Y', strtotime($g->inizio_gravidanza))}}" @else value=" " @endif size="100" style="border: transparent;" disabled></label>
-                    <label>Fine gravidanza: <input type="text" name="fineGrav{{$g->id_gravidanza}}" id="fineGrav" @if($g->fine_gravidanza != null) value="{{date('d/m/Y', strtotime($g->fine_gravidanza))}}" @else value=" " @endif size="100" style="border: transparent;" disabled></label>
-                    <label>Sesso bambino: <input type="text" name="sessoBambinoGrav{{$g->id_gravidanza}}" id="sessoBambinoGrav" value="{{$g->sesso_bambino}}" size="100" style="border: transparent;" disabled></label>
-                    <label>Note: <input type="text" name="noteGrav{{$g->id_gravidanza}}" id="noteGrav" value="{{$g->note_gravidanza}}" size="100" style="border: transparent;" disabled></label>
+                    <label>Esito gravidanza: <input type="text" name="esitoGrav{{$g->id_gravidanza}}" id="esitoGrav{{$g->id_gravidanza}}" value="{{$g->esito}}" size="100" style="border: transparent;" disabled></label>
+                    <label>Età gravidanza: <input type="text" name="etaGrav{{$g->id_gravidanza}}" id="etaGrav{{$g->id_gravidanza}}" value="{{$g->eta}}" size="100" style="border: transparent;" disabled></label>
+                    <label>Inizio gravidanza: <input type="text" name="inizioGrav{{$g->id_gravidanza}}" id="inizioGrav{{$g->id_gravidanza}}" @if($g->inizio_gravidanza != null) value="{{date('d/m/Y', strtotime($g->inizio_gravidanza))}}" @else value=" " @endif size="100" style="border: transparent;" disabled></label>
+                    <label>Fine gravidanza: <input type="text" name="fineGrav{{$g->id_gravidanza}}" id="fineGrav{{$g->id_gravidanza}}" @if($g->fine_gravidanza != null) value="{{date('d/m/Y', strtotime($g->fine_gravidanza))}}" @else value=" " @endif size="100" style="border: transparent;" disabled></label>
+                    <label>Sesso bambino: <input type="text" name="sessoBambinoGrav{{$g->id_gravidanza}}" id="sessoBambinoGrav{{$g->id_gravidanza}}" value="{{$g->sesso_bambino}}" size="100" style="border: transparent;" disabled></label>
+                    <label>Note: <input type="text" name="noteGrav{{$g->id_gravidanza}}" id="noteGrav{{$g->id_gravidanza}}" value="{{$g->note_gravidanza}}" size="100" style="border: transparent;" disabled></label>
                     <br><br>
                 @endforeach
             @endif

@@ -522,7 +522,7 @@ class AnamnesiController extends Controller
         $gravidanza = Gravidanza::where('id_paziente', Auth::id())->get();
 
         //PRINT ANAMNESI FAMILIARE
-        $anamFamiliare_cont  = $request->input('anamFamiliare');
+        $anamFamiliare_cont  = $request->input('anamFamiliare') . "<br>";
 
         $Parente = "";
         foreach($parente as $p){
