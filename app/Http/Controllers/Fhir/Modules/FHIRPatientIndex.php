@@ -65,14 +65,8 @@ class FHIRPatientIndex
     function indexPractitioner($id)
     {
         $patient = Pazienti::where('id_paziente', $id)->first();
-        
-        $cppPatient = CppPaziente::where('id_paziente', $patient->id_paziente)->get();
-        
-        $practitioner = array();
-        
-        foreach ($cppPatient as $cpp) {
-            array_push($practitioner, CareProvider::where('id_cpp', $cpp->id_cpp)->first());
-        }
+
+        $practitioner = CareProvider::all();
         
         $data['practitioner'] = $practitioner;
         $data['patient'] = $patient;
