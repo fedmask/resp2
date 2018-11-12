@@ -1,0 +1,37 @@
+<StructureDefinition xmlns="http://hl7.org/fhir">
+  <url value="http://example.org/fhir/StructureDefinition/participation-agreement" /> <!--DA MODIFICARE-->
+  <name value="Example Extension Definition" /> <!--DA MODIFICARE-->
+  <kind value="datatype" />
+  <contextType value="resource" />
+  <context value="Practictioner" />
+  <type value="Extension" />
+  <baseDefinition value="http://hl7.org.fhir/StructureDefinition/Extension" />
+  <derivation value="constraint" />
+
+  <differential>
+
+    <element>
+      <path value="Extension"/>
+      <short value="Campi Visita" />
+      <definition value="I campi di una visita" />
+      <comment value="I campi necessari per l'esportazione della risorsa" />
+      <mustSupport value="true" />
+      <isModifier value="false" />
+    </element>
+
+<!--Termine Copertura Vaccinale-->
+    <element>
+      <path value="Extension.valueDate"/>
+      <name value="Termine Copertura Vaccinale" />
+      <short value="Indica la data di fine della copertura vaccinale" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="date" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+
+
+  </differential>
+</StructureDefinition>

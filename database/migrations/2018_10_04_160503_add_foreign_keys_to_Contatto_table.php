@@ -14,8 +14,10 @@ class AddForeignKeysToContattoTable extends Migration {
 	{
 		Schema::table('Contatto', function(Blueprint $table)
 		{
-			$table->foreign('sesso', 'Contatto_ibfk_1')->references('Code')->on('Gender')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('tipo', 'Contatto_ibfk_2')->references('Code')->on('TipoContatto')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+		    $table->foreign('id_paziente', 'Contatto_ibfk_1')->references('id_paziente')->on('tbl_pazienti')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+		    $table->foreign('relazione', 'Contatto_ibfk_4')->references('Code')->on('RelationshipType')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+		    $table->foreign('sesso', 'Contatto_ibfk_3')->references('Code')->on('Gender')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			
 		});
 	}
 

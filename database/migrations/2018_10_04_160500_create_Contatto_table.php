@@ -15,17 +15,17 @@ class CreateContattoTable extends Migration {
 		Schema::create('Contatto', function(Blueprint $table)
 		{
 			$table->integer('id_contatto')->unsigned()->primary();
+			$table->integer('id_paziente')->unsigned()->index('id_paziente');
 			$table->boolean('attivo')->nullable()->default(0);
-			$table->char('tipo', 15)->index('tipo');
+			$table->char('relazione', 10)->index('relazione');
 			$table->char('nome', 30);
 			$table->char('cognome', 30);
 			$table->char('sesso', 10)->index('sesso');
-			$table->string('indirizzo_residenza', 100);
 			$table->string('telefono', 15)->nullable();
 			$table->string('mail', 50)->nullable();
 			$table->date('data_nascita');
-			$table->date('data_inizio');
-			$table->date('data_fine');
+			$table->date('data_inizio')->nullable();
+			$table->date('data_fine')->nullable();
 		});
 	}
 

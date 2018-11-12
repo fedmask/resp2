@@ -28,7 +28,7 @@ class EncounterParticipantType extends Eloquent
 	public $timestamps = false;
 
 	protected $fillable = [
-		'Text'
+		'Display'
 	];
 
 	public function visita_c_p()

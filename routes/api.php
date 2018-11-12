@@ -21,4 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::group(['prefix' => 'fhir'], function () {
         Route::resource('Patient', 'Fhir\Modules\FHIRPatient');
         Route::resource('Practitioner', 'Fhir\Modules\FHIRPractitioner');
+        Route::resource('RelatedPerson', 'Fhir\Modules\FHIRRelatedPerson');
+        Route::resource('Observation', 'Fhir\Modules\FHIRObservation');
+        Route::resource('Immunization', 'Fhir\Modules\FHIRImmunization');
+        Route::resource('Encounter', 'Fhir\Modules\FHIREncounter');
+        Route::resource('Condition', 'Fhir\Modules\FHIRCondition');
+        Route::resource('FamilyMemberHistory', 'Fhir\Modules\FHIRFamilyMemberHistory');
     });

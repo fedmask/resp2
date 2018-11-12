@@ -25,7 +25,7 @@ $id_paz = $current_user->data_patient()->first()->id_paziente;
 
 				<!-- LOGO SECTION -->
 				<header class="navbar-header">
-				<a class="navbar-brand" style="color:red; font-size:28px"><img src="/img/FHIR_logo.png" alt="">&nbsp;
+				<a class="navbar-brand" style="color:red; font-size:28px"><img src="/img/RESP-FHIR.png" alt="">&nbsp;
                            F<span style="color:orange">ast</span>
                            H<span style="color:orange">ealthcare</span>
 						   I<span style="color:orange">nteroperability</span>

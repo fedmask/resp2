@@ -15,18 +15,7 @@
                             </header> 
                             <div class="body">
                                 <div class="table-responsive">
-                                    <div class="panel-heading text-right">
-                                        <div style="display: none;">
-                                            <form method="POST" action="#" enctype="multipart/form-data">
-                                            	{{ csrf_field() }}
-                                                <input id="upload_patient" type="file" />
-                                                <input id="careprovider_id" type="text" value="{{$current_user->id_utente}}" />
-                                            </form>
-                                        </div>
-
-                                        <u class="text-primary">Importa paziente</u>
-                                        <button id="upload_link" type="button" class="btn btn-primary btn-md btn-circle"><i class="glyphicon glyphicon-cloud-upload"></i></button>
-                                    </div> <!-- panel-heading text-right -->
+               
                                      <table class="table table-striped table-bordered table-hover" id="dataTables-elencopaz">
                                         <thead>
                                             <tr>
@@ -35,10 +24,7 @@
                                                 <th>Cognome</th>
                                                 <th>Nome</th>
                                                 <th>Codice Fiscale</th>
-                                                <th>Telefono</th>
-                                                <th>Mail</th>
                                                 <th>Report</th>
-                                                <th>Esporta</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -49,10 +35,7 @@
                                         		<td>{{$patient->user()->first()->getSurname()}}</td>
                                         		<td>{{$patient->user()->first()->getName()}}</td>
                                         		<td>{{$patient->user()->first()->getFiscalCode()}}</td>
-                                        		<td>{{$patient->user()->first()->getTelephone()}}</td>
-                                        		<td>{{$patient->user()->first()->getEmail()}}</td>
                                         		<td><button class='btn btn-info ' onclick='EXPORTPDF'><i class='icon-book'></i></button></td>
-                                        		<td><button class='btn btn-info' onclick=window.open('/formscripts/exportPatient.php?patientid={{$patient->id_utente}}')><i class='glyphicon glyphicon-cloud-download'></i></button></td>
                                         	</tr>
                                         	@endforeach
                                         	@empty($patients)

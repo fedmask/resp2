@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AllergyIntolleranceReactionSeverityTableSeeder::class);
         $this->call(ConditionCodeTableSeeder::class);
         $this->call(FamilyMemberHistoryConditionOutcomeTableSeeder::class);
+        $this->call(FamilyMemberHistoryStatusTableSeeder::class);
         $this->call(ConditionBodySiteTableSeeder::class);
         $this->call(ConditionStageSummaryTableSeeder::class);
         $this->call(ConditionEvidenceCodeTableSeeder::class);
@@ -63,6 +64,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AllergyIntolleranceReactionSubstanceTableSeeder::class);
         $this->call(DeviceTypeTableSeeder::class);
         $this->call(EncounterReasonTableSeeder::class);
+        $this->call(EncounterStatusTableSeeder::class);
+        $this->call(EncounterClassTableSeeder::class);
         $this->call(ImmunizationVaccineCodeTableSeeder::class);
         $this->call(MedicationCodeTableSeeder::class);
         $this->call(MedicationFormTableSeeder::class);
@@ -71,6 +74,12 @@ class DatabaseSeeder extends Seeder
         $this->call(ProcedureComplicationTableSeeder::class);
         $this->call(ProcedureNotDoneReasonTableSeeder::class);
         $this->call(ProcedureReasonCodeTableSeeder::class);
+        $this->call(RelatedPersonRelationshipTypeTableSeeder::class);
+        $this->call(ObservationStatusTableSeeder::class);
+        $this->call(ObservationCategoryTableSeeder::class);
+        $this->call(ObservationCodeTableSeeder::class);
+        $this->call(ObservationInterpretationTableSeeder::class);
+        $this->call(ProviderRoleTableSeeder::class);
         //Fine Codifiche FHIR
         //Fine tabelle dati statici
         
@@ -80,11 +89,12 @@ class DatabaseSeeder extends Seeder
         $this->call(PatientsTableSeeder::class);
 
         $this->call(PatientContactTableSeeder::class);
-
+        
         $this->call(TownTableSeeder::class);
+        $this->call(ContattoTableSeeder::class);
+        
         $this->call(CareProviderPeopleTableSeeder::class); 
         $this->call(ContactsTableSeeder::class);
-        $this->call(VisiteTableSeeder::class);
         $this->call(ParametriVitaliTableSeeder::class);
         $this->call(CppPazienteTableSeeder::class);
         $this->call(DiagnosiTableSeeder::class);
@@ -110,19 +120,30 @@ class DatabaseSeeder extends Seeder
 
         $this->call ( CppQualificationTableSeeder::class );
 
+        $this->call ( ParenteTableSeeder::class );
+        $this->call ( PazientiFamTableSeeder::class );
         
+<<<<<<< HEAD
         $this->call (EmergencyTableSeeder::class);
         
+=======
+        $this->call ( ImmunizationTableSeeder::class );
+        
+        $this->call(ImmunizationProviderTableSeeder::class);
+>>>>>>> PennellaRESP
         
         $this->call ( Cpp_SpecializationSeeder::class );
         
-        
+        $this->call(EncounterParticipantTableSeeder::class);
+        $this->call(FamilyMemberHistoryTableSeeder::class);
+        $this->call(FamilyMemberHistoryConditionTableSeeder::class);
         
         $this->call ( ATCGruppoAnatomicoPSeeder::class );
         $this->call (ATCGruppoTerapeuticoPSeeder::class );
         $this->call ( ATCSottogruppoTerapeuticoFSeeder::class );
         $this->call ( ATCSottogruppoChimicoTFSeeder::class );
         $this->call ( ATCSottogruppoChimicoSeeder::class );
+
         
        
     }

@@ -7,7 +7,15 @@
 
 namespace App\Models\Diagnosis;
 
+use App\Models\CodificheFHIR\ConditionCode;
+use App\Models\CodificheFHIR\ConditionClinicalStatus;
+use App\Models\CodificheFHIR\ConditionVerificationStatus;
+use App\Models\CodificheFHIR\ConditionSeverity;
+use App\Models\CodificheFHIR\ConditionBodySite;
+use App\Models\CodificheFHIR\ConditionStageSummary;
+use App\Models\CodificheFHIR\ConditionEvidenceCode;
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Models\Patient\Pazienti;
 
 /**
  * Class Diagnosi
@@ -36,6 +44,7 @@ class Diagnosi extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
+	    'id_diagnosi' => 'int',
 		'id_paziente' => 'int',
 		'diagnosi_confidenzialita' => 'int',
 	];
@@ -47,6 +56,7 @@ class Diagnosi extends Eloquent
 	];
 
 	protected $fillable = [
+	    'id_diagnosi',
 		'id_paziente',
 	    'verificationStatus',
 	    'severity',
@@ -139,4 +149,97 @@ class Diagnosi extends Eloquent
 	    return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche');
 	}
 	
+	public function getId(){
+	    return $this->id_diagnosi;
+	}
+	
+	public function getDataInserimento(){
+	    $data = date_format($this->diagnosi_inserimento_data,"Y-m-d");
+	    return $data;
+	}
+	
+	public function getCode(){
+	    return $this->code;
+	}
+	
+	public function getCodeDisplay(){
+	    $dis = ConditionCode::where('Code', $this->getCode())->first();
+	    return $dis->Text;
+	}
+	
+	public function getSeverity(){
+	    return $this->severity;
+	}
+	
+	public function getSeverityDisplay(){
+	    $dis = ConditionSeverity::where('Code', $this->getSeverity())->first();
+	    return $dis->Text;
+	}
+	
+	public function getClinicalStatus(){
+	    return $this->diagnosi_stato;
+	}
+	
+	public function getVerificationStatus(){
+	    return $this->verificationStatus;
+	}
+	
+	public function getBodySite(){
+	    return $this->bodySite;
+	}
+	
+	public function getBodySiteDisplay(){
+	    $dis = ConditionBodySite::where('Code', $this->getBodySite())->first();
+	    return $dis->Text;
+	}
+	
+	public function getStage(){
+	    return $this->stageSummary;
+	}
+	
+	public function getStageDisplay(){
+	    $dis = ConditionStageSummary::where('Code', $this->getStage())->first();
+	    return $dis->Text;
+	}
+	
+	public function getEvidence(){
+	    return $this->evidenceCode;
+	}
+	
+	public function getEvidenceDisplay(){
+	    $dis = ConditionEvidenceCode::where('Code', $this->getEvidence())->first();
+	    return $dis->Text;
+	}
+	
+	public function getPazienteId(){
+	    return $this->id_paziente;
+	}
+	
+	public function getPaziente(){
+	    $paz = Pazienti::where('id_paziente', $this->id_paziente)->first();
+	    return $paz->getFullName();
+	}
+	
+	public function getNote(){
+	    return $this->note;
+	}
+	
+	public function getConfidenzialita(){
+	    return $this->diagnosi_confidenzialita;
+	}
+	
+	public function getDataInizio(){
+	    $data = date_format($this->diagnosi_inserimento_data,"Y-m-d");
+	    return $data;
+	}
+	
+	public function getDataFine(){
+	    $data = date_format($this->diagnosi_guarigione_data,"Y-m-d");
+	    return $data;
+	}
+	
+	public function getDataAggiornamento(){
+	    $data = date_format($this->diagnosi_aggiornamento_data,"Y-m-d");
+	    return $data;
+	}
 }

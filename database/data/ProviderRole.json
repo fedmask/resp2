@@ -1,0 +1,94 @@
+[
+	{
+		"code": "AD",
+		"display": "Admitting"
+	},
+	{
+		"code": "AI",
+		"display": "Assistant/Alternate Interpreter"
+	},
+	{
+		"code": "AP",
+		"display": "Administering Provider"
+	},
+	{
+		"code": "AT",
+		"display": "Attending"
+	},
+	{
+		"code": "CLP",
+		"display": "Collecting Provider"
+	},
+	{
+		"code": "CP",
+		"display": "Consulting Provider"
+	},
+	{
+		"code": "DP",
+		"display": "Dispensing Provider"
+	},
+	{
+		"code": "EP",
+		"display": "Entering Provider (probably not the same as transcriptionist?)"
+	},
+	{
+		"code": "FHCP",
+		"display": "Family Health Care Professional"
+	},
+	{
+		"code": "IP",
+		"display": "Initiating Provider (as in action by)"
+	},
+	{
+		"code": "MDIR",
+		"display": "Medical Director"
+	},
+	{
+		"code": "OP",
+		"display": "Ordering Provider"
+	},
+	{
+		"code": "PH",
+		"display": "Pharmacist   (not sure how to dissect Pharmacist/Treatment Supplier's Verifier ID)"
+	},
+	{
+		"code": "PI",
+		"display": "Primary Interpreter"
+	},
+	{
+		"code": "PP",
+		"display": "Primary Care Provider"
+	},
+	{
+		"code": "RO",
+		"display": "Responsible Observer"
+	},
+	{
+		"code": "RP",
+		"display": "Referring Provider"
+	},
+	{
+		"code": "RT",
+		"display": "Referred to Provider"
+	},
+	{
+		"code": "TN",
+		"display": "Technician"
+	},
+	{
+		"code": "TR",
+		"display": "Transcriptionist"
+	},
+	{
+		"code": "VP",
+		"display": "Verifying Provider"
+	},
+	{
+		"code": "VPS",
+		"display": "Verifying Pharmaceutical Supplier   (not sure how to dissect Pharmacist/Treatment Supplier's Verifier ID)"
+	},
+	{
+		"code": "VTS",
+		"display": "Verifying Treatment Supplier   (not sure how to dissect Pharmacist/Treatment Supplier's Verifier ID)"
+	}
+]

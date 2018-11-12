@@ -1,0 +1,28 @@
+<StructureDefinition xmlns="http://hl7.org/fhir">
+  <url value="http://resp.local/resources/extensions/Observation/observation-reason.xml" />
+  <name value="Motivo indagine" />
+  <kind value="datatype" />
+  <constrainedType value="Extension" />
+  <contextType value="resource" />
+  <context value="Observation" />
+  <differential>
+    <element>
+      <path value="Extension"/>
+      <short value="motivoindagine" />
+      <definition value="Il motivo dell'indagine" />
+      <comments value="questo valore e' presente nel database e viene rappresentato nella risorsa Observation tramite una estensione" />
+      <mustSupport value="true" />
+      <isModifier value="false" />
+    </element>
+    <element>
+      <path value="Extension.valueString"/>
+      <short value="la stringa contenente il motivo dell'indagine" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="string" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+  </differential>
+</StructureDefinition>

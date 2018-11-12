@@ -7,6 +7,7 @@
 
 namespace App\Models\Patient;
 
+use App\Models\CodificheFHIR\RelationshipType;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -26,7 +27,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @package App\Models
  */
 class PazientiFamiliarita extends Eloquent
-{
+{   
+    protected $table = 'tbl_pazienti_familiarita';
 	protected $primaryKey = 'id_familiarita';
 	public $incrementing = false;
 	public $timestamps = false;
@@ -45,6 +47,7 @@ class PazientiFamiliarita extends Eloquent
 	protected $fillable = [
 		'id_paziente',
 		'id_parente',
+	    'relazione',
 		'familiarita_grado_parentela',
 		'familiarita_aggiornamento_data',
 		'familiarita_conferma'
@@ -63,5 +66,14 @@ class PazientiFamiliarita extends Eloquent
 	public function tbl_familiarita_decessi()
 	{
 		return $this->hasOne(\App\Models\Patient\FamiliaritaDecessi::class, 'id_paziente');
+	}
+	
+	public function getIdPaziente(){
+	    return $this->id_paziente;
+	}
+	
+	public function getRelazione(){
+	    $rel = RelationshipType::where('Code', $this->relazione)->first();
+	    return $rel->Display;
 	}
 }

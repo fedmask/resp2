@@ -21,8 +21,13 @@ class CreateTblIndaginiTable extends Migration {
 			$table->integer('id_cpp')->unsigned()->nullable()->index('id_cpp');
 			$table->text('careprovider', 65535)->nullable();
 			$table->date('indagine_data');
+			$table->date('indagine_data_fine');
 			$table->date('indagine_aggiornamento');
-			$table->string('indagine_stato', 12)->nullable();
+			$table->string('indagine_issued');
+			$table->string('indagine_stato', 20)->index('indagine_stato');
+			$table->string('indagine_category', 20)->index('indagine_category');
+			$table->string('indagine_code', 20)->index('indagine_code');
+			$table->string('indagine_interpretation', 20)->index('indagine_interpretation');
 			$table->text('indagine_tipologia', 65535)->nullable();
 			$table->text('indagine_motivo', 65535)->nullable();
 			$table->text('indagine_referto', 65535)->nullable();

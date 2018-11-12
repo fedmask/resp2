@@ -200,8 +200,6 @@ function prendeValori(){
 			</li>
 			<li class="panel {{Request::path() === 'links' ? 'active' : ''}}"> <a href="{{ url('utility') }}"> <em class="icon-tag"></em> Utility </a>
 			</li>
-			<li class="panel {{Request::path() === 'files' ? 'active' : ''}}"> <a href="/fhirPatient" target="_blank"> <i class="glyphicon glyphicon-fire"></i></em> FHIR </a>
-			</li>
 			
 		</ul>
 		@elseif($current_user->getRole() == $current_user::CAREPROVIDER_ID)

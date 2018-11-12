@@ -17,7 +17,7 @@ class EncounterParticipantTypeTableSeeder extends Seeder
         foreach ($data as $obj) {
             EncounterParticipantType::create(array(
                 'code' => $obj->code,
-                'text' => $obj->display
+                'display' => $obj->display
             ));
         }
     }

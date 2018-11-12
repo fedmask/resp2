@@ -219,7 +219,7 @@ class FHIROrganization  {
         $data_xml["organization"]   = $organization;
         $data_xml["phone"]          = $organization->getAllContactPhone();
         
-        return view("fhir.organization", ["data_output" => $data_xml]);
+        return view("fhir.Organization.organization", ["data_output" => $data_xml]);
     }
 }
 

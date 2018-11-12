@@ -1,0 +1,26 @@
+[
+	{
+		"code": "10155-0",
+		"display": "History of allergies, reported"
+	},
+	{
+		"code": "10161-8",
+		"display": "History of Occupational exposure Narrative"
+	},
+	{
+		"code": "10168-3",
+		"display": "History of Cardiovascular system disorders Narrative"
+	},
+	{
+		"code": "10171-7",
+		"display": "History of Eyes disorders Narrative"
+	},
+	{
+		"code": "10174-1",
+		"display": "History of Nose disorders Narrative"
+	},
+	{
+		"code": "10175-8",
+		"display": "History of Oral cavity disorders Narrative"
+	}
+]

@@ -6,139 +6,190 @@
  */
 namespace App\Models\Vaccine;
 
+use App\Models\Patient\Pazienti;
+use App\Models\CareProviders\CareProvider;
+use App\Models\CodificheFHIR\ImmunizationVaccineCode;
+use App\Models\CodificheFHIR\ImmunizationRoute;
+use App\Models\FHIR\ImmunizationProvider;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Vaccinazione
- *
+ * 
  * @property int $id_vaccinazione
- * @property int $id_vaccino
  * @property int $id_paziente
  * @property int $id_cpp
+ * @property string $vaccineCode
  * @property int $vaccinazione_confidenzialita
  * @property \Carbon\Carbon $vaccinazione_data
  * @property string $vaccinazione_aggiornamento
- * @property string $vaccinazione_reazioni
- *
+ * @property string $vaccinazione_stato
+ * @property bool $vaccinazione_notGiven
+ * @property int $vaccinazione_quantity
+ * @property string $vaccinazione_route
+ * @property string $vaccinazione_note
+ * @property string $vaccinazione_explanation
+ * 
  * @property \App\Models\TblCareProvider $tbl_care_provider
- * @property \App\Models\LivelliConfidenzialita $tbl_livelli_confidenzialitum
- * @property \App\Models\Pazienti $tbl_pazienti
- * @property \App\Models\TblVaccini $tbl_vaccini
+ * @property \App\Models\TblLivelliConfidenzialitum $tbl_livelli_confidenzialitum
+ * @property \App\Models\TblPazienti $tbl_pazienti
+ * @property \App\Models\ImmunizationVaccineCode $immunization_vaccine_code
+ * @property \App\Models\ImmunizationStatus $immunization_status
+ * @property \App\Models\ImmunizationRoute $immunization_route
+ * @property \Illuminate\Database\Eloquent\Collection $tbl_vaccinazioni_reactions
+ * @property \Illuminate\Database\Eloquent\Collection $tbl_vaccinis
  *
  * @package App\Models
  */
-class Vaccinazione extends Eloquent {
+class Vaccinazione extends Eloquent
+{
 	protected $table = 'tbl_vaccinazione';
 	protected $primaryKey = 'id_vaccinazione';
-	public $incrementing = true;
 	public $timestamps = false;
-	protected $casts = [ 
-			'id_vaccinazione' => 'int',
-			'id_paziente' => 'int',
-			'id_cpp' => 'int',
-			'vaccinazione_confidenzialita' => 'int' 
+
+	protected $casts = [
+	    'id_vaccinazione' => 'int',
+		'id_paziente' => 'int',
+		'vaccinazione_confidenzialita' => 'int',
+		'vaccinazione_notGiven' => 'bool',
+	    'vaccinazione_primarySource' => 'bool',
+	    'vaccinazione_quantity' => 'int'
 	];
-	protected $dates = [ 
-			'vaccinazione_data' 
+
+	protected $dates = [
+		'vaccinazione_data'
 	];
-	protected $fillable = [ 
-			'vaccinazione_confidenzialita',
-			'vaccinazione_aggiornamento',
-			'vaccinazione_stato',
-			'vaccinazione_quantity',
-			'vaccinazione_note',
-			'vaccinazione_explanation' 
+
+	protected $fillable = [
+	    'id_vaccinazione',
+		'id_paziente',
+		'vaccineCode',
+		'vaccinazione_confidenzialita',
+		'vaccinazione_data',
+		'vaccinazione_aggiornamento',
+		'vaccinazione_stato',
+		'vaccinazione_notGiven',
+		'vaccinazione_quantity',
+		'vaccinazione_route',
+		'vaccinazione_note',
+	    'vaccinazione_primarySource'
 	];
-	public function getID() {
-		return $this->id_vaccinazione;
+
+	public function tbl_care_provider()
+	{
+		return $this->belongsTo(\App\Models\TblCareProvider::class, 'id_cpp');
 	}
-	public function getIDPaz() {
-		return $this->id_paziente;
+
+	public function tbl_livelli_confidenzialitum()
+	{
+		return $this->belongsTo(\App\Models\TblLivelliConfidenzialitum::class, 'vaccinazione_confidenzialita', 'id_livello_confidenzialita');
 	}
-	public function getIDCpp() {
-		return $this->id_cpp;
+
+	public function tbl_pazienti()
+	{
+		return $this->belongsTo(\App\Models\TblPazienti::class, 'id_paziente');
 	}
-	public function getVaccConf() {
-		return $this->vaccinazione_confidenzialita;
+
+	public function immunization_vaccine_code()
+	{
+		return $this->belongsTo(\App\Models\ImmunizationVaccineCode::class, 'vaccineCode');
 	}
-	public function getData() {
-		return $this->vaccinazione_data;
+
+	public function immunization_status()
+	{
+		return $this->belongsTo(\App\Models\ImmunizationStatus::class, 'vaccinazione_stato');
 	}
-	public function getAggiornamento() {
-		return $this->vaccinazione_aggiornamento;
+
+	public function immunization_route()
+	{
+		return $this->belongsTo(\App\Models\ImmunizationRoute::class, 'vaccinazione_route');
 	}
-	public function getReazioni() {
-		return $this->vaccinazione_reazioni;
+
+	public function tbl_vaccinazioni_reactions()
+	{
+		return $this->hasMany(\App\Models\TblVaccinazioniReaction::class, 'id_vaccinazione');
 	}
-	public function getStatus() {
-		if ($this->vaccinazione_stato) {
-			return 'Completed';
-		}
-		return 'entred_in_error';
-	}
-	public function getNotGiven() {
-		return $this->notGiven;
-	}
-	public function getQuantity() {
-		return $this->vaccinazione_quantity;
-	}
-	public function getNote() {
-		return $this->vaccinazione_note;
-	}
-	public function getExplanation() {
-		return $this->vaccinazione_explanation;
+
+	public function tbl_vaccinis()
+	{
+		return $this->hasMany(\App\Models\TblVaccini::class, 'id_vaccinazione');
 	}
 	
-	// ///
-	public function setID($ID) {
-		$this->id_vaccinazione = $ID;
+	public function getId(){
+	    return $this->id_vaccinazione;
 	}
-	public function setIDPaz($ID) {
-		$this->id_paziente = $ID;
+	
+	public function getProviders(){
+	    $providers = ImmunizationProvider::where('id_vaccinazione', $this->getId())->get();
+	    return $providers;
 	}
-	public function setIDCpp($ID) {
-		$this->id_cpp = $ID;
+	
+	public function getCppRole(){
+	    $role = ImmunizationProvider::where('id_cpp', $this->getIdCpp())->first();
+	    return $role->role;
 	}
-	public function setVaccConf($conf) {
-		$this->vaccinazione_confidenzialita = $conf;
+	
+	public function getVaccineCode(){
+	    return $this->vaccineCode;
 	}
-	public function setData($Data) {
-		$this->vaccinazione_data = $Data;
+	
+	public function getVaccineCodeDisplay(){
+	    $code = ImmunizationVaccineCode::where('Code', $this->getVaccineCode())->first();
+	    return $code->Text;
 	}
-	public function setAggiornamento($Aggiornamento) {
-		$this->vaccinazione_aggiornamento = $Aggiornamento;
+	
+	public function getData(){
+	    $data = date_format($this->vaccinazione_data,"Y-m-d");
+	    return $data;
 	}
-	public function setReazioni($Reazioni) {
-		$this->vaccinazione_reazioni = $Reazioni;
+	
+	public function getStato(){
+	    return $this->vaccinazione_stato;
 	}
-	public function setStatus($Status) {
-		$this->vaccinazione_stato = $Status;
+	
+	public function getIdPaziente(){
+	    return $this->id_paziente;
 	}
-	public function setNotGiven($NG) {
-		$this->notGiven = $NG;
+	
+	public function getPaziente(){
+	    $paz = Pazienti::where('id_paziente', $this->getIdPaziente())->first();
+	    return $paz->getFullName();
 	}
-	public function setQuantity($Quantity) {
-		$this->vaccinazione_quantity = $Quantity;
+	
+	public function getRoute(){
+	    return $this->vaccinazione_route;
 	}
-	public function setNote($Note) {
-		$this->vaccinazione_note = $Note;
+	
+	public function getRouteDisplay(){
+	    $display = ImmunizationRoute::where('Code', $this->getRoute())->first();
+	    return $display->Text;
 	}
-	public function setExplanation($Explanation) {
-		$this->vaccinazione_explanation = $Explanation;
+	
+	public function getQuantity(){
+	    return $this->vaccinazione_quantity;
 	}
-	public function tbl_care_provider() {
-		return $this->belongsTo ( \App\Models\CareProviders\CareProvider::class, 'id_cpp' );
+	
+	public function getNote(){
+	    return $this->vaccinazione_note;
 	}
-	public function tbl_livelli_confidenzialitum() {
-		return $this->belongsTo ( \App\Models\LivelliConfidenzialita::class, 'vaccinazione_confidenzialita' );
+	
+	public function getNotGiven(){
+	    $ret = "false";
+	    if($this->vaccinazione_notGiven){
+	        $ret = "true";
+	    }
+	    return $ret;
 	}
-	public function tbl_pazienti() {
-		return $this->belongsTo ( \App\Models\Patient\Pazienti::class, 'id_paziente' );
+	
+	public function getPrimarySource(){
+	    $ret = "false";
+	    if($this->vaccinazione_primarySource){
+	        $ret = "true";
+	    }
+	    return $ret;
 	}
-	public function tbl_vaccini() {
-		return $this->hasMany ( \App\Models\Vaccine\Vaccini::class, 'id_vaccinazione' );
-	}
-	public function tbl_vaccinazioneReaction() {
-		return $this->hasMany ( \App\Models\VaccinazioniReaction::class, 'id_vaccinazione' );
+	
+	public function getConfidenzialita(){
+	    return $this->vaccinazione_confidenzialita;
 	}
 }

@@ -82,3 +82,32 @@
 	border-color: white;
 	border: white;
 }
+
+.button-export {
+	display: block;
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	color: #fff;
+	background-color: #1d71b8;
+	border-color: #1d71b8;
+	border: #1d71b8;
+}
+
+.button-export1 {
+	display: block;
+	height: 30px;
+	width: 80px;
+	border-radius: 5%;
+	color: #fff;
+	background-color: #1d71b8;
+	border-color: #1d71b8;
+	border: #1d71b8;
+	left: 50%;
+    margin-left: +450px;
+}
+
+table#t01 {
+    width: 100%;    
+    background-color: #f1f1c1;
+}

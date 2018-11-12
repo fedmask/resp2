@@ -13,8 +13,8 @@ class DiagnosiTableSeeder extends Seeder
     {
         DB::table('tbl_diagnosi')->insert([
             [
-                'id_diagnosi' => 1,
-                'id_paziente' => 2,
+                'id_diagnosi' => '1',
+                'id_paziente' => '2',
                 'verificationStatus' => 'provisional',
                 'severity' => '24484000',
                 'code' => '122003',
@@ -33,8 +33,8 @@ class DiagnosiTableSeeder extends Seeder
         
         DB::table('tbl_diagnosi')->insert([
             [
-                'id_diagnosi' => 2,
-                'id_paziente' => 2,
+                'id_diagnosi' => '2',
+                'id_paziente' => '2',
                 'verificationStatus' => 'differential',
                 'severity' => '6736007',
                 'code' => '127009',
@@ -53,10 +53,10 @@ class DiagnosiTableSeeder extends Seeder
         
         DB::table('tbl_diagnosi')->insert([
             [
-                'id_diagnosi' => 3,
-                'id_paziente' => 2,
+                'id_diagnosi' => '3',
+                'id_paziente' => '2',
                 'verificationStatus' => 'refuted',
-                'severity' => '6736007',
+                'severity' => '255604002',
                 'code' => '122003',
                 'bodySite' => '106004',
                 'stageSummary' => '786005',
@@ -70,25 +70,6 @@ class DiagnosiTableSeeder extends Seeder
                 'diagnosi_guarigione_data' => '2016-12-14'
             ]
         ]);
-        
-        DB::table('tbl_diagnosi')->insert([
-            [
-                'id_diagnosi' => 4,
-                'id_paziente' => 2,
-                'verificationStatus' => 'unknown',
-                'severity' => '255604002',
-                'code' => '127009',
-                'bodySite' => '107008',
-                'stageSummary' => '1523005',
-                'evidenceCode' => '122003',
-                'note' => 'null',
-                'diagnosi_confidenzialita' => 4,
-                'diagnosi_inserimento_data' => '2015-03-02',
-                'diagnosi_aggiornamento_data' => '2015-03-02',
-                'diagnosi_patologia' => 'Mal di testa',
-                'diagnosi_stato' => 'active',
-                'diagnosi_guarigione_data' => '2015-12-14'
-            ]
-        ]);
+      
     }
 }

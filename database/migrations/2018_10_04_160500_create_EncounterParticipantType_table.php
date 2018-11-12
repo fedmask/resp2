@@ -15,7 +15,7 @@ class CreateEncounterParticipantTypeTable extends Migration {
 		Schema::create('EncounterParticipantType', function(Blueprint $table)
 		{
 			$table->char('Code', 30)->primary();
-			$table->string('Text', 50);
+			$table->string('Display', 50);
 		});
 	}
 

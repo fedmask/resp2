@@ -1,5 +1,5 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
-  <url value="http://fsem.eu/resources/extensions/practitioner-comune.xml" />
+  <url value="http://resp.local/resources/extensions/Practitioner/practitioner-comune.xml" />
   <name value="Comune del care provider" />
   <kind value="datatype" />
   <constrainedType value="Extension" />

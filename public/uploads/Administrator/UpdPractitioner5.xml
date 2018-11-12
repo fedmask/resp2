@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Practitioner xmlns="http://hl7.org/fhir">
+  <id value="5"/>
+
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <table border="2">
+		<tbody>
+						<tr>
+				<td>Identifier</td>
+				<td>RESP-PRACTICTIONER-1</td>
+			</tr>
+						<tr>
+				<td>Active</td>
+				<td>true</td>
+			</tr>
+						<tr>
+				<td>Name</td>
+				<td>Bob Kelso</td>
+			</tr>
+						<tr>
+				<td>Telecom</td>
+				<td>3895941255 - bobkelso@gmail.com</td>
+			</tr>
+						<tr>
+				<td>Gender</td>
+				<td>male</td>
+			</tr>
+						<tr>
+				<td>BirthDate</td>
+				<td>1995-01-01</td>
+			</tr>
+						<tr>
+				<td>Address</td>
+				<td>via delle palme ABATEMARCO Italia 84040</td>
+			</tr>
+						<tr>
+				<td>Language</td>
+				<td>Italian</td>
+			</tr>
+			 
+			
+						<tr>
+				<td>QualificationName 1</td>
+				<td>Doctor of Education</td>
+			</tr>
+						<tr>
+				<td>QualificationStartPeriod 1</td>
+				<td>2015-03-09</td>
+			</tr>
+						<tr>
+				<td>QualificationEndPeriod 1</td>
+				<td>2025-03-09</td>
+			</tr>
+						<tr>
+				<td>QualificationIssuer 1</td>
+				<td>University</td>
+			</tr>
+						
+						<tr>
+				<td>Comune</td>
+				<td>Firenze</td>
+			</tr>
+						<tr>
+				<td>Id_Utente</td>
+				<td>1</td>
+			</tr>
+						 
+		</tbody>
+	</table>
+    </div>
+  </text>
+
+  <identifier>
+    <use value="official"/>
+    <system value="http://resp.local"/>
+    <value value="5"/>
+  </identifier>
+
+  <active value="true"/>
+  
+  <name>
+    <family value="Rossi"/>
+    <given value="Pippo"/>
+    <prefix value="Dr"/>
+  </name>
+
+  <telecom>
+    <system value="phone"/>
+    <value value="3895941260"/>
+    <use value="home"/>
+  </telecom>
+  <telecom>
+    <system value="email"/>
+    <value value="projfjfte@gmail.com"/>
+    <use value="home"/>
+  </telecom>
+  
+  <address>
+    <use value="home"/>
+    <line value="via delle palme"/>
+    <city value="ABATEMARCO"/>
+    <state value="Italia"/>
+    <postalCode value="84040"/>
+  </address>
+	
+  <gender value="male"/>
+  
+  <birthDate value="1995-01-03"/>
+
+  <qualification>
+		<code>
+      <coding>
+        <system value="http://hl7.org/fhir/v2/0360/2.7"/>
+        <code value="AE"/>
+        <display value="Associate of Engineering"/>
+      </coding>
+			<text value="Associate of Engineering"/>
+		</code>
+		<period>
+			<start value="2015-03-09"/>
+			<end value="2025-03-09"/>
+		</period>
+		<issuer>
+			<display value="University"/>
+		</issuer>
+	</qualification>
+
+	  <qualification>
+		<code>
+      <coding>
+        <system value="http://hl7.org/fhir/v2/0360/2.7"/>
+        <code value="AE"/>
+        <display value="Associate of Engineering"/>
+      </coding>
+			<text value="Associate of Engineering"/>
+		</code>
+		<period>
+			<start value="2015-03-09"/>
+			<end value="2025-03-09"/>
+		</period>
+		<issuer>
+			<display value="University"/>
+		</issuer>
+	</qualification>
+
+
+  <communication>
+      <coding>
+          <system value="urn:ietf:bcp:47"/>
+          <code value="it"/>
+          <display value="Italiensk"/>
+      </coding>
+  </communication>
+
+
+</Practitioner>

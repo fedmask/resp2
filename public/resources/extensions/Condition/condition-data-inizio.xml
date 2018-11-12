@@ -1,0 +1,37 @@
+<StructureDefinition xmlns="http://hl7.org/fhir">
+  <url value="http://example.org/fhir/StructureDefinition/participation-agreement" /> <!--DA MODIFICARE-->
+  <name value="Example Extension Definition" /> <!--DA MODIFICARE-->
+  <kind value="datatype" />
+  <contextType value="resource" />
+  <context value="Practictioner" />
+  <type value="Extension" />
+  <baseDefinition value="http://hl7.org.fhir/StructureDefinition/Extension" />
+  <derivation value="constraint" />
+
+  <differential>
+
+    <element>
+      <path value="Extension"/>
+      <short value="Campi Diagnosi" />
+      <definition value="I campi di una diagnosi" />
+      <comment value="I campi necessari per l'esportazione della risorsa" />
+      <mustSupport value="true" />
+      <isModifier value="false" />
+    </element>
+
+<!--Data Inizio-->
+    <element>
+      <path value="Extension.valueDate"/>
+      <name value="Data Inizio Diagnosi" />
+      <short value="Indica la data di inizio della diagnosi" />
+      <min value="1" />
+      <max value="1" />
+      <type>
+         <code value="date" />
+      </type>
+      <mustSupport value="true" />
+    </element>
+
+
+  </differential>
+</StructureDefinition>

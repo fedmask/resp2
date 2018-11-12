@@ -1,5 +1,5 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
-  <url value="http://example.org/fhir/StructureDefinition/participation-agreement" /> <!--DA MODIFICARE-->
+  <url value="http://resp.local/resources/extensions/Practitioner/cpp-persona-id" /> 
   <name value="Example Extension Definition" /> <!--DA MODIFICARE-->
   <kind value="datatype" />
   <contextType value="resource" />

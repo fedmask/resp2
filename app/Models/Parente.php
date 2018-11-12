@@ -1,8 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Models\Patient\PazientiFamiliarita;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CodificheFHIR\RelationshipType;
 
 class Parente extends Model {
 	//
@@ -12,8 +14,14 @@ class Parente extends Model {
 	public $timestamps = false;
 	protected $casts = [ 
 			'id_parente' => 'int',
+<<<<<<< HEAD
 			'et�' => 'int',
 			'et�_decesso' => 'int' 
+=======
+			'eta' => 'int',
+			'eta_decesso' => 'int',
+	        'decesso' => 'bool'
+>>>>>>> PennellaRESP
 	
 	];
 	protected $dates = [ 
@@ -24,16 +32,23 @@ class Parente extends Model {
 	protected $fillable = [
 			'nome',
 			'cognome',
+<<<<<<< HEAD
             'grado_parentela',
 			'sesso',
             'eta',
             'annotazioni',
             'data_decesso'
+=======
+			'sesso',
+	        'decesso',
+	        'telefono',
+	        'mail'
+>>>>>>> PennellaRESP
 	
 	];
 	
 	// Get methods for Controllers
-	public function getID() {
+/*	public function getID() {
 		return $this->id_Parente;
 	}
 	public function getCF() {
@@ -63,7 +78,7 @@ class Parente extends Model {
 	public function getDataDecesso() {
 		return $this->data_decesso;
 	}
-	
+	*/
 	// Set Methods
 	
 	public function setCF($CF) {
@@ -102,5 +117,93 @@ class Parente extends Model {
 	public function	FamilyCondition()
 	{
 		return $this->hasOne(\App\Models\History\FamilyCondiction::class, 'id_parente');
+	}
+	
+	//FHIR
+	
+	public function getId()
+	{
+	    return $this->id_parente;
+	}
+	
+	public function isActive()
+	{
+	    $active = "false";
+	    if ($this->decesso == 1) {
+	        $active = "true";
+	    }
+	    
+	    return $active;
+	}
+	
+	public function getIdPaziente()
+	{
+	    $paz = PazientiFamiliarita::where('id_parente', $this->getId())->first();
+	    return $paz->id_paziente;
+	}
+	
+	public function getRelazione()
+	{
+	    $paz = PazientiFamiliarita::where('id_parente', $this->getId())->first();
+	    return $paz->getRelazione();
+	}
+	
+	public function getRelazioneCode(){
+	    $paz = PazientiFamiliarita::where('id_parente', $this->getId())->first();
+	    $rel = RelationshipType::where('Code', $paz->relazione)->first();
+	    return $rel->Code;
+	}
+	
+	public function getNome()
+	{
+	    return $this->nome;
+	}
+	
+	public function getCognome()
+	{
+	    return $this->cognome;
+	}
+	
+	public function getFullName()
+	{
+	    return $this->getNome()."-".$this->getCognome();
+	}
+	
+	public function getFullName1()
+	{
+	    return $this->getNome()." ".$this->getCognome();
+	}
+	
+	public function getMail()
+	{
+	    return $this->mail;
+	}
+	
+	public function getTelefono()
+	{
+	    return $this->telefono;
+	}
+	
+	public function getTelecom()
+	{
+	    return $this->getTelefono()."-".$this->getMail();
+	}
+	
+	public function getSesso()
+	{
+	    return $this->sesso;
+	}
+	
+	public function getDataNascita(){
+	    $data = date_format($this->data_nascita,"Y-m-d");
+	    return $data;
+	}
+	
+	public function isDecesso() {
+	    $ret = "false";
+	    if($this->decesso){
+	        $ret = "true";
+	    }
+	    return $ret;
 	}
 }

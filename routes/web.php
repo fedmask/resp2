@@ -308,6 +308,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/patients-list', 'CareProviderController@showPatientsList')->name('patients-list');
 
     Route::get('/structures', 'CareProviderController@showStructures')->name('structures');
+<<<<<<< HEAD
 
     Route::get('/fhirPatient', 'ResourceFHIRController@indexPatient');
 
@@ -316,6 +317,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/report-patient', 'EmergencyController@showPatientReport')->name('report-patient');
 
+=======
+    
+>>>>>>> PennellaRESP
 });
 
     Route::get('/fhirPractictioner', 'ResourceFHIRController@indexPractictioner');
@@ -415,10 +419,31 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::post('/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient');
+<<<<<<< HEAD
 
 
 
 
+=======
+    
+    
+    Route::get('/fhirPatientIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@Index');
+    Route::get('/fhirExportResources/Patient/{id}/{list}', 'Fhir\Modules\FHIRPatientIndex@exportResources');
+    Route::get('/fhirPractitionerIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@indexPractitioner');
+    Route::get('/fhirRelatedPersonIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@indexRelatedPerson');
+    Route::get('/fhirObservationIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@indexObservation');
+    Route::get('/fhirImmunizationIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@indexImmunization');
+    Route::get('/fhirEncounterIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@indexEncounter');
+    Route::get('/fhirConditionIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@indexCondition');
+    Route::get('/fhirFamilyMemberHistoryIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@indexFamilyMemberHistory');
+    
+    
+    Route::get('/prova/{id}', 'Fhir\Modules\FHIRFamilyMemberHistory@getResource');
+    //Route::get('/fhirPatientExport/{id}', 'Fhir\Modules\FHIRPatient@getResource');
+    
+    
+    
+>>>>>>> PennellaRESP
     /**
      * RESTful for Patient
      */
