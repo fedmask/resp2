@@ -42,112 +42,121 @@ define("NAME", "Practitioner");
 class FHIRPractitioner
 {
 
+    /**
+     * Funzione che permette di visualizzare i dettagli della risorsa e di esportarla
+     */
     public function show($id)
     {
-        
-        // Recupero i dati del paziente
-        $practictioner = CareProvider::where('id_cpp', $id)->first();
-        
-        if (! $practictioner) {
-            throw new FHIR\IdNotFoundInDatabaseException("resource with the id provided doesn't exist in database");
-        }
-        
-        // Recupero le qualifiche del practictioner
-        $practictioner_qualifiations = CppQualification::where('id_cpp', $id)->get();
-          
-        // Sono i valori che verranno riportati nella parte descrittiva del documento
-        $values_in_narrative = array(
-            "Identifier" => "RESP-PRACTICTIONER" . "-" . $practictioner->getIdCpp(),
-            "Active" => $practictioner->isActive(),
-            "Name" => $practictioner->getName(),
-            "Surname" => $practictioner->getSurname(),
-            "Telephone" => $practictioner->getPhone(),
-            "Mail" => $practictioner->getMail(),
-            "Gender" => $practictioner->getGender(),
-            "BirthDate" => $practictioner->getBirth(),
-            "Address" => $practictioner->getAddress(),
-            "Language" => $practictioner->getLanguage()
-        
-        );
-        
-        // Practictioner.Qualification
-        $narrative_practictioner_qualifications = array();
-        $count = 0;
-        foreach ($practictioner->getQualifications() as $pq) {
-            $count ++;
-            $narrative_practictioner_qualifications["QualificationName" . " " . $count] = $pq->getQualificationDisplay();
-            $narrative_practictioner_qualifications["QualificationStartPeriod" . " " . $count] = $pq->getStartPeriod();
-            $narrative_practictioner_qualifications["QualificationEndPeriod" . " " . $count] = $pq->getEndPeriod();
-            $narrative_practictioner_qualifications["QualificationIssuer" . " " . $count] = $pq->getIssuer();
-        }
-        
-        // prelevo i dati dell'utente da mostrare come estensione
-        $custom_extensions = array(
-            'Comune' => $practictioner->getComune(),
-            'Id_Utente' => $practictioner->getIdUtente()
-        );
-        
-        $array = array();
-        $array = $values_in_narrative;
-        $values_in_narrative = array();
-        
-        foreach ($array as $key => $value) {
-            if (empty($value)) {
-                continue;
+        try {
+            // Recupero i dati del paziente
+            $practictioner = CareProvider::where('id_cpp', $id)->first();
+            
+            if (! $practictioner) {
+                throw new IdNotFoundException("resource with the id provided doesn't exist in database");
             }
-            $values_in_narrative[$key] = $value;
-        }
-        
-        $array = $narrative_practictioner_qualifications;
-        $narrative_practictioner_qualifications = array();
-        
-        foreach ($array as $key => $value) {
-            if (empty($value)) {
-                continue;
+            
+            // Recupero le qualifiche del practictioner
+            $practictioner_qualifiations = CppQualification::where('id_cpp', $id)->get();
+            
+            // Sono i valori che verranno riportati nella parte descrittiva del documento
+            $values_in_narrative = array(
+                "Identifier" => "RESP-PRACTICTIONER" . "-" . $practictioner->getIdCpp(),
+                "Active" => $practictioner->isActive(),
+                "Name" => $practictioner->getName(),
+                "Surname" => $practictioner->getSurname(),
+                "Telephone" => $practictioner->getPhone(),
+                "Mail" => $practictioner->getMail(),
+                "Gender" => $practictioner->getGender(),
+                "BirthDate" => $practictioner->getBirth(),
+                "Address" => $practictioner->getAddress(),
+                "Language" => $practictioner->getLanguage()
+            
+            );
+            
+            // Practictioner.Qualification
+            $narrative_practictioner_qualifications = array();
+            $count = 0;
+            foreach ($practictioner->getQualifications() as $pq) {
+                $count ++;
+                $narrative_practictioner_qualifications["QualificationName" . " " . $count] = $pq->getQualificationDisplay();
+                $narrative_practictioner_qualifications["QualificationStartPeriod" . " " . $count] = $pq->getStartPeriod();
+                $narrative_practictioner_qualifications["QualificationEndPeriod" . " " . $count] = $pq->getEndPeriod();
+                $narrative_practictioner_qualifications["QualificationIssuer" . " " . $count] = $pq->getIssuer();
             }
-            $narrative_practictioner_qualifications[$key] = $value;
-        }
-        
-        $array = $custom_extensions;
-        $custom_extensions = array();
-        
-        foreach ($array as $key => $value) {
-            if (empty($value)) {
-                continue;
+            
+            // prelevo i dati dell'utente da mostrare come estensione
+            $custom_extensions = array(
+                'Comune' => $practictioner->getComune(),
+                'Id_Utente' => $practictioner->getIdUtente()
+            );
+            
+            $array = array();
+            $array = $values_in_narrative;
+            $values_in_narrative = array();
+            
+            foreach ($array as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+                $values_in_narrative[$key] = $value;
             }
-            $custom_extensions[$key] = $value;
+            
+            $array = $narrative_practictioner_qualifications;
+            $narrative_practictioner_qualifications = array();
+            
+            foreach ($array as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+                $narrative_practictioner_qualifications[$key] = $value;
+            }
+            
+            $array = $custom_extensions;
+            $custom_extensions = array();
+            
+            foreach ($array as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+                $custom_extensions[$key] = $value;
+            }
+            
+            $data_xml["narrative"] = $values_in_narrative;
+            $data_xml["narrative_practictioner_qualifications"] = $narrative_practictioner_qualifications;
+            $data_xml["extensions"] = $custom_extensions;
+            $data_xml["practictioner"] = $practictioner;
+            $data_xml["practictioner_qualifiations"] = $practictioner_qualifiations;
+            
+            return view("pages.fhir.Practitioner.practictioner", [
+                "data_output" => $data_xml
+            ]);
+        } catch (IdNotFoundException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
         }
-        
-        
-        
-        $data_xml["narrative"] = $values_in_narrative;
-        $data_xml["narrative_practictioner_qualifications"] = $narrative_practictioner_qualifications;
-        $data_xml["extensions"] = $custom_extensions;
-        $data_xml["practictioner"] = $practictioner;
-        $data_xml["practictioner_qualifiations"] = $practictioner_qualifiations;
-        
-        return view("pages.fhir.Practitioner.practictioner", [
-            "data_output" => $data_xml
-        ]);
     }
 
-    public function pathGen($storage){
+    public function pathGen($storage)
+    {
         $path = public_path($storage);
-        $ret = str_replace("/","\\",$path);
+        $ret = str_replace("/", "\\", $path);
         return $ret;
     }
-    
-    public function FHIRValidator($pathJar, $pathFile, $pathZip, $pathOutput){
+
+    public function FHIRValidator($pathJar, $pathFile, $pathZip, $pathOutput)
+    {
         $jar = $this->pathGen($pathJar);
         $file = $this->pathGen($pathFile);
         $zip = $this->pathGen($pathZip);
         $output = $this->pathGen($pathOutput);
-
-        $command = "java -jar ".$jar. " ".$file." -defn ".$zip." -output ".$output;
+        
+        $command = "java -jar " . $jar . " " . $file . " -defn " . $zip . " -output " . $output;
         shell_exec($command);
-        //print_r($command);
+        // print_r($command);
     }
-    
+
+    /**
+     * Funzione per l'inserimento di una nuova risorsa nel sistema
+     */
     public function store(Request $request)
     {
         $file = $request->file('file');
@@ -161,18 +170,18 @@ class FHIRPractitioner
             ]
         ]);
         
-        //Salvo il file caricato dal paziente
-        $request->file('file')->storeAs('Administrator', "AddPractitioner".$id['identifier'].".xml", 'public_uploads');
+        // Salvo il file caricato dal paziente
+        $request->file('file')->storeAs('Administrator', "AddPractitioner" . $id['identifier'] . ".xml", 'public_uploads');
         
-        $filename = $this->pathGen('uploads/Administrator/AddPractitioner'.$id['identifier'].".xml");
-       
-        try{
+        $filename = $this->pathGen('uploads/Administrator/AddPractitioner' . $id['identifier'] . ".xml");
+        
+        try {
             // ottengo il nome del file compreso di espansione (file.xml)
             $name = $_FILES['file']['name'];
             $explode = explode(".", $name);
             $extension = $explode[1];
             
-            //controllo se il file è .xml
+            // controllo se il file è .xml
             if ($extension != EXTENSION) {
                 unlink($filename);
                 throw new ExtensionException("ERROR");
@@ -183,23 +192,23 @@ class FHIRPractitioner
             $sxe = new SimpleXMLElement($xmlfile);
             $name = $sxe->getName();
             
-            //controllo se il file contiente una risorsa Practitioner
+            // controllo se il file contiente una risorsa Practitioner
             if ($name != NAME) {
                 unlink($filename);
                 throw new NameException("ERROR");
             }
             
-            //Recupero gli elementi necessari a creare il comando da passare alla shell
+            // Recupero gli elementi necessari a creare il comando da passare alla shell
             $pathJar = 'FHIR-VALIDATOR/validator.jar';
-            $pathFile = 'uploads/Administrator/AddPractitioner'.$id['identifier'].".xml";
+            $pathFile = 'uploads/Administrator/AddPractitioner' . $id['identifier'] . ".xml";
             $pathZip = 'FHIR-VALIDATOR/definitions.xml.zip';
             $pathOutput = 'FHIR-VALIDATOR/validation.xml';
             
-            //passo il comando alla shell per eseguire la validazione
+            // passo il comando alla shell per eseguire la validazione
             $this->FHIRValidator($pathJar, $pathFile, $pathZip, $pathOutput);
             
             $f = public_path('FHIR-VALIDATOR/validation.xml');
-            $f = str_replace("/","\\",$f);
+            $f = str_replace("/", "\\", $f);
             
             $xmlfile = file_get_contents($f);
             $ob = simplexml_load_string($xmlfile);
@@ -208,11 +217,10 @@ class FHIRPractitioner
             
             $s = $configData['text']['div'];
             
-            if(!array_key_exists('p', $s)){
+            if (! array_key_exists('p', $s)) {
                 unlink($filename);
                 throw new ValidateException("Error: validation failed");
             }
-            
             
             $xml = XmlParser::load($file->getRealPath());
             
@@ -222,16 +230,16 @@ class FHIRPractitioner
                 ]
             ]);
             
-            //controllo se è presente l'id all'interno del file
-            if(empty($id['identifier'])){
+            // controllo se è presente l'id all'interno del file
+            if (empty($id['identifier'])) {
                 unlink($filename);
                 throw new IdNotFoundException("Error: Practitioner.identifier.value cannot be null");
             }
             
-            //Controllo se il cpp è presente nel sistema. Se non è presente controllo che il file
-            //contenga tutti i dati minimi e necessari all'inserimento di un nuovo cpp nel sistema
-            //e lo inserisce
-            if(!CareProvider::where('id_cpp', $id['identifier'])->first()){
+            // Controllo se il cpp è presente nel sistema. Se non è presente controllo che il file
+            // contenga tutti i dati minimi e necessari all'inserimento di un nuovo cpp nel sistema
+            // e lo inserisce
+            if (! CareProvider::where('id_cpp', $id['identifier'])->first()) {
                 
                 $lettura = $xml->parse([
                     'identifier' => [
@@ -282,53 +290,52 @@ class FHIRPractitioner
                     'qualificationIssuer' => [
                         'uses' => 'qualification[issuer.display::value>attr]'
                     ]
-                    
+                
                 ]);
                 
-                //se la mail esiste nel file controllo che sia unica all'interno del database
+                // se la mail esiste nel file controllo che sia unica all'interno del database
                 $telecom = array();
-                foreach($lettura['telecom'] as $tel){
-                    if($tel['sys'] == 'phone'){
+                foreach ($lettura['telecom'] as $tel) {
+                    if ($tel['sys'] == 'phone') {
                         $telecom['phone'] = $tel['val'];
                     }
-                    if($tel['sys'] == 'email'){
+                    if ($tel['sys'] == 'email') {
                         $telecom['email'] = $tel['val'];
                     }
-                    
                 }
                 
-                //Controllo gli attributi necessari per tbl_utenti
-                if(array_key_exists('email', $telecom)){
-                    if(User::where('utente_email', $telecom['email'])->first()){
+                // Controllo gli attributi necessari per tbl_utenti
+                if (array_key_exists('email', $telecom)) {
+                    if (User::where('utente_email', $telecom['email'])->first()) {
                         throw new AttributeException("Error: duplicate mail");
                     }
                 }
                 
-                //Controllo gli attributi necessari per tbl_recapiti
-                if(empty($lettura['city'])){
+                // Controllo gli attributi necessari per tbl_recapiti
+                if (empty($lettura['city'])) {
                     throw new AttributeException("Error: Practitioner.address.city cannot be null");
                 }
                 
-                //Controllo gli attributi necessari per tbl_care_provider
-                if(empty($lettura['name'])){
+                // Controllo gli attributi necessari per tbl_care_provider
+                if (empty($lettura['name'])) {
                     throw new AttributeException("Error: Practitioner.name.given cannot be null");
                 }
-                if(empty($lettura['surname'])){
+                if (empty($lettura['surname'])) {
                     throw new AttributeException("Error: Practitioner.name.family cannot be null");
                 }
-                if(empty($lettura['birthDate'])){
+                if (empty($lettura['birthDate'])) {
                     throw new AttributeException("Error: Practitioner.birthDate cannot be null");
                 }
-                if(empty($lettura['gender'])){
+                if (empty($lettura['gender'])) {
                     throw new AttributeException("Error: Practitioner.gender cannot be null");
                 }
-                if(empty($lettura['communication'])){
+                if (empty($lettura['communication'])) {
                     throw new AttributeException("Error: Practitioner.communication.code cannot be null");
                 }
                 
-                //Controllo gli attributi necessari per CppQualification
-                foreach($lettura['qualificationCode'] as $q){
-                    if(empty($q['attr'])){
+                // Controllo gli attributi necessari per CppQualification
+                foreach ($lettura['qualificationCode'] as $q) {
+                    if (empty($q['attr'])) {
                         throw new AttributeException("Error: Practitioner.qualificatiom.code.coding.code cannot be null");
                     }
                 }
@@ -337,9 +344,9 @@ class FHIRPractitioner
                 
                 $user = array();
                 
-                if(array_key_exists('email', $telecom)){
+                if (array_key_exists('email', $telecom)) {
                     $user['utente_email'] = $telecom['email'];
-                }else{
+                } else {
                     $user['utente_email'] = "";
                 }
                 
@@ -376,9 +383,9 @@ class FHIRPractitioner
                     'contatto_indirizzo' => $lettura['line']
                 );
                 
-                if(array_key_exists('phone', $telecom)){
+                if (array_key_exists('phone', $telecom)) {
                     $contact['contatto_telefono'] = $telecom['phone'];
-                }else{
+                } else {
                     $contact['contatto_telefono'] = "";
                 }
                 
@@ -389,7 +396,6 @@ class FHIRPractitioner
                     
                     $addContact->$key = $value;
                 }
-                
                 
                 $addContact->save();
                 
@@ -416,7 +422,6 @@ class FHIRPractitioner
                 }
                 
                 $addPractitioner->save();
-                
                 
                 // PRACTICTIONER.QUALIFICATION
                 
@@ -473,287 +478,283 @@ class FHIRPractitioner
                 
                 $addCppPaz->save();
                 
-                
                 return response()->json($lettura['identifier'], 201);
-                
-            }else{
-                //Se non è presente controllo se è stato già associato
+            } else {
+                // Se non è presente controllo se è stato già associato
                 throw new ResourceExistException("Practitioner already exist and he is already associated");
-                
             }
-    } catch (ExtensionException $e) {
-        OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
-    } catch (NameException $e) {
-        OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
-    } catch (ValidateException $e) {
-        return response()->download($f);
-    } catch (IdNotFoundException $e) {
-        OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
-    } catch (ResourceExistException $e) {
-        OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
-    } catch (AttributeException $e) {
-        OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        } catch (ExtensionException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        } catch (NameException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        } catch (ValidateException $e) {
+            return response()->download($f);
+        } catch (IdNotFoundException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        } catch (ResourceExistException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        } catch (AttributeException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        }
     }
-    
-}
 
-public function update(Request $request, $id)
-{
-    $file = $request->file('fileUpdate');
-    $id_paziente = Input::get('patient_id');
-    
-    //Salvo il file caricato dal paziente
-    $request->file('fileUpdate')->storeAs('Administrator', "UpdPractitioner".$id.".xml", 'public_uploads');
-    
-    $filename = $this->pathGen('uploads/Administrator/UpdPractitioner'.$id.".xml");
-    
-    try{
-        // ottengo il nome del file compreso di espansione (file.xml)
-        $name = $_FILES['fileUpdate']['name'];
-        $explode = explode(".", $name);
-        $extension = $explode[1];
+    /**
+     * Funzione per l'aggiornamento dei dati di una risorsa
+     */
+    public function update(Request $request, $id)
+    {
+        $file = $request->file('fileUpdate');
+        $id_paziente = Input::get('patient_id');
         
-        //controllo se il file è .xml
-        if ($extension != EXTENSION) {
-            unlink($filename);
-            throw new ExtensionException("Error: file extension not valid. Please select .xml file");
-        }
+        // Salvo il file caricato dal paziente
+        $request->file('fileUpdate')->storeAs('Administrator', "UpdPractitioner" . $id . ".xml", 'public_uploads');
         
-        // ottengo il nome del nodo principale (Practitioner)
-        $xmlfile = file_get_contents($file);
-        $sxe = new SimpleXMLElement($xmlfile);
-        $name = $sxe->getName();
+        $filename = $this->pathGen('uploads/Administrator/UpdPractitioner' . $id . ".xml");
         
-        //controllo se il file contiente una risorsa Practitioner
-        if ($name != NAME) {
-            unlink($filename);
-            throw new NameException("Error: type resource not valid. Please upload 'Practitioner' resource");
-        }
-        
-        $xml = XmlParser::load($file->getRealPath());
-        
-        $id_cpp = $xml->parse([
-            'identifier' => [
-                'uses' => 'identifier.value::value'
-            ]
-        ]);
-        
-        $cpp = CareProvider::all();
-        
-        //controllo se il cpp esiste nel sistema
-        if (! CareProvider::find($id)) {
-            throw new Exception("Practitioner does not exist in the database");
-        }
-        
-        //controllo se l'id del file coincide con quello che si vuole aggiornare
-        if($id_cpp['identifier'] != $id){
-            unlink($filename);
-            throw new IdNotEqualsException("Error: id_cpp and identifier not equals");
-        }
-        
-        //Recupero gli elementi necessari a creare il comando da passare alla shell
-        $pathJar = 'FHIR-VALIDATOR/validator.jar';
-        $pathFile = 'uploads/Administrator/AddPractitioner'.$id.".xml";
-        $pathZip = 'FHIR-VALIDATOR/definitions.xml.zip';
-        $pathOutput = 'FHIR-VALIDATOR/validation.xml';
-        
-        //passo il comando alla shell per eseguire la validazione
-        $this->FHIRValidator($pathJar, $pathFile, $pathZip, $pathOutput);
-        
-        $f = public_path('FHIR-VALIDATOR/validation.xml');
-        $f = str_replace("/","\\",$f);
-        
-        $xmlfile = file_get_contents($f);
-        $ob = simplexml_load_string($xmlfile);
-        $json = json_encode($ob);
-        $configData = json_decode($json, true);
-        
-        $s = $configData['text']['div'];
-        
-        if(!array_key_exists('p', $s)){
-            unlink($filename);
-            throw new ValidateException();
-        }
-        
-        $lettura = $xml->parse([
-            'identifier' => [
-                'uses' => 'identifier.value::value'
-            ],
-            'active' => [
-                'uses' => 'active::value'
-            ],
-            'name' => [
-                'uses' => 'name.given::value'
-            ],
-            'surname' => [
-                'uses' => 'name.family::value'
-            ],
-            'telecom' => [
-                'uses' => 'telecom[value::value>attr]'
-            ],
-            'gender' => [
-                'uses' => 'gender::value'
-            ],
-            'birthDate' => [
-                'uses' => 'birthDate::value'
-            ],
-            'line' => [
-                'uses' => 'address.line::value'
-            ],
-            'city' => [
-                'uses' => 'address.city::value'
-            ],
-            'state' => [
-                'uses' => 'address.state::value'
-            ],
-            'postalCode' => [
-                'uses' => 'address.postalCode::value'
-            ],
-            'communication' => [
-                'uses' => 'communication.coding.code::value'
-            ],
-            'qualificationCode' => [
-                'uses' => 'qualification[code.coding.code::value>attr]'
-            ],
-            'qualificationPeriodStart' => [
-                'uses' => 'qualification[period.start::value>attr]'
-            ],
-            'qualificationPeriodEnd' => [
-                'uses' => 'qualification[period.end::value>attr]'
-            ],
-            'qualificationIssuer' => [
-                'uses' => 'qualification[issuer.display::value>attr]'
-            ]
+        try {
+            // ottengo il nome del file compreso di espansione (file.xml)
+            $name = $_FILES['fileUpdate']['name'];
+            $explode = explode(".", $name);
+            $extension = $explode[1];
             
-        ]);
-        
-        // USER
-        
-        $practitioner_data = CareProvider::where('id_cpp', $id)->first();
-        $user_data = User::where("id_utente", $practitioner_data->id_utente)->first();
-        
-        $updUser = $user_data;
-        
-        $telecom = array();
-        
-        foreach ($lettura['telecom'] as $p) {
-            array_push($telecom, $p['attr']);
-        }
-        
-        $user = array();
-        
-        if (! is_null($telecom[1])) {
-            $user['utente_email'] = $telecom[1];
-        }
-        
-        $user['utente_nome'] = $lettura['name'] . " " . $lettura['surname'];
-        
-        foreach ($user as $key => $value) {
-            if (empty($value)) {
-                continue;
+            // controllo se il file è .xml
+            if ($extension != EXTENSION) {
+                unlink($filename);
+                throw new ExtensionException("Error: file extension not valid. Please select .xml file");
             }
-            $updUser->$key = $value;
-        }
-        
-        $updUser->save();
-        
-        // CONTATTI
-        $comune = Comuni::all()->where('comune_nominativo', $lettura['city'])->first();
-        
-        $updContact = Recapiti::where("id_utente", $user_data->id_utente)->first();
-        
-        $contact = array(
-            'id_comune_residenza' => $comune->id_comune,
-            'id_comune_nascita' => $comune->id_comune,
-            'contatto_indirizzo' => $lettura['line']
-        );
-        
-        if (! is_null($telecom[0])) {
-            $contact['contatto_telefono'] = $telecom[0];
-        }
-        
-        foreach ($contact as $key => $value) {
-            if (empty($value)) {
-                continue;
+            
+            // ottengo il nome del nodo principale (Practitioner)
+            $xmlfile = file_get_contents($file);
+            $sxe = new SimpleXMLElement($xmlfile);
+            $name = $sxe->getName();
+            
+            // controllo se il file contiente una risorsa Practitioner
+            if ($name != NAME) {
+                unlink($filename);
+                throw new NameException("Error: type resource not valid. Please upload 'Practitioner' resource");
             }
-            $updContact->$key = $value;
-        }
-        
-        $updContact->save();
-        
-        // PRACTICTIONER
-        $updPractitioner = $practitioner_data;
-        
-        $practitioner = array(
-            'cpp_nome' => $lettura['name'],
-            'cpp_cognome' => $lettura['surname'],
-            'cpp_sesso' => $lettura['gender'],
-            'cpp_nascita_data' => $lettura['birthDate'],
-            'cpp_codfiscale' => '',
-            'active' => $lettura['active'],
-            'cpp_lingua' => $lettura['communication']
-        );
-        
-        foreach ($practitioner as $key => $value) {
-            if (empty($value)) {
-                continue;
+            
+            $xml = XmlParser::load($file->getRealPath());
+            
+            $id_cpp = $xml->parse([
+                'identifier' => [
+                    'uses' => 'identifier.value::value'
+                ]
+            ]);
+            
+            $cpp = CareProvider::all();
+            
+            // controllo se il cpp esiste nel sistema
+            if (! CareProvider::find($id)) {
+                throw new Exception("Practitioner does not exist in the database");
             }
-            $updPractitioner->$key = $value;
-        }
-        
-        $updPractitioner->save();
-        
-        // PRACTITIONER.QUALIFICATION
-        $practQual = array();
-        
-        $cpp = $practitioner_data;
-        
-        CppQualification::where("id_cpp", $cpp->id_cpp)->delete();
-        
-        for ($i = 0; $i < count($lettura['qualificationCode']); $i ++) {
-            $practitionerQual = array(
-                'id_cpp' => $cpp->id_cpp,
-                'Code' => $lettura['qualificationCode'][$i]['attr'],
-                'Start_Period' => $lettura['qualificationPeriodStart'][$i]['attr'],
-                'End_Period' => $lettura['qualificationPeriodEnd'][$i]['attr'],
-                'Issuer' => $lettura['qualificationIssuer'][$i]['attr']
+            
+            // controllo se l'id del file coincide con quello che si vuole aggiornare
+            if ($id_cpp['identifier'] != $id) {
+                unlink($filename);
+                throw new IdNotEqualsException("Error: id_cpp and identifier not equals");
+            }
+            
+            // Recupero gli elementi necessari a creare il comando da passare alla shell
+            $pathJar = 'FHIR-VALIDATOR/validator.jar';
+            $pathFile = 'uploads/Administrator/AddPractitioner' . $id . ".xml";
+            $pathZip = 'FHIR-VALIDATOR/definitions.xml.zip';
+            $pathOutput = 'FHIR-VALIDATOR/validation.xml';
+            
+            // passo il comando alla shell per eseguire la validazione
+            $this->FHIRValidator($pathJar, $pathFile, $pathZip, $pathOutput);
+            
+            $f = public_path('FHIR-VALIDATOR/validation.xml');
+            $f = str_replace("/", "\\", $f);
+            
+            $xmlfile = file_get_contents($f);
+            $ob = simplexml_load_string($xmlfile);
+            $json = json_encode($ob);
+            $configData = json_decode($json, true);
+            
+            $s = $configData['text']['div'];
+            
+            if (! array_key_exists('p', $s)) {
+                unlink($filename);
+                throw new ValidateException();
+            }
+            
+            $lettura = $xml->parse([
+                'identifier' => [
+                    'uses' => 'identifier.value::value'
+                ],
+                'active' => [
+                    'uses' => 'active::value'
+                ],
+                'name' => [
+                    'uses' => 'name.given::value'
+                ],
+                'surname' => [
+                    'uses' => 'name.family::value'
+                ],
+                'telecom' => [
+                    'uses' => 'telecom[value::value>attr]'
+                ],
+                'gender' => [
+                    'uses' => 'gender::value'
+                ],
+                'birthDate' => [
+                    'uses' => 'birthDate::value'
+                ],
+                'line' => [
+                    'uses' => 'address.line::value'
+                ],
+                'city' => [
+                    'uses' => 'address.city::value'
+                ],
+                'state' => [
+                    'uses' => 'address.state::value'
+                ],
+                'postalCode' => [
+                    'uses' => 'address.postalCode::value'
+                ],
+                'communication' => [
+                    'uses' => 'communication.coding.code::value'
+                ],
+                'qualificationCode' => [
+                    'uses' => 'qualification[code.coding.code::value>attr]'
+                ],
+                'qualificationPeriodStart' => [
+                    'uses' => 'qualification[period.start::value>attr]'
+                ],
+                'qualificationPeriodEnd' => [
+                    'uses' => 'qualification[period.end::value>attr]'
+                ],
+                'qualificationIssuer' => [
+                    'uses' => 'qualification[issuer.display::value>attr]'
+                ]
+            
+            ]);
+            
+            // USER
+            
+            $practitioner_data = CareProvider::where('id_cpp', $id)->first();
+            $user_data = User::where("id_utente", $practitioner_data->id_utente)->first();
+            
+            $updUser = $user_data;
+            
+            $telecom = array();
+            
+            foreach ($lettura['telecom'] as $p) {
+                array_push($telecom, $p['attr']);
+            }
+            
+            $user = array();
+            
+            if (! is_null($telecom[1])) {
+                $user['utente_email'] = $telecom[1];
+            }
+            
+            $user['utente_nome'] = $lettura['name'] . " " . $lettura['surname'];
+            
+            foreach ($user as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+                $updUser->$key = $value;
+            }
+            
+            $updUser->save();
+            
+            // CONTATTI
+            $comune = Comuni::all()->where('comune_nominativo', $lettura['city'])->first();
+            
+            $updContact = Recapiti::where("id_utente", $user_data->id_utente)->first();
+            
+            $contact = array(
+                'id_comune_residenza' => $comune->id_comune,
+                'id_comune_nascita' => $comune->id_comune,
+                'contatto_indirizzo' => $lettura['line']
             );
-            array_push($practQual, $practitionerQual);
-        }
-        
-        $updPractitionerQual = new CppQualification();
-        $add = array();
-        $praQual = array();
-        
-        foreach ($practQual as $pq) {
-            foreach ($pq as $key => $value) {
-                $add[$key] = $value;
+            
+            if (! is_null($telecom[0])) {
+                $contact['contatto_telefono'] = $telecom[0];
             }
-            array_push($praQual, $add);
-        }
-        
-        foreach ($praQual as $a) {
+            
+            foreach ($contact as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+                $updContact->$key = $value;
+            }
+            
+            $updContact->save();
+            
+            // PRACTICTIONER
+            $updPractitioner = $practitioner_data;
+            
+            $practitioner = array(
+                'cpp_nome' => $lettura['name'],
+                'cpp_cognome' => $lettura['surname'],
+                'cpp_sesso' => $lettura['gender'],
+                'cpp_nascita_data' => $lettura['birthDate'],
+                'cpp_codfiscale' => '',
+                'active' => $lettura['active'],
+                'cpp_lingua' => $lettura['communication']
+            );
+            
+            foreach ($practitioner as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+                $updPractitioner->$key = $value;
+            }
+            
+            $updPractitioner->save();
+            
+            // PRACTITIONER.QUALIFICATION
+            $practQual = array();
+            
+            $cpp = $practitioner_data;
+            
+            CppQualification::where("id_cpp", $cpp->id_cpp)->delete();
+            
+            for ($i = 0; $i < count($lettura['qualificationCode']); $i ++) {
+                $practitionerQual = array(
+                    'id_cpp' => $cpp->id_cpp,
+                    'Code' => $lettura['qualificationCode'][$i]['attr'],
+                    'Start_Period' => $lettura['qualificationPeriodStart'][$i]['attr'],
+                    'End_Period' => $lettura['qualificationPeriodEnd'][$i]['attr'],
+                    'Issuer' => $lettura['qualificationIssuer'][$i]['attr']
+                );
+                array_push($practQual, $practitionerQual);
+            }
+            
             $updPractitionerQual = new CppQualification();
-            foreach ($a as $key => $value) {
-                $updPractitionerQual->$key = $value;
+            $add = array();
+            $praQual = array();
+            
+            foreach ($practQual as $pq) {
+                foreach ($pq as $key => $value) {
+                    $add[$key] = $value;
+                }
+                array_push($praQual, $add);
             }
-            $updPractitionerQual->save();
+            
+            foreach ($praQual as $a) {
+                $updPractitionerQual = new CppQualification();
+                foreach ($a as $key => $value) {
+                    $updPractitionerQual->$key = $value;
+                }
+                $updPractitionerQual->save();
+            }
+            
+            return response()->json($id, 200);
+        } catch (ExtensionException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        } catch (NameException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        } catch (IdNotEqualsException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
+        } catch (ValidateException $e) {
+            OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
         }
-        
-        return response()->json($id, 200);
-        
-    } catch (ExtensionException $e) {
-        OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
-    } catch (NameException $e) {
-        OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
-    } catch (IdNotEqualsException $e) {
-        OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
-    } catch (ValidateException $e) {
-        OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
     }
-    
-}
-
 
     /**
      * Funzione per l'eliminazione di una risorsa
@@ -771,7 +772,6 @@ public function update(Request $request, $id)
             CareProvider::find($id)->delete();
             
             return response()->json(null, 204);
-            
         } catch (IdNotFoundException $e) {
             OperationOutcome::display_raw(OperationOutcome::getXML($e->getMessage()));
         }
@@ -853,7 +853,6 @@ public function update(Request $request, $id)
             }
             $custom_extensions[$key] = $value;
         }
-        
         
         $data_xml["narrative"] = $values_in_narrative;
         $data_xml["narrative_practitioner_qualifications"] = $narrative_practitioner_qualifications;
@@ -955,25 +954,25 @@ public function update(Request $request, $id)
         
         // EXTENSIONS
         // comune
-        if(array_key_exists("Comune", $data_xml["extensions"])){
-        $extension1 = $dom->createElement('extension');
-        $extension1->setAttribute('url', 'http://resp.local/resources/extensions/Practictioner/practitioner-comune.xml');
-        $extension1 = $practitioner->appendChild($extension1);
-        
-        $valueString1 = $dom->createElement('valueString');
-        $valueString1->setAttribute('value', $data_xml["extensions"]['Comune']);
-        $valueString1 = $extension1->appendChild($valueString1);
-       }
+        if (array_key_exists("Comune", $data_xml["extensions"])) {
+            $extension1 = $dom->createElement('extension');
+            $extension1->setAttribute('url', 'http://resp.local/resources/extensions/Practictioner/practitioner-comune.xml');
+            $extension1 = $practitioner->appendChild($extension1);
+            
+            $valueString1 = $dom->createElement('valueString');
+            $valueString1->setAttribute('value', $data_xml["extensions"]['Comune']);
+            $valueString1 = $extension1->appendChild($valueString1);
+        }
         
         // id
-        if(array_key_exists("Id_Utente", $data_xml["extensions"])){
-        $extension2 = $dom->createElement('extension');
-        $extension2->setAttribute('url', 'http://resp.local/resources/extensions/Practictioner/cpp-persona-id.xml');
-        $extension2 = $practitioner->appendChild($extension2);
-        
-        $valueString2 = $dom->createElement('valueString');
-        $valueString2->setAttribute('value', $data_xml["extensions"]['Id_Utente']);
-        $valueString2 = $extension2->appendChild($valueString2);
+        if (array_key_exists("Id_Utente", $data_xml["extensions"])) {
+            $extension2 = $dom->createElement('extension');
+            $extension2->setAttribute('url', 'http://resp.local/resources/extensions/Practictioner/cpp-persona-id.xml');
+            $extension2 = $practitioner->appendChild($extension2);
+            
+            $valueString2 = $dom->createElement('valueString');
+            $valueString2->setAttribute('value', $data_xml["extensions"]['Id_Utente']);
+            $valueString2 = $extension2->appendChild($valueString2);
         }
         // END EXTENSIONS
         
@@ -1015,42 +1014,41 @@ public function update(Request $request, $id)
         $prefix->setAttribute('value', 'Dr');
         $prefix = $name->appendChild($prefix);
         
-        if(!empty($data_xml["practitioner"]->getPhone())){
-        // Creazione del nodo telecom con il contatto telefonico del practitioner
-        $telecom = $dom->createElement('telecom');
-        $telecom = $practitioner->appendChild($telecom);
-        // Creazione del nodo system che indica che il contatto è un valore telefonico
-        $system = $dom->createElement('system');
-        $system->setAttribute('value', 'phone');
-        $system = $telecom->appendChild($system);
-        // Creazione del nodo value che contiene il valore del numero di telefono del practitioner
-        $value = $dom->createElement('value');
-        $value->setAttribute('value', $data_xml["practitioner"]->getPhone());
-        $value = $telecom->appendChild($value);
-        // Creazione del nodo use che indica la tipologia di numero di telefono
-        $use = $dom->createElement('use');
-        $use->setAttribute('value', 'mobile');
-        $use = $telecom->appendChild($use);
+        if (! empty($data_xml["practitioner"]->getPhone())) {
+            // Creazione del nodo telecom con il contatto telefonico del practitioner
+            $telecom = $dom->createElement('telecom');
+            $telecom = $practitioner->appendChild($telecom);
+            // Creazione del nodo system che indica che il contatto è un valore telefonico
+            $system = $dom->createElement('system');
+            $system->setAttribute('value', 'phone');
+            $system = $telecom->appendChild($system);
+            // Creazione del nodo value che contiene il valore del numero di telefono del practitioner
+            $value = $dom->createElement('value');
+            $value->setAttribute('value', $data_xml["practitioner"]->getPhone());
+            $value = $telecom->appendChild($value);
+            // Creazione del nodo use che indica la tipologia di numero di telefono
+            $use = $dom->createElement('use');
+            $use->setAttribute('value', 'mobile');
+            $use = $telecom->appendChild($use);
         }
         
         // Creazione del nodo telecom con il contatto mail del practitioner
-        if(!empty($data_xml["practitioner"]->getMail())){
-        $telecom = $dom->createElement('telecom');
-        $telecom = $practitioner->appendChild($telecom);
-        // Creazione del nodo system che indica che il contatto è un valore telefonico
-        $system = $dom->createElement('system');
-        $system->setAttribute('value', 'email');
-        $system = $telecom->appendChild($system);
-        // Creazione del nodo value che contiene il valore del numero di telefono del practitioner
-        $value = $dom->createElement('value');
-        $value->setAttribute('value', $data_xml["practitioner"]->getMail());
-        $value = $telecom->appendChild($value);
-        // Creazione del nodo use che indica la tipologia di numero di telefono
-        $use = $dom->createElement('use');
-        $use->setAttribute('value', 'home');
-        $use = $telecom->appendChild($use);
+        if (! empty($data_xml["practitioner"]->getMail())) {
+            $telecom = $dom->createElement('telecom');
+            $telecom = $practitioner->appendChild($telecom);
+            // Creazione del nodo system che indica che il contatto è un valore telefonico
+            $system = $dom->createElement('system');
+            $system->setAttribute('value', 'email');
+            $system = $telecom->appendChild($system);
+            // Creazione del nodo value che contiene il valore del numero di telefono del practitioner
+            $value = $dom->createElement('value');
+            $value->setAttribute('value', $data_xml["practitioner"]->getMail());
+            $value = $telecom->appendChild($value);
+            // Creazione del nodo use che indica la tipologia di numero di telefono
+            $use = $dom->createElement('use');
+            $use->setAttribute('value', 'home');
+            $use = $telecom->appendChild($use);
         }
-        
         
         // Creazione del nodo address per i dati relativi al recapito del paziente
         $address = $dom->createElement('address');
@@ -1061,10 +1059,10 @@ public function update(Request $request, $id)
         $use = $address->appendChild($use);
         // Creazione del nodo line che indica l'indirizzo di residenza
         
-        if(!empty($data_xml["practitioner"]->getLine())){
-        $line = $dom->createElement('line');
-        $line->setAttribute('value', $data_xml["practitioner"]->getLine());
-        $line = $address->appendChild($line);
+        if (! empty($data_xml["practitioner"]->getLine())) {
+            $line = $dom->createElement('line');
+            $line->setAttribute('value', $data_xml["practitioner"]->getLine());
+            $line = $address->appendChild($line);
         }
         // Creazione del nodo city che indica la città di residenza
         $city = $dom->createElement('city');
@@ -1116,32 +1114,32 @@ public function update(Request $request, $id)
             $text = $dom->createElement('text');
             $text->setAttribute('value', $pq->getQualificationDisplay());
             $text = $codeQ->appendChild($text);
-        
+            
             // Creazione del nodo period
-            if(!empty($pq->getStartPeriod()) && !empty($pq->getEndPeriod())){
-            $period = $dom->createElement('period');
-            $period = $qualification->appendChild($period);
-            // Creazione del nodo start
-            if(!empty($pq->getStartPeriod())){
-            $start = $dom->createElement('start');
-            $start->setAttribute('value', $pq->getStartPeriod());
-            $start = $period->appendChild($start);
+            if (! empty($pq->getStartPeriod()) && ! empty($pq->getEndPeriod())) {
+                $period = $dom->createElement('period');
+                $period = $qualification->appendChild($period);
+                // Creazione del nodo start
+                if (! empty($pq->getStartPeriod())) {
+                    $start = $dom->createElement('start');
+                    $start->setAttribute('value', $pq->getStartPeriod());
+                    $start = $period->appendChild($start);
+                }
+                if (! empty($pq->getEndPeriod())) {
+                    // Creazione del nodo end
+                    $end = $dom->createElement('end');
+                    $end->setAttribute('value', $pq->getEndPeriod());
+                    $end = $period->appendChild($end);
+                }
             }
-            if(!empty($pq->getEndPeriod())){
-            // Creazione del nodo end
-            $end = $dom->createElement('end');
-            $end->setAttribute('value', $pq->getEndPeriod());
-            $end = $period->appendChild($end);
-            }
-            }
-            if(!empty($pq->getIssuer())){
-            // Creazione del nodo issuer
-            $issuer = $dom->createElement('issuer');
-            $issuer = $qualification->appendChild($issuer);
-            // Creazione del nodo display
-            $display = $dom->createElement('display');
-            $display->setAttribute('value', $pq->getIssuer());
-            $display = $issuer->appendChild($display);
+            if (! empty($pq->getIssuer())) {
+                // Creazione del nodo issuer
+                $issuer = $dom->createElement('issuer');
+                $issuer = $qualification->appendChild($issuer);
+                // Creazione del nodo display
+                $display = $dom->createElement('display');
+                $display->setAttribute('value', $pq->getIssuer());
+                $display = $issuer->appendChild($display);
             }
         }
         
