@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\Patient\Pazienti;
 /*
  |--------------------------------------------------------------------------
  | Web Routes
@@ -270,7 +270,26 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/prova/{id}', 'Fhir\Modules\FHIRFamilyMemberHistory@getResource');
     //Route::get('/fhirPatientExport/{id}', 'Fhir\Modules\FHIRPatient@getResource');
     
-    
+    Route::any('/search',function(){
+        $q = Input::get ( 'q' );
+        $user = CareProvider::where('cpp_nome','LIKE','%'.$q.'%')->orWhere('cpp_cognome','LIKE','%'.$q.'%')->orWhere('id_cpp','LIKE','%'.$q.'%')->get();
+        
+        $practitioner = $user;
+        $patient = Pazienti::where('id_paziente', 2)->first();
+        $data['practitioner'] = $practitioner;
+        $data['patient'] = $patient;
+        
+        if(count($user) > 0)
+            return view("pages.fhir.Practitioner.searchPractitioner", [
+                "data_output" => $data
+            ])->withDetails($user)->withQuery ( $q );
+            else{            
+                echo '<script type="text/javascript">
+            alert(" Practitioner not found ")
+            window.location.href = "fhirPractitionerIndex/2"
+            </script>';
+            }
+    });
     
     /**
      * RESTful for Patient
