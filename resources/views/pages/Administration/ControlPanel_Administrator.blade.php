@@ -134,8 +134,7 @@ p.round2 {
 <h1>Pannello di Controllo</h1>
 <!-- @TODO Bisogna completare questa sezione  -->
 <br><br>
-<h6>Bisogna implementare i tentativi di accesso e di numero di utenti che hanno eseguito l'accesso lato server</h6>
-<br>
+
 
 		<div class="col-lg-12">
 			<br> <br> 

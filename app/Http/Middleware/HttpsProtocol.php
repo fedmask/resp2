@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\App;
 
 class HttpsProtocol {
 	
-	/*public function handle($request, Closure $next)
+	public function handle($request, Closure $next)
 	{
 		
 		if (!$request->secure()) {
@@ -16,6 +16,6 @@ class HttpsProtocol {
 		}
 		
 		return $next($request);
-	}*/
+	}
 
 }
