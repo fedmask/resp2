@@ -15,7 +15,7 @@ class CreateDocumentiTable extends Migration {
 		Schema::create('Documenti', function(Blueprint $table)
 		{
 			$table->integer('Id_Documento')->unsigned()->primary();
-			$table->string('Tipo', 30)->nullable();
+			$table->longText('Tipo')->nullable();
 			$table->integer('Id_Amministratore')->unsigned()->index('Id_Amministratore');
 		});
 	}

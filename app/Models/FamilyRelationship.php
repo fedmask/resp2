@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Traits\Encryptable;
 class FamilyRelationship extends Model
 {
+use Encryptable;
+
     protected $table = 'tbl_famely_relationship';
     protected $primaryKey = 'codice';
     public $incrementing = false;
@@ -18,6 +20,8 @@ class FamilyRelationship extends Model
         
         
     ];
+    
+    protected $encryptable = ['descrizione'];
     protected $fillable = [
         'codice_descrizione',
         'descrizione'

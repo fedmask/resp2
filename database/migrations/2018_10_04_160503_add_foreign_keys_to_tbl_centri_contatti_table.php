@@ -14,7 +14,7 @@ class AddForeignKeysToTblCentriContattiTable extends Migration {
 	{
 		Schema::table('tbl_centri_contatti', function(Blueprint $table)
 		{
-			$table->foreign('id_centro', 'fk_tbl_centri_contatti_tbl_centri_indagini1_idx')->references('id_centro')->on('tbl_centri_indagini')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('id_centro', 'fk_tbl_centri_contatti_tbl_centri_indagini1_idx')->references('id_centro')->on('tbl_centri_indagini')->onUpdate('NO ACTION')->onDelete('cascade');
 			$table->foreign('id_modalita_contatto', 'fk_tbl_centri_contatti_tbl_modalita_contatti1_idx')->references('id_modalita')->on('tbl_modalita_contatti')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 		});
 	}

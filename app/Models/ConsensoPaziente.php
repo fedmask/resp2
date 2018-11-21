@@ -53,6 +53,12 @@ class ConsensoPaziente extends Model
 		
 	}
 	
+	
+	public function getTrattamentoFinalita(){
+		
+		return   \App\TrattamentiPaziente::where('Id_Trattamento', $this->getID_Trattamento())->first()->Finalita_T;
+		
+	}
 	public function getTrattamentoNome(){
 		
 		return   \App\TrattamentiPaziente::where('Id_Trattamento', $this->getID_Trattamento())->first()->Nome_T;

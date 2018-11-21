@@ -8,7 +8,7 @@
 namespace App\Models\History;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+use App\Traits\Encryptable;
 /**
  * Class AnamnesiPtProssima
  * 
@@ -21,6 +21,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class AnamnesiPtProssima extends Eloquent
 {
+	
+	use Encryptable;
+	
 	protected $table = 'tbl_anamnesi_pt_prossima';
 	protected $primaryKey = 'id_paziente';
 	public $timestamps = false;
@@ -30,6 +33,8 @@ class AnamnesiPtProssima extends Eloquent
 		'id_anamnesi_log' => 'int',
         'icd9_group_code' => 'string'
 	];
+	
+	protected $encryptable = ['anamnesi_prossima_contenuto'];
 
 	protected $fillable = [
 		'id_paziente',

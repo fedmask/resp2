@@ -15,7 +15,7 @@ class AddForeignKeysToTblIndaginiEliminateTable extends Migration {
 		Schema::table('tbl_indagini_eliminate', function(Blueprint $table)
 		{
 			$table->foreign('id_indagine', 'fk_tbl_indagini_eliminate_tbl_indagini1_idx')->references('id_indagine')->on('tbl_indagini')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('id_utente', 'fk_tbl_indagini_eliminate_tbl_utenti1_idx')->references('id_utente')->on('tbl_utenti')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('id_utente', 'fk_tbl_indagini_eliminate_tbl_utenti1_idx')->references('id_utente')->on('tbl_utenti')->onUpdate('NO ACTION')->onDelete('CASCADE');
 		});
 	}
 

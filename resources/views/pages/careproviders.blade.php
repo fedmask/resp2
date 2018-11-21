@@ -91,7 +91,9 @@ commento martinelli 111
 									</div>
 								</div>
 								<div id="toSetTableSet" class="table-responsive">
-									<table class="table">
+									
+									<font size="5" face="Courier New" >
+									<table  style='font-size: 10'; pxclass="table">
 										<thead>
 											<tr>
 												<th>Nome</th>

@@ -18,8 +18,8 @@ class CreateTblRecapitiTable extends Migration {
 			$table->integer('id_utente')->unsigned()->index('id_utente');
 			$table->integer('id_comune_residenza')->unsigned()->index('id_comune_residenza');
 			$table->integer('id_comune_nascita')->unsigned()->nullable();
-			$table->string('contatto_telefono', 30)->nullable();
-			$table->string('contatto_indirizzo', 100)->nullable();
+			$table->longText('contatto_telefono')->nullable();
+			$table->longText('contatto_indirizzo')->nullable();
 		});
 	}
 

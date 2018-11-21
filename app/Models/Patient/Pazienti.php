@@ -6,12 +6,16 @@
  */
 namespace App\Models\Patient;
 
+use App\Traits\Encryptable;
 use App\Models\Patient\PazientiDescessi;
 use App\Models\CodificheFHIR\MaritalStatus;
 use App\Models\FHIR\PatientContact;
 use App\Models\CodificheFHIR\Language;
+
 use Carbon\Carbon;
+
 use Reliese\Database\Eloquent\Model as Eloquent;
+use DB;
 
 /**
  * Class Pazienti
@@ -48,19 +52,29 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @package App\Models
  */
 class Pazienti extends Eloquent {
+	
+	use Encryptable;
 	protected $table = 'tbl_pazienti';
 	protected $primaryKey = 'id_paziente';
 	public $timestamps = false;
 	protected $casts = [ 
 			'id_utente' => 'int',
 			'paziente_donatore_organi' => 'bool',
-	        'id_paziente' => 'int',
+			'id_paziente' => 'int' 
 	];
 	protected $dates = [ 
 			'paziente_nascita' 
 	];
+	protected $encryptable = [ 
+			'paziente_nome',
+			'paziente_cognome',
+			'paziente_gruppo',
+			'paziente_rh',
+			
+			
+	];
 	protected $fillable = [ 
-	        'id_paziente',
+			'id_paziente',
 			'id_utente',
 			'id_stato_matrimoniale',
 			'paziente_nome',
@@ -69,11 +83,10 @@ class Pazienti extends Eloquent {
 			'paziente_codfiscale',
 			'paziente_sesso',
 			'paziente_gruppo',
-			'pazinte_rh',
+			'paziente_rh',
 			'paziente_donatore_organi',
-	        'paziente_lingua'
+			'paziente_lingua' 
 	];
-	
 	
 	/**
 	 * FHIR FUNCTIONS *
@@ -82,105 +95,112 @@ class Pazienti extends Eloquent {
 	/**
 	 * Restituisce l'id del paziente loggato
 	 */
-	public function getID_Paziente()
-	{
-	    return $this->id_paziente;
+	public function getID_Paziente() {
+		return $this->id_paziente;
 	}
 	
 	/**
 	 * Restituisce "false" se il paziente non � decesso, true altrimenti
 	 */
-	public function getDeceased()
-	{
-	    $deceased = "false";
-	    $pazDec = PazientiDecessi::all();
-	    
-	    foreach($pazDec as $pc){
-	        if($pc->id_paziente == $this->id_paziente){
-	            $deceased = "true";
-	        }
-	    }
-	  
-	    return $deceased;
+	public function getDeceased() {
+		$deceased = "false";
+		$pazDec = PazientiDecessi::all ();
+		
+		foreach ( $pazDec as $pc ) {
+			if ($pc->id_paziente == $this->id_paziente) {
+				$deceased = "true";
+			}
+		}
+		
+		return $deceased;
 	}
 	
 	/**
 	 * Restituisce "true" se non � decesso ed attivo, "false" altrimenti
 	 */
-	public function isActive()
-	{
-	    $active = "true";
-	    $pazDec = PazientiDecessi::all();
-	    
-	    foreach($pazDec as $pc){
-	        if($pc->id_paziente == $this->id_paziente){
-	            $active = "false";
-	        }
-	    }
-	    
-	    return $active;
+	public function isActive() {
+		$active = "true";
+		$pazDec = PazientiDecessi::all ();
+		
+		foreach ( $pazDec as $pc ) {
+			if ($pc->id_paziente == $this->id_paziente) {
+				$active = "false";
+			}
+		}
+		
+		return $active;
 	}
 	
 	/**
 	 * Restituisce il nome del paziente loggato
 	 */
-	public function getName()
-	{
-	    return $this->paziente_nome;
+	public function getName() {
+		return $this->paziente_nome;
 	}
 	
 	/**
 	 * Restituisce il cognome del paziente loggato
 	 */
-	public function getSurname()
-	{
-	    return $this->paziente_cognome;
+	public function getSurname() {
+		return $this->paziente_cognome;
 	}
 	
 	/**
 	 * Restituisce nome e cognome del paziente logggato
 	 */
-	public function getFullName()
-	{
-	    return $this->getName() . " " . $this->getSurname();
+	public function getFullName() {
+		return $this->getName () . " " . $this->getSurname ();
 	}
 	
 	/**
 	 * Restituisce la mail del paziente loggato
 	 */
-	public function getMail(){
-	    return $this->user ()->first ()->utente_email;
+	public function getMail() {
+		return $this->user ()->first ()->utente_email;
 	}
 	
 	/**
 	 * Restituisce il numero di telefono del paziente loggato
 	 */
-	public function getPhone(){
-	    return $this->user ()->first ()->contacts ()->first ()->contatto_telefono;
+	public function getPhone() {
+		return $this->user ()->first ()->contacts ()->first ()->contatto_telefono;
 	}
 	
 	/**
 	 * Restituisce la mail e il numero di telefono del paziente loggato
 	 */
 	public function getTelecom() {
-	    return $this->getPhone()." - ".$this->getMail();
+		return $this->getPhone () . " - " . $this->getMail ();
 	}
 	
 	/**
+	 * Restituisce il codice fiscale del Paziente
+	 */
+	public function getFiscalCode() {
+		return $this->paziente_codfiscale;
+	}
+	/**
 	 * Restituisce il sesso del paziente loggato secondo la codfica del FHIR
 	 */
-	public function getGender()
-	{
-	    return $this->paziente_sesso;
+	public function getGender() {
+		return $this->paziente_sesso;
 	}
 	
 	/**
 	 * Restituisce la data di nascita del paziente loggato nel formato gg/mm/aaaa
 	 */
-	public function getBirth()
-	{
-	    $data = date_format($this->paziente_nascita,"Y-m-d");
-	    return $data;
+	public function getBirth() {
+		$data = date_format ( $this->paziente_nascita, "Y-m-d" );
+		return $data;
+	}
+	
+	/**
+	 * Restituisce la data di nascita del Paziente
+	 * 
+	 * @return unknown
+	 */
+	public function getBirthdayDate() {
+		return $this->paziente_nascita;
 	}
     /**
      * Restituisce l'età del paziente
@@ -194,90 +214,86 @@ class Pazienti extends Eloquent {
 	 * Restituisce la via dell'indirizzo del paziente loggato
 	 */
 	public function getLine() {
-	    return $this->user ()->first ()->getAddress ();
+		return $this->user ()->first ()->getAddress ();
 	}
 	
 	/**
 	 * Restituisce la citt� dell'indirizzo del paziente loggato
 	 */
 	public function getCity() {
-	    return $this->user ()->first ()->getLivingTown ();
+		return $this->user ()->first ()->getLivingTown ();
 	}
 	
 	/**
 	 * Restituisce il codice postale dell'indirizzo del paziente loggato
 	 */
 	public function getPostalCode() {
-	    return $this->user ()->first ()->getCapLivingTown ();
+		return $this->user ()->first ()->getCapLivingTown ();
 	}
 	
 	/**
 	 * Restituisce la nazione dell'indirizzo del paziente loggato
 	 */
 	public function getCountryName() {
-	    return $this->user ()->first ()->contacts ()->first ()->town ()->first ()->tbl_nazioni ()->first ()->getCountryName ();
+		return $this->user ()->first ()->contacts ()->first ()->town ()->first ()->tbl_nazioni ()->first ()->getCountryName ();
 	}
 	
 	/**
 	 * Restituisce tutte le informazioni dell'indirizzo del paziente loggato
 	 */
-	public function getAddress()
-	{
-	    return $this->getLine()." ".$this->getCity()." ".$this->getCountryName()." ".$this->getPostalCode();
+	public function getAddress() {
+		return $this->getLine () . " " . $this->getCity () . " " . $this->getCountryName () . " " . $this->getPostalCode ();
 	}
 	
 	/**
 	 * Restituisce la codifica FHIR dello stato matrimoniale del paziente loggato
 	 */
-	public function getMaritalStatusCode()
-	{
-	    return $this->id_stato_matrimoniale;
+	public function getMaritalStatusCode() {
+		return $this->id_stato_matrimoniale;
 	}
 	
 	/**
 	 * Restituisce la descrizione della codifica FHIR dello stato matrimoniale del paziente loggato
 	 */
-	public function getMaritalStatusDisplay()
-	{
-	    $marital_status_display = MaritalStatus::where('code', $this->getMaritalStatusCode())->first();
-	    
-	    return $marital_status_display['Text'];
+	public function getMaritalStatusDisplay() {
+		$marital_status_display = MaritalStatus::where ( 'code', $this->getMaritalStatusCode () )->first ();
+		
+		return $marital_status_display ['Text'];
 	}
 	
 	/**
 	 * Restituisce i contatti associati al paziente loggato
 	 */
-	public function getContact()
-	{
-	    $patient_contact = PatientContact::where('id_patient', $this->getID_Paziente())->get();
-	    return $patient_contact;
+	public function getContact() {
+		$patient_contact = PatientContact::where ( 'id_patient', $this->getID_Paziente () )->get ();
+		return $patient_contact;
 	}
 	
 	/**
 	 * Restituisce le lingue del paziente loggato
 	 */
-	public function getLanguage()
-	{
-	    $language = Language::where('Code', $this->paziente_lingua)->first()->Display;
-	    
-	    return $language;
+	public function getLanguage() {
+		$language = Language::where ( 'Code', $this->paziente_lingua )->first ()->Display;
+		
+		return $language;
 	}
 	
 	/**
 	 * Restituisce true se il paziente loggato ha accettato il consenso per la donazione
 	 * degli organi, false altrimenti
 	 */
-	public function isDonatoreOrgani(){
-	    $res = "false";
-	    if($this->paziente_donatore_organi == '1'){
-	        $res ="true";
-	    }
-	    return $res;
+	public function isDonatoreOrgani() {
+		$res = "false";
+		if ($this->paziente_donatore_organi == '1') {
+			$res = "true";
+		}
+		return $res;
 	}
 	
 	/**
 	 * END FHIR *
 	 */
+
 
 
     public  function scopeLike($query, $field, $value){
@@ -290,93 +306,56 @@ class Pazienti extends Eloquent {
 	public function tbl_utenti()
 	{
 	    return $this->belongsTo(\App\Models\TblUtenti::class, 'id_utente');
+
 	}
-	
-	public function tbl_stati_matrimoniali()
-	{
-	    return $this->belongsTo(\App\Models\TblStatiMatrimoniali::class, 'id_stato_matrimoniale', 'id_stato_matrimoniale');
+	public function tbl_stati_matrimoniali() {
+		return $this->belongsTo ( \App\Models\TblStatiMatrimoniali::class, 'id_stato_matrimoniale', 'id_stato_matrimoniale' );
 	}
-	
-	public function gender()
-	{
-	    return $this->belongsTo(\App\Models\Gender::class, 'paziente_sesso');
+	public function gender() {
+		return $this->belongsTo ( \App\Models\Gender::class, 'paziente_sesso' );
 	}
-	
-	public function language()
-	{
-	    return $this->belongsTo(\App\Models\Language::class, 'paziente_lingua');
+	public function language() {
+		return $this->belongsTo ( \App\Models\Language::class, 'paziente_lingua' );
 	}
-	
-	public function allergy_intollerances()
-	{
-	    return $this->hasMany(\App\Models\AllergyIntollerance::class, 'recorder');
+	public function allergy_intollerances() {
+		return $this->hasMany ( \App\Models\AllergyIntollerance::class, 'recorder' );
 	}
-	
-	public function consenso_paziente()
-	{
-	    return $this->hasOne(\App\Models\ConsensoPaziente::class, 'Id_Paziente');
+	public function consenso_paziente() {
+		return $this->hasOne ( \App\Models\ConsensoPaziente::class, 'Id_Paziente' );
 	}
-	
-	public function dispositivo_impiantabiles()
-	{
-	    return $this->hasMany(\App\Models\DispositivoImpiantabile::class, 'id_paziente');
+	public function dispositivo_impiantabiles() {
+		return $this->hasMany ( \App\Models\DispositivoImpiantabile::class, 'id_paziente' );
 	}
-	
-	public function moduli__gruppo__sanguignos()
-	{
-	    return $this->hasMany(\App\Models\ModuliGruppoSanguigno::class, 'Id_Paziente');
+	public function moduli__gruppo__sanguignos() {
+		return DB::table ( 'Moduli_Gruppo_Sanguigno' )->where ( 'Id_Paziente', $this->getID_Paziente () )->get ();
 	}
-	
-	public function patient_contact()
-	{
-	    return $this->hasOne(\App\Models\PatientContact::class, 'Id_Patient');
+	public function patient_contact() {
+		return $this->hasOne ( \App\Models\PatientContact::class, 'Id_Patient' );
 	}
-	
-	public function farmaci_assunti()
-	{
-	    return $this->hasOne(\App\Models\FarmaciAssunti::class, 'id_paziente');
+	public function farmaci_assunti() {
+		return $this->hasOne ( \App\Models\FarmaciAssunti::class, 'id_paziente' );
 	}
-	
-	public function tbl_anamnesi_familiare()
-	{
-	    return $this->hasOne(\App\Models\TblAnamnesiFamiliare::class, 'id_paziente');
+	public function tbl_anamnesi_familiare() {
+		return $this->hasOne ( \App\Models\TblAnamnesiFamiliare::class, 'id_paziente' );
 	}
-	
-	public function tbl_cpp_pazientes()
-	{
-	    return $this->hasMany(\App\Models\TblCppPaziente::class, 'id_paziente');
+	public function tbl_cpp_pazientes() {
+		return $this->hasMany ( \App\Models\TblCppPaziente::class, 'id_paziente' );
 	}
-	
-	public function tbl_diagnosis()
-	{
-	    return $this->hasMany(\App\Models\TblDiagnosi::class, 'id_paziente');
+	public function tbl_diagnosis() {
+		return $this->hasMany ( \App\Models\TblDiagnosi::class, 'id_paziente' );
 	}
-	
-	public function tbl_diagnosi_eliminates()
-	{
-	    return $this->hasMany(\App\Models\TblDiagnosiEliminate::class, 'id_utente');
+	public function tbl_diagnosi_eliminates() {
+		return $this->hasMany ( \App\Models\TblDiagnosiEliminate::class, 'id_utente' );
 	}
-	
-	public function tbl_effetti_collateralis()
-	{
-	    return $this->hasMany(\App\Models\TblEffettiCollaterali::class, 'id_paziente');
+	public function tbl_effetti_collateralis() {
+		return $this->hasMany ( \App\Models\TblEffettiCollaterali::class, 'id_paziente' );
 	}
-		
-	
-	public function tbl_pazienti_contattis()
-	{
-	    return $this->hasMany(\App\Models\TblPazientiContatti::class, 'id_paziente');
+	public function tbl_pazienti_contattis() {
+		return $this->hasMany ( \App\Models\TblPazientiContatti::class, 'id_paziente' );
 	}
-	
-	
-	public function tbl_proc_terapeutiches()
-	{
-	    return $this->hasMany(\App\Models\TblProcTerapeutiche::class, 'Paziente');
+	public function tbl_proc_terapeutiches() {
+		return $this->hasMany ( \App\Models\TblProcTerapeutiche::class, 'Paziente' );
 	}
-	
-	
-	
-	
 	
 	/**
 	 * Costanti per i gruppi sanguigni e fattori RH
@@ -387,8 +366,6 @@ class Pazienti extends Eloquent {
 	const BLOODGROUP_AB = 3;
 	const BLOODRH_POS = "POS";
 	const BLOODRH_NEG = "NEG";
-	
-	
 	public function user() {
 		return $this->belongsTo ( \App\Models\CurrentUser\User::class, 'id_utente' );
 	}
@@ -440,13 +417,10 @@ class Pazienti extends Eloquent {
 	public function tbl_vaccinaziones() {
 		return $this->hasMany ( \App\Models\Vaccine\Vaccinazione::class, 'id_paziente' );
 	}
-	
-	public function tbl_proc_ter()
-	{
-	    return $this->hasMany(\App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche');
+	public function tbl_proc_ter() {
+		return $this->hasMany ( \App\Models\ProcedureTerapeutiche::class, 'id_Procedure_Terapeutiche' );
 	}
-	
 	public function tbl_Consenso_Trattamento() {
-		return $this->hasMany ( \App\Models\Patient\ConsensoPaziente::class, 'id_paziente' );
+		return $this->hasMany ( \App\Models\ConsensoPaziente::class, 'id_paziente' );
 	}
 }

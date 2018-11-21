@@ -123,14 +123,14 @@ class DatabaseSeeder extends Seeder
         $this->call ( ParenteTableSeeder::class );
         $this->call ( PazientiFamTableSeeder::class );
         
-<<<<<<< HEAD
+
         $this->call (EmergencyTableSeeder::class);
         
-=======
+
         $this->call ( ImmunizationTableSeeder::class );
         
         $this->call(ImmunizationProviderTableSeeder::class);
->>>>>>> PennellaRESP
+
         
         $this->call ( Cpp_SpecializationSeeder::class );
         
@@ -143,6 +143,14 @@ class DatabaseSeeder extends Seeder
         $this->call ( ATCSottogruppoTerapeuticoFSeeder::class );
         $this->call ( ATCSottogruppoChimicoTFSeeder::class );
         $this->call ( ATCSottogruppoChimicoSeeder::class );
+
+        $this->call ( TrattamentiPazienteSeeder::class );
+        $this->call ( TrattamentiCareProviderSeeder::class );
+        $this->call ( RuoliAmministrativiSeeder::class );
+        $this->call ( AmministrativeUserSeeder::class );
+        
+        $this->call ( AuditLogTest::class );
+       
 
         
        

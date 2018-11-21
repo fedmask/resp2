@@ -9,7 +9,7 @@
             <div class="inner" style="min-height:1200px;">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2>Files</h2>
+                        <h3>Files</h3>
 						<p>In questa pagina sarà possibile visualizzare ed inviare files di immagini di lesioni cliniche immagini di indagini diagnostiche,
 						registrazioni, brevi video, risultati di esami o documenti testuali. </p>
 						<hr/>
@@ -18,11 +18,11 @@
 		<div class="accordion-group">
 		    <div class="accordion-heading centered">
 				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-		            <h2>Files Caricati   &nbsp &nbsp &nbsp &nbsp
+		            <h3>Files Caricati   &nbsp &nbsp &nbsp &nbsp
 						<span >
                           <i  class="icon-angle-down"></i>
                         </span>           	
-					</h2>
+					</h3>
                 </a>
 			</div><!--accordion- group heading centered-->
 			<div id="collapseOne" class="accordion-body collapse">
@@ -112,51 +112,172 @@
 			</div><!--accordion-body collapse-->	
 		</div><!--accordion-group-->
 		<hr>
+		
+		@if($under18)
+		<div class="accordion-group">
+						<div class="accordion-heading centered">
+							<a class="accordion-toggle" data-toggle="collapse"
+								data-parent="#accordion2" href="#collapseDoc">
+								<h3>
+									Scarica la modulistica &nbsp <span> <i class="icon-angle-down"></i>
+									</span>
+								</h3>
+							</a>
+						</div>
+						<!--accordion- group heading centered-->
+
+						<div id="collapseDoc" class="accordion-body collapse">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+							<table style="font-size: 12"
+								 class="table table-striped table-bordered table-hover">
+								<tr style="font-size: 14" align="center">
+									<th>#ID</th>
+									<th>Nome Documento</th>
+									<th align="center">Tipo Documento</th>
+									<th align="center">Info</th>
+									<th align="center">Scarica</th>
+								</tr>
+
+
+
+								<tr >
+									<td align="center">1</td>
+									<td>Modulo di accesso ai servizi Sanitari Online per un
+										minorenne</td>
+									<td align="center">Modulo</td>
+									<td align="center">
+											<button   type="button"
+										class="btn btn-primary " data-toggle="modal"
+										data-target="#myModal"><i class="fa fa-info-circle" style="font-size:16px"></i> 
+
+											</button></td>
+	
+
+
+									<td align="center"><button type="button"
+											class="btn btn-primary" data-dismiss="modal"
+											onclick="window.location.href='/informative/Modulo_accesso_ai_Servizi_Sanitari_Online_per_un_minorenne.docx'"><i class="fa fa-download" style="font-size:16px"></i></button></td>
+
+								</tr>
+								
+								<tr>
+									<td align="center">2</td>
+									<td>Modulo di disattivazione ai servizi Sanitari Online per un
+										minorenne</td>
+									<td align="center">Modulo</td>
+									<td align="center">
+											<button   type="button"
+										class="btn btn-primary " data-toggle="modal"
+										data-target="#myModal"><i class="fa fa-info-circle" style="font-size:16px"></i> 
+
+											</button></td>
+	
+
+
+									<td align="center"><button type="button"
+											class="btn btn-primary" data-dismiss="modal"
+											onclick="window.location.href='/informative/Modulo di disattivazione ai Servizi Sanitari Online per un minorenne.docx'"><i class="fa fa-download" style="font-size:16px"></i></button></td>
+
+								</tr>
+							</table>
+
+						</div>
+
+						<!-- Modal -->
+						<div class="modal fade" id="myModal" role="dialog">
+							<div class="modal-dialog">
+
+								<!-- Modal content-->
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title" text-align: justify>Informativa sul
+											trattamento dei dati personali (Art. 12 del GDPR 2016/679)</h4>
+									</div>
+									<div class="modal-body">
+
+
+										<p>L'azienda RESP, operante nel settore sanitario, ricevente
+											la richiesta, in qualita' di titolare del trattamento dei dati
+											personali, informa che i dati conferiti verranno utilizzati
+											esclusivamente allo scopo di fornire al genitore l'accesso al
+											Registro Sanitario Elettronico Personale (RESP) e ai servizi
+											da esso forniti. Il trattamento potra' essere eseguito usando
+											supporti cartacei, nonche' strumenti informatici. I dati non
+											verranno in nessun modo diffusi ne' comunicati ad alcuni
+											terzi. I diritti di cui all' Art. 15 del GDPR 2016/679
+											(accesso, aggiornamento, cancellazione, trasformazione,
+											ecc.), potranno essere esercitati rivolgendosi all'incaricato
+											del trattamento ricevente la richiesta. <br>
+											<b>IN LUOGO DI AUTENTICA
+											DI SOTTOSCRIZIONE, SI ALLEGA COPIA DI DOCUMENTO DI IDENTITA'
+											IN CORSO DI VALIDITA'.</b><br> (Il modulo, compilato e firmato, dovra'
+											essere inviato alla mail privacy@fsem.eu o inviato accedendo
+											all'apposita sezione presente in Files).</p>
+
+
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+			@endif		
+		
+		<hr>
+		
 		<div class="accordion-group">
 		    <div class="accordion-heading centered">
 		         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-					<h2>Carica nuovi files &nbsp 
+					<h3>Carica nuovi files &nbsp 
 						<span >
                           <i  class="icon-angle-down"></i>
                         </span>      
-					</h2>
+					</h3>
 				</a>
 			</div><!--accordion- group heading centered-->
 			<div id="collapseTwo" class="accordion-body collapse">
-		         <div class="accordion-inner">
+		         <div class="accordion-inner" >
 					<div class="accordion ac"id = "collapseTwo_A" ><!--accordion ac interno-->
 						<div class="accordion-group">
-							<div class="accordion-heading centered">
-								<div class ="row">
+							<div class="accordion-heading centered" >
+								<div class ="row"  >
 									<div class="col-lg-4"> 
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseFoto">
-											<h2>Foto del paziente </h2>
+											<h4 >Foto del paziente </h4>
 										</a>
 									</div><!--col-lg-4-->
 									<div class="col-lg-4"> 
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseVideo">
-											<h2>Video del paziente</h2>
+											<h4>Video del paziente</h4>
 										</a>
 									</div><!--col-lg-4-->
 									<div class="col-lg-4"> 
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseReg">
-											<h2>Registrazioni</h2>
+											<h4>Registrazioni</h4>
 										</a>
 									</div><!--col-lg-4-->
 									<hr>
 									<div class="col-lg-4"> 	
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseStrum">
-											<h2>Video Esami Strumentali</h2>
+											<h4>Video Esami Strumentali</h4>
 										</a>
 									</div><!--col-lg-4-->
 									<div class="col-lg-4"> 	
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseDicom">
-											<h2>Immagini Dicom</h2>
+											<h4>Immagini Dicom</h4>
 										</a>
 									</div><!--col-lg-4-->
 									<div class="col-lg-4"> 	
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseDocuments">
-											<h2>Documenti di testo</h2>
+											<h4>Documenti di testo</h4>
+										</a>
+									</div><!--col-lg-4-->
+									<div class="col-lg-4"> 	
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo_A" href="#collapseMod">
+											<h4>Modulistica</h4>
 										</a>
 									</div><!--col-lg-4-->
 									
@@ -405,6 +526,51 @@
 								</div>	<!--panelwarning-->	
 							</div>	<!--col lg12-->	
 							</div> <!--collapse Documents-->
+							
+		@if($under18)					
+							
+							
+			<!-- Collapse Moduli -->				<div id = "collapseMod" class="accordion-body collapse" >
+								<div class="col-lg-12"> 
+								<div class="panel panel-info">
+									<div class="panel-body">
+										<h3>Modulistica</h3>
+										<h4>Scansione moduli pre compilati</h4>
+										<p>accetta i formati: pdf, doc, docx ,txt, odt.
+										Nel caso i files contengano informazioni sensibili &egrave raccomandata la protezione con password.</p>
+										<hr/>
+										<form method = "post" action = "" enctype = "multipart/form-data">
+											{{ csrf_field() }}
+												<input  type = "file" name = "nomefile"/>
+												<br>
+												<label for "comm">Note sul file caricato:
+												</label>
+												<textarea name="comm"  cols = "60" rows = "2"  > 
+												</textarea>
+												@if($current_user->getDescription() == User::PATIENT_DESCRIPTION)
+															<br><br>
+															<label for="conf_1">visibilità</label>
+															<select name="conf_1">
+																	
+																	<option value="5" selected = "true">Riservato</option>
+																	
+															  </select>
+													@endif
+												  <br> <br>
+												<input  type = "hidden" name = "fileClass6" value = "6"/> <!--classe per scansioni referti, lettere di dimissioni -->
+												<input  type = "hidden" name = "idPaz" value = "{{$id_patient}}" />
+												<input  type = "hidden" name = "idLog" value = "{{$log->id_audit}}" />
+												<input type = "submit" name = "invia" value = "Invia"/>
+												<input type='reset' value='Reset' name='reset'>
+										</form>
+									</div>	<!--panelbody-->
+								</div>	<!--panelwarning-->	
+							</div>	<!--col lg12-->	
+							</div> <!-- Collapse Moduli -->
+							
+			@endif				
+							
+							
 						</div>	<!--row-->
 							</div><!--fine accordion heading centered collapseTwo_A-->
 						</div><!--fine accordion-group collapseTwo_A-->

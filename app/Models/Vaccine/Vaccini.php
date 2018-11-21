@@ -7,6 +7,7 @@
 namespace App\Models\Vaccine;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Traits\Encryptable;
 
 /**
  * Class TblVaccini
@@ -22,12 +23,19 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @package App\Models
  */
 class Vaccini extends Eloquent {
+	
+	use Encryptable;
 	protected $table = 'tbl_vaccini';
 	protected $primaryKey = 'id_vaccino';
 	public $timestamps = false;
 	protected $casts = [ 
 			'vaccino_durata' => 'int',
 			'id_vaccinazione' => 'int' 
+	];
+	protected $encryptable = [ 
+			'vaccino_descrizione',
+			'vaccino_nome',
+		
 	];
 	protected $fillable = [ 
 			'vaccino_codice',

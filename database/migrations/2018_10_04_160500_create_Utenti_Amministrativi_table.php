@@ -15,22 +15,21 @@ class CreateUtentiAmministrativiTable extends Migration {
 		Schema::create('Utenti_Amministrativi', function(Blueprint $table)
 		{
 			$table->integer('id_utente')->unsigned()->index('Tit-Audit');
-			$table->string('Ruolo', 45)->index('Ruolo');
-			$table->string('Tipi_Dati_Trattati', 45);
-			$table->string('Nome', 45);
-			$table->string('Cognome', 45);
+			$table->longText('Nome');
+			$table->longText('Cognome');
+			$table->string('Ruolo', 30)->index('Ruolo');
+			$table->longText('Tipi_Dati_Trattati') ->nullable();
 			$table->char('Sesso', 1);
-			$table->string('Codice_Fiscale', 16);
 			$table->date('Data_Nascita');
 			$table->integer('Comune_Nascita')->unsigned()->index('Tit-Nascita_idx');
 			$table->integer('Comune_Residenza')->unsigned()->index('Tit-Residenza_idx');
-			$table->string('Indirizzo', 45);
+			$table->longText('Indirizzo');
 			$table->integer('Recapito_Telefonico');
-			$table->char('Stato_Civile', 3)->index('Stato_Civile');
 		});
 	}
 
-
+	
+	
 	/**
 	 * Reverse the migrations.
 	 *

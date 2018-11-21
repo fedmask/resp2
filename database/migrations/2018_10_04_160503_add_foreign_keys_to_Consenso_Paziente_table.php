@@ -14,8 +14,8 @@ class AddForeignKeysToConsensoPazienteTable extends Migration {
 	{
 		Schema::table('Consenso_Paziente', function(Blueprint $table)
 		{
-			$table->foreign('Id_Trattamento', 'Consenso_Paziente_ibfk_1')->references('Id_Trattamento')->on('Trattamenti_Pazienti')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('Id_Paziente', 'Consenso_Paziente_ibfk_2')->references('id_paziente')->on('tbl_pazienti')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('Id_Trattamento', 'Consenso_Paziente_ibfk_1')->references('Id_Trattamento')->on('Trattamenti_Pazienti')->onUpdate('NO ACTION')->onDelete('CASCADE');
+			$table->foreign('Id_Paziente', 'Consenso_Paziente_ibfk_2')->references('id_paziente')->on('tbl_pazienti')->onUpdate('NO ACTION')->onDelete('CASCADE');
 		});
 	}
 

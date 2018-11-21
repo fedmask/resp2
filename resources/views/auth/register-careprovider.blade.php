@@ -69,15 +69,15 @@
 									
 									<!--ordine--da rendere obbligatori>-->
                                     <div class="form-group">
-                                        <label for="numOrdine" class="control-label col-lg-2">NÂ°  iscrizione  *</label>
+                                        <label for="numOrdine" class="control-label col-lg-2">N°  iscrizione  *</label>
                                         <div class="col-lg-3"><input id="numOrdine" name="numOrdine" type="text" class="form-control" placeholder = "numero di iscrizione ordine">
                                         	@if ($errors->has('numOrdine'))
     											<div class="alert alert-danger" role="alert">{{ $errors->first('numOrdine') }}</div>
 											@endif
 										</div>
-										 <label for="registrationCity" class="control-label col-lg-3">LocalitÃ  Iscrizione *</label>
+										 <label for="registrationCity" class="control-label col-lg-3">Località Iscrizione *</label>
 										<div class="col-lg-3">
-											<input id="registrationCity" name="registrationCity" type="text" class="form-control" placeholder = "LocalitÃ  ordine di iscrizione">
+											<input id="registrationCity" name="registrationCity" type="text" class="form-control" placeholder = "Località ordine di iscrizione">
 											@if ($errors->has('registrationCity'))
     											<div class="alert alert-danger" role="alert">{{ $errors->first('registrationCity') }}</div>
 											@endif
@@ -211,26 +211,26 @@
 											<input id="profilePicHidden" name="profilePicHidden" class="form-control" value="null">
 										</div>
 									</div>
-									<p class="pull-right">(*) Campi obbligatori</p>
+									
 								</fieldset>
 
-                            <h3>Termini e condizioni</h3>
+                        
 							<fieldset>
-                            	<div class="col-lg-10 col-lg-offset-1">
-                                    <iframe src="/informative/consensoInformatoFsem.euCP.html" class="col-lg-12" height="1000">
-									</iframe>
-                                </div>
                             	<div class="form-group">
-                                    <div class="col-lg-8 centered">
-                                        <input type="checkbox"  name="acceptTerms" id="acceptTerms" >
-                                        <label class="control-label" for="accettaTermini"><h3>&nbsp;&nbsp; Accetto i termini e le condizioni *</h3></label>
-                                        @if ($errors->has('acceptTerms'))
-    										<div class="alert alert-danger" role="alert">{{ $errors->first('acceptTerms') }}</div>
-										@endif
-									</div>
-								</div>
+						<div class="col-lg-8 ">
+							<input id="acceptInfo" name="acceptInfo" type="checkbox"> <label
+								for="acceptInfoDoc">Ho letto <a
+								href="/informative/Informativa.html">l'Informativa relativa al
+									Trattamento dei Dati Personali*</a>.
+							</label> @if ($errors->has('acceptTerms'))
+							<div class="alert alert-danger" role="alert">
+								{{$errors->first('acceptInfo') }}</div>
+							@endif
+						</div>
+					</div>
 
-                                  <p class="pull-right">(*) Campi obbligatori</p>
+					<p class="pull-right">(*) Campi obbligatori</p>
+				</fieldset>
 							</fieldset>
                         {{ Form::submit('Registrazione', array('class' => 'btn btn-large btn-primary center')) }}
 						{{ Form::close() }}

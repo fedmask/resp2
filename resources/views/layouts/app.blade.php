@@ -3,6 +3,8 @@
 
 <head>
 	@include('includes.template_head')
+	
+	<meta charset="utf-8">
 </head>
 
 <body>

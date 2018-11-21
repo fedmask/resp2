@@ -19,8 +19,9 @@ class CreateTblAnamnesiFTable extends Migration {
 			$table->integer('id_paziente')->unsigned()->index('FOREIGN_Anamnesi_Parente_I2');
 			$table->integer('id_parente')->unsigned()->index('FOREIGN_Anamnesi_Parente_I1');
 			$table->string('status', 20)->nullable()->index('status');
-			$table->string('notDoneReason', 10)->nullable();
-			$table->string('note')->nullable();
+
+			$table->longText('notDoneReason')->nullable();
+			$table->text('note', 65535)->nullable();
 			$table->date('data');
 		});
 	}

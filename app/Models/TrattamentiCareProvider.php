@@ -20,6 +20,8 @@ class TrattamentiCareProvider extends Model
 			'Informativa',
 			'Incaricati'
 	];
+	
+
 	public function getId() {
 		return $this->Id_Trattamento;
 	}

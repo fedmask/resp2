@@ -36,6 +36,10 @@
 		"display": "Other"
 	},
 	{
+		"code": "T",
+		"display": "Legal Tutor"
+	},
+	{
 		"code": "PR",
 		"display": "Person preparing referral"
 	},

@@ -38,7 +38,7 @@ class ProcedureTerapeutiche extends Eloquent
         'Diagnosi',
         'CareProvider',
         'Data_esecuzione',
-        'descrizione'
+        'descrizione',
         'Status',
         'code',
         'reasonCode',

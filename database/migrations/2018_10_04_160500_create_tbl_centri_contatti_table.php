@@ -17,7 +17,7 @@ class CreateTblCentriContattiTable extends Migration {
 			$table->increments('id_contatto');
 			$table->integer('id_centro')->unsigned()->index('fk_tbl_centri_contatti_tbl_centri_indagini1_idx');
 			$table->smallInteger('id_modalita_contatto')->index('fk_tbl_centri_contatti_tbl_modalita_contatti1_idx');
-			$table->string('contatto_valore', 100)->nullable();
+			$table->longText('contatto_valore')->nullable();
 		});
 	}
 

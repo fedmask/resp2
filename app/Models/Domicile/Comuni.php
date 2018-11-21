@@ -37,6 +37,7 @@ class Comuni extends Eloquent
 	];
 
 	protected $fillable = [
+			'id_comune',
 		'id_comune_nazione',
 		'comune_nominativo',
 		'comune_cap'

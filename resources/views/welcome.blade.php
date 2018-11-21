@@ -72,7 +72,7 @@
 					<li>
 						<a class="page-scroll" href="#link">Link</a>
 					</li>
-					<li><a href="/cookies_s">Cookies</a></li>
+					<li><a href="/cookie-page">Cookies</a></li>
 				</ul>
 				<!-- LOGIN -->
 				@auth

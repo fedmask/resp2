@@ -8,6 +8,7 @@
 namespace App\Models\Patient;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Traits\Encryptable;
 
 /**
  * Class ContattiPazienti
@@ -25,6 +26,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class PazientiContatti extends Eloquent
 {
+	
+	use Encryptable;
+	
 	protected $table = 'tbl_pazienti_contatti';
 	protected $primaryKey = 'id_contatto';
 	public $timestamps = false;
@@ -33,7 +37,8 @@ class PazientiContatti extends Eloquent
 		'id_paziente' => 'int',
 		'id_contatto_tipologia' => 'int'
 	];
-
+	protected $encryptable = ['contatto_nominativo',
+			'contatto_telefono'];
 	protected $fillable = [
 		'id_paziente',
 		'id_contatto_tipologia',

@@ -28,7 +28,7 @@ class CreateTblDiagnosiTable extends Migration {
 			$table->text('diagnosi_patologia', 65535)->nullable();
 			$table->string('diagnosi_stato', 15)->index('diagnosi_stato');
 			$table->date('diagnosi_guarigione_data');
-			$table->string('note');
+			$table->longText('note');
 		});
 	}
 

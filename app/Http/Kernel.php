@@ -69,6 +69,7 @@ class Kernel extends HttpKernel {
 			'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
 			'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 			
+			'consent' => \App\Http\Middleware\Trattamenti\RedirectifConsentChecked::class
 			//Https middleware
 			//'HttpsProtocol' => \App\Http\Middleware\HttpsProtocol::class,
 	];

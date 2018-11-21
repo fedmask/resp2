@@ -38,7 +38,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+{{ csrf_field() }}
 
 </head>
 
@@ -107,8 +107,8 @@
 			<p>
 				<br>
 			</p>
-			<div align="center" onclick="refresh()">
-				<button class="btn btn-info" onclick="accept()">Consenti l'utilizzo
+			<div align="center" >
+				<button class="btn btn-info" onclick="window.location.href='/cookie/index'" >Consenti l'utilizzo
 					dei cookie.</button>
 
 				@else

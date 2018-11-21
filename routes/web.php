@@ -146,15 +146,17 @@ Route::group ( [
 
 	Route::get ( '/taccuino', 'PazienteController@showTaccuino' )->name ( 'taccuino' );
 
-	Route::get ( '/careproviders', 'PazienteController@showCareProviders' )->name ( 'careproviders' );
-
+	
+	Route::get ( '/careproviders', 'PazienteController@showCareProviders' )->name ( 'careproviders' )->middleware('consent:2');
+	
 	Route::get ( '/files', 'PazienteController@showFiles' )->name ( 'files' );
-
-	Route::get ( '/visits', 'PazienteController@showVisits' )->name ( 'visite' );
-
+	
+	Route::get ( '/visits', 'PazienteController@showVisits' )->name ( 'visite' )->middleware('consent:3');
+	
 	Route::get ( '/diagnosi', 'PazienteController@showDiagnosi' )->name ( 'diagnosi' );
-
-	Route::get ( '/indagini', 'PazienteController@showIndagini' )->name ( 'indagini' );
+	
+	Route::get ( '/indagini', 'PazienteController@showIndagini' )->name ( 'indagini' ) -> middleware('consent:8');
+	
 
 	Route::get ( '/impostazioniSicurezza', 'PazienteController@showSecuritySettings' )->name ( 'securitySettings' );
 
@@ -165,14 +167,59 @@ Route::group ( [
 
 	Route::get ( '/fhirPatient', 'ResourceFHIRController@indexPatient' );
 
+	//Inizio Routes Emergency
+	Route::get('/search-patient', 'EmergencyController@showPatientSearch')->name('search-patient');
+	
+	Route::get('/report-patient', 'EmergencyController@showPatientReport')->name('report-patient');
+	
+	
 	/**
 	 * Route per la gestione del controller dei Consensi
 	 */
-	Route::resource ( '/consent', 'ConsensiPazienteController' );
+	Route::resource ( '/consent', 'ConsensiController' );
+	
+	Route::get ( '/PrivacyPolicy', function () {
+		return view ( 'includes.template_PrivacyPolicy' );
+	} );
+	
+	
+		/**
+		 * Route per la gestione della sezione Amministratori
+		 */
+		Route::get( '/administration/ControlPanel', 'AdministratorController@indexControlPanel' )->name('amm');
+		
+		
+		Route::get( '/administration/CareProviders', 'AdministratorController@indexCareProviders' );
+		
+		Route::post ( '/administration/CareProviders/Update', 'AdministratorController@updateCppStatus');
+		Route::get( '/administration/PatientsList', 'AdministratorController@getPatients' );
+		
+		Route ::post('/administration/PatientsList/Active', 'AdministratorController@updatePStatus');
+		
+		Route::get( '/administration/Administrators', 'AdministratorController@indexAmministration' );
+		
+		Route ::post('/administration/SA', 'AdministratorController@addAuditLog');
+		
+		Route ::post('/administration/ActivityCreate', 'AdministratorController@createActivityAdmin');
+		Route ::post('/administration/AdminCreate', 'AdministratorController@addAdmin');
+		Route:: post('/administration/AdminDelete', 'AdministratorController@destroy');
+		
+		Route::post( '/user/deleating', 'UserController@deleteUser' );
+		
+		
+		Route::get( '/administration/Trattamenti', 'AdministratorController@indexTrattamenti' );
+		
+		Route::post( '/administration/updateTrattamentiP', 'AdministratorController@updateTrattamentiP' );
+		Route::post( '/administration/updateTrattamentiCP', 'AdministratorController@updateTrattamentiCP' );
+		
+	
 } );
 
-Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' );
+	Route::get('/cookie-page', 'CookieController@index');
 
+
+
+Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' );
 /*
  * Route::get('Patient/{id}', 'Fhir\Modules\FHIRPatient@showResource');
  *
@@ -210,9 +257,9 @@ Route::get ( '/fhirPractictioner', 'ResourceFHIRController@indexPractictioner' )
  * /**
  * Route per l'inserimeno di una nuova visita da parte del paziente
  */
-Route::post ( '/visite/addVisita', 'VisiteController@addVisita' );
+Route::post ( '/visite/addVisita', 'VisiteController@addVisita' )->middleware('consent:3');
 
-Route::post ( '/consent/update', 'ConsensiPazienteController@update');
+Route::post ( '/consent/update', 'ConsensiController@update');
 
 
 /**
@@ -223,7 +270,7 @@ Route::get ( '/del/{getIdDiagnosi}/{idPaziente}', 'DiagnosiController@eliminaDia
 /**
  * Route per l'inserimeno di una nuova diagnosi da parte del paziente
  */
-Route::get ( '/addDiagn/{stato}/{cpp}/{idPaz}/{conf}/{patol}', 'DiagnosiController@aggiungiDiagnosi' );
+Route::get ( '/addDiagn/{stato}/{cpp}/{idPaz}/{conf}/{patol}', 'DiagnosiController@aggiungiDiagnosi' )->middleware('consent:3');
 
 /**
  * Route per la modifica di una diagnosi da parte del paziente
@@ -243,17 +290,17 @@ Route::get ( '/delInd/{getIdIndagine}/{idUtente}', 'IndaginiController@eliminaIn
 /**
  * Route per l'inserimeno di una nuova indagine richiesta da parte del paziente
  */
-Route::get ( '/addIndRichiesta/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}', 'IndaginiController@addIndagineRichiesta' );
+Route::get ( '/addIndRichiesta/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}', 'IndaginiController@addIndagineRichiesta' )->middleware('consent:3'); 
 
 /**
  * Route per l'inserimeno di una nuova indagine programmata da parte del paziente
  */
-Route::get ( '/addIndProgrammata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}', 'IndaginiController@addIndagineProgrammata' );
+Route::get ( '/addIndProgrammata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}', 'IndaginiController@addIndagineProgrammata' )->middleware('consent:3');
 
 /**
  * Route per l'inserimeno di una nuova indagine completata da parte del paziente
  */
-Route::get ( '/addIndCompletata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@addIndagineCompletata' );
+Route::get ( '/addIndCompletata/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@addIndagineCompletata' )->middleware('consent:3');
 
 /**
  * Route per la modifica di una indagine richiesta da parte del paziente
@@ -281,46 +328,7 @@ Route::post('/anamnesiprint','AnamnesiController@printAnamnesi');
 
 
 
-Route::group(['middleware' => ['auth']], function () {
 
-    // Inizio Route Paziente
-    Route::get('/utility', function(){return view('pages.utility');})->name('utility');
-
-    Route::get('/calcolatrice-medica', 'PazienteController@showCalcolatriceMedica')->name('calcolatrice-medica');
-
-    Route::get('/patient-summary', 'PazienteController@showPatientSummary')->name('patient-summary');
-
-    Route::get('/taccuino', 'PazienteController@showTaccuino')->name('taccuino');
-
-    Route::get('/careproviders', 'PazienteController@showCareProviders')->name('careproviders');
-
-    Route::get('/files', 'PazienteController@showFiles')->name('files');
-
-    Route::get('/visits', 'PazienteController@showVisits')->name('visite');
-
-    Route::get('/diagnosi', 'PazienteController@showDiagnosi')->name('diagnosi');
-
-    Route::get('/indagini', 'PazienteController@showIndagini')->name('indagini');
-
-    Route::get('/impostazioniSicurezza', 'PazienteController@showSecuritySettings')->name('securitySettings');
-
-    // Inizio Routes Care Provider
-    Route::get('/patients-list', 'CareProviderController@showPatientsList')->name('patients-list');
-
-    Route::get('/structures', 'CareProviderController@showStructures')->name('structures');
-<<<<<<< HEAD
-
-    Route::get('/fhirPatient', 'ResourceFHIRController@indexPatient');
-
-	//Inizio Routes Emergency
-	Route::get('/search-patient', 'EmergencyController@showPatientSearch')->name('search-patient');
-
-    Route::get('/report-patient', 'EmergencyController@showPatientReport')->name('report-patient');
-
-=======
-    
->>>>>>> PennellaRESP
-});
 
     Route::get('/fhirPractictioner', 'ResourceFHIRController@indexPractictioner');
 
@@ -419,12 +427,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::post('/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient');
-<<<<<<< HEAD
 
-
-
-
-=======
     
     
     Route::get('/fhirPatientIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@Index');
@@ -441,9 +444,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/prova/{id}', 'Fhir\Modules\FHIRFamilyMemberHistory@getResource');
     //Route::get('/fhirPatientExport/{id}', 'Fhir\Modules\FHIRPatient@getResource');
     
-    
-    
->>>>>>> PennellaRESP
+
     /**
      * RESTful for Patient
      */

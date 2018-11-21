@@ -8,7 +8,7 @@
 namespace App\Models\InvestigationCenter;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+use App\Traits\Encryptable;
 /**
  * Class ModalitaContatti
  * 
@@ -21,6 +21,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class ModalitaContatti extends Eloquent
 {
+	
+	
+	use Encryptable;
+	
 	protected $table = 'tbl_modalita_contatti';
 	protected $primaryKey = 'id_modalita';
 	public $timestamps = false;
@@ -32,6 +36,9 @@ class ModalitaContatti extends Eloquent
 		'modalita_nome'
 	];
 
+	
+	protected $encryptable = ['modalita_nome'];
+	
 	public function tbl_centri_contattis()
 	{
 		return $this->hasMany(\App\Models\InvestigationCenter\CentriContatti::class, 'id_modalita_contatto');
