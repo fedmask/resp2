@@ -71,14 +71,8 @@ class PazientiVisite extends Eloquent {
 			'visita_conclusioni' 
 	
 	];
-	protected $fillable = [ 
-			'id_cpp',
-			'id_paziente',
-			'visita_data',
-			'visita_motivazione',
-			'visita_osservazioni',
-			'visita_conclusioni' 
-	];
+
+	
 	public function tbl_care_provider() {
 		return $this->belongsTo ( \App\Models\CareProviders\CareProvider::class, 'id_cpp' );
 	}

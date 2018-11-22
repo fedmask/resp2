@@ -76,7 +76,7 @@ class FHIRPractitioner
             // Practictioner.Qualification
             $narrative_practictioner_qualifications = array();
             $count = 0;
-            foreach ($practictioner->getQualifications() as $pq) {
+            foreach ($practictioner->getFHIRQualifications() as $pq) {
                 $count ++;
                 $narrative_practictioner_qualifications["QualificationName" . " " . $count] = $pq->getQualificationDisplay();
                 $narrative_practictioner_qualifications["QualificationStartPeriod" . " " . $count] = $pq->getStartPeriod();
@@ -809,7 +809,7 @@ class FHIRPractitioner
         // Practictioner.Qualification
         $narrative_practitioner_qualifications = array();
         $count = 0;
-        foreach ($practitioner->getQualifications() as $pq) {
+        foreach ($practitioner->getFHIRQualifications() as $pq) {
             $count ++;
             $narrative_practitioner_qualifications["QualificationName" . " " . $count] = $pq->getQualificationDisplay();
             $narrative_practitioner_qualifications["QualificationStartPeriod" . " " . $count] = $pq->getStartPeriod();

@@ -177,6 +177,13 @@ class CareProvider extends Eloquent {
 		
 		return $temp;
 	}
+	
+	public function getFHIRQualifications()
+	{
+	    $practictioner_qual = CppQualification::where('id_cpp', $this->id_cpp)->get();
+	    return $practictioner_qual;
+	}
+	
 	public function getComune() {
 		return $this->cpp_localita_iscrizione;
 	}
