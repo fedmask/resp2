@@ -28,7 +28,7 @@ class CreateTblPazientiVisiteTable extends Migration {
 			$table->longText('visita_conclusioni')->nullable();
 			$table->longText('stato_visita')->nullable();
 			$table->integer('codice_priorita')->unsigned();
-			$table->text('tipo_richiesta', 65535)->nullable();
+			$table->longtext('tipo_richiesta')->nullable();
 			$table->date('richiesta_visita_inizio')->nullable();
 			$table->date('richiesta_visita_fine')->nullable();
 		});

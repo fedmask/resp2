@@ -17,11 +17,11 @@ class CreateAllergyIntolleranceReactionTable extends Migration {
 			$table->integer('id_AI')->unsigned()->index('id_AI');
 			$table->string('substance', 10)->index('substance');
 			$table->string('manifestation', 10)->index('manifestation');
-			$table->string('description');
+			$table->longtext('description');
 			$table->date('onset');
 			$table->string('severity', 10)->index('severity');
 			$table->string('exposureRoute', 10)->index('exposureRoute');
-			$table->string('note');
+			$table->longtext('note');
 		});
 	}
 
