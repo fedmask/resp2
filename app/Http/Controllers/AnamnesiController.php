@@ -9,7 +9,7 @@ use App\Models\History\AnamnesiFisiologica;
 use App\Models\History\AnamnesiPtProssima;
 use App\Models\History\AnamnesiPtRemotum;
 use App\Models\Icd9\Icd9GrupDiagCodici;
-use App\Parente;
+use App\Models\Parente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Anamnesi;
