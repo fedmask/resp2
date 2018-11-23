@@ -108,7 +108,7 @@
 				<br>
 			</p>
 			<div align="center" >
-				<button class="btn btn-info" onclick="window.location.href='/cookie/index'" >Consenti l'utilizzo
+				<button class="btn btn-info" onclick="accept()'" >Consenti l'utilizzo
 					dei cookie.</button>
 
 				@else
