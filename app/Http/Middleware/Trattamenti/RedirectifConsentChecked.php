@@ -52,7 +52,7 @@ class RedirectifConsentChecked {
 		
 		$Consenso = $ConsensiArray->Consenso;
 		
-		if ($Consenso) {
+		if (!$Consenso) {
 			return true;
 		}
 		return false;

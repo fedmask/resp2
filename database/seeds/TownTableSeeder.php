@@ -5961,7 +5961,7 @@ class TownTableSeeder extends Seeder {
 			'comune_nominativo' => 'BARGA',
 			'comune_cap' => '55051'
 		] );
-/*
+
 		DB::table( 'tbl_comuni' )->insert( [
 			'id_comune' => '851',
 			'id_comune_nazione' => '1',
@@ -101399,6 +101399,6 @@ class TownTableSeeder extends Seeder {
 			'id_comune_nazione' => '1',
 			'comune_nominativo' => 'ZWISCHENWASSER',
 			'comune_cap' => '39030'
-		] );*/
+		] );
 	}
 }
