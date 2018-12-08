@@ -326,7 +326,10 @@ Route::patch('/anamnesi/{id}', 'AnamnesiController@update')->name('Update');
 Route::delete('/anamnesi/{id}', 'AnamnesiController@delete')->name('Delete');
 Route::post('/anamnesiprint','AnamnesiController@printAnamnesi');
 
-
+//Inizio route IoT
+Route::get('/IoT',  function () {
+    return view('pages.iot');
+})->name('IoT');
 
 
 
