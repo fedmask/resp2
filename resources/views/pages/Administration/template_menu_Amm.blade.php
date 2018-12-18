@@ -83,7 +83,11 @@
 		<li class="panel"><a href="/administration/Administrators"> <i
 				class='fa fa-pie-chart' style='font-size: 18px; color: blue'></i>
 				Gestione Amministratori
-		</a></li> @break @case("Personale di Supporto")
+		</a></li>
+		<li class="panel"><a href="#" data-toggle="modal" data-target="#registerModal"> <i
+						class='fa fa-user' style='font-size: 18px; color: blue'></i>
+				Registra utente
+			</a></li> @break @case("Personale di Supporto")
 
 		<li class="panel"><a href="/administration/PatientsList"> <i
 				class='fa fa-address-book' style='font-size: 18px; color: blue'></i>
@@ -113,3 +117,4 @@
 </div>
 <!--FINE ANAGRAFICA RIDOTTA-->
 
+@include('pages.Administration.ModalsRegisterUsers')
