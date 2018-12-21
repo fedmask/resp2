@@ -1,3 +1,7 @@
+<!-- Datepicker CSS -->
+<link href="/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
+<script src="/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
 <!-- REGISTER MODAL -->
 <div class="col-lg-12">
     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -57,7 +61,7 @@
                     <h4 class="modal-title" id="myModalLabel">Registra paziente</h4>
                 </div>
                 <div class="modal-body">
-                    {{ Form::open(array('url' => '/register/patient', 'class' => 'form-horizontal')) }}
+                    {{ Form::open(array('route' => 'registerPatientAmm', 'class' => 'form-horizontal', 'method'=> 'Post')) }}
                     {{ csrf_field() }}
                     <fieldset>
                         <div class="form-group">
@@ -266,7 +270,7 @@
                     <h4 class="modal-title" id="myModalLabel">Registra careprovider</h4>
                 </div>
                 <div class="modal-body">
-                    {{ Form::open(array('url' => '/register/careprovider', 'class' => 'form-horizontal', 'method'=> 'Post')) }}
+                    {{ Form::open(array('route' => 'registerCppAmm', 'class' => 'form-horizontal', 'method'=> 'Post')) }}
                     {{ csrf_field() }}
                     <fieldset>
                         <!--username-->

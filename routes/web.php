@@ -202,6 +202,8 @@ Route::group ( [
 		
 		Route ::post('/administration/ActivityCreate', 'AdministratorController@createActivityAdmin');
 		Route ::post('/administration/AdminCreate', 'AdministratorController@addAdmin');
+		Route::post('/administration/registerpatient', 'AdministratorController@registerPatientFromAdmin')->name('registerPatientAmm');
+        Route::post('/administration/registercpp', 'AdministratorController@registerCareproviderFromAdmin')->name('registerCppAmm');
 		Route:: post('/administration/AdminDelete', 'AdministratorController@destroy');
 		
 		Route::post( '/user/deleating', 'UserController@deleteUser' );
