@@ -403,6 +403,16 @@ class AdministratorController extends Controller {
         }
     }
 
+    function generateRandomString($length) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     protected function registerPatientfromAdmin() {
         $this->getBlood( Input::get ( 'bloodType' ) );
         $validator = Validator::make ( Input::all (), [
@@ -413,8 +423,6 @@ class AdministratorController extends Controller {
             'CF' => 'required|regex:/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/',
             'email' => 'required|string|email|max:50|unique:tbl_utenti,utente_email',
             'confirmEmail' => 'required|same:email',
-            'password' => 'required|min:8|max:16',
-            'confirmPassword' => 'required|same:password',
             'birthCity' => 'required|string|max:40',
             'birthDate' => 'required|date|before:-18 years',
             'livingCity' => 'required|string|max:40',
@@ -429,12 +437,13 @@ class AdministratorController extends Controller {
             return Redirect::back ()->withErrors ( $validator )->withInput ();
         }
 
+         $password = $this->generateRandomString(8);
          $user = User::create ( [
             'utente_nome' => Input::get ( 'username' ),
             'utente_email' => Input::get ( 'email' ),
             'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
             'id_tipologia' => 'ass',
-            'utente_password' => bcrypt ( Input::get ( 'password' ) )
+            'utente_password' => bcrypt ( $password )
         ] );
 
       $user_contacts = Recapiti::create ( [
@@ -462,7 +471,7 @@ class AdministratorController extends Controller {
         $to_name = Input::get ( 'name' ) . ' ' . Input::get ( 'surname' );
         $to_email = Input::get ( 'email' );
         $to_username = Input::get ( 'username' );
-        $to_password = Input::get('password');
+        $to_password = $password;
         $data = array('name'=>$to_name, 'username' => $to_username, 'password' => $to_password);
 
         $user->save ();
@@ -486,8 +495,6 @@ class AdministratorController extends Controller {
             'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
             'email' => 'required|string|email|max:50|unique:tbl_utenti,utente_email',
             'confirmEmail' => 'required|same:email',
-            'password' => 'required|min:8|max:16',
-            'confirmPassword' => 'required|same:password',
             'numOrdine' => 'required|numeric',
             'registrationCity' => 'required',
             'surname' => 'required|string|max:40',
@@ -506,13 +513,14 @@ class AdministratorController extends Controller {
             return Redirect::back ()->withErrors ( $validator )->withInput ();
         }
 
+        $password = $this->generateRandomString(8);
         $user = User::create ( [
             'utente_nome' => Input::get ( 'username' ),
             'utente_email' => Input::get ( 'email' ),
             'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
-            'id_tipologia' => 'mos', // TODO: In futuro andr� cambiato in base al ruolo del cpp (medico/operatore emergenza/ecc...)
+            'id_tipologia' => Input::get('tipoSpecializzazione'), // TODO: In futuro andr� cambiato in base al ruolo del cpp (medico/operatore emergenza/ecc...)
             'utente_email' => Input::get ( 'email' ),
-            'utente_password' => bcrypt ( Input::get ( 'password' ) )
+            'utente_password' => bcrypt ( $password )
         ] );
 
         $user_contacts = Recapiti::create ( [
@@ -538,7 +546,7 @@ class AdministratorController extends Controller {
         $to_name = Input::get ( 'name' ) . ' ' . Input::get ( 'surname' );
         $to_email = Input::get ( 'email' );
         $to_username = Input::get ( 'username' );
-        $to_password = Input::get('password');
+        $to_password = $password;
         $data = array('name'=>$to_name, 'username' => $to_username, 'password' => $to_password);
 
         $user->save ();

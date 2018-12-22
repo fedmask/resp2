@@ -90,24 +90,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password" class="control-label col-lg-3">Password *</label>
-                            <div class="col-lg-3"><input id="password" name="password" type="password"
-                                                         class="form-control"
-                                                         placeholder="almeno 8 caratteri tra cui una cifra">
-                                @if ($errors->has('password'))
-                                    <div class="alert alert-danger" role="alert">{{ $errors->first('password') }}</div>
-                                @endif
-                            </div>
-                            <label for="confirmPassword" class="control-label col-lg-3">Conferma Password *</label>
-                            <div class="col-lg-3">
-                                <input id="confirmPassword" name="confirmPassword" type="password" class="form-control">
-                                @if ($errors->has('confirmPassword'))
-                                    <div class="alert alert-danger"
-                                         role="alert">{{ $errors->first('confirmPassword') }}</div>
-                                @endif
-                            </div>
-                        </div>
+
 
                         <div class="form-group">
                             <label for="surname" class="control-label col-lg-3">Cognome *</label>
@@ -301,27 +284,6 @@
                             </div>
                         </div>
 
-
-                        <!--password-->
-                        <div class="form-group">
-                            <label for="password" class="control-label col-lg-2">Password *</label>
-                            <div class="col-lg-3"><input id="password" name="password" type="password"
-                                                         class="form-control"
-                                                         placeholder="almeno 8 caratteri tra cui una cifra">
-                                @if ($errors->has('password'))
-                                    <div class="alert alert-danger" role="alert">{{ $errors->first('password') }}</div>
-                                @endif
-                            </div>
-                            <label for="confirmPassword" class="control-label col-lg-3">Conferma Password *</label>
-                            <div class="col-lg-3">
-                                <input id="confirmPassword" name="confirmPassword" type="password" class="form-control">
-                                @if ($errors->has('confirmPassword'))
-                                    <div class="alert alert-danger"
-                                         role="alert">{{ $errors->first('confirmPassword') }}</div>
-                                @endif
-                            </div>
-                        </div>
-
                         <!--ordine--da rendere obbligatori>-->
                         <div class="form-group">
                             <label for="numOrdine" class="control-label col-lg-2">N° iscrizione *</label>
@@ -348,7 +310,26 @@
                             </label>
                             <div class="col-lg-4">
                                 <select name="tipoSpecializzazione" id="tipoSpecializzazione" class="form-control">
-                                    <option value="">Scegli la tua attivit&agrave</option>
+                                    <option value=""></option>
+                                    <option value="aud">Audiometrista</option>
+                                    <option value="emg">Operatore Emergenza</option>
+                                    <option value="far">Farmacista</option>
+                                    <option value="fst">Fisioterapista</option>
+                                    <option value="igd">Igenista dentale</option>
+                                    <option value="inf">Infermiere</option>
+                                    <option value="lgp">Logopedista</option>
+                                    <option value="mcs">Medico Continuità Assistenziale</option>
+                                    <option value="mmg">Medico di medicina generale</option>
+                                    <option value="mos">Medico Ospedaliero</option>
+                                    <option value="mps">Medico di Pronto Soccorso</option>
+                                    <option value="msa">Medico Specialista Ambulatoriale</option>
+                                    <option value="mso">Medico Specialista Ospedaliero</option>
+                                    <option value="odt">Odontoiatra</option>
+                                    <option value="otc">Ottico</option>
+                                    <option value="oth">Altro</option>
+                                    <option value="pls">Pediatra di libera scelta</option>
+                                    <option value="psi">Psicologo</option>
+                                    <option value="tps">Tecnico psicologo</option>
                                 </select>
                                 @if ($errors->has('attivitaSvolta'))
                                     <div class="alert alert-danger"
