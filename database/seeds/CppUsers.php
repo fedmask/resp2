@@ -40,7 +40,7 @@ class CppUsers extends Seeder {
 		
 		DB::table ( 'tbl_care_provider' )->insert ( [ 
 				'id_cpp' => '3',
-				'id_utente' => '3',
+				'id_utente' => '4',
 				'cpp_nome' => 'Marco',
 				'cpp_cognome' => 'Kelso',
 				'cpp_nascita_data' => '1997-01-01',

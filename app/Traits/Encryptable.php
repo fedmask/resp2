@@ -44,7 +44,7 @@ trait Encryptable
 			$value = \Crypt::encrypt ( serialize ( $value ) );
 		}
 		
-		// ritrono il valore crttografato o meno al metodo della classe Model
+		// ritrovo il valore crttografato o meno al metodo della classe Model
 		return parent::setAttribute ( $key, $value );
 	}
 	

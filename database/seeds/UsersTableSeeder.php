@@ -50,7 +50,7 @@ class UsersTableSeeder extends Seeder
         
         DB::table('tbl_utenti')->insert([
             'utente_nome' => 'Marco Kelso',
-            'id_tipologia'=> 'ass',
+            'id_tipologia'=> 'mos',
             'utente_password' => bcrypt('test1234'),
             'utente_stato' => '0',
             'utente_scadenza' => '2030-01-01',
