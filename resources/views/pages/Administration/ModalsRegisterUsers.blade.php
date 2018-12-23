@@ -2,6 +2,12 @@
 <link href="/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
 <script src="/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
+@if(Session::has('message'))
+    <script>
+        alert("{!! Session::get('message') !!}");
+    </script>
+@endif
+
 <!-- REGISTER MODAL -->
 <div class="col-lg-12">
     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -235,6 +241,9 @@
                     </div>
 
                     {{ Form::close() }}
+
+
+
                 </div>
             </div>
         </div>
@@ -259,7 +268,7 @@
                         <!--username-->
                         <div class="form-group">
                             <label for="username" class="control-label col-lg-2">Username *</label>
-                            <div class="col-lg-3"><input id="username" name="username" type="text" class="form-control">
+                            <div class="col-lg-3"><input id="username" name="username" type="text" class="form-control" required>
                                 @if ($errors->has('username'))
                                     <div class="alert alert-danger" role="alert">{{ $errors->first('username') }}</div>
                                 @endif

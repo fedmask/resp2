@@ -487,7 +487,7 @@ class AdministratorController extends Controller {
             $message->from('sabatosimone@gmail.com','Amministratore RESP');
         });
 
-        return redirect ( '/administration/Administrators' );
+        return redirect ( '/administration/Administrators' )->withMessage('Registrazione paziente avvenuta con successo');
     }
 
     protected function registerCareproviderFromAdmin() {
@@ -518,7 +518,7 @@ class AdministratorController extends Controller {
             'utente_nome' => Input::get ( 'username' ),
             'utente_email' => Input::get ( 'email' ),
             'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
-            'id_tipologia' => Input::get('tipoSpecializzazione'), // TODO: In futuro andr� cambiato in base al ruolo del cpp (medico/operatore emergenza/ecc...)
+            'id_tipologia' => Input::get('tipoSpecializzazione'),
             'utente_email' => Input::get ( 'email' ),
             'utente_password' => bcrypt ( $password )
         ] );
@@ -559,7 +559,7 @@ class AdministratorController extends Controller {
             $message->from('sabatosimone@gmail.com','Amministratore RESP');
         });
 
-        return redirect ( '/administration/Administrators' );
+        return redirect ( '/administration/Administrators' )->withMessage( 'Registrazione careprovider avvenuta con successo');
     }
 	
 	/**
