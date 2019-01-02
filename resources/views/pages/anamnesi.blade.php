@@ -56,11 +56,15 @@
                                         <button type="submit" class="btn btn-warning btn-sm" id="btn_salvafam"
                                                 style="display: none;"><i
                                                     class="icon-save"></i>Salva</button>
-                                        <a type="submit" class="btn btn-info btn-sm" id="buttonCodiciFam"
-                                           style="display: none;"
-                                           data-toggle="modal" data-target="#table_update_anamnesifam"><i
-                                                    class="icon-flag"></i>
-                                            Codici</a>
+                                        @foreach($anamnesiFamiliare as $a)
+                                            @if($a->anamnesi_contenuto == null)
+                                            <a type="submit" class="btn btn-info btn-sm" id="buttonCodiciFam"
+                                               style="display: none;"
+                                               data-toggle="modal" data-target="#table_update_anamnesifam"><i
+                                                        class="icon-flag"></i>
+                                                Codici</a>
+                                            @endif
+                                        @endforeach
                                         <a class="btn btn-danger btn-sm" id="buttonAnnullaFam" style="display: none;"><i
                                                     class="icon-trash"></i> Annulla</a>
 

@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Validator;
 use Redirect;
 use App\Mail\SendMail;
 use Mail;
+use App\Models\CurrentUser\User;
+use App\Models\CurrentUser\Recapiti;
+use App\Models\Patient\Pazienti;
+use App\Models\CareProviders\CareProvider;
+use App\Models\Domicile\Comuni;
 
 class AdministratorController extends Controller {
 	//
@@ -183,7 +188,7 @@ class AdministratorController extends Controller {
 	}
 	
 	/**
-	 * Metodo per la creazione di un'attività di admin
+	 * Metodo per la creazione di un'attivitï¿½ di admin
 	 *
 	 * @param Request $request        	
 	 * @return unknown
@@ -354,6 +359,208 @@ class AdministratorController extends Controller {
 		
 		return redirect ( '/administration/Administrators' );
 	}
+
+    /**
+     * Identifica un gruppo sanguigno e l'rh in fase di registrazione
+     */
+    private function getBlood($bloodType) {
+        switch ($bloodType) {
+            case '0' :
+                $this->bloodGroup = Pazienti::BLOODGROUP_0;
+                $this->bloodRh = 'NEG';
+                break;
+            case '1' :
+                $this->bloodGroup = Pazienti::BLOODGROUP_0;
+                $this->bloodRh = 'POS';
+                break;
+            case '2' :
+                $this->bloodGroup = Pazienti::BLOODGROUP_A;
+                $this->bloodRh = 'NEG';
+                break;
+            case '3' :
+                $this->bloodGroup = Pazienti::BLOODGROUP_A;
+                $this->bloodRh = 'POS';
+                break;
+            case '4' :
+                $this->bloodGroup = Pazienti::BLOODGROUP_B;
+                $this->bloodRh = 'NEG';
+                break;
+            case '5' :
+                $this->bloodGroup = Pazienti::BLOODGROUP_B;
+                $this->bloodRh = 'POS';
+                break;
+            case '6' :
+                $this->bloodGroup = Pazienti::BLOODGROUP_AB;
+                $this->bloodRh = 'NEG';
+                break;
+            case '7' :
+                $this->bloodGroup = Pazienti::BLOODGROUP_AB;
+                $this->bloodRh = 'POS';
+                break;
+            default :
+                return 'undefined';
+                break;
+        }
+    }
+
+    function generateRandomString($length) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    protected function registerPatientfromAdmin() {
+        $this->getBlood( Input::get ( 'bloodType' ) );
+        $validator = Validator::make ( Input::all (), [
+            'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
+            'name' => 'required|string|max:40',
+            'surname' => 'required|string|max:40',
+            'gender' => 'required',
+            'CF' => 'required|regex:/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/',
+            'email' => 'required|string|email|max:50|unique:tbl_utenti,utente_email',
+            'confirmEmail' => 'required|same:email',
+            'birthCity' => 'required|string|max:40',
+            'birthDate' => 'required|date|before:-18 years',
+            'livingCity' => 'required|string|max:40',
+            'address' => 'required|string|max:90',
+            'telephone' => 'required|numeric',
+            'bloodType' => 'required',
+            'maritalStatus' => 'required'
+
+        ] );
+
+        if ($validator->fails ()) {
+            return Redirect::back ()->withErrors ( $validator )->withInput ();
+        }
+
+         $password = $this->generateRandomString(8);
+         $user = User::create ( [
+            'utente_nome' => Input::get ( 'username' ),
+            'utente_email' => Input::get ( 'email' ),
+            'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
+            'id_tipologia' => 'ass',
+            'utente_password' => bcrypt ( $password )
+        ] );
+
+      $user_contacts = Recapiti::create ( [
+            'id_utente' => $user->id_utente,
+            'id_comune_residenza' => $this->getTown( Input::get ( 'livingCity' ) ),
+            'id_comune_nascita' => $this->getTown( Input::get ( 'birthCity' ) ),
+            'contatto_telefono' => Input::get ( 'telephone' ),
+            'contatto_indirizzo' => Input::get ( 'address' )
+        ] );
+
+        $user_patient = Pazienti::create ( [
+            'id_utente' => $user->id_utente,
+            'id_paziente_contatti' => $user->id_utente,
+            'paziente_nome' => Input::get ( 'name' ),
+            'paziente_cognome' => Input::get ( 'surname' ),
+            'paziente_sesso' => Input::get ( 'gender' ),
+            'paziente_codfiscale' => str_replace ( "-", "", Input::get ( 'CF' ) ),
+            'paziente_nascita' => date ( 'Y-m-d', strtotime ( Input::get ( 'birthDate' ) ) ),
+            'paziente_gruppo' => $this->bloodGroup,
+            'paziente_rh' => $this->bloodRh,
+            'id_stato_matrimoniale' => Input::get ( 'maritalStatus' ),
+            'paziente_lingua' => "it-IT" //TODO: Inserire la possibilitÃ  di scegliere la nazionalitÃ  del paziente, usare i campi della tabella Languages
+        ] );
+
+        $to_name = Input::get ( 'name' ) . ' ' . Input::get ( 'surname' );
+        $to_email = Input::get ( 'email' );
+        $to_username = Input::get ( 'username' );
+        $to_password = $password;
+        $data = array('name'=>$to_name, 'username' => $to_username, 'password' => $to_password);
+
+        $user->save ();
+        $user_contacts->save ();
+        $user_patient->save ();
+
+
+
+
+        Mail::send('mail.mailregister', $data, function($message) use ($to_name, $to_email) {
+            $message->to($to_email, $to_name)
+                ->subject('Registrazione RESP');
+            $message->from('sabatosimone@gmail.com','Amministratore RESP');
+        });
+
+        return redirect ( '/administration/Administrators' )->withMessage('Registrazione paziente avvenuta con successo');
+    }
+
+    protected function registerCareproviderFromAdmin() {
+        $validator = Validator::make ( Input::all (), [
+            'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
+            'email' => 'required|string|email|max:50|unique:tbl_utenti,utente_email',
+            'confirmEmail' => 'required|same:email',
+            'numOrdine' => 'required|numeric',
+            'registrationCity' => 'required',
+            'surname' => 'required|string|max:40',
+            'name' => 'required|string|max:40',
+            'gender' => 'required',
+            'CF' => 'required|regex:/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/',
+            'birthCity' => 'required|string|max:40',
+            'birthDate' => 'required|date|before:-18 years',
+            'livingCity' => 'required|string|max:40',
+            'address' => 'required|string|max:90',
+            'cap' => 'numeric|size:5',
+            'telephone' => 'required|numeric'
+        ] );
+
+        if ($validator->fails ()) {
+            return Redirect::back ()->withErrors ( $validator )->withInput ();
+        }
+
+        $password = $this->generateRandomString(8);
+        $user = User::create ( [
+            'utente_nome' => Input::get ( 'username' ),
+            'utente_email' => Input::get ( 'email' ),
+            'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
+            'id_tipologia' => Input::get('tipoSpecializzazione'),
+            'utente_email' => Input::get ( 'email' ),
+            'utente_password' => bcrypt ( $password )
+        ] );
+
+        $user_contacts = Recapiti::create ( [
+            'id_utente' => $user->id_utente,
+            'id_comune_residenza' => $this->getTown ( Input::get ( 'livingCity' ) ),
+            'id_comune_nascita' => $this->getTown ( Input::get ( 'birthCity' ) ),
+            'contatto_telefono' => Input::get ( 'telephone' ),
+            'contatto_indirizzo' => Input::get ( 'address' )
+        ] );
+
+        $user_careprovider = CareProvider::create ( [
+            'id_utente' => $user->id_utente,
+            'cpp_nome' => Input::get ( 'name' ),
+            'cpp_cognome' => Input::get ( 'surname' ),
+            'cpp_nascita_data' => date ( 'Y-m-d', strtotime ( Input::get ( 'birthDate' ) ) ),
+            'cpp_codfiscale' => Input::get ( 'CF' ),
+            'cpp_sesso' => Input::get ( 'gender' ),
+            'cpp_n_iscrizione' => Input::get ( 'numOrdine' ),
+            'cpp_localita_iscrizione' => Input::get ( 'registrationCity' ),
+            'cpp_lingua' => "it-IT" //TODO: Inserire la possibilitÃ  di scegliere la nazionalitÃ  del careprovider, usare i campi della tabella Languages
+        ] );
+
+        $to_name = Input::get ( 'name' ) . ' ' . Input::get ( 'surname' );
+        $to_email = Input::get ( 'email' );
+        $to_username = Input::get ( 'username' );
+        $to_password = $password;
+        $data = array('name'=>$to_name, 'username' => $to_username, 'password' => $to_password);
+
+        $user->save ();
+        $user_contacts->save ();
+        $user_careprovider->save ();
+
+        Mail::send('mail.mailregister', $data, function($message) use ($to_name, $to_email) {
+            $message->to($to_email, $to_name)
+                ->subject('Registrazione RESP');
+            $message->from('sabatosimone@gmail.com','Amministratore RESP');
+        });
+
+        return redirect ( '/administration/Administrators' )->withMessage( 'Registrazione careprovider avvenuta con successo');
+    }
 	
 	/**
 	 * Restituisce i Pazienti
@@ -394,7 +601,7 @@ class AdministratorController extends Controller {
 	}
 	
 	/**
-	 * Ottiene i Pazienti con età inferiore ad 18
+	 * Ottiene i Pazienti con etï¿½ inferiore ad 18
 	 *
 	 * @return array
 	 */
@@ -481,7 +688,7 @@ class AdministratorController extends Controller {
 	}
 	
 	/**
-	 * Identifica l'id di una città presente nel database
+	 * Identifica l'id di una cittï¿½ presente nel database
 	 * a partire dal nome
 	 */
 	private function getTown($name) {
@@ -517,7 +724,7 @@ class AdministratorController extends Controller {
 			}
 			try {
 				//Cerca di inviare una mail all'utente eliminato
-				Mail::to ( $mail )->send ( new sendMail ( $mail, 'Avviso di cancellazione Account', 'Gent.mo utente, la informaimo che il suo account è stato cancellato in data: ' . now () . '. Se non ha effettuato lei la cancellazione la preghiamo di riolgersi ai nostri operatori di Supporto alla mail "privacy@fsem.com" .' ) );
+				Mail::to ( $mail )->send ( new sendMail ( $mail, 'Avviso di cancellazione Account', 'Gent.mo utente, la informaimo che il suo account ï¿½ stato cancellato in data: ' . now () . '. Se non ha effettuato lei la cancellazione la preghiamo di riolgersi ai nostri operatori di Supporto alla mail "privacy@fsem.com" .' ) );
 			} catch ( \Exception $E ) {
 			} // Da eliminare appena si crea un account smtp.mailtrap.io da aggiungere al file .env
 		}

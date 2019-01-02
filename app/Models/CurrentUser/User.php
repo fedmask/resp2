@@ -15,6 +15,7 @@ use App\Models\Patient\ParametriVitali;
 use App\Models\Diagnosis\Diagnosi;
 use App\Models\CareProviders\CppDiagnosi;
 use App\Models\CareProviders\CppPaziente;
+use App\Models\CareProviders\CppPersona;
 use App\Models\CareProviders\CareProvider;
 use App\Models\Diagnosis\DiagnosiEliminate;
 use App\Models\InvestigationCenter\Indagini;
@@ -88,12 +89,12 @@ class User extends Authenticatable {
 	}
 	
 	/**
-	 * Al momento ho voluto disattivare la funzionalità per ricordare l'accesso via token.
+	 * Al momento ho voluto disattivare la funzionalitï¿½ per ricordare l'accesso via token.
 	 * Attualmente si memorizza il token in una colonna, soluzione che rischia di avere
 	 * tanti valori NULL su molti utenti che NON desiderano memorizzare il proprio login.
-	 * E' necessario informarsi meglio per capire se via DB è l'unico modo "(sicuro)" di
-	 * consentire questa funzionalità.
-	 * Rimuovere questa funzione per riattivare il RememberMe. Ci sarà un errore di DB
+	 * E' necessario informarsi meglio per capire se via DB ï¿½ l'unico modo "(sicuro)" di
+	 * consentire questa funzionalitï¿½.
+	 * Rimuovere questa funzione per riattivare il RememberMe. Ci sarï¿½ un errore di DB
 	 * in fase di logout.
 	 */
 	public function setAttribute($key, $value) {
@@ -178,7 +179,7 @@ class User extends Authenticatable {
 	}
 	
 	/**
-	 * Ritorna l'età dell'utente loggato calcolandola dall'anno attuale e dalla data di nascita
+	 * Ritorna l'etï¿½ dell'utente loggato calcolandola dall'anno attuale e dalla data di nascita
 	 */
 	public function getAge($date) {
 		$age = Carbon::parse ( $date );
@@ -230,7 +231,7 @@ class User extends Authenticatable {
 	}
 	
 	/**
-	 * Ritorna la città di nascita dell'utente loggato
+	 * Ritorna la cittï¿½ di nascita dell'utente loggato
 	 */
 	public function getBirthTown() {
 		$result = $this->contacts ()->first ()->id_comune_nascita;
@@ -238,7 +239,7 @@ class User extends Authenticatable {
 	}
 	
 	/**
-	 * Ritorna la città dove risiede l'utente loggato
+	 * Ritorna la cittï¿½ dove risiede l'utente loggato
 	 */
 	public function getLivingTown() {
 		$result = $this->contacts ()->first ()->id_comune_residenza;
@@ -360,7 +361,7 @@ class User extends Authenticatable {
 	 * sia un care provider.
 	 */
 	public function cpp_persona() {
-		return $this->hasMany ( \App\Models\CareProvider\CppPersona::class, 'id_utente' );
+		return $this->hasMany ( \App\Models\CareProviders\CppPersona::class, 'id_utente' );
 	}
 	
 	/**
@@ -386,8 +387,383 @@ class User extends Authenticatable {
 	public function contacts() {
 		return $this->hasMany ( \App\Models\CurrentUser\Recapiti::class, 'id_utente' );
 	}
-	
-	/**
+
+
+
+
+
+    /**
+     * Ritorna un array contenente la localitÃ  di tutti i car provider inseriti nel Registro Elettronico Sanitario Personale Multimediale
+     */
+    public function trovaLocalita() {
+        $array = array ();
+        $array = CareProvider::all ();
+
+        $r = array ();
+        foreach ( $array as $a ) {
+            array_push ( $r, $a->cpp_localita_iscrizione );
+        }
+        return $r;
+    }
+
+    /**
+     * Ritorna un array contenente i nomi di tutti i car provider inseriti nel Registro Elettronico Sanitario Personale Multimediale
+     */
+    public function trovaNome() {
+        $array = array ();
+        $array = CareProvider::all ();
+
+        $r = array ();
+        foreach ( $array as $a ) {
+            array_push ( $r, $a->cpp_nome );
+        }
+        return $r;
+    }
+
+    /**
+     * Ritorna un array contenente i cognomi di tutti i car provider inseriti nel Registro Elettronico Sanitario Personale Multimediale
+     */
+    public function trovaCognome() {
+        $array = array ();
+        $array = CareProvider::all ();
+
+        $r = array ();
+        foreach ( $array as $a ) {
+            array_push ( $r, $a->cpp_cognome );
+        }
+        return $r;
+    }
+
+    /**
+     * Ritorna un array contenente i numeri di telefono di tutti i car provider inseriti nel Registro Elettronico Sanitario Personale Multimediale
+     */
+    public function trovaTelefono() {
+        $rec = Recapiti::all ();
+        $cpp = CareProvider::all ();
+        $all = array ();
+
+        foreach ( $cpp as $c ) {
+            foreach ( $rec as $r ) {
+                if ($c->id_utente == $r->id_utente) {
+                    array_push ( $all, $r->contatto_telefono );
+                }
+            }
+        }
+        return $all;
+    }
+
+    /**
+     * Ritorna un array contenente i ruoli di tutti i car provider inseriti nel Registro Elettronico Sanitario Personale Multimediale
+     */
+    public function trovaRuolo() {
+        $ruolo = User::all ();
+        $cpp = CareProvider::all ();
+        $all = array ();
+
+        foreach ( $cpp as $c ) {
+            foreach ( $ruolo as $r ) {
+                if ($c->id_utente == $r->id_utente) {
+                    array_push ( $all, $r->id_tipologia );
+                }
+            }
+        }
+        return $all;
+    }
+
+    /**
+     * Ritorna un array contenente tutti i car provider inseriti nel Registro Elettronico Sanitario Personale Multimediale
+     */
+    public function cpp() {
+        $array = CareProvider::all ();
+        return $array;
+    }
+
+    /**
+     * Ritorna il numero di care provider inseriti nel Registro Elettronico Sanitario Personale Multimediale
+     */
+    public function numero() {
+        $array = array ();
+        $array = CareProvider::all ();
+        $i = 0;
+
+        $r = array ();
+        foreach ( $array as $a ) {
+            $i = $i + 1;
+        }
+        return $i;
+    }
+
+    /**
+     * Ritorna un array contenente tutti i nomi dei car provider associati all'utente loggato
+     */
+    public function nomeCppAssociato() {
+        $arrayCpp = array ();
+        $arrayCpp = CareProvider::all ();
+        $arrayPazienti = array ();
+        $arrayPazienti = CppPaziente::all ();
+        $all = array ();
+        $info = array ();
+
+        foreach ( $arrayCpp as $c ) {
+            foreach ( $arrayPazienti as $r ) {
+                if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+                    array_push ( $info, $c->cpp_nome );
+                }
+            }
+        }
+
+        return $info;
+    }
+
+    /**
+     * Ritorna un array contenente tutti i cognomi dei car provider associati all'utente loggato
+     */
+    public function cognomeCppAssociato() {
+        $arrayCpp = array ();
+        $arrayCpp = CareProvider::all ();
+        $arrayPazienti = array ();
+        $arrayPazienti = CppPaziente::all ();
+        $all = array ();
+        $info = array ();
+
+        foreach ( $arrayCpp as $c ) {
+            foreach ( $arrayPazienti as $r ) {
+                if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+                    array_push ( $info, $c->cpp_cognome );
+                }
+            }
+        }
+
+        return $info;
+    }
+
+    /**
+     * Ritorna un array contenente tutti i ruoli dei car provider associati all'utente loggato
+     */
+    public function ruoloCppAssociato() {
+        $arrayCpp = array ();
+        $arrayCpp = CareProvider::all ();
+        $arrayPazienti = array ();
+        $arrayPazienti = CppPaziente::all ();
+        $info = array ();
+        $ruolo = array ();
+        $ruolo = User::all ();
+        foreach ( $arrayCpp as $c ) {
+            foreach ( $arrayPazienti as $r ) {
+                if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+                    foreach ( $ruolo as $ruol ) {
+                        if ($c->id_utente == $ruol->id_utente) {
+                            array_push ( $info, $ruol->id_tipologia );
+                        }
+                    }
+                }
+            }
+        }
+        return $info;
+    }
+
+    /**
+     * Ritorna un array contenente tutti i numeri di telofono dei car provider associati all'utente loggato
+     */
+    public function telefonoCppAssociato() {
+        $arrayCpp = array ();
+        $arrayCpp = CareProvider::all ();
+        $arrayPazienti = array ();
+        $arrayPazienti = CppPaziente::all ();
+        $info = array ();
+        $rec = array ();
+
+        $rec = Recapiti::all ();
+
+        foreach ( $arrayCpp as $c ) {
+            foreach ( $arrayPazienti as $r ) {
+                if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+                    foreach ( $rec as $re ) {
+                        if ($c->id_utente == $re->id_utente) {
+                            array_push ( $info, $re->contatto_telefono );
+                        }
+                    }
+                }
+            }
+        }
+        return $info;
+    }
+
+    /**
+     * Ritorna un array contenente tutte le cittÃ  dei car provider associati all'utente loggato
+     */
+    public function cittaCppAssociato() {
+        $arrayCpp = array ();
+        $arrayCpp = CareProvider::all ();
+        $arrayPazienti = array ();
+        $arrayPazienti = CppPaziente::all ();
+        $info = array ();
+
+        foreach ( $arrayCpp as $c ) {
+            foreach ( $arrayPazienti as $r ) {
+                if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+                    array_push ( $info, $c->cpp_localita_iscrizione );
+                }
+            }
+        }
+        return $info;
+    }
+
+    /**
+     * Ritorna il numero dei car provider associati all'utente loggato
+     */
+    public function trovaCppAssociati() {
+        $arrayCpp = array ();
+        $arrayCpp = CareProvider::all ();
+        $arrayPazienti = array ();
+        $arrayPazienti = CppPaziente::all ();
+        $i = 0;
+
+        foreach ( $arrayCpp as $c ) {
+            foreach ( $arrayPazienti as $r ) {
+                if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+                    $i = $i + 1;
+                }
+            }
+        }
+        return $i;
+    }
+
+    /**
+     * Ritorna un array contenente tutti gli id_cpp dei car provider associati all'utente loggato
+     */
+    public function idCppAssociato($tel) {
+        $arrayRecapiti = array ();
+        $arrayRecapiti = Recapiti::all ();
+        $id_utente = 0;
+        $arrayCpp = array ();
+        $arrayCpp = CareProvider::all ();
+        $id_cpp = 0;
+
+        foreach ( $arrayRecapiti as $pers ) {
+            if ($pers->contatto_telefono == $tel) {
+                $id_utente = $pers->id_utente;
+            }
+        }
+
+        foreach ( $arrayCpp as $cpp ) {
+            if ($cpp->id_utente == $id_utente) {
+                $id_cpp = $cpp->id_cpp;
+            }
+        }
+
+        return $id_cpp;
+    }
+
+    /**
+     * Ritorna la confidenzialitÃ  tra il paziente e il Care Provider passati in ingresso alla funzione
+     */
+    public function confidenzialitaCppAssociato($id_utente, $id_cpp) {
+        $arrayCppPaziente = array ();
+        $arrayCppPaziente = CppPaziente::all ();
+        $arrayPazienti = array ();
+        $arrayPazienti = Pazienti::all ();
+        $id = 0;
+        $conf = 0;
+
+        foreach ( $arrayPazienti as $p ) {
+            if ($p->id_paziente == $id_utente) {
+                $id = $p->id_paziente;
+            }
+        }
+        foreach ( $arrayCppPaziente as $a ) {
+            if (($a->id_cpp == $id_cpp) && ($a->id_paziente == $id)) {
+                $conf = $a->assegnazione_confidenzialita;
+            }
+        }
+        return $conf;
+    }
+
+    /**
+     * Ritorna la mail di un Care Provider passato come parametro della funzione
+     */
+    public function trovaMail($id_cpp) {
+        $arrayCpp = array ();
+        $arrayCpp = CareProvider::all ();
+        $arrayUser = array ();
+        $arrayUser = User::all ();
+        $mail = '';
+        $id = 0;
+
+        foreach ( $arrayCpp as $cpp ) {
+            if ($cpp->id_cpp == $id_cpp) {
+                $id = $cpp->id_utente;
+
+                foreach ( $arrayUser as $user ) {
+                    if ($user->id_utente == $id) {
+                        $mail = $user->utente_email;
+                    }
+                }
+            }
+        }
+
+        return $mail;
+    }
+
+    /**
+     * Ritorna le "Altre informazioni" di tutti i Care Provider associati all'utente
+     */
+    public function informazioniCppAssociato() {
+        $arrayCpp = array ();
+        $arrayCpp = CareProvider::all ();
+        $arrayPazienti = array ();
+        $arrayPazienti = CppPaziente::all ();
+        $info = array ();
+        $arrayPersona = array ();
+        $arrayPersona = CppPersona::all ();
+
+        foreach ( $arrayCpp as $c ) {
+            foreach ( $arrayPazienti as $r ) {
+                if (($c->id_cpp == $r->id_cpp) && ($this->patient->first ()->id_paziente == $r->id_paziente)) {
+                    foreach ( $arrayPersona as $arr ) {
+                        if ($c->id_utente = $arr->id_utente) {
+                            if ($arr->persona_reperibilita != " ") {
+                                array_push ( $info, $arr->persona_reperibilita );
+                            } else {
+                                array_push ( $info, "--" );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $info;
+    }
+
+    /**
+     * Ritorna le "Altre informazioni" di tutti i Care Provider
+     */
+    public function trovaInformazioni() {
+        $persona = CppPersona::all ();
+        $cpp = CareProvider::all ();
+        $all = array ();
+        $i=0;
+
+        foreach ( $cpp as $c ) {
+            foreach ( $persona as $r ) {
+                if ($c->id_utente == $r->id_utente) {
+                    if ($r->persona_reperibilita != " ") {
+                        array_push ( $all, $r->persona_reperibilita );
+                    } else {
+                        array_push ( $all, "--" );
+                    }
+                }
+            }
+        }
+        return $all;
+    }
+
+
+
+
+
+
+    /**
 	 * Ritorna un array con tutte le visite effettuate dall'utente loggato
 	 */
 	public function visiteUser() {
@@ -424,7 +800,7 @@ class User extends Authenticatable {
 		$visite = $this->visiteUser ();
 		$array = array ();
 		$param = ParametriVitali::all ();
-		$data;
+		$data = '';
 		foreach ( $visite as $v ) {
 			foreach ( $param as $p ) {
 				if (($v->id_paziente == $p->id_paziente) && ($v->id_visita == $p->id_parametro_vitale)) {
@@ -450,7 +826,7 @@ class User extends Authenticatable {
 	public function diagnosi() {
 		$arrayPazienti = array ();
 		$arrayPazienti = Pazienti::all ();
-		$idPaziente;
+		$idPaziente = 0;
 		$diagnosi = array ();
 		$diagnosi = Diagnosi::all ();
 		
@@ -477,7 +853,7 @@ class User extends Authenticatable {
 	public function getCppDiagnosi($idDiagnosi) {
 		$arrayCppDiagnosi = array ();
 		$arrayCppDiagnosi = CppDiagnosi::all ();
-		$cpp;
+		$cpp = 0;
 		
 		foreach ( $arrayCppDiagnosi as $c ) {
 			if ($c->id_diagnosi == $idDiagnosi) {
@@ -495,7 +871,7 @@ class User extends Authenticatable {
 		$cpp = ($this->getCppDiagnosi ( $idDiagnosi ))->careprovider;
 		$cpp = explode ( "-", $cpp );
 		
-		$ret;
+		$ret = '';
 		
 		foreach ( $cpp as $c ) {
 			$ret = $c;
@@ -512,7 +888,7 @@ class User extends Authenticatable {
 	public function idPazienteUser() {
 		$arrayPazienti = array ();
 		$arrayPazienti = Pazienti::all ();
-		$idPaziente;
+		$idPaziente = 0;
 		$diagnosi = array ();
 		$diagnosi = Diagnosi::all ();
 		
@@ -531,7 +907,7 @@ class User extends Authenticatable {
 	public function indagini() {
 		$arrayPazienti = array ();
 		$arrayPazienti = Pazienti::all ();
-		$idPaziente;
+		$idPaziente = 0;
 		$indagini = array ();
 		$indagini = Indagini::all ();
 		
@@ -558,7 +934,7 @@ class User extends Authenticatable {
 	public function cppIndagine($idDiagnosi) {
 		$diagnosi = array ();
 		$diagnosi = CppDiagnosi::all ();
-		$cpp;
+		$cpp = '';
 		
 		foreach ( $diagnosi as $d ) {
 			if ($idDiagnosi == $d->id_diagnosi) {
@@ -569,12 +945,12 @@ class User extends Authenticatable {
 	}
 	
 	/**
-	 * restituisce il nome del centro dove avrà luogo l'indagine
+	 * restituisce il nome del centro dove avrï¿½ luogo l'indagine
 	 */
 	public function nomeCentroInd($idCentroInd) {
 		$centri = array ();
 		$centri = CentriIndagini::all ();
-		$ret;
+		$ret = '';
 		
 		foreach ( $centri as $c ) {
 			if ($idCentroInd == $c->id_centro) {
@@ -618,10 +994,10 @@ class User extends Authenticatable {
 	public function cppPersCont($idCentro) {
 		$centri = array ();
 		$centri = CentriIndagini::all ();
-		$a;
+		$a = 0;
 		$cpp = array ();
 		$cpp = CareProvider::all ();
-		$ret;
+		$ret = '';
 		
 		foreach ( $centri as $c ) {
 			if ($c->id_centro == $idCentro) {
@@ -644,7 +1020,7 @@ class User extends Authenticatable {
 	public function cppToUserInd() {
 		$cpp = CppPaziente::all ();
 		$cppUs = CareProvider::all ();
-		$id;
+		$id = 0;
 		$array = array ();
 		
 		foreach ( $cpp as $c ) {

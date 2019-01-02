@@ -69,15 +69,15 @@
 									
 									<!--ordine--da rendere obbligatori>-->
                                     <div class="form-group">
-                                        <label for="numOrdine" class="control-label col-lg-2">N°  iscrizione  *</label>
+										<label for="numOrdine" class="control-label col-lg-2">NÂ° iscrizione *</label>
                                         <div class="col-lg-3"><input id="numOrdine" name="numOrdine" type="text" class="form-control" placeholder = "numero di iscrizione ordine">
                                         	@if ($errors->has('numOrdine'))
     											<div class="alert alert-danger" role="alert">{{ $errors->first('numOrdine') }}</div>
 											@endif
 										</div>
-										 <label for="registrationCity" class="control-label col-lg-3">Località Iscrizione *</label>
+										<label for="registrationCity" class="control-label col-lg-3">LocalitÃ  Iscrizione *</label>
 										<div class="col-lg-3">
-											<input id="registrationCity" name="registrationCity" type="text" class="form-control" placeholder = "Località ordine di iscrizione">
+											<input id="registrationCity" name="registrationCity" type="text" class="form-control" placeholder = "LocalitÃ  ordine di iscrizione">
 											@if ($errors->has('registrationCity'))
     											<div class="alert alert-danger" role="alert">{{ $errors->first('registrationCity') }}</div>
 											@endif
@@ -89,8 +89,27 @@
 										<label for="tipoSpecializzazione" class="control-label col-lg-2">Attivit&agrave svolta *
 										</label>
                                         <div class="col-lg-4">
-                                       		<select name="tipoSpecializzazione" id="tipoSpecializzazione" class="form-control" >
-                                                <option value="">Scegli la tua attivit&agrave </option>
+											<select name="tipoSpecializzazione" id="tipoSpecializzazione" class="form-control">
+												<option value=""></option>
+												<option value="aud">Audiometrista</option>
+												<option value="emg">Operatore Emergenza</option>
+												<option value="far">Farmacista</option>
+												<option value="fst">Fisioterapista</option>
+												<option value="igd">Igenista dentale</option>
+												<option value="inf">Infermiere</option>
+												<option value="lgp">Logopedista</option>
+												<option value="mcs">Medico ContinuitÃ  Assistenziale</option>
+												<option value="mmg">Medico di medicina generale</option>
+												<option value="mos">Medico Ospedaliero</option>
+												<option value="mps">Medico di Pronto Soccorso</option>
+												<option value="msa">Medico Specialista Ambulatoriale</option>
+												<option value="mso">Medico Specialista Ospedaliero</option>
+												<option value="odt">Odontoiatra</option>
+												<option value="otc">Ottico</option>
+												<option value="oth">Altro</option>
+												<option value="pls">Pediatra di libera scelta</option>
+												<option value="psi">Psicologo</option>
+												<option value="tps">Tecnico psicologo</option>
 											</select>
 											@if ($errors->has('attivitaSvolta'))
     											<div class="alert alert-danger" role="alert">{{ $errors->first('attivitaSvolta') }}</div>
@@ -119,10 +138,10 @@
 									<label for="gender" class="control-label col-lg-2">Sesso *</label>
 									<div class="col-lg-3">
 										<label class="radio-inline">
-											<input  type="radio"  name="gender" id="genderM" value="M">M
+											<input  type="radio"  name="gender" id="genderM" value="male">M
 										</label>
 										<label class="radio-inline">
-											<input  type="radio"  name="gender" id="genderF" value="F">F
+											<input  type="radio"  name="gender" id="genderF" value="female">F
 	                                    </label>
 	                                    @if ($errors->has('gender'))
 	    									<div class="alert alert-danger" role="alert">{{ $errors->first('gender') }}</div>

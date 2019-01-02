@@ -51,7 +51,7 @@ class RegisterController extends Controller {
 	 */
 	public function showPatientRegistrationForm() {
 		if (! Auth::guest ())
-			return redirect ()->route ( 'home' ); // se si è già loggati si va alla home
+			return redirect ()->route ( 'home' ); // se si ï¿½ giï¿½ loggati si va alla home
 		return view ( 'auth.register-patient' );
 	}
 	
@@ -60,7 +60,7 @@ class RegisterController extends Controller {
 	 */
 	public function showCareProviderRegistrationForm() {
 		if (! Auth::guest ())
-			return redirect ()->route ( 'home' ); // se si è già loggati si va alla home
+			return redirect ()->route ( 'home' ); // se si ï¿½ giï¿½ loggati si va alla home
 		return view ( 'auth.register-careprovider' );
 	}
 	
@@ -124,7 +124,8 @@ class RegisterController extends Controller {
 				'paziente_nascita' => date ( 'Y-m-d', strtotime ( Input::get ( 'birthDate' ) ) ),
 				'paziente_gruppo' => $this->bloodGroup,
 				'paziente_rh' => $this->bloodRh,
-				'paziente_stato_matrimoniale' => Input::get ( 'maritalStatus' ) 
+				'id_stato_matrimoniale' => Input::get ( 'maritalStatus' ),
+                'paziente_lingua' => "it-IT" //TODO: Inserire la possibilitÃ  di scegliere la nazionalitÃ  del paziente, usare i campi della tabella Languages
 		] );
 		
 		
@@ -153,7 +154,7 @@ class RegisterController extends Controller {
 	}
 	
 	/**
-	 * Identifica l'id di una città presente nel database
+	 * Identifica l'id di una cittï¿½ presente nel database
 	 * a partire dal nome
 	 */
 	private function getTown($name) {
@@ -233,7 +234,7 @@ class RegisterController extends Controller {
 				'utente_nome' => Input::get ( 'username' ),
 				'utente_email' => Input::get ( 'email' ),
 				'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
-				'id_tipologia' => 'mos', // TODO: In futuro andrà cambiato in base al ruolo del cpp (medico/operatore emergenza/ecc...)
+				'id_tipologia' => Input::get('tipoSpecializzazione'),
 				'utente_email' => Input::get ( 'email' ),
 				'utente_password' => bcrypt ( Input::get ( 'password' ) ) 
 		] );
@@ -254,7 +255,8 @@ class RegisterController extends Controller {
 				'cpp_codfiscale' => Input::get ( 'CF' ),
 				'cpp_sesso' => Input::get ( 'gender' ),
 				'cpp_n_iscrizione' => Input::get ( 'numOrdine' ),
-				'cpp_localita_iscrizione' => Input::get ( 'registrationCity' ) 
+				'cpp_localita_iscrizione' => Input::get ( 'registrationCity' ),
+                'cpp_lingua' => "it-IT" //TODO: Inserire la possibilitÃ  di scegliere la nazionalitÃ  del careprovider, usare i campi della tabella Languages
 		] );
 		
 		$user->save ();

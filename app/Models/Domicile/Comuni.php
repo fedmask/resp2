@@ -45,7 +45,7 @@ class Comuni extends Eloquent
 
 	
 	public function getID(){
-	    return $this->$primaryKey;
+	    return $this->primaryKey;
 	}
 	
 	public function getTown(){

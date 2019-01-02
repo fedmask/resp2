@@ -330,7 +330,7 @@
                     </div> <!-- fine modal-body-->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default btn-abort" data-dismiss="modal">Annulla</button>
-                        <button type="submit" class="btn btn-primary">Invia</button> 
+                        <button type="submit" class="btn btn-primary">Invia</button>
                     </div>
                     </form>
                 </div> <!-- modal-content -->
