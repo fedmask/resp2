@@ -7,6 +7,11 @@
         alert("{!! Session::get('message') !!}");
     </script>
 @endif
+@if(Session::has('errors'))
+    <script>
+        alert("Registrazione fallita!");
+    </script>
+@endif
 
 <!-- REGISTER MODAL -->
 <div class="col-lg-12">
@@ -268,7 +273,7 @@
                         <!--username-->
                         <div class="form-group">
                             <label for="username" class="control-label col-lg-2">Username *</label>
-                            <div class="col-lg-3"><input id="username" name="username" type="text" class="form-control" required>
+                            <div class="col-lg-3"><input id="username" name="username" type="text" class="form-control" >
                                 @if ($errors->has('username'))
                                     <div class="alert alert-danger" role="alert">{{ $errors->first('username') }}</div>
                                 @endif

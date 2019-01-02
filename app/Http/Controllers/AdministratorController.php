@@ -465,7 +465,7 @@ class AdministratorController extends Controller {
             'paziente_gruppo' => $this->bloodGroup,
             'paziente_rh' => $this->bloodRh,
             'id_stato_matrimoniale' => Input::get ( 'maritalStatus' ),
-            'paziente_lingua' => "it-IT" //TODO: Inserire la possibilità di scegliere la nazionalità del paziente, usare dati tabella Languages
+            'paziente_lingua' => "it-IT" //TODO: Inserire la possibilità di scegliere la nazionalità del paziente, usare i campi della tabella Languages
         ] );
 
         $to_name = Input::get ( 'name' ) . ' ' . Input::get ( 'surname' );
@@ -540,7 +540,7 @@ class AdministratorController extends Controller {
             'cpp_sesso' => Input::get ( 'gender' ),
             'cpp_n_iscrizione' => Input::get ( 'numOrdine' ),
             'cpp_localita_iscrizione' => Input::get ( 'registrationCity' ),
-            'cpp_lingua' => "it-IT" //TODO: Inserire la possibilità di scegliere la nazionalità del careprovider, usare dati tabella Languages
+            'cpp_lingua' => "it-IT" //TODO: Inserire la possibilità di scegliere la nazionalità del careprovider, usare i campi della tabella Languages
         ] );
 
         $to_name = Input::get ( 'name' ) . ' ' . Input::get ( 'surname' );
