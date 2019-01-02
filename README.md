@@ -55,3 +55,20 @@ Inoltre ogni qualvolta verranno effettuati dei cambiamenti al database, sarà ne
 
 
 Per tutta la documentazione relativa a Laravel si rimanda al sito ufficiale: [https://laravel.com/](https://laravel.com/)
+
+## Settare il file .env per consentire l'invio delle mail al sistema:
+Per consentire l'invio di mail al sistema utilizzare un account gmail e seguire i seguenti passi:
+- Impostare ad ON l'accesso alle app meno sicure nel proprio account gmail al seguente link [https://myaccount.google.com/lesssecureapps](https://myaccount.google.com/lesssecureapps)
+- Nel file .env settare i seguenti campi:
+
+    MAIL_DRIVER=smtp
+    
+    MAIL_HOST=smtp.googlemail.com
+    
+    MAIL_PORT=465
+    
+    MAIL_USERNAME= LA_MAIL_DEL_VOSTRO_ACCOUNT_GMAIL
+    
+    MAIL_PASSWORD= LA PASSWORD DEL VOSTRO ACCOUNT GMAIL
+    
+    MAIL_ENCRYPTION=ssl 
