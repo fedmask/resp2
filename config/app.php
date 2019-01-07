@@ -180,7 +180,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        Laravel\Passport\PassportServiceProvider::class,
         /*
          * Providers per la generazione automatica dei models
          * a partire dai migrations

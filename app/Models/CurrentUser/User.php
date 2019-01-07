@@ -24,9 +24,12 @@ use App\Models\InvestigationCenter\CentriContatti;
 use App\Models\Emergency\Emergency;
 use DB;
 use Auth;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable {
 	use Notifiable;
+	use HasApiTokens;
 	use Encryptable;
 	protected $table = 'tbl_utenti';
 	protected $primaryKey = 'id_utente';
@@ -60,7 +63,22 @@ class User extends Authenticatable {
 			'utente_email' 
 	
 	];
-	
+
+
+    public function findForPassport($username) {
+        return $this->where('utente_nome', $username)->first();
+    }
+
+    public function validateForPassportPasswordGrant($password)
+    {
+        return Hash::check($password, $this->utente_password);
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->utente_password;
+    }
+
 	/**
 	 * Identifica l'oggetto che definisce l'account dell'utente loggato.
 	 * Es. Paziente, CareProvider, etc...

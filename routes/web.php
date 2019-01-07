@@ -319,7 +319,7 @@ Route::get ( '/ModIndProgrammata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{sta
  */
 Route::get ( '/ModIndCompletata/{id}/{tipo}/{motivo}/{Cpp}/{idCpp}/{idPaz}/{stato}/{idCentr}/{dataVis}/{referto}/{allegato}', 'IndaginiController@ModIndagineCompletata' );
 
-Route::post ( '/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient' );
+//Route::post ( '/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient' );
 
 //Inizio route anamnesi
 Route::resource('/anamnesi','AnamnesiController',['except' => ['create', 'show','store', 'destroy']]);
@@ -431,7 +431,7 @@ Route::get('/IoT',  function () {
 
 
 
-    Route::post('/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient');
+   // Route::post('/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient');
 
     
     
