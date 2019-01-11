@@ -32,17 +32,16 @@
                         </div><!--col-lg-12-->
                     </div><!--accordion- group heading centered-->
 
+                    <!--Accordition VoxTester-->
                     <div id="VoxTester" class="accordion-body collapse">
                         <div class="accordion-inner">
                             <div class ="row">
                                 <h3><center>VoxTester</center></h3>
 
-                                <!--Accordion Ospedali-->
+                                <!--Accordion HbMeter-->
                                 <div class="accordion-group" id = "ac-Osp">
                                     <div class="col-lg-12">
                                         <div class="panel warning" >
-
-
 
                                         </div><!--panel warning-->
 
@@ -57,12 +56,31 @@
                             <div class ="row">
                                 <h3><center>HbMeter</center></h3>
 
-                                <!--Accordion Ospedali-->
+                                <!--Accordion HbMeter-->
                                 <div class="accordion-group" id = "ac-Osp">
                                     <div class="col-lg-12">
                                         <div class="panel warning" >
 
+                                            <div class = "panel-body">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Giorno dell'analisi</th>
+                                                            <th>Valore dell'analisi</th>
+                                                        </tr>
+                                                        @foreach($hbmeters as $hbm)
+                                                            <tr>
+                                                                <td>{{ $hbm->id_hbmeter }}</td>
+                                                                <td>{{ $hbm->analisi_giorno }}</td>
+                                                                <td>{{ $hbm->analisi_valore }}</td>
+                                                            </tr>
+                                                        @endforeach
 
+                                                    </table>
+
+                                                </div>
+                                            </div>
 
                                         </div><!--panel warning-->
 

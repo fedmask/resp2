@@ -329,9 +329,7 @@ Route::delete('/anamnesi/{id}', 'AnamnesiController@delete')->name('Delete');
 Route::post('/anamnesiprint','AnamnesiController@printAnamnesi');
 
 //Inizio route IoT
-Route::get('/IoT',  function () {
-    return view('pages.iot');
-})->name('IoT');
+Route::get('/IoT', 'IoTController@index')->name('IoT');
 
 
 
