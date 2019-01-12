@@ -18,7 +18,9 @@ class HbMeterResource extends Resource
             'id hbmeter' => $this->id_hbmeter,
             'id utente' => $this->id_utente,
             'Analisi giorno' => $this->analisi_giorno,
-            'Analisi valore' => $this->analisi_valore
+            'Analisi valore' => $this->analisi_valore,
+            'Analisi laboratorio' => $this->analisi_laboratorio,
+            'Immagine palpebra' => $this->img_palpebra
         ];
     }
 }

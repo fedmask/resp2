@@ -51,6 +51,9 @@ class HbMeterController extends Controller
         $hbmeter->analisi_valore = $request->analisi_valore;
         $hbmeter->analisi_laboratorio = $request->analisi_laboratorio;
 
+
+        $hbmeter->img_palpebra = $request->file('img_palpebra')->storeAs('uploads/hbmeter',date('Ymdhi') . '.jpeg');
+
         $hbmeter->save();
 
         return response([

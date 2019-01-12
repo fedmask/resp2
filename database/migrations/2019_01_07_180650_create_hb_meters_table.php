@@ -19,6 +19,7 @@ class CreateHbMetersTable extends Migration
             $table->string('analisi_giorno');
             $table->float('analisi_valore');
             $table->float('analisi_laboratorio');
+            $table->text('img_palpebra');
         });
     }
 
