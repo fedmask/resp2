@@ -69,6 +69,7 @@
                                                             <th>Giorno dell'analisi</th>
                                                             <th>Valore dell'analisi</th>
                                                             <th>Analisi laboratorio</th>
+                                                            <th>Immagine palpebra</th>
                                                         </tr>
                                                         @foreach($hbmeters as $hbm)
                                                             <tr>
@@ -80,6 +81,7 @@
                                                                 @else
                                                                     <td>{{ $hbm->analisi_laboratorio }}</td>
                                                                 @endif
+                                                                <td><a href="{{url('/' . $hbm->img_palpebra)}}" download>{{ substr(substr($hbm->img_palpebra, strpos($hbm->img_palpebra, "/") + 1), strpos($hbm->img_palpebra, "/") + 1) }}</a></td>
                                                             </tr>
                                                         @endforeach
 
