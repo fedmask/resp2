@@ -68,12 +68,18 @@
                                                             <th>#</th>
                                                             <th>Giorno dell'analisi</th>
                                                             <th>Valore dell'analisi</th>
+                                                            <th>Analisi laboratorio</th>
                                                         </tr>
                                                         @foreach($hbmeters as $hbm)
                                                             <tr>
                                                                 <td>{{ $hbm->id_hbmeter }}</td>
                                                                 <td>{{ $hbm->analisi_giorno }}</td>
                                                                 <td>{{ $hbm->analisi_valore }}</td>
+                                                                @if($hbm->analisi_laboratorio == 0.0)
+                                                                    <td>-</td>
+                                                                @else
+                                                                    <td>{{ $hbm->analisi_laboratorio }}</td>
+                                                                @endif
                                                             </tr>
                                                         @endforeach
 

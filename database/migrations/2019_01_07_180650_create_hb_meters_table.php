@@ -18,7 +18,7 @@ class CreateHbMetersTable extends Migration
             $table->integer('id_utente')->unsigned()->index('FOREIGN_UTENTE_idx')->onDelete('cascade');
             $table->string('analisi_giorno');
             $table->float('analisi_valore');
-            $table->timestamps();
+            $table->float('analisi_laboratorio');
         });
     }
 

@@ -49,6 +49,7 @@ class HbMeterController extends Controller
         $hbmeter->id_utente = Auth::user()->id_utente;
         $hbmeter->analisi_giorno = $request->analisi_giorno;
         $hbmeter->analisi_valore = $request->analisi_valore;
+        $hbmeter->analisi_laboratorio = $request->analisi_laboratorio;
 
         $hbmeter->save();
 
