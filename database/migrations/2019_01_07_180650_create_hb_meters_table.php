@@ -16,10 +16,10 @@ class CreateHbMetersTable extends Migration
         Schema::create('hb_meters', function (Blueprint $table) {
             $table->increments('id_hbmeter');
             $table->integer('id_utente')->unsigned()->index('FOREIGN_UTENTE_idx')->onDelete('cascade');
-            $table->string('analisi_giorno');
-            $table->float('analisi_valore');
-            $table->float('analisi_laboratorio');
-            $table->text('img_palpebra');
+            $table->string('analisi_giorno')->nullable();
+            $table->float('analisi_valore')->nullable();
+            $table->float('analisi_laboratorio')->nullable();
+            $table->text('img_palpebra')->nullable();
         });
     }
 

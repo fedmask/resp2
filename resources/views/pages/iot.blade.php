@@ -81,7 +81,7 @@
                                                                 @else
                                                                     <td>{{ $hbm->analisi_laboratorio }}</td>
                                                                 @endif
-                                                                <td><a href="{{url('/' . $hbm->img_palpebra)}}" download>{{ substr(substr($hbm->img_palpebra, strpos($hbm->img_palpebra, "/") + 1), strpos($hbm->img_palpebra, "/") + 1) }}</a></td>
+                                                                <td><a href="{{url($hbm->img_palpebra)}}" download>{{ basename($hbm->img_palpebra) }}</a></td>
                                                             </tr>
                                                         @endforeach
 

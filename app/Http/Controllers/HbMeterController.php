@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\HbMeterCollection;
 use App\Http\Resources\HbMeterResource;
+use App\Models\File;
 use App\Models\HbMeter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class HbMeterController extends Controller
@@ -51,8 +53,12 @@ class HbMeterController extends Controller
         $hbmeter->analisi_valore = $request->analisi_valore;
         $hbmeter->analisi_laboratorio = $request->analisi_laboratorio;
 
-
-        $hbmeter->img_palpebra = $request->file('img_palpebra')->storeAs('uploads/hbmeter',date('Ymdhi') . '.jpeg');
+        $image = $request->img_palpebra;
+        $image = str_replace('data:image/jpeg;base64,', '', $image);
+        $image = str_replace(' ', '+', $image);
+        $imageName = date('Ymdhi') . '.jpeg';
+        Storage::put('/uploads/hbmeter/' . $imageName, base64_decode($image));
+        $hbmeter->img_palpebra = '/uploads/hbmeter/' . $imageName;
 
         $hbmeter->save();
 
