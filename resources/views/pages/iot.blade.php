@@ -69,7 +69,7 @@
                                                             <th>Giorno dell'analisi</th>
                                                             <th>Valore dell'analisi</th>
                                                             <th>Analisi laboratorio</th>
-                                                            <th>Immagine palpebra</th>
+                                                            <th>Immagine congiuntiva</th>
                                                         </tr>
                                                         @foreach($hbmeters as $hbm)
                                                             <tr>
