@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\VoxTesterCollection;
+use App\Http\Resources\VoxTesterResource;
 use App\Models\VoxTester;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 class VoxTesterController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except('index', 'show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,7 @@ class VoxTesterController extends Controller
      */
     public function index()
     {
-        //
+        return VoxTesterCollection::collection(VoxTester::all());
     }
 
     /**
@@ -35,7 +46,34 @@ class VoxTesterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $audios = $request->audio;
+        $i = 1;
+        foreach ($audios as $audio) {
+
+            $voxtester = new VoxTester;
+            $voxtester->id_utente = Auth::user()->id_utente;
+            $voxtester->date = $request->date;
+
+            $fileaudio = $audio;
+            $fileaudio = str_replace('data:audio/wav;base64,','', $fileaudio);
+            $fileaudio = str_replace(' ', '+', $fileaudio);
+            $fileaudioName = date('Ymdhi') . "$i" . '.wav';
+            Storage::put('/uploads/voxtester/' . $fileaudioName, base64_decode($fileaudio));
+            $voxtester->audio = '/uploads/voxtester/' . $fileaudioName;
+
+
+            $voxtester->save();
+
+            $i+=1;
+        }
+
+        return response([
+            'data' => new VoxTesterResource($voxtester)
+        ], Response::HTTP_CREATED);
+
+
+
     }
 
     /**
@@ -46,7 +84,7 @@ class VoxTesterController extends Controller
      */
     public function show(VoxTester $voxTester)
     {
-        //
+        return new VoxTesterResource($voxTester);
     }
 
     /**

@@ -38,10 +38,31 @@
                             <div class ="row">
                                 <h3><center>VoxTester</center></h3>
 
-                                <!--Accordion HbMeter-->
+                                <!--Accordion VoxTester-->
                                 <div class="accordion-group" id = "ac-Osp">
                                     <div class="col-lg-12">
                                         <div class="panel warning" >
+
+                                            <div class = "panel-body">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Data</th>
+                                                            <th>Registrazione</th>
+                                                        </tr>
+                                                        @foreach($voxtesters as $vxt)
+                                                            <tr>
+                                                                <td>{{ $vxt->id_voxtester }}</td>
+                                                                <td>{{ $vxt->date }}</td>
+                                                                <td><a href="{{url($vxt->audio)}}" download>{{ basename($vxt->audio) }}</a></td>
+                                                            </tr>
+                                                        @endforeach
+
+                                                    </table>
+
+                                                </div>
+                                            </div>
 
                                         </div><!--panel warning-->
 

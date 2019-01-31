@@ -23,8 +23,12 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('get-details', 'API\PassportController@getDetails');
 });
 
-
+//Route api HbMeter
 Route::apiResource('/hbmeters','HbMeterController');
+
+//Route api VoxTester
+Route::apiResource('/voxtesters', 'VoxTesterController');
+
     
     Route::group(['prefix' => 'fhir'], function () {
         Route::resource('Patient', 'Fhir\Modules\FHIRPatient');
