@@ -155,6 +155,7 @@ class AnamnesiController extends Controller
 
     public function store(Request $request)
     {
+
         $input = request()->input_name;
 
         switch ($input){
