@@ -429,7 +429,6 @@ Route::post('/anamnesiprint','AnamnesiController@printAnamnesi');
     Route::post('/fhirPatient/uploadPatient', 'UploadResourceFhirController@uploadPatient');
 
     
-    
     Route::get('/fhirPatientIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@Index');
     Route::get('/fhirExportResources/Patient/{id}/{list}', 'Fhir\Modules\FHIRPatientIndex@exportResources');
     Route::get('/fhirPractitionerIndex/{id}', 'Fhir\Modules\FHIRPatientIndex@indexPractitioner');

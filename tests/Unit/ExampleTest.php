@@ -2,16 +2,31 @@
 
 namespace Tests\Unit;
 
-use Collective\Html\FormBuilder;
-use Dotenv\Validator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
+
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Auth;
+
 
 class ExampleTest extends TestCase
 {
+
+
+    public function login($name,$password)
+    {
+
+
+        $response = $this->POST('/login', [
+                'utente_nome'=>$name,
+                'utente_password'=>$password]
+        );
+
+        $response->assertRedirect('/home');
+
+
+    }
+
+
+
     /**
      * A basic test example.
      *
@@ -33,7 +48,6 @@ class ExampleTest extends TestCase
     public function testAnamnesi()
     {
 
-
         $response = $this->json('POST', '/anamnesi');
         //$response ->assertViewIs('auth.register-patient');
         $response->assertRedirect('/anamnesi');
@@ -43,21 +57,20 @@ class ExampleTest extends TestCase
     }
 
 
-    public function testLogin() 
+    //Test, log in as Janitor Jan and anamnesi
+
+
+    public function testanamnesiPrint()
     {
+        $this->login('Janitor Jan','test1234');
+
+        $id = Auth::id()."\n";
+
+        $response= $this->POST('/anamnesiprint');
 
 
-        $response = $this->json('POST','/login', [
-            'utente_nome'=>'Janitor Jan',
-            'utente_password'=>'test1234']
-        );
+        assert($id==2);
 
-
-
-
-        $response->assertRedirect('/home');
     }
-
-
 
 }

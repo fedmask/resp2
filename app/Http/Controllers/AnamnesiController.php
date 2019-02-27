@@ -518,9 +518,13 @@ class AnamnesiController extends Controller
 
     public function printAnamnesi(Request $request){
 
+
+
         $user = Pazienti::where('id_utente', Auth::id())->first();
         $parente = Parente::where('id_paziente', Auth::id())->get();
         $gravidanza = Gravidanza::where('id_paziente', Auth::id())->get();
+
+        echo $user;
 
         //PRINT ANAMNESI FAMILIARE
         $anamFamiliare_cont  = $request->input('anamFamiliare');
