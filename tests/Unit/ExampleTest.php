@@ -62,6 +62,41 @@ class ExampleTest extends TestCase
 
 
 
+    public function registerCareProvider($username,$name,$password)
+    {
+
+        $response = $this->POST('/register/careprovider', [
+
+
+                'acceptInfo' => 'cecked',
+                'username' => $username,
+                'email' => 'test@test.test',
+                'confirmEmail' => 'test@test.test',
+                'password' => $password,
+                'confirmPassword' => $password,
+                'numOrdine' => '1234',
+                'registrationCity' => 'Bari',
+                'surname' => 'Test',
+                'name' => $name,
+                'gender' => 'M',
+                'CF' => 'AZAZAZ99X34A435A',
+                'birthCity' => 'Bari',
+                'birthDate' => '25-09-1996',
+                'livingCity' => 'Bari',
+                'address' => 'Via Bari',
+                'cap' => '70127',
+                'telephone' => '3039383736'
+
+            ]
+        );
+
+        return $response;
+
+    }
+
+
+
+
     /**
      * A basic test example.
      *
@@ -70,11 +105,8 @@ class ExampleTest extends TestCase
     public function testBasicTest()
     {
 
-
-
         $response = $this->json('GET', '/register/patient');
         $response ->assertViewIs('auth.register-patient');
-
 
 
     }
@@ -87,19 +119,43 @@ class ExampleTest extends TestCase
         $this->login('Janitor Jan','test1234');
 
         $id = Auth::id()."\n";
-
         $response= $this->POST('/anamnesiprint');
-
         assert($id==2);
 
     }
 
+
+    //Controller della registrazione presenta errori
     public function  test_registerPaziente(){
 
-        $response = $this->registerPaziente("a","a","a");
-        $response->assertRedirect('/index.php');
+        echo "\nRegister as Patient: Test, Test"."\n"."\n";
 
+        $response = $this->registerPaziente("Test","Test","test1234");
+
+        echo "STATUS CODE: ".$response->getStatusCode();
+
+        $response->assertStatus(302);
+
+        echo "\nEND TEST"."\n"."\n";
 
     }
+
+    //controller della registrazione presenta errori
+
+    public function  test_registerCareProvider(){
+
+        echo "\nRegister as Care Provider: Test, Test"."\n"."\n";
+
+        $response = $this->registerPaziente("Test","Test","test1234");
+
+        echo "STATUS CODE: ".$response->getStatusCode();
+
+        $response->assertStatus(302);
+
+        echo "\nEND TEST"."\n"."\n";
+
+    }
+
+
 
 }
