@@ -29,6 +29,7 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
 
+
     /**
      * Create a new controller instance.
      *
@@ -36,12 +37,14 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+
         $this->middleware('guest')->except('logout');
     }
 
     
     public function username()
     {
+
         return 'utente_nome';
     }
     
@@ -52,7 +55,6 @@ class LoginController extends Controller
     
     protected function validateLogin(Request $request)
     {
-        
         $this->validate($request, [
             $this->username() => 'required|string',
             $this->password() => 'required|string',

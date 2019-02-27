@@ -74,6 +74,9 @@ class RegisterController extends Controller {
 	 * automaticamente loggato e reindirizzato alla home del profilo.
 	 */
 	protected function registerPatient() {
+
+
+
 		$this->getBloodType ( Input::get ( 'bloodType' ) );
 		$validator = Validator::make ( Input::all (), [ 
 				'acceptInfo' => 'bail|accepted',
@@ -92,17 +95,18 @@ class RegisterController extends Controller {
 				'address' => 'required|string|max:90',
 				'telephone' => 'required|numeric',
 				'bloodType' => 'required',
-				'maritalStatus' => 'required' 
+				'maritalStatus' => 'required'
 
 		] );
-		
+
+
+
 		if ($validator->fails()) {
 
-		    echo "ECC";
 			return Redirect::back ()->withErrors ( $validator )->withInput ();
 
 		}
-		
+
 		$user = User::create ( [ 
 				'utente_nome' => Input::get ( 'username' ),
 				'utente_email' => Input::get ( 'email' ),
@@ -132,9 +136,9 @@ class RegisterController extends Controller {
 				'paziente_rh' => $this->bloodRh,
 				'paziente_stato_matrimoniale' => Input::get ( 'maritalStatus' ) 
 		] );
-		
-		
-		
+
+
+
 		$user->save ();
 		$user_contacts->save ();                 
 		$user_patient->save ();
@@ -208,6 +212,7 @@ class RegisterController extends Controller {
 				return 'undefined';
 				break;
 		}
+
 	}
 	public function registerCareprovider() {
 		$validator = Validator::make ( Input::all (), [ 
@@ -274,7 +279,6 @@ class RegisterController extends Controller {
 		if (Auth::attempt ( $credentials )) {
 			return Redirect::to ( 'home' );
 		}
-		
 		return redirect ( '/' );
 	}
 }
