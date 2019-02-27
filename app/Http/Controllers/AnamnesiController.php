@@ -524,7 +524,7 @@ class AnamnesiController extends Controller
         $parente = Parente::where('id_paziente', Auth::id())->get();
         $gravidanza = Gravidanza::where('id_paziente', Auth::id())->get();
 
-        echo $user;
+
 
         //PRINT ANAMNESI FAMILIARE
         $anamFamiliare_cont  = $request->input('anamFamiliare');
@@ -696,8 +696,14 @@ class AnamnesiController extends Controller
             $anamPatRemota_icd9  = "<br><br><strong>Patologie remote raggruppate per Categorie Diagnostiche (MDC): </strong><br>". $request->input('icd9PatRemota');
 
 
+
         $anamnesipatologicaremota = "";
+
+
+
         if($anamPatRemota_cont != null or $anamPatRemota_icd9 != null) {
+
+
             $anamnesipatologicaremota = "<h2>Anamnesi patologica remota</h2><hr>" . $anamPatRemota_cont . $anamPatRemota_icd9;
         }
 
@@ -718,14 +724,17 @@ class AnamnesiController extends Controller
 
         $nomePaziente = "";
         if($user->paziente_sesso == "female" or $user->paziente_sesso == "F"){
+
             $nomePaziente = "<h1>Sig.ra $user->paziente_nome $user->paziente_cognome</h1>";
         }else{
+
             $nomePaziente = "<h1>Sig. $user->paziente_nome $user->paziente_cognome</h1>";
         }
 
         $print = $nomePaziente .  $anamnesifamiliare . $anamnesifisiologica . $anamnesipatologicaremota . $anamnesipatologicaprossima;
 
         $pdf = PDF::loadhtml($print);
+
         return $pdf->stream('result.pdf');
     }
 
