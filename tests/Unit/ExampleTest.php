@@ -21,10 +21,11 @@ class ExampleTest extends TestCase
                 'utente_password'=>$password]
         );
 
-        $response->assertRedirect('/home');
 
+        return $response;
 
     }
+
 
 
 
@@ -102,7 +103,7 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testRegisterView()
     {
 
         $response = $this->json('GET', '/register/patient');
@@ -114,13 +115,26 @@ class ExampleTest extends TestCase
     //Test, log in as Janitor Jan and anamnesi
 
 
-    public function testan_amnesiPrint()
+    public function test_login_paziente()
     {
-        $this->login('Janitor Jan','test1234');
+        echo "\nTEST LOGIN AS PAZIENTE\n\n";
+        $response=$this->login('Janitor Jan','test1234');
 
-        $id = Auth::id()."\n";
-        $response= $this->POST('/anamnesiprint');
-        assert($id==2);
+        $response->assertRedirect('/home');
+
+        echo "\nEND TEST\n\n";
+
+    }
+
+
+    public function test_login_cp()
+    {
+        echo "\nTEST LOGIN AS CARE PROVIDER\n\n";
+        $response=$this->login('Bob Kelso','test1234');
+
+        $response->assertRedirect('/home');
+
+        echo "\nEND TEST\n\n";
 
     }
 
@@ -128,7 +142,7 @@ class ExampleTest extends TestCase
     //Controller della registrazione presenta errori
     public function  test_registerPaziente(){
 
-        echo "\nRegister as Patient: Test, Test"."\n"."\n";
+        echo "\nTEST LOGIN AS PATIENT\n\n";
 
         $response = $this->registerPaziente("Test","Test","test1234");
 
@@ -142,9 +156,9 @@ class ExampleTest extends TestCase
 
     //controller della registrazione presenta errori
 
-    public function  test_registerCareProvider(){
+    public function  test_registerCP(){
 
-        echo "\nRegister as Care Provider: Test, Test"."\n"."\n";
+        echo "\nTEST LOGIN AS CARE PROVIDER\n\n";
 
         $response = $this->registerPaziente("Test","Test","test1234");
 
@@ -155,7 +169,5 @@ class ExampleTest extends TestCase
         echo "\nEND TEST"."\n"."\n";
 
     }
-
-
 
 }
