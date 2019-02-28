@@ -25,7 +25,9 @@ class RegisterController extends Controller {
 	 * | provide this functionality without requiring any additional code.
 	 * |
 	 */
-	
+
+	static $forTest_boolean=true;
+
 	use RegistersUsers;
 	private $bloodGroup = null;
 	private $bloodRh = null;
@@ -76,7 +78,6 @@ class RegisterController extends Controller {
 	protected function registerPatient() {
 
 
-
 		$this->getBloodType ( Input::get ( 'bloodType' ) );
 		$validator = Validator::make ( Input::all (), [ 
 				'acceptInfo' => 'bail|accepted',
@@ -102,7 +103,7 @@ class RegisterController extends Controller {
 
 
 		if ($validator->fails()) {
-
+            self::$forTest_boolean=false;
 			return Redirect::back ()->withErrors ( $validator )->withInput ();
 
 		}
@@ -139,10 +140,13 @@ class RegisterController extends Controller {
 
 
 
-		$user->save ();
+        self::$forTest_boolean=$user->save ();
+
 		$user_contacts->save ();                 
 		$user_patient->save ();
-		
+
+
+
 		/**
 		 * Creo i consensi per un Paziente
 		 */
@@ -237,6 +241,7 @@ class RegisterController extends Controller {
 		] );
 		
 		if ($validator->fails ()) {
+		    self::$forTest_boolean=false;
 			return Redirect::back ()->withErrors ( $validator )->withInput ();
 		}
 		
@@ -268,7 +273,7 @@ class RegisterController extends Controller {
 				'cpp_localita_iscrizione' => Input::get ( 'registrationCity' ) 
 		] );
 		
-		$user->save ();
+		self::$forTest_boolean=$user->save ();
 		$user_contacts->save ();
 		$user_careprovider->save ();
 		

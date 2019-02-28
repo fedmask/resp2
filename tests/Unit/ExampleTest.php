@@ -3,13 +3,16 @@
 namespace Tests\Unit;
 
 
+use App\Http\Controllers\AnamnesiController;
+use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Support\Facades\Redirect;
 use Tests\TestCase;
 use Auth;
 
 
 class ExampleTest extends TestCase
 {
-   static $num_test=0;
+   static $num_test=1;
 
 
 
@@ -104,15 +107,20 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function test_RegisterView()
+    public function test_Show_RegisterView()
     {
-        echo "\nTEST REGISTER VIEW\n\n";
+        echo "\n************** TEST REGISTER VIEW **************\n\n";
 
 
         $response = $this->json('GET', '/register/patient');
-        $response ->assertViewIs('auth.register-patient');
 
-        echo "\nEND TEST ".self::$num_test++."\n\n";
+        if($response ->assertViewIs('auth.register-patient')){
+            echo "   VIEW CREATED - TEST PASSED\n";
+        }
+
+
+
+        echo "\n************** END TEST ".self::$num_test++." **************\n\n";
 
 
     }
@@ -122,24 +130,28 @@ class ExampleTest extends TestCase
 
     public function test_login_paziente()
     {
-        echo "\nTEST LOGIN AS PAZIENTE\n\n";
+        echo "\n************** TEST LOGIN AS PAZIENTE **************\n\n";
+        echo "\nLogin as: Username= 'Janitor Jan' Password= 'test1234'\"\n\n";
+
         $response=$this->login('Janitor Jan','test1234');
 
         $response->assertRedirect('/home');
 
-        echo "\nEND TEST ".self::$num_test++."\n\n";
+        echo "\n************** END TEST ".self::$num_test++." **************\n\n";
 
     }
 
 
     public function test_login_cp()
     {
-        echo "\nTEST LOGIN AS CARE PROVIDER\n\n";
+        echo "\n************** TEST LOGIN AS CARE PROVIDER **************\n";
+        echo "\nLogin as: Username= 'Bob Kelso' Password= 'test1234'\"\n";
+
         $response=$this->login('Bob Kelso','test1234');
 
         $response->assertRedirect('/home');
 
-        echo "\nEND TEST ".self::$num_test++."\n\n";
+        echo "\n************** END TEST ".self::$num_test++." **************\n\n";
 
     }
 
@@ -147,15 +159,19 @@ class ExampleTest extends TestCase
     //Controller della registrazione presenta errori
     public function  test_registerPaziente(){
 
-        echo "\nTEST LOGIN AS PATIENT\n\n";
+        echo "\n************** TEST REGISTER AS PATIENT **************\n";
+
+        echo "\nRegister as Name: 'Test' Username: 'Test' Password: 'test1234'\n\n";
+
 
         $response = $this->registerPaziente("Test","Test","test1234");
 
-        echo "STATUS CODE: ".$response->getStatusCode();
+
+        assert(RegisterController::$forTest_boolean==true,"IMPLEMENTARE CORRETTAMENTE FUNZIONE DI REGISTRAZIONE");
 
         $response->assertRedirect('/');
 
-        echo "\nEND TEST ".self::$num_test++."\n\n";
+        echo "\n************** END TEST ".self::$num_test++." **************\n\n";
 
     }
 
@@ -163,49 +179,71 @@ class ExampleTest extends TestCase
 
     public function  test_registerCP(){
 
-        echo "\nTEST LOGIN AS CARE PROVIDER\n\n";
+        echo "\n************** TEST REGISTER AS CARE PROVIDER **************\n\n";
 
-        $response = $this->registerPaziente("Test","Test","test1234");
+        echo "\nRegister as Name: 'Test' Username: 'Test' Password: 'test1234'\"\n\n";
 
-        echo "STATUS CODE: ".$response->getStatusCode();
+        $response = $this->registerCareProvider("Test","Test","test1234");
+
+        assert(RegisterController::$forTest_boolean==true,"IMPLEMENTARE CORRETTAMENTE FUNZIONE DI REGISTRAZIONE");
 
         $response->assertRedirect('/');
-        echo "\nEND TEST ".self::$num_test++."\n\n";
+        echo "\n************** END TEST ".self::$num_test++." **************\n\n";
 
     }
 
 
 
-    public function test_addVisita(){
+    public function test_addVisita_familiare(){
 
 
-        echo "\nTEST ADD VISIT\n\n";
+        echo "\n************** TEST ADD VISIT (ANAMNESI FAMILIARE)**************\n\n";
+
+        echo "\nLogin as: Username= 'Janitor Jan' Password= 'test1234'\"\n\n";
 
 
         $this->login("Janitor Jan","test1234");
 
-        $response=$this->POST('/visite/addVisita',[
+        $response=$this->POST('/anamnesi',[
 
-            'add_visita_data' => 'r25/07/2020',
-            'add_visita_motivazione' => 'Test',
-            'add_visita_osservazioni' =>'Test',
-            'add_visita_conclusioni' =>'Test',
-            'add_parametro_altezza'=>'190',
-            'add_parametro_peso'=>'90',
-            'add_parametro_pressione_minima'=>'120',
-            'add_parametro_pressione_massima'=>'125',
-            'add_parametro_frequenza_cardiaca'=>'75'
+            'input_name'=>'Familiare',
+            'testofam'=>'Questa è un anamnesi di Test'
 
-        ]);
+            ]
+        );
 
-        $response->assertRedirect('/');
+        assert(AnamnesiController::$forTest_boolean==true,"IMPOSSIBILE AGGIUNGERE VISITA");
 
-       echo "\nEND TEST ".self::$num_test++."\n\n";
+        $response->assertRedirect('/anamnesi');
+
+        echo "\n************** END TEST ".self::$num_test++." **************\n\n";
 
 
     }
 
+    public function test_addVisita(){
 
+
+        echo "\n************** TEST ADD VISIT (ANAMNESI PARENTE)**************\n\n";
+
+
+        $this->login("Janitor Jan","test1234");
+
+        $response=$this->POST('/anamnesi',[
+
+                'input_name'=>'Parente',
+
+            ]
+        );
+
+        assert(AnamnesiController::$forTest_boolean==true,"IMPOSSIBILE AGGIUNGERE VISITA");
+
+        $response->assertRedirect('/anamnesi');
+
+        echo "\n************** END TEST ".self::$num_test++." **************\n\n";
+
+
+    }
 
 
 }

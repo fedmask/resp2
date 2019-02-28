@@ -15,10 +15,14 @@ use Illuminate\Http\Request;
 use App\Models\Anamnesi;
 use App\Models\Patient\Pazienti;
 use Auth;
+use function MongoDB\BSON\toJSON;
 use PDF;
+use phpDocumentor\Reflection\Types\This;
 
 class AnamnesiController extends Controller
 {
+
+    static $forTest_boolean;
 
     public function index()
     {
@@ -158,6 +162,7 @@ class AnamnesiController extends Controller
 
         $input = request()->input_name;
 
+
         switch ($input){
             case "Familiare":
                 $this->storeFamiliare($request);
@@ -183,12 +188,15 @@ class AnamnesiController extends Controller
             case "icd9groupcodeProssima":
                 $this->storeicd9groupcodeProssima($request);
                 break;
+
+
         }
 
         return redirect('/anamnesi');
     }
 
     public function storeFamiliare(Request $request){
+
 
         $userid = Pazienti::where('id_utente', Auth::id())->first()->id_paziente;
         $anamnesi = Anamnesi::find($userid);
@@ -200,13 +208,19 @@ class AnamnesiController extends Controller
         $anamnesi = new Anamnesi;
         $anamnesi->id_paziente = $userid;
         $anamnesi->anamnesi_contenuto = $request->input('testofam');
-        $anamnesi->save();
+
+
+        AnamnesiController::$forTest_boolean=$anamnesi->save();
+
 
         return redirect('/anamnesi');
 
     }
 
     public function storeParenti(Request $request){
+        //utile per classe test
+        AnamnesiController::$forTest_boolean=false;
+
 
         $parente = new Parente;
         $parente->id_paziente = Pazienti::where('id_utente', Auth::id())->first()->id_paziente;
@@ -216,7 +230,8 @@ class AnamnesiController extends Controller
         $parente->età = $request->input('età');
         $parente->data_decesso = $request->input('data_decesso');
         $parente->annotazioni = $request->input('annotazioni');
-        $parente->save();
+
+        AnamnesiController::$forTest_boolean=$parente->save();
 
         return redirect('/anamnesi');
     }
