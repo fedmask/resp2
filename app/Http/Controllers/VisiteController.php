@@ -30,6 +30,7 @@ class VisiteController extends Controller
     public function addVisita()
     {
 
+
         $paziente = Pazienti::where('id_paziente', Auth::id())->first()->id_paziente;
 
         $prova = CppPaziente::all();
@@ -41,6 +42,7 @@ class VisiteController extends Controller
                 $cpp = $p->id_cpp;
             }
         }
+
 
         $validator = Validator::make(Input::all(), [
             'add_visita_data' => 'required|date',
@@ -54,7 +56,10 @@ class VisiteController extends Controller
             'add_parametro_frequenza_cardiaca'=>'required|integer'
         ]);
 
+
+
         if ($validator->fails()) {
+
             return Redirect::back()->withErrors($validator);
         }
 
@@ -72,11 +77,12 @@ class VisiteController extends Controller
         $paz = Pazienti::all();
         $audit = AuditlogLog::all();
         $f;
-        
+
         foreach($paz as $p){
             foreach($audit as $a){
                 if($p->id_utente == $a->id_visitato){
                     $f=$a->id_audit;
+
                 }
             }
         }
@@ -90,8 +96,11 @@ class VisiteController extends Controller
             'parametro_pressione_massima'=> Input::get('add_parametro_pressione_massima'),
             'parametro_frequenza_cardiaca'=> Input::get('add_parametro_frequenza_cardiaca')
         ]);
-        
+
+
+
         $visita->save();
+
         return Redirect::back()->with('visita_added');
     }
 }

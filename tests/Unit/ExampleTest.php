@@ -9,6 +9,7 @@ use Auth;
 
 class ExampleTest extends TestCase
 {
+   static $num_test=0;
 
 
 
@@ -103,11 +104,15 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testRegisterView()
+    public function test_RegisterView()
     {
+        echo "\nTEST REGISTER VIEW\n\n";
+
 
         $response = $this->json('GET', '/register/patient');
         $response ->assertViewIs('auth.register-patient');
+
+        echo "\nEND TEST ".self::$num_test++."\n\n";
 
 
     }
@@ -122,7 +127,7 @@ class ExampleTest extends TestCase
 
         $response->assertRedirect('/home');
 
-        echo "\nEND TEST\n\n";
+        echo "\nEND TEST ".self::$num_test++."\n\n";
 
     }
 
@@ -134,7 +139,7 @@ class ExampleTest extends TestCase
 
         $response->assertRedirect('/home');
 
-        echo "\nEND TEST\n\n";
+        echo "\nEND TEST ".self::$num_test++."\n\n";
 
     }
 
@@ -148,9 +153,9 @@ class ExampleTest extends TestCase
 
         echo "STATUS CODE: ".$response->getStatusCode();
 
-        $response->assertStatus(302);
+        $response->assertRedirect('/');
 
-        echo "\nEND TEST"."\n"."\n";
+        echo "\nEND TEST ".self::$num_test++."\n\n";
 
     }
 
@@ -164,10 +169,45 @@ class ExampleTest extends TestCase
 
         echo "STATUS CODE: ".$response->getStatusCode();
 
-        $response->assertStatus(302);
-
-        echo "\nEND TEST"."\n"."\n";
+        $response->assertRedirect('/');
+        echo "\nEND TEST ".self::$num_test++."\n\n";
 
     }
+
+
+
+    public function test_addVisita(){
+
+
+
+
+        echo "\nTEST ADD VISIT\n\n";
+
+
+        $this->login("Janitor Jan","test1234");
+
+        $response=$this->POST('/visite/addVisita',[
+
+            'add_visita_data' => 'r25/07/2020',
+            'add_visita_motivazione' => 'Test',
+            'add_visita_osservazioni' =>'Test',
+            'add_visita_conclusioni' =>'Test',
+            'add_parametro_altezza'=>'190',
+            'add_parametro_peso'=>'90',
+            'add_parametro_pressione_minima'=>'120',
+            'add_parametro_pressione_massima'=>'125',
+            'add_parametro_frequenza_cardiaca'=>'75'
+
+        ]);
+
+        $response->assertRedirect('/');
+
+       echo "\nEND TEST ".self::$num_test++."\n\n";
+
+
+    }
+
+
+
 
 }
