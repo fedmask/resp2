@@ -179,8 +179,6 @@ class ExampleTest extends TestCase
     public function test_addVisita(){
 
 
-
-
         echo "\nTEST ADD VISIT\n\n";
 
 
