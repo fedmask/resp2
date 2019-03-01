@@ -4,27 +4,35 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Http\Controllers\Auth\LoginController;
 use Auth;
 
 class LoginTest extends TestCase
 {
+    var $validPatientId = 'Janitor Jan';
+    var $validPatientPassword = 'test1234';
+    var $patientHomeView = 'pages.taccuino';
+
+    var $validCareProviderId = 'Bob kelso';
+    var $validCareProviderPassword = 'test1234';
+    var $careProviderControllerRedirect = '/patients-list';
+    var $careProviderHomeView = 'pages.careprovider.patients';
+
+    var $invalidPatientId = 'wrongUser';
+    var $invalidPatientPassword = 'wrongPassword';
+
     var $validUserRedirect = '/home';
     var $landingPage = '/';
+    var $logoutRedirect = '/logout';
 
     public function testValidPatientLogin() {
 
-        $validPatientId = 'Janitor Jan';
-        $validPatientPassword = 'test1234';
-        $patientHomeView = 'pages.taccuino';
-
         //Checks if the POST request redirects to /home
-        $response = $this->login($validPatientId, $validPatientPassword);
+        $response = $this->login($this->validPatientId, $this->validPatientPassword);
         $response->assertRedirect($this->validUserRedirect);
 
         //Checks if the redirect to /home is handled by HomeController and sends to the patient home
         $response = $this->call('GET', $this->validUserRedirect);
-        $response->assertViewIs($patientHomeView);
+        $response->assertViewIs($this->patientHomeView);
 
         //Checks the conditional content of the navbar in welcome.blade.php after the user is logged in
         $welcomeMessage = 'Ciao, '.Auth::user()->utente_nome;
@@ -34,22 +42,18 @@ class LoginTest extends TestCase
 
     public function testValidCareProviderLogin() {
 
-        $validCareProviderId = 'Bob kelso';
-        $validCareProviderPassword = 'test1234';
-        $careProviderControllerRedirect = '/patients-list';
-        $careProviderHomeView = 'pages.careprovider.patients';
 
         //Checks if the POST request redirects to /home
-        $response = $this->login($validCareProviderId, $validCareProviderPassword);
+        $response = $this->login($this->validCareProviderId, $this->validCareProviderPassword);
         $response->assertRedirect($this->validUserRedirect);
 
         //Checks if the redirect to /home is handled by HomeController and sends to /patients-list
         $response = $this->call('GET', $this->validUserRedirect);
-        $response->assertRedirect($careProviderControllerRedirect);
+        $response->assertRedirect($this->careProviderControllerRedirect);
 
         //Checks if the redirect /patients-list is handleded by CareProviderController and sends to the CP home
-        $response = $this->call('GET', $careProviderControllerRedirect);
-        $response->assertViewIs($careProviderHomeView);
+        $response = $this->call('GET', $this->careProviderControllerRedirect);
+        $response->assertViewIs($this->careProviderHomeView);
 
         //Checks the conditional content of the navbar in welcome.blade.php after the user is logged in
         $welcomeMessage = 'Ciao, '.Auth::user()->utente_nome;
@@ -59,37 +63,26 @@ class LoginTest extends TestCase
 
     public function testWrongPasswordLogin() {
 
-        $validPatientId = 'Janitor Jan';
-        $invalidPatientPassword = 'wrongPassword';
-
         //Checks if the POST request with invalid data redirects to /
-        $response = $this->login($validPatientId, $invalidPatientPassword);
+        $response = $this->login($this->validPatientId, $this->invalidPatientPassword);
         $response->assertRedirect($this->landingPage);
     }
 
     public function testInvalidUserLogin() {
 
-        $invalidPatientId = 'wrongUser';
-        $invalidPatientPassword = 'wrongPassword';
-
         //Checks if the POST request with invalid data redirects to /
-        $response = $this->login($invalidPatientId, $invalidPatientPassword);
+        $response = $this->login($this->invalidPatientId, $this->invalidPatientPassword);
         $response->assertRedirect($this->landingPage);
     }
 
-    public function login($username, $password)
-    {
+    public function testLogout() {
 
-        $loginC = new LoginController();
-        $usernameDbFieldName = $loginC->username(); //'utente_nome'
-        $passwordDbFieldName = $loginC->password(); //'utente_password'
+        $this->login($this->validPatientId, $this->validPatientPassword);
 
-        $response = $this->call('POST', '/login', [
-            $usernameDbFieldName => $username,
-            $passwordDbFieldName => $password
-        ]);
+        $this->call('POST', $this->logoutRedirect);
 
-        return $response;
+        //Checks if the current user is a "guest" (a user that isn't logged-in)
+        $this->assertTrue(Auth::guest());
     }
 
 }
