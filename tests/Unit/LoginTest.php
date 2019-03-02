@@ -12,7 +12,7 @@ class LoginTest extends TestCase
     var $validPatientPassword = 'test1234';
     var $patientHomeView = 'pages.taccuino';
 
-    var $validCareProviderId = 'Bob kelso';
+    var $validCareProviderId = 'Bob Kelso';
     var $validCareProviderPassword = 'test1234';
     var $careProviderControllerRedirect = '/patients-list';
     var $careProviderHomeView = 'pages.careprovider.patients';
@@ -24,6 +24,9 @@ class LoginTest extends TestCase
     var $landingPage = '/';
     var $logoutRedirect = '/logout';
 
+    /**
+     * Checks if the login succeeds with valid patient credentials
+     */
     public function testValidPatientLogin() {
 
         //Checks if the POST request redirects to /home
@@ -40,8 +43,10 @@ class LoginTest extends TestCase
         $response->assertSeeText($welcomeMessage);
     }
 
+    /**
+     * Checks if the login succeds with valide careprovider credentials
+     */
     public function testValidCareProviderLogin() {
-
 
         //Checks if the POST request redirects to /home
         $response = $this->login($this->validCareProviderId, $this->validCareProviderPassword);
@@ -61,6 +66,9 @@ class LoginTest extends TestCase
         $response->assertSeeText($welcomeMessage);
     }
 
+    /**
+     * Checks if the login redirects to the landing page if you insert the wrong password
+     */
     public function testWrongPasswordLogin() {
 
         //Checks if the POST request with invalid data redirects to /
@@ -68,6 +76,9 @@ class LoginTest extends TestCase
         $response->assertRedirect($this->landingPage);
     }
 
+    /**
+     * Checks if the login redirects to the landing page if you insert a non-existing user
+     */
     public function testInvalidUserLogin() {
 
         //Checks if the POST request with invalid data redirects to /
@@ -75,14 +86,21 @@ class LoginTest extends TestCase
         $response->assertRedirect($this->landingPage);
     }
 
+    /**
+     * Checks if the logout correctly erases the user session and redirects to the landing page
+     */
     public function testLogout() {
 
         $this->login($this->validPatientId, $this->validPatientPassword);
 
-        $this->call('POST', $this->logoutRedirect);
+        $response = $this->call('POST', $this->logoutRedirect);
 
         //Checks if the current user is a "guest" (a user that isn't logged-in)
         $this->assertTrue(Auth::guest());
+
+        $response->assertRedirect($this->landingPage);
+
+
     }
 
 }
