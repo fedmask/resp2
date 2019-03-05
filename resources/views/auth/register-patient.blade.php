@@ -82,10 +82,10 @@
 								<label for="gender" class="control-label col-lg-3">Sesso *</label>
 								<div class="col-lg-3">
 									<label class="radio-inline">
-										<input  type="radio"  name="gender" id="genderM" value="M">M
+										<input  type="radio"  name="gender" id="genderM" value="male">M
 									</label>
 									<label class="radio-inline">
-										<input  type="radio"  name="gender" id="genderF" value="F">F
+										<input  type="radio"  name="gender" id="genderF" value="female">F
                                     </label>
                                     @if ($errors->has('gender'))
     									<div class="alert alert-danger" role="alert">{{ $errors->first('gender') }}</div>
@@ -142,7 +142,8 @@
 							<div class="form-group dropup">
 								<label for="bloodType" class="control-label col-lg-3">Gruppo sanguigno </label>
 								<div class="col-lg-3">
-										{{Form::select('bloodType', ['0' => '0 negativo', '1' => '0 positivo', '2' => 'A negativo', '3' => 'A positivo', '4' => 'B negativo', '5' => 'B positivo', '6' => 'AB negativo', '7' => 'AB positivo',], '0', ['class' => 'form-control'])}}
+										{{Form::select('bloodType', ['0_NEG' => '0 negativo', '0_POS' => '0 positivo', 'A_NEG' => 'A negativo', 'A_POS' => 'A positivo', 'B_NEG' => 'B negativo', 'B_POS' => 'B positivo', 'AB_NEG' => 'AB negativo', 'AB_POS' => 'AB positivo',], '0', ['class' => 'form-control'])}}
+
 									@if ($errors->has('bloodType'))
     									<div class="alert alert-danger" role="alert">{{ $errors->first('bloodType') }}</div>
 									@endif
@@ -150,7 +151,7 @@
 
 								<label for="maritalStatus" class="control-label col-lg-3">Stato Matrimoniale </label>
 								<div class="col-lg-3">
-									{{Form::select('maritalStatus', ['0' => 'Sposato', '1' => 'Annullato', '2' => 'Divorziato', '3' => 'Interlocutorio', '4' => 'Legalmente Separato', '5' => 'Poligamo', '6' => 'Mai Sposato', '7' => 'Convivente', '' => 'Vedovo',], '0', ['class' => 'form-control'])}}
+									{{Form::select('maritalStatus', ['M' => 'Sposato', 'A' => 'Annullato', 'D' => 'Divorziato', 'I' => 'Interlocutorio', 'L' => 'Legalmente Separato', 'P' => 'Poligamo', 'S' => 'Mai Sposato', 'T' => 'Convivente', 'W' => 'Vedovo',], '0', ['class' => 'form-control'])}}
 									@if ($errors->has('maritalStatus')) 
     									<div class="alert alert-danger" role="alert">{{ $errors->first('maritalStatus') }}</div>
 									@endif
