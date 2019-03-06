@@ -222,9 +222,10 @@
 								for="acceptInfoDoc">Ho letto <a
 								href="/informative/Informativa.html">l'Informativa relativa al
 									Trattamento dei Dati Personali*</a>.
-							</label> @if ($errors->has('acceptTerms'))
+							</label>
+							@if ($errors->has('acceptInfo'))
 							<div class="alert alert-danger" role="alert">
-								{{$errors->first('acceptInfo') }}</div>
+								{{$errors->first('acceptTerms') }}</div>
 							@endif
 						</div>
 					</div>
