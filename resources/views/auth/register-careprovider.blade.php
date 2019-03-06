@@ -69,15 +69,15 @@
 									
 									<!--ordine--da rendere obbligatori>-->
                                     <div class="form-group">
-                                        <label for="numOrdine" class="control-label col-lg-2">N°  iscrizione  *</label>
+                                        <label for="numOrdine" class="control-label col-lg-2">Numero Iscrizione  *</label>
                                         <div class="col-lg-3"><input id="numOrdine" name="numOrdine" type="text" class="form-control" placeholder = "numero di iscrizione ordine">
                                         	@if ($errors->has('numOrdine'))
     											<div class="alert alert-danger" role="alert">{{ $errors->first('numOrdine') }}</div>
 											@endif
 										</div>
-										 <label for="registrationCity" class="control-label col-lg-3">Località Iscrizione *</label>
+										 <label for="registrationCity" class="control-label col-lg-3">Localit&agrave Iscrizione *</label>
 										<div class="col-lg-3">
-											<input id="registrationCity" name="registrationCity" type="text" class="form-control" placeholder = "Località ordine di iscrizione">
+											<input id="registrationCity" name="registrationCity" type="text" class="form-control" placeholder = "Localit&agrave ordine di iscrizione">
 											@if ($errors->has('registrationCity'))
     											<div class="alert alert-danger" role="alert">{{ $errors->first('registrationCity') }}</div>
 											@endif
@@ -119,10 +119,10 @@
 									<label for="gender" class="control-label col-lg-2">Sesso *</label>
 									<div class="col-lg-3">
 										<label class="radio-inline">
-											<input  type="radio"  name="gender" id="genderM" value="M">M
+											<input  type="radio"  name="gender" id="genderM" value="male">M
 										</label>
 										<label class="radio-inline">
-											<input  type="radio"  name="gender" id="genderF" value="F">F
+											<input  type="radio"  name="gender" id="genderF" value="female">F
 	                                    </label>
 	                                    @if ($errors->has('gender'))
 	    									<div class="alert alert-danger" role="alert">{{ $errors->first('gender') }}</div>

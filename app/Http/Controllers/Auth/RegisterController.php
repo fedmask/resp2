@@ -72,23 +72,23 @@ class RegisterController extends Controller {
 
         //Validate the input
         $validator = Validator::make ( Input::all (), [
-            'acceptInfo' => 'bail|accepted',
             'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
-            'name' => 'required|string|max:40',
-            'surname' => 'required|string|max:40',
-            'gender' => 'required',
-            'CF' => 'required|regex:/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/',
             'email' => 'required|string|email|max:50|unique:tbl_utenti,utente_email',
             'confirmEmail' => 'required|same:email',
             'password' => 'required|min:8|max:16',
             'confirmPassword' => 'required|same:password',
+            'surname' => 'required|string|max:40',
+            'name' => 'required|string|max:40',
+            'gender' => 'required',
+            'CF' => 'required|regex:/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/',
             'birthCity' => 'required|string|max:40',
             'birthDate' => 'required|date_format:d-m-Y|before:-18 years',
             'livingCity' => 'required|string|max:40',
             'address' => 'required|string|max:90',
             'telephone' => 'required|numeric',
             'bloodType' => 'required',
-            'maritalStatus' => 'required'
+            'maritalStatus' => 'required',
+            'acceptInfo' => 'bail|accepted'
         ] );
 
         //Go back if validation fails, and send appropriate error messages
@@ -139,7 +139,7 @@ class RegisterController extends Controller {
             'paziente_sesso' => Input::get ( 'gender' ),
             'paziente_gruppo' => $bloodGroup,
             'paziente_rh' => $bloodRh,
-            'paziente_lingua' => 'it'
+            'paziente_lingua' => 'it' //TODO definire meglio
         ] );
 
         //Saves the data on the database
@@ -166,15 +166,16 @@ class RegisterController extends Controller {
     }
 
 	public function registerCareprovider() {
-		$validator = Validator::make ( Input::all (), [ 
-				'acceptInfo' => 'bail|accepted',
+
+        //Validate the input
+        $validator = Validator::make ( Input::all (), [
 				'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
 				'email' => 'required|string|email|max:50|unique:tbl_utenti,utente_email',
 				'confirmEmail' => 'required|same:email',
 				'password' => 'required|min:8|max:16',
 				'confirmPassword' => 'required|same:password',
 				'numOrdine' => 'required|numeric',
-				'registrationCity' => 'required',
+				'registrationCity' => 'required|string|max:40',
 				'surname' => 'required|string|max:40',
 				'name' => 'required|string|max:40',
 				'gender' => 'required',
@@ -184,30 +185,44 @@ class RegisterController extends Controller {
 				'livingCity' => 'required|string|max:40',
 				'address' => 'required|string|max:90',
 				'cap' => 'numeric|size:5',
-				'telephone' => 'required|numeric' 
+				'telephone' => 'required|numeric',
+				'acceptInfo' => 'bail|accepted' //TODO testare
 		] );
-		
+
+        //Go back if validation fails, and send appropriate error messages
 		if ($validator->fails ()) {
 			return Redirect::back ()->withErrors ( $validator )->withInput ();
 		}
-		
-		$user = User::create ( [ 
-				'utente_nome' => Input::get ( 'username' ),
-				'utente_email' => Input::get ( 'email' ),
-				'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
-				'id_tipologia' => 'mos', // TODO: In futuro andrà cambiato in base al ruolo del cpp (medico/operatore emergenza/ecc...)
-				'utente_email' => Input::get ( 'email' ),
-				'utente_password' => bcrypt ( Input::get ( 'password' ) ) 
-		] );
-		
-		$user_contacts = Recapiti::create ( [ 
-				'id_utente' => $user->id_utente,
-				'id_comune_residenza' => $this->getTown ( Input::get ( 'livingCity' ) ),
-				'id_comune_nascita' => $this->getTown ( Input::get ( 'birthCity' ) ),
-				'contatto_telefono' => Input::get ( 'telephone' ),
-				'contatto_indirizzo' => Input::get ( 'address' ) 
-		] );
-		
+
+        //Save careprovider data in tbl_utenti
+
+        if (Input::get('acceptCons') == 'on') {
+            $userConsent = 1;
+        } else {
+            $userConsent = 0;
+        }
+
+        $user = User::create ( [
+            'id_tipologia' => 'mos', // TODO: In futuro andrà cambiato in base al ruolo del cpp (medico/operatore emergenza/ecc...)
+            'utente_nome' => Input::get ( 'username' ),
+            'utente_password' => bcrypt ( Input::get ( 'password' ) ),
+            'utente_stato' => 1,
+            'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
+            'utente_email' => Input::get ( 'email' ),
+            'utente_dati_condivisione' => $userConsent
+        ] );
+
+        //Save careprovider data in tbl_recapiti
+        $user_contacts = Recapiti::create ( [
+            'id_utente' => $user->id_utente,
+            'id_comune_residenza' => $this->getTown ( Input::get ( 'livingCity' ) ),
+            'id_comune_nascita' => $this->getTown ( Input::get ( 'birthCity' ) ),
+            'contatto_telefono' => Input::get ( 'telephone' ),
+            'contatto_indirizzo' => Input::get ( 'address' )
+        ] );
+
+        //Save careprovider data in tbl_care_provider
+
 		$user_careprovider = CareProvider::create ( [ 
 				'id_utente' => $user->id_utente,
 				'cpp_nome' => Input::get ( 'name' ),
@@ -216,7 +231,8 @@ class RegisterController extends Controller {
 				'cpp_codfiscale' => strtoupper(Input::get ('CF')),
 				'cpp_sesso' => Input::get ( 'gender' ),
 				'cpp_n_iscrizione' => Input::get ( 'numOrdine' ),
-				'cpp_localita_iscrizione' => Input::get ( 'registrationCity' ) 
+				'cpp_localita_iscrizione' => Input::get ( 'registrationCity' ),
+                'cpp_lingua' => 'it' //TODO definire meglio
 		] );
 		
 		$user->save ();
