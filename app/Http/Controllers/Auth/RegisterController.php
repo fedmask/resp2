@@ -186,7 +186,7 @@ class RegisterController extends Controller {
 				'address' => 'required|string|max:90',
 				'cap' => 'numeric|size:5',
 				'telephone' => 'required|numeric',
-				'acceptInfo' => 'bail|accepted' //TODO testare
+				'acceptInfo' => 'bail|accepted'
 		] );
 
         //Go back if validation fails, and send appropriate error messages
