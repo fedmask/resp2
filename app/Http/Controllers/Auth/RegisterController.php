@@ -28,10 +28,6 @@ class RegisterController extends Controller {
 	
 	use RegistersUsers;
 
-	//TODO delete
-	private $bloodGroup = null;
-	private $bloodRh = null;
-	
 	/**
 	 * Where to redirect users after registration.
 	 *
@@ -66,20 +62,6 @@ class RegisterController extends Controller {
 		return view ( 'auth.register-careprovider' );
 	}
 
-    //TODO delete
-	public function testPrint() {
-	    $file = fopen('registrazione.txt', 'w');
-
-	    foreach (Input::all() as $input) {
-	        fwrite($file, $input.'
-	        ');
-        }
-
-	    fclose($file);
-
-        return redirect ( '/register/patient' );
-    }
-
     /**
      * Registra un nuovo paziente nel sistema, dopo aver
      * validato i dati inseriti nel form apposito.
@@ -87,7 +69,6 @@ class RegisterController extends Controller {
      * automaticamente loggato e reindirizzato alla home del profilo.
      */
     protected function registerPatient() {
-        //$this->getBloodType ( Input::get ( 'bloodType' ) ); TODO delete
 
         //Validate the input
         $validator = Validator::make ( Input::all (), [
@@ -102,7 +83,7 @@ class RegisterController extends Controller {
             'password' => 'required|min:8|max:16',
             'confirmPassword' => 'required|same:password',
             'birthCity' => 'required|string|max:40',
-            'birthDate' => 'required|date|before:-18 years',
+            'birthDate' => 'required|date_format:d-m-Y|before:-18 years',
             'livingCity' => 'required|string|max:40',
             'address' => 'required|string|max:90',
             'telephone' => 'required|numeric',
@@ -149,21 +130,19 @@ class RegisterController extends Controller {
 
         $user_patient = Pazienti::create ( [
             'id_utente' => $user->id_utente,
-            'id_paziente' => $user->id_utente,
+            'id_paziente' => $user->id_utente, //TODO definire meglio id_paziente (è ridondante lasciarlo legato ad id_utente)
             'id_stato_matrimoniale' => Input::get ( 'maritalStatus' ),
             'paziente_nome' => Input::get ( 'name' ),
             'paziente_cognome' => Input::get ( 'surname' ),
             'paziente_nascita' => date ( 'Y-m-d', strtotime ( Input::get ( 'birthDate' ) ) ),
-            'paziente_codfiscale' => str_replace ( "-", "", Input::get ( 'CF' ) ),
+            'paziente_codfiscale' => strtoupper(Input::get ('CF')),
             'paziente_sesso' => Input::get ( 'gender' ),
             'paziente_gruppo' => $bloodGroup,
             'paziente_rh' => $bloodRh,
-            'paziente_donatore_organi' => 0, //TODO define whether this field should be on or off by default
             'paziente_lingua' => 'it'
         ] );
 
-        //Send the data to the database tables
-
+        //Saves the data on the database
         $user->save ();
         $user_contacts->save ();
         $user_patient->save ();
@@ -186,96 +165,6 @@ class RegisterController extends Controller {
         return redirect ( '/' );
     }
 
-//	/**TODO delete
-//	 * Registra un nuovo paziente nel sistema, dopo aver
-//	 * validato i dati inseriti nel form apposito.
-//	 * Una volta effettuata la registrazione, il paziente viene
-//	 * automaticamente loggato e reindirizzato alla home del profilo.
-//	 */
-//	protected function registerPatient() {
-//		$this->getBloodType ( Input::get ( 'bloodType' ) );
-//		$validator = Validator::make ( Input::all (), [
-//				'acceptInfo' => 'bail|accepted',
-//				'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
-//				'name' => 'required|string|max:40',
-//				'surname' => 'required|string|max:40',
-//				'gender' => 'required',
-//				'CF' => 'required|regex:/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/',
-//				'email' => 'required|string|email|max:50|unique:tbl_utenti,utente_email',
-//				'confirmEmail' => 'required|same:email',
-//				'password' => 'required|min:8|max:16',
-//				'confirmPassword' => 'required|same:password',
-//				'birthCity' => 'required|string|max:40',
-//				'birthDate' => 'required|date|before:-18 years',
-//				'livingCity' => 'required|string|max:40',
-//				'address' => 'required|string|max:90',
-//				'telephone' => 'required|numeric',
-//				'bloodType' => 'required',
-//				'maritalStatus' => 'required'
-//
-//		] );
-//
-//		if ($validator->fails ()) {
-//			return Redirect::back ()->withErrors ( $validator )->withInput ();
-//		}
-//
-//		$user = User::create ( [
-//				'utente_nome' => Input::get ( 'username' ),
-//				'utente_email' => Input::get ( 'email' ),
-//				'utente_scadenza' => '2030-01-01', // TODO: Definire meglio
-//				'id_tipologia' => 'ass',
-//				'utente_email' => Input::get ( 'email' ),
-//				'utente_password' => bcrypt ( Input::get ( 'password' ) )
-//		] );
-//
-//		$user_contacts = Recapiti::create ( [
-//				'id_utente' => $user->id_utente,
-//				'id_comune_residenza' => $this->getTown ( Input::get ( 'livingCity' ) ),
-//				'id_comune_nascita' => $this->getTown ( Input::get ( 'birthCity' ) ),
-//				'contatto_telefono' => Input::get ( 'telephone' ),
-//				'contatto_indirizzo' => Input::get ( 'address' )
-//		] );
-//
-//		$user_patient = Pazienti::create ( [
-//				'id_utente' => $user->id_utente,
-//				'id_paziente_contatti' => $user->id_utente,
-//				'paziente_nome' => Input::get ( 'name' ),
-//				'paziente_cognome' => Input::get ( 'surname' ),
-//				'paziente_sesso' => Input::get ( 'gender' ),
-//				'paziente_codfiscale' => str_replace ( "-", "", Input::get ( 'CF' ) ),
-//				'paziente_nascita' => date ( 'Y-m-d', strtotime ( Input::get ( 'birthDate' ) ) ),
-//				'paziente_gruppo' => $this->bloodGroup,
-//				'paziente_rh' => $this->bloodRh,
-//				'paziente_stato_matrimoniale' => Input::get ( 'maritalStatus' )
-//		] );
-//
-//
-//
-//		$user->save ();
-//		$user_contacts->save ();
-//		$user_patient->save ();
-//
-//		/**
-//		 * Creo i consensi per un Paziente
-//		 */
-//		\App\Http\Controllers\ConsensiController::createPConsent($user_patient->id_paziente);
-//
-//
-//
-//
-//		$credentials = array (
-//				'email' => Input::get ( 'email' ),
-//				'password' => Input::get ( 'password' )
-//		);
-//		if (Auth::attempt ( $credentials )) {
-//			return Redirect::to ( 'home' );
-//		}
-//
-//		return redirect ( '/' );
-//	}
-	
-
-
 	public function registerCareprovider() {
 		$validator = Validator::make ( Input::all (), [ 
 				'acceptInfo' => 'bail|accepted',
@@ -291,7 +180,7 @@ class RegisterController extends Controller {
 				'gender' => 'required',
 				'CF' => 'required|regex:/[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]/',
 				'birthCity' => 'required|string|max:40',
-				'birthDate' => 'required|date|before:-18 years',
+                'birthDate' => 'required|date_format:d-m-Y|before:-18 years',
 				'livingCity' => 'required|string|max:40',
 				'address' => 'required|string|max:90',
 				'cap' => 'numeric|size:5',
@@ -324,7 +213,7 @@ class RegisterController extends Controller {
 				'cpp_nome' => Input::get ( 'name' ),
 				'cpp_cognome' => Input::get ( 'surname' ),
 				'cpp_nascita_data' => date ( 'Y-m-d', strtotime ( Input::get ( 'birthDate' ) ) ),
-				'cpp_codfiscale' => Input::get ( 'CF' ),
+				'cpp_codfiscale' => strtoupper(Input::get ('CF')),
 				'cpp_sesso' => Input::get ( 'gender' ),
 				'cpp_n_iscrizione' => Input::get ( 'numOrdine' ),
 				'cpp_localita_iscrizione' => Input::get ( 'registrationCity' ) 
@@ -353,47 +242,4 @@ class RegisterController extends Controller {
         return Comuni::where ( 'comune_nominativo', '=', $name )->first ()->id_comune;
     }
 
-    //TODO delete if new blood mechanism works
-    /**
-     * Identifica un gruppo sanguigno e l'rh in fase di registrazione
-     */
-    private function getBloodType($bloodType) {
-        switch ($bloodType) {
-            case '0' :
-                $this->bloodGroup = Pazienti::BLOODGROUP_0;
-                $this->bloodRh = 'NEG';
-                break;
-            case '1' :
-                $this->bloodGroup = Pazienti::BLOODGROUP_0;
-                $this->bloodRh = 'POS';
-                break;
-            case '2' :
-                $this->bloodGroup = Pazienti::BLOODGROUP_A;
-                $this->bloodRh = 'NEG';
-                break;
-            case '3' :
-                $this->bloodGroup = Pazienti::BLOODGROUP_A;
-                $this->bloodRh = 'POS';
-                break;
-            case '4' :
-                $this->bloodGroup = Pazienti::BLOODGROUP_B;
-                $this->bloodRh = 'NEG';
-                break;
-            case '5' :
-                $this->bloodGroup = Pazienti::BLOODGROUP_B;
-                $this->bloodRh = 'POS';
-                break;
-            case '6' :
-                $this->bloodGroup = Pazienti::BLOODGROUP_AB;
-                $this->bloodRh = 'NEG';
-                break;
-            case '7' :
-                $this->bloodGroup = Pazienti::BLOODGROUP_AB;
-                $this->bloodRh = 'POS';
-                break;
-            default :
-                return 'undefined';
-                break;
-        }
-    }
 }
