@@ -73,8 +73,21 @@ class RegistrationTest extends TestCase
     {
         $this->assertTrue(true);
 
+        /*
+         * paziente registrato
+         * cp registrato
+         *
+         * prova registrare se sei loggato
+         * prova registrare violando campi unique (username, email; sia per paziente sia per cp)
+         * prova registrare saltando campi required (sia per paziente sia per cp)
+         *
+         */
+
     }
 
+    /**
+     * Checks if the registration of a new patient performs successfully
+     */
     public function testRegisterPatient() {
 
         //Visit patient registration view
@@ -86,6 +99,9 @@ class RegistrationTest extends TestCase
         $response->assertRedirect($this->loggedUserRedirect);
     }
 
+    /**
+     * Checks if the registration of a new care provider performs successfully
+     */
     public function testRegisterCareProvider() {
 
         //Visit patient registration view
@@ -97,6 +113,54 @@ class RegistrationTest extends TestCase
         $response->assertRedirect($this->loggedUserRedirect);
     }
 
+    /**
+     * Checks if you're blocked from registering a user with values already in use
+     */
+    public function testUniqueFieldsValidation() {
+
+        $usernameField = 'utente_nome';
+        $emailField = 'utente_email';
+
+
+        //Check if registering a new patient with an already existing username fails (and sends the user back to registration)
+        $usernameViolationPatient = $this->newPatient;
+        $usernameViolationPatient[$usernameField] = $this->existingUserId;
+
+        $response = $this->call('GET', $this->patientRegistrationUri);
+        $response = $this->call('POST', $this->patientRegistrationUri, $usernameViolationPatient);
+        $response->assertRedirect($this->patientRegistrationUri);
+
+
+        //Check if registering a new patient with an already existing email fails (and sends the user back to registration)
+        $emailViolationPatient = $this->newPatient;
+        $emailViolationPatient[$emailField] = $this->existingUserEmail;
+
+        $response = $this->call('GET', $this->patientRegistrationUri);
+        $response = $this->call('POST', $this->patientRegistrationUri, $emailViolationPatient);
+        $response->assertRedirect($this->patientRegistrationUri);
+
+
+        //Check if registering a new CP with an already existing username fails (and sends the user back to registration)
+        $usernameViolationCP = $this->newCareProvider;
+        $usernameViolationCP[$usernameField] = $this->existingUserId;
+
+        $response = $this->call('GET', $this->careProviderRegistrationUri);
+        $response = $this->call('POST', $this->careProviderRegistrationUri, $usernameViolationCP);
+        $response->assertRedirect($this->careProviderRegistrationUri);
+
+
+        //Check if registering a new CP with an already existing email fails (and sends the user back to registration)
+        $emailViolationCP = $this->newCareProvider;
+        $emailViolationCP[$emailField] = $this->existingUserEmail;
+
+        $response = $this->call('GET', $this->careProviderRegistrationUri);
+        $response = $this->call('POST', $this->careProviderRegistrationUri, $emailViolationCP);
+        $response->assertRedirect($this->careProviderRegistrationUri);
+    }
+
+    /**
+     * Checks whether a logged-in user is successfully blocked from registering a new account while logged-in
+     */
     public function testLoggedUserRedirect() {
 
         //Perform a login
