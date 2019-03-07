@@ -280,7 +280,8 @@ class PazienteController extends Controller
 	public function showFiles(Request $request){
 		$user = Auth::user();
 		$files = [];
-		
+
+
 		if ($request->has('id_visiting')) {
 		    $id_visiting = request()->input('id_visiting');
 		} else {
@@ -329,13 +330,21 @@ class PazienteController extends Controller
 	* memorizzate anche alcune rilevazioni.
 	*/
 	public function showVisits(Request $request){
+
+
 		if ($request->has('id_visiting')) {
-		    $id_visiting = request()->input('id_visiting');
+
+            $id_visiting = request()->input('id_visiting');
+
 		} else {
-			$id_visiting = Auth::user()->id_utente;
-		}
+
+            $id_visiting = Auth::user()->id_utente;
+
+        }
+
 
 		$this->buildLog('Visite', $request->ip(), $id_visiting);
+
 
 		$logs = AuditlogLog::where('id_visitato', $id_visiting)->orderBy('id_audit', 'desc')->get();
 
@@ -352,7 +361,9 @@ class PazienteController extends Controller
 				'id_visitante' => Auth::user()->id_utente,
 				'audit_data' => date('Y-m-d H:i:s'),
 			]);
-		$log->save();
+
+		$bool=$log->save();
+
 		return $log;
 	}
 

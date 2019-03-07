@@ -22,20 +22,22 @@ use Input;
 class VisiteController extends Controller
 {
 
-    
+
     
     /**
      * Funzione che permette di aggiungere una nuova visita
      */
     public function addVisita()
     {
-
+        $flag=true;
 
         $paziente = Pazienti::where('id_paziente', Auth::id())->first()->id_paziente;
 
         $prova = CppPaziente::all();
 
+
         $cpp;
+
         foreach($prova as $p){
 
             if($p->id_paziente == $paziente){
@@ -45,7 +47,7 @@ class VisiteController extends Controller
 
 
         $validator = Validator::make(Input::all(), [
-            'add_visita_data' => 'required|date',
+            'add_visita_data' => 'required|date_format:Y-m-d',
             'add_visita_motivazione' => 'required|string',
             'add_visita_osservazioni' =>'required|string',
             'add_visita_conclusioni' =>'required|string',
@@ -60,16 +62,29 @@ class VisiteController extends Controller
 
         if ($validator->fails()) {
 
+            $flag=false;
+
             return Redirect::back()->withErrors($validator);
         }
 
+        $file=fopen("log.txt","w");
+        fwrite($file,"id_cpp: ".$cpp);
+        fclose($file);
+
         $visita = PazientiVisite::create([
-            'id_cpp'=> $cpp,
+
             'id_paziente'=> Pazienti::where('id_utente', Auth::id())->first()->id_paziente,
+            'status'=>'finished',      //see encounterStatus table
+            'class' => 'AMB',              //see encounterClass table
+            'start_period'=> Input::get('add_visita_data'),
+            'end_period'=>Input::get('add_visita_data'),
+            'reason'=>109006,      //see encounterReason table
+            'id_cpp'=> $cpp,
             'visita_data'=> Input::get('add_visita_data'),
             'visita_motivazione'=> Input::get('add_visita_motivazione'),
             'visita_osservazioni'=>Input::get('add_visita_osservazioni'),
-            'visita_conclusioni'=>Input::get('add_visita_conclusioni')
+            'visita_conclusioni'=>Input::get('add_visita_conclusioni'),
+            'codice_priorità'=>1
         ]);
         
         

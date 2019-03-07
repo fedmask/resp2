@@ -39,12 +39,12 @@
                          * {
                          * setAuditAction(getMyID(), 'Accesso a Visite');
                          * if ($maxConfidentiality == 0)
-                         * $maxConfidentiality = policyInfo('Visite', 'Confidenzialità');
+                         * $maxConfidentiality = policyInfo('Visite', 'Confidenzialitï¿½');
                          * if (!$defaultPermissions)
                          * {
                          * $obligations = policyInfo('Diario visite', 'Obblighi');
                          * if ($obligations == 'In presenza del titolare' && $myRole != 'ass')
-                         * echo "Questa sezione può essere consultata solo in presenza del titolare" .
+                         * echo "Questa sezione puï¿½ essere consultata solo in presenza del titolare" .
                          * "<br>";
                          * }
                          * }
