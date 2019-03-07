@@ -116,5 +116,5 @@ class VisiteController extends Controller
 
         return Redirect::back()->with('visita_added');
     }
-    
+
 }
