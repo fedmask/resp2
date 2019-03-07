@@ -138,7 +138,7 @@
 								alert("ERRORE AGGIUNTA VISITA, TUTTI I CAMPI SONO OBBLIGATORI");
 
 							}else {
-								
+
 								alert("VISITA AGGIUNTA CORRETTAMENTE!");
 							}
 
