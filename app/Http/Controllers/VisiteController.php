@@ -67,9 +67,6 @@ class VisiteController extends Controller
             return Redirect::back()->withErrors($validator);
         }
 
-        $file=fopen("log.txt","w");
-        fwrite($file,"id_cpp: ".$cpp);
-        fclose($file);
 
         $visita = PazientiVisite::create([
 
@@ -113,7 +110,7 @@ class VisiteController extends Controller
         ]);
 
 
-
+        $parametri->save();
         $visita->save();
 
         return Redirect::back()->with('visita_added');
