@@ -1,0 +1,11 @@
+DATI UTENTE DELL'ULTIMA VISITA (Effettuata in data 2019-03-07 )
+
+"Nome: Janitor
+Cognome: Jan
+Altezza: 180
+Peso: 98
+BMI Approssimativo:  32.6
+Pressione sistolica: 180
+Pressione diastolica:  90
+Frequenza cardiaca:  100
+Data visita:  2019-03-07
