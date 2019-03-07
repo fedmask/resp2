@@ -120,10 +120,32 @@
                      }
                         function onClickConcludiVisita(){
                         	//window.open("http://www.html.it", "myWindow");
-                        	
-                        	alert("VISITA CONCLUSA CON SUCCESSO");
+
+							if(
+
+									document.getElementById("add_visita_data").value==""||
+									document.getElementById("add_visita_motivazione").value==""||
+									document.getElementById("add_visita_osservazioni").value==""||
+									document.getElementById("add_visita_conclusioni").value==""||
+									document.getElementById("add_parametro_altezza").value==""||
+									document.getElementById("add_parametro_peso").value==""||
+									document.getElementById("add_parametro_pressione_minima").value==""||
+									document.getElementById("add_parametro_pressione_massima").value==""||
+									document.getElementById("add_parametro_frequenza_cardiaca").value==""
+
+
+						){
+								alert("ERRORE AGGIUNTA VISITA, TUTTI I CAMPI SONO OBBLIGATORI");
+
+							}else {
+								alert("VISITA AGGIUNTA CORRETTAMENTE!");
+							}
+
                         	document.getElementById("btn_concludivisita").action('VisiteController@addVisita');
-                        	
+
+
+
+
                         	document.getElementById("btn_nuovavisita").innerHTML = "Inizia Nuova Visita";
                         	document.getElementById("avviso_no_visite").hidden = false;
                         	document.getElementById("btn_nuovavisita").disabled = false;

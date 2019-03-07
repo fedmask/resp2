@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Patient\Pazienti;
@@ -13,6 +14,7 @@ use App\Models\CurrentUser\User;
 use App\Models\CurrentUser\Recapiti;
 use App\Models\Domicile\Comuni;
 use App\Models\Patient\Taccuino;
+use MongoDB\BSON\Javascript;
 use Validator;
 use Redirect;
 use Auth;
@@ -23,13 +25,13 @@ class VisiteController extends Controller
 {
 
 
+
     
     /**
      * Funzione che permette di aggiungere una nuova visita
      */
     public function addVisita()
     {
-        $flag=true;
 
         $paziente = Pazienti::where('id_paziente', Auth::id())->first()->id_paziente;
 
@@ -60,9 +62,14 @@ class VisiteController extends Controller
 
 
 
+
         if ($validator->fails()) {
 
-            $flag=false;
+            $file=fopen("log.txt","w");
+            fwrite($file,"ciao");
+            fclose($file);
+
+
 
             return Redirect::back()->withErrors($validator);
         }
@@ -115,4 +122,11 @@ class VisiteController extends Controller
 
         return Redirect::back()->with('visita_added');
     }
+
+    public function res(){
+
+        return true;
+}
+
+
 }
