@@ -64,7 +64,7 @@ class VisiteController extends Controller
 
 
         if ($validator->fails()) {
-            
+
             return Redirect::back()->withErrors($validator);
         }
 
@@ -116,11 +116,5 @@ class VisiteController extends Controller
 
         return Redirect::back()->with('visita_added');
     }
-
-    public function res(){
-
-        return true;
-}
-
-
+    
 }
