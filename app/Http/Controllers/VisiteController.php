@@ -64,13 +64,7 @@ class VisiteController extends Controller
 
 
         if ($validator->fails()) {
-
-            $file=fopen("log.txt","w");
-            fwrite($file,"ciao");
-            fclose($file);
-
-
-
+            
             return Redirect::back()->withErrors($validator);
         }
 
