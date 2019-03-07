@@ -2,16 +2,19 @@
 
 namespace Tests\Unit;
 
+use App\Models\CurrentUser\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Validator;
 
 class RegistrationTest extends TestCase
 {
-    var $existingPatientId = 'Janitor Jan';
-    var $existingPatientPassword = 'test1234';
 
-    var $existingCareProviderId = 'Bob Kelso';
-    var $existingCareProviderPassword = 'test1234';
+    //use RefreshDatabase; //TODO scegli
+
+    var $existingUserId = 'Janitor Jan';
+    var $existingUserPassword = 'test1234';
+    var $existingUserEmail = 'spanulis@hotmail.it';
 
     var $loggedUserRedirect = '/home';
     var $landingPage = '/';
@@ -22,73 +25,88 @@ class RegistrationTest extends TestCase
     var $careProviderRegistrationUri = '/register/careprovider';
     var $careProviderRegistrationView = 'auth.register-careprovider';
 
-    var $newPatientUsername = 'Tizio';
-    var $newPatientEmail = 'ivanlamparelli@hotmail.it';
-    var $newPatientPassword = 'test1234';
-    var $newPatientSurname = 'Verdi';
-    var $newPatientName = 'Stefano';
-    var $newPatientSex = 'M';
-    var $newPatientFiscalCode = 'VRDSFN80C30F205Z';
+    var $newPatient = [
+        'username' => 'Tizio',
+        'email' => 'tizio@gmail.com',
+        'confirmEmail' => 'tizio@gmail.com',
+        'password' => 'test1234',
+        'confirmPassword' => 'test1234',
+        'surname' => 'Verdi',
+        'name' => 'Stefano',
+        'gender' => 'male',
+        'CF' => 'vrdsfn80c30f205z',
+        'birthCity' => 'Milano',
+        'birthDate' => '30-03-1980',
+        'livingCity' => 'Milano',
+        'address' => 'via mazzini 10',
+        'telephone' => '3331234567',
+        'bloodType' => 'A_POS',
+        'maritalStatus' => 'D',
+        'shareData' => 'Y',
+        'acceptInfo' => 'on',
+        'acceptCons' => 'on'
+    ];
 
+    var $newCareProvider = [
+        'username' => 'Caio',
+        'email' => 'caio@gmail.com',
+        'confirmEmail' => 'caio@gmail.com',
+        'password' => 'test1234',
+        'confirmPassword' => 'test1234',
+        'numOrdine' => '12345678',
+        'registrationCity' => 'Taranto',
+        'surname' => 'Bianchi',
+        'name' => 'Luca',
+        'gender' => 'male',
+        'CF' => 'bnclcu85b28l049g',
+        'birthCity' => 'Taranto',
+        'birthDate' => '28-02-1985',
+        'livingCity' => 'Taranto',
+        'address' => 'via cesare battisti 40',
+        'capSedePF' => '74121',
+        'telephone' => '3123456789',
+        'acceptInfo' => 'on'
+    ];
 
-
-    public function testProva() {
-
+    //TODO delete
+    public function testProva()
+    {
         $this->assertTrue(true);
-
-        $response = $this->POST('/register/patient', [
-
-
-                'acceptInfo' => 'checked',
-                'username' => 'Tizio',
-                'name' => 'Stefano',
-                'surname' => 'Verdi',
-                'gender' => 'M',
-                'CF' => 'vrdsfn80c30f205z',
-                'email' => 'ivanlamparelli@hotmail.it',
-                'confirmEmail' => 'ivanlamparelli@hotmail.it',
-                'password' => 'test1234',
-                'confirmPassword' => 'test1234',
-                'birthCity' => 'Milano',
-                'birthDate' => '30-03-1980',
-                'livingCity' => 'Milano',
-                'address' => 'via mazzini 10',
-                'telephone' => '3331234567',
-                'bloodType' => '3',
-                'maritalStatus' => 'Divorziato',
-                'shareData' => 'Y'
-
-            ]
-        );
-
-        echo strtotime('30-03-1980');
-        echo strtotime('now');
 
     }
 
-
     public function testRegisterPatient() {
+
+        //Visit patient registration view
         $response = $this->call('GET', $this->patientRegistrationUri);
         $response->assertViewIs($this->patientRegistrationView);
 
-        $newPatient = [
-          ''
-        ];
-
-        $response = $this->call('POST', $this->patientRegistrationUri);
-
+        //Send valid data via POST, register the user, go to /home
+        $response = $this->call('POST', $this->patientRegistrationUri,$this->newPatient);
+        $response->assertRedirect($this->loggedUserRedirect);
     }
 
+    public function testRegisterCareProvider() {
 
-    public function testLoggedUserRegistrationRedirect() {
+        //Visit patient registration view
+        $response = $this->call('GET', $this->careProviderRegistrationUri);
+        $response->assertViewIs($this->careProviderRegistrationView);
 
-        //Checks redirect in case of logged-in patient
-        $this->login($this->existingPatientId, $this->existingPatientPassword);
+        //Send valid data via POST, register the user, go to /home
+        $response = $this->call('POST', $this->careProviderRegistrationUri,$this->newCareProvider);
+        $response->assertRedirect($this->loggedUserRedirect);
+    }
+
+    public function testLoggedUserRedirect() {
+
+        //Perform a login
+        $this->login($this->existingUserId, $this->existingUserPassword);
+
+        //Check redirect when visiting patient registration
         $response = $this->call('GET', $this->patientRegistrationUri);
         $response->assertRedirect($this->loggedUserRedirect);
 
-        //Checks redirect in case of logged-in care provider
-        $this->login($this->existingCareProviderId, $this->existingCareProviderPassword);
+        //Check redirect when visiting care-provider registration
         $response = $this->call('GET', $this->careProviderRegistrationUri);
         $response->assertRedirect($this->loggedUserRedirect);
     }

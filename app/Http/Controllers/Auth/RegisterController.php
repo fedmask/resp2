@@ -166,7 +166,6 @@ class RegisterController extends Controller {
     }
 
 	public function registerCareprovider() {
-
         //Validate the input
         $validator = Validator::make ( Input::all (), [
 				'username' => 'required|string|max:40|unique:tbl_utenti,utente_nome',
@@ -184,7 +183,7 @@ class RegisterController extends Controller {
                 'birthDate' => 'required|date_format:d-m-Y|before:-18 years',
 				'livingCity' => 'required|string|max:40',
 				'address' => 'required|string|max:90',
-				'cap' => 'numeric|size:5',
+				'capSedePF' => 'numeric|digits:5',
 				'telephone' => 'required|numeric',
 				'acceptInfo' => 'bail|accepted'
 		] );
