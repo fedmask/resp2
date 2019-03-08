@@ -55,7 +55,7 @@ class LoginTest extends TestCase
         $response = $this->call('GET', $this->validUserRedirect);
         $response->assertRedirect($this->careProviderControllerRedirect);
 
-        //Checks if the redirect /patients-list is handleded by CareProviderController and sends to the CP home
+        //Checks if the redirect /patients-list is handled by CareProviderController and sends to the CP home
         $response = $this->call('GET', $this->careProviderControllerRedirect);
         $response->assertViewIs($this->careProviderHomeView);
 
